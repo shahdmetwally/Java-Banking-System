@@ -37,7 +37,16 @@ public class TheBank {
             case 0:
         }
 
+    }
 
+    public void handleEmployeeMenu(){
+        this.employee.printOptions();
+        int userChoice = src.ReadInput.readInteger("Type in the option");
+
+        switch(userChoice){
+            case 0:
+                break;
+        }
     }
 
     public void handleMainMenu(){
@@ -54,4 +63,10 @@ public class TheBank {
 
         }
     }
+
+    public static void main(String[] args) {
+        TheBank bank = new TheBank();
+        bank.handleMainMenu();
+    }
+
 }
