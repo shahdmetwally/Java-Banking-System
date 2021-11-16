@@ -9,6 +9,18 @@ public class TheBank {
         mainMenu.addOptions(1, "Customer");
         mainMenu.addOptions(2, "Employee");
 
+
+        customer.setMenuName("Dear Customer, please choose one of the options below to proceed.");
+        customer.addOptions(0,"View account balance");
+        customer.addOptions(1,"Deposit money");
+        customer.addOptions(2,"Withdraw cash");
+        customer.addOptions(3,"Transfer money");
+        customer.addOptions(4,"request loan and apply for mortgages");
+        customer.addOptions(5,"Apply for card");
+        customer.addOptions(6,"Block payment card");
+        customer.addOptions(7,"Deactivate account");
+        customer.addOptions(8,"Edit personal information");
+
         customer.setMenuName("Dear Customer, please choose one of the options below to proceed.");
         customer.addOptions(0, "View account balance");
         customer.addOptions(1, "Deposit money");
@@ -49,9 +61,6 @@ public class TheBank {
         }
     }
 
-    public void that(){
-
-    }
 
     public void handleMainMenu(){
         this.mainMenu.printOptions();
