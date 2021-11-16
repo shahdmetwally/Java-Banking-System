@@ -1,7 +1,5 @@
 package src;
 
-import java.util.ArrayList;
-
 public class Employee {
     private String empID;
     private String empName;
@@ -9,7 +7,7 @@ public class Employee {
     private double grossSalary;
     final double TAX = 0; //change later
     private int vacationDays;
-    //private ArrayList<String> inbox = new ArrayList<>(); -this should be in the controller, an inbox that every employee can access to approve mortgages and loans
+
 
 
     public Employee(String empID, String empName, int birthYear, double grossSalary, int vacationDays){
@@ -19,8 +17,12 @@ public class Employee {
         this.grossSalary = grossSalary;
     }
 
-    public void approveMortgageRequest(){
-
+    public void approveMortgageRequest(String customerID){
+        for(Customer customer : Bank.customers){
+            if(customer.getCustomerID().equals(customerID)){
+                System.out.println("Mortgage approved.");
+            }
+        }
     }
 
     public void takeDaysOff(int amountOfDays){
