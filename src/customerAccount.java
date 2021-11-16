@@ -1,19 +1,21 @@
+package src;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 public class customerAccount {
         Scanner scanner = new Scanner(System.in);
         private String name;
         private int birthYear;
-        String customerID;
+        String userID;
         String userName;
         String userPassword;
         double currentBalance;
-        public ArrayList<customerAccount> accounts = new ArrayList<>();
+        //public ArrayList<customerAccount> accounts = new ArrayList<>(); in bank class
 
-        customerAccount(String name, int birthYear, String customerID, String userName, String userPassword, double currentBalance){
+        customerAccount(String name, int birthYear, String userID, String userName, String userPassword, double currentBalance){
             this.name = name;
             this.birthYear = birthYear;
-            this.customerID = customerID;
+            this.userID = userID;
             this.userName = userName;
             this.userPassword = userPassword;
             this.currentBalance = currentBalance;
@@ -27,8 +29,8 @@ public class customerAccount {
             return birthYear;
         }
 
-        public String getCustomerID() {
-            return customerID;
+        public String getUserID() {
+            return userID;
         }
 
         public String getUserName() {
@@ -51,10 +53,10 @@ public class customerAccount {
         }
         return canWithdraw;
     }
-    public boolean transferMoney(){
+    public boolean transferMoney(customerAccount anotherCustomerAccount){
         boolean canTransfer = false;
             for(customerAccount i : accounts){
-                if(i.getCustomerID().equals(customerID)){
+                if(i.getUserID().equals(userID)){
                     System.out.println("Enter the amount you want to transfer: ");
                     double amount = scanner.nextDouble();
         if(amount > 0 && amount < currentBalance){
@@ -64,15 +66,9 @@ public class customerAccount {
 }
             } return canTransfer;
         }
-        public String applyForNewCard(){
-            inbox.add(customerID)
-        public String applyForAnAccount(){
 
-            }
         }
 
-}
 
-//+moneyTransfer
 //+applyForNewCard
 //+createAccount
