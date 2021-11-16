@@ -17,7 +17,9 @@ public class TheBank {
         customer.addOptions(4, "Request loan and apply for mortgages");
         customer.addOptions(5, "Apply for card");
         customer.addOptions(6, "Block payment card");
+        customer.addOptions(7, "Deactivate account");
         customer.addOptions(7, "Edit personal information");
+
 
         employee.setMenuName("Dear Employee, please choose one of the options below.");
         employee.addOptions(0, "Manager");
@@ -31,6 +33,9 @@ public class TheBank {
         this.customer.printOptions();
         int userChoice = src.ReadInput.readInteger("Type in the option: ");
 
+        switch(userChoice){
+            case 0:
+        }
 
 
     }
@@ -44,6 +49,8 @@ public class TheBank {
                 break;
             case 1:
                 this.handleCustomerMenu();
+                break;
+            case 2:
 
         }
     }
