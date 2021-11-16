@@ -28,7 +28,7 @@ public class Employee {
         vacationDays = vacationDays - amountOfDays;
     }
 
-    public void sendMessageToCustomer(String message, Customer customer){
+    public void sendMessageToCustomer(String message, src.Customer customer){
         //customer.inbox.add(message);
     }
 
