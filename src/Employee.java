@@ -9,7 +9,7 @@ public class Employee {
     private double grossSalary;
     final double TAX = 0; //change later
     private int vacationDays;
-    private ArrayList<String> inbox;
+    //private ArrayList<String> inbox = new ArrayList<>(); -this should be in the controller, an inbox that every employee can access to approve mortgages and loans
 
 
     public Employee(String empID, String empName, int birthYear, double grossSalary, int vacationDays){
@@ -17,10 +17,9 @@ public class Employee {
         this.empName = empName;
         this.birthYear = birthYear;
         this.grossSalary = grossSalary;
-        inbox = new ArrayList<>();
     }
 
-    public void approveMortageRequest(){
+    public void approveMortgageRequest(){
 
     }
 
