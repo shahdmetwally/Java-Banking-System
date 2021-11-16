@@ -1,3 +1,4 @@
+package src;
 
 public class Customer {
 
@@ -39,6 +40,8 @@ public class Customer {
             currentBalance =- depositAmount;
             return currentBalance;
         }
-        public double wi
+
     }
+
+
 

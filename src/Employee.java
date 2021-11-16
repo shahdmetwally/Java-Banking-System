@@ -9,18 +9,27 @@ public class Employee {
     private double grossSalary;
     final double TAX = 0; //change later
     private int vacationDays;
-    private ArrayList customerAccounts;
+    private ArrayList<String> inbox;
+
 
     public Employee(String empID, String empName, int birthYear, double grossSalary, int vacationDays){
         this.empID = empID;
         this.empName = empName;
         this.birthYear = birthYear;
         this.grossSalary = grossSalary;
+        inbox = new ArrayList<>();
+    }
+
+    public void approveMortageRequest(){
 
     }
 
     public void takeDaysOff(int amountOfDays){
         vacationDays = vacationDays - amountOfDays;
+    }
+
+    public void sendMessageToCustomer(String message, Customer customer){
+        //customer.inbox.add(message);
     }
 
     public String getEmpID() {
