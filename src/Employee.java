@@ -11,7 +11,13 @@ public class Employee {
     private int vacationDays;
     private ArrayList customerAccounts;
 
-    public Employee(String empID, String empName, int birthYear, doub)
+    public Employee(String empID, String empName, int birthYear, double grossSalary, int vacationDays){
+        this.empID = empID;
+        this.empName = empName;
+        this.birthYear = birthYear;
+        this.grossSalary = grossSalary;
+
+    }
 
     public void takeDaysOff(int amountOfDays){
         vacationDays = vacationDays - amountOfDays;
