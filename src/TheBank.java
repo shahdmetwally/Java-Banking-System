@@ -14,11 +14,11 @@ public class TheBank {
         customer.addOptions(1, "Deposit money");
         customer.addOptions(2, "Withdraw cash");
         customer.addOptions(3, "Transfer money");
-        customer.addOptions(4, "Request loan and apply for mortgages");
-        customer.addOptions(5, "Apply for card");
-        customer.addOptions(6, "Block payment card");
+        customer.addOptions(4,"Request loan and apply for mortgages");
+        customer.addOptions(5,"Apply for card");
+        customer.addOptions(6,"Block payment card");
         customer.addOptions(7, "Deactivate account");
-        customer.addOptions(7, "Edit personal information");
+        customer.addOptions(8,"Edit personal information");
 
 
         employee.setMenuName("Dear Employee, please choose one of the options below.");
