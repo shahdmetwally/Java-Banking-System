@@ -27,11 +27,23 @@ public class TheBank {
         employee.addOptions(4,"Approve loans and mortgages");
     }
 
+    public void handleCustomerMenu(){
+        this.customer.printOptions();
+        int userChoice = src.ReadInput.readInteger("Type in the option: ");
+
+
+
+    }
+
     public void handleMainMenu(){
         this.mainMenu.printOptions();
         int userChoice = src.ReadInput.readInteger("Type in the option: ");
 
         switch(userChoice){
+            case 0:
+                break;
+            case 1:
+                this.handleCustomerMenu();
 
         }
     }
