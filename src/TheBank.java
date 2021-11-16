@@ -62,6 +62,8 @@ public class TheBank {
                 this.handleCustomerMenu();
                 break;
             case 2:
+                this.handleEmployeeMenu();
+                break;
 
         }
     }
