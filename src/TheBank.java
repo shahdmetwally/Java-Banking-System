@@ -12,7 +12,7 @@ public class TheBank {
         customer.setMenuName("Dear Customer, please choose one of the options below to proceed.");
         customer.addOptions(0, "View account balance");
         customer.addOptions(1, "Deposit money");
-        customer.addOptions(2, "Withdraw cash");
+        customer.addOptions(3, "Withdraw cash");
         customer.addOptions(3, "Transfer money");
         customer.addOptions(4,"Request loan and apply for mortgages");
         customer.addOptions(5,"Apply for card");
