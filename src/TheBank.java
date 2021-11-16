@@ -24,9 +24,9 @@ public class TheBank {
         employee.setMenuName("Dear Employee, please choose one of the options below.");
         employee.addOptions(0, "Manager");
         employee.addOptions(1, "View salary");
-        employee.addOptions(2,"Apply for vacation");
+        employee.addOptions(2, "Apply for vacation");
         employee.addOptions(3,"Customer accounts");
-        employee.addOptions(4,"Approve loans and mortgages");
+        employee.addOptions(4, "Approve loans and mortgages");
     }
 
     public void handleCustomerMenu(){
@@ -49,9 +49,7 @@ public class TheBank {
         }
     }
 
-    public void that(){
 
-    }
 
     public void handleMainMenu(){
         this.mainMenu.printOptions();
