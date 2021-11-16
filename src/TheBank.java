@@ -14,19 +14,19 @@ public class TheBank {
         customer.addOptions(1, "Deposit money");
         customer.addOptions(2, "Withdraw cash");
         customer.addOptions(3, "Transfer money");
-        customer.addOptions(4, "Request loan and apply for mortgages");
-        customer.addOptions(5, "Apply for card");
-        customer.addOptions(6, "Block payment card");
+        customer.addOptions(4,"Request loan and apply for mortgages");
+        customer.addOptions(5,"Apply for card");
+        customer.addOptions(6,"Block payment card");
         customer.addOptions(7, "Deactivate account");
-        customer.addOptions(7, "Edit personal information");
+        customer.addOptions(8,"Edit personal information");
 
 
         employee.setMenuName("Dear Employee, please choose one of the options below.");
         employee.addOptions(0, "Manager");
         employee.addOptions(1, "View salary");
-        employee.addOptions(2, "Apply for vacation");
+        employee.addOptions(2,"Apply for vacation");
         employee.addOptions(3,"Customer accounts");
-        employee.addOptions(4, "Approve loans and mortgages");
+        employee.addOptions(4,"Approve loans and mortgages");
     }
 
     public void handleCustomerMenu(){
@@ -49,7 +49,9 @@ public class TheBank {
         }
     }
 
+    public void that(){
 
+    }
 
     public void handleMainMenu(){
         this.mainMenu.printOptions();
@@ -62,8 +64,6 @@ public class TheBank {
                 this.handleCustomerMenu();
                 break;
             case 2:
-                this.handleEmployeeMenu();
-                break;
 
         }
     }
