@@ -89,7 +89,7 @@ public class customerAccount {
     }
     public boolean transferMoney(customerAccount anotherCustomerAccount){
         boolean canTransfer = false;
-        for(customerAccount i : accounts){
+        //for(customerAccount i : ){
             if(i.getUserID().equals(userID)){
                 System.out.println("Enter the amount you want to transfer: ");
                 double amount = scanner.nextDouble();
