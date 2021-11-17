@@ -3,8 +3,11 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+<<<<<<<<< Temporary merge branch 1
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+=========
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+>>>>>>>>> Temporary merge branch 2
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
