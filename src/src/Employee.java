@@ -1,17 +1,13 @@
 package src;
 
-import java.util.ArrayList;
-
 public class Employee {
-    private String empID;
+    final String empID;
     private String empName;
-    private int birthYear;
     private double grossSalary;
     final double TAX = 0; //change later
-    private int vacationDays;
-    private ArrayList customerAccounts;
+    final int vacationDays = 0; //change later
 
-    public Employee(String empID, String empName, int birthYear, double grossSalary, int vacationDays){
+    public Employee(String empID, String empName, int birthYear, double grossSalary){
         this.empID = empID;
         this.empName = empName;
         this.birthYear = birthYear;
@@ -39,14 +35,6 @@ public class Employee {
         this.empName = empName;
     }
 
-    public int getBirthYear() {
-        return birthYear;
-    }
-
-    public void setBirthYear(int birthYear) {
-        this.birthYear = birthYear;
-    }
-
     public double getGrossSalary() {
         return grossSalary;
     }
@@ -69,6 +57,6 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "";
+        return empName + "'s gross salary is " + grossSalary " SEK per month." ;
     }
 }
