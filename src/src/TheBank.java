@@ -1,3 +1,5 @@
+package src;
+
 public class TheBank {
     private MenuOptions mainMenu = new MenuOptions();
     private MenuOptions customer = new MenuOptions();
