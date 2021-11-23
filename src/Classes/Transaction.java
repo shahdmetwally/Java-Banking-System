@@ -16,7 +16,11 @@ public class Transaction{
     }
 
     public String toString(){
-        return "<date> - " + amount;
+        String message="";
+        if(amount>0) {
+             message = "<date> " + "+" +amount;
+        } else { message = "<date>  " +amount;}
+        return message;
     }
 
 
