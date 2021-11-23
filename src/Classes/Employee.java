@@ -1,4 +1,5 @@
 package Classes;
+import java.util.ArrayList;
 
 public class Employee {
 
@@ -22,9 +23,9 @@ public class Employee {
         Employee emp1 = new Employee(empID, empName, birthYear, grossSalary,vacationDays);
     }
 
-    public void approveMortagageRequest(String customerID){
+    public void approveMortagageRequest(int personalNumber){
         for(Customer customer : Bank.customers){
-            if(customer.getCustomerID().equals(customerID)){
+            if(customer.getPersonalNumber()==personalNumber){
                 System.out.println("Mortgage approved.");
             }
         }
@@ -38,9 +39,9 @@ public class Employee {
         }
     }
 
-    public void removeCustomerAccount(String customerID){
+    public void removeCustomerAccount(int personalNumber){
         for(int i = 0; i < Bank.customers.size(); i++){
-            if(Bank.customers.get(i).getCustomerID().equals(customerID)){
+            if(Bank.customers.get(i).getPersonalNumber()==personalNumber){
                 Bank.customers.remove(i);
             }
         }
@@ -56,7 +57,7 @@ public class Employee {
     }
 
     //This needs work
-    public void sendMessageToCustomer(String message, Bank.customers customer){
+    public void sendMessageToCustomer(String message, Customer customer){
 
     }
         //customer.inbox.add(message)
@@ -68,7 +69,7 @@ public class Employee {
         String infoCustomer = "";
         for(Customer customer : Bank.customers){
             if(customer.equals(customerID)){
-                infoCustomer =  customer.getName() + customer.getCurrentBalance();
+                infoCustomer =  customer.getFullName() + customer.getBalance();
 
             }
         }
