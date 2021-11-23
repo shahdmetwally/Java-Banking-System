@@ -3,8 +3,11 @@ package Main;
 public class Controller {
 
 
-    public
 
 
+    //Employee
+    public void takeDaysof(int amountDays) { }
+
+    public void approveMortageRequest(String customerID){}
 
 }
