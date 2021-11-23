@@ -7,6 +7,28 @@ public class TheBank {
     private MenuOptions customer = new MenuOptions();
     private MenuOptions employee = new MenuOptions();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public TheBank() {
         mainMenu.setMenuName("Main Menu: Please choose among the options below.");
         mainMenu.addOptions(0, "Close System");

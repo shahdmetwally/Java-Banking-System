@@ -8,7 +8,7 @@ public class Employee {
     private String empName;
     private double grossSalary;
     private int birthYear;
-    private int vacationDays; //change later
+    private int vacationDays;//change later
 
 
     public Employee(String empID, String empName, int birthYear, double grossSalary,int vacationDays){
@@ -117,5 +117,7 @@ public class Employee {
     public String toString(){
         return empName + "'s gross salary is " + grossSalary + " SEK per month." ;
     }
+
+
 
 }

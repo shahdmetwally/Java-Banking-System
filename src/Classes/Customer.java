@@ -10,6 +10,7 @@ public class Customer {
     double balance = 0.00;
     String password;
     ArrayList<Transaction> transactions;
+    ArrayList<String> userInbox;
 
     public Customer(String fullName, int personalNumber, String userName, double monthlyGrossSalary, double balance) {
         this.fullName = fullName;
@@ -19,6 +20,7 @@ public class Customer {
         this.balance = balance;
         this.password = null;
         this.transactions= new ArrayList<>();
+        this.userInbox = new ArrayList<>();
     }
 
     public final String EOL = System.lineSeparator();
@@ -146,9 +148,10 @@ public class Customer {
     }
 
     public String contactEmployee(String message){
-        String message1 = userName + ": " +
+        String message1 = userName + ": " + message;
+        userInbox.add(message1);
 
-
+        return "Your message was sent successfully.";
     }
     public String budget(double amount){
         return "";
@@ -156,6 +159,11 @@ public class Customer {
 
     public String getTransaction(){
         return transactions.toString();
+    }
+    public void allInbox(){
+        for( Customer customer : Bank.customers){
+            Bank.inbox.add(customer.userInbox);
+        }
     }
 
 
