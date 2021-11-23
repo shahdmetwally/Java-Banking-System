@@ -11,16 +11,18 @@ public class Customer {
     String password;
     ArrayList<Transaction> transactions;
     ArrayList<String> userInbox;
+    boolean active;
 
     public Customer(String fullName, int personalNumber, String userName, double monthlyGrossSalary, double balance) {
         this.fullName = fullName;
         this.personalNumber = personalNumber;
         this.userName = userName;
         this.monthlyGrossSalary = monthlyGrossSalary;
-        this.balance = balance;
+        this.balance = 0;
         this.password = null;
         this.transactions= new ArrayList<>();
         this.userInbox = new ArrayList<>();
+        this.active = true;
     }
 
     public final String EOL = System.lineSeparator();
@@ -71,14 +73,19 @@ public class Customer {
     }
 
     public double depositMoney(double amount) throws Exception { // 2.1  Deposit Money
-        if (amount > 0) {
-            this.balance += amount;
-            addTransaction(amount);
+        if(active) {
+            if (amount > 0) {
+                this.balance += amount;
+                addTransaction(amount);
+            } else {
+                throw new Exception("You cannot add an amount with a negative value. ");
+            }
         } else {
-            throw new Exception("You cannot add an amount with a negative value. ");
+            System.out.println("Your account is deactivated.");
         }
         return this.balance;
     }
+
 
     public double withdrawMoney(double amount) throws Exception { //2.2 Withdraw Money
         if (amount < balance && amount > 0) {
@@ -143,8 +150,14 @@ public class Customer {
     }
     public void addTransaction(double amount){
 
-        Transaction transaction1= new Transaction(amount);
-        transactions.add(transaction1);
+        if (active) {
+
+            Transaction transaction1 = new Transaction(amount);
+            transactions.add(transaction1);
+        }
+        else {
+            System.out.println("Your account is deactivated.");
+        }
     }
 
     public String contactEmployee(String message){
@@ -164,6 +177,14 @@ public class Customer {
         for( Customer customer : Bank.customers){
             Bank.inbox.add(customer.userInbox);
         }
+    }
+
+    public boolean getActive(){
+        return active;
+    }
+
+    public void setActive(boolean active){
+        this.active = active;
     }
 
 

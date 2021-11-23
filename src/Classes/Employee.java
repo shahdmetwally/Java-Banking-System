@@ -70,7 +70,7 @@ public class Employee {
         String infoCustomer = "";
         for(Customer customer : Bank.customers){
             if(customer.getUserName().equals(userName) && customer.getPersonalNumber() == personalNumer) {
-                infoCustomer =  customer.getTransaction() // add loan when finished
+                infoCustomer =  customer.getTransaction();// add loan when finished
 
             }
         }
@@ -116,6 +116,10 @@ public class Employee {
 
     public String toString(){
         return empName + "'s gross salary is " + grossSalary + " SEK per month." ;
+    }
+
+    public void deactivateAccount(Customer customer){
+        customer.setActive(false);
     }
 
 
