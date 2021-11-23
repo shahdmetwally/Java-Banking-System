@@ -42,4 +42,8 @@ public class Customer {
         currentBalance =- depositAmount;
         return currentBalance;
     }
+
+    public double getCurrentBalance() {
+        return currentBalance;
+    }
 }

@@ -18,6 +18,18 @@ public class Employee {
 
     }
 
+    //this needs work, but its a structure
+    public String getCustomerInfo(String customerID){
+        String infoCustomer = "";
+        for(Customer customer : Bank.customers){
+            if(customer.equals(customerID)){
+                infoCustomer =  customer.getName() + customer.getCurrentBalance();
+
+            }
+        }
+        return infoCustomer; // add loan and more
+    }
+
 
     public void takeDaysOff(int amountOfDays){
         this.vacationDays -= amountOfDays;
