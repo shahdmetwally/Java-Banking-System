@@ -66,10 +66,13 @@ public class Customer {
         return this.balance;
     }
 
-    public double depositMoney(double amount) { // 2.1  Deposit Money
+    //add + infront of the amount
+    public double depositMoney(double amount) throws Exception { // 2.1  Deposit Money
         if (amount > 0) {
             this.balance += amount;
-
+            addTransaction(amount);
+        } else {
+            throw new Exception("You cannot add an amount with a negative value. ");
         }
         return this.balance;
     }
