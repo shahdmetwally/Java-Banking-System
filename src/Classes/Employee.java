@@ -66,11 +66,11 @@ public class Employee {
 
 
     //this needs work, but its a structure
-    public String getCustomerInfo(String customerID){
+    public String getCustomerInfo(String userName, int personalNumer){
         String infoCustomer = "";
         for(Customer customer : Bank.customers){
-            if(customer.equals(customerID)){
-                infoCustomer =  customer.getFullName() + customer.getBalance();
+            if(customer.getUserName().equals(userName) && customer.getPersonalNumber() == personalNumer) {
+                infoCustomer =  customer.getTransaction() // add loan when finished
 
             }
         }
