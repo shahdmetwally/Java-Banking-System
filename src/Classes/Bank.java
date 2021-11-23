@@ -11,5 +11,12 @@ public class Bank {
     public static ArrayList<Customer> customers = new ArrayList<>();
     public static ArrayList<Customer> hello = new ArrayList<>();
     public static ArrayList<Employee> employees = new ArrayList<>();
+    public static ArrayList<ArrayList> inbox = new ArrayList<>();
+
+    public void allInbox(){
+        for( Customer customer : customers){
+            inbox.add(customer.userInbox);
+        }
+    }
 
 }

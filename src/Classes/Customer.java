@@ -60,7 +60,7 @@ public class Customer {
     }
     // method for creating the userpassword
 
-    public void creatUserpassword(String password) {
+    public void createUserPassword(String password) {
         this.password = password;
     }
 
@@ -68,7 +68,6 @@ public class Customer {
         return this.balance;
     }
 
-    //add + infront of the amount
     public double depositMoney(double amount) throws Exception { // 2.1  Deposit Money
         if (amount > 0) {
             this.balance += amount;
@@ -152,7 +151,7 @@ public class Customer {
 
     }
     public String budget(double amount){
-        if()
+        return "";
     }
 
     public String getTransaction(){
