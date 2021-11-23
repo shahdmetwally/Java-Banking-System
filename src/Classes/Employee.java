@@ -9,7 +9,7 @@ public class Employee {
     private double grossSalary;
     private int birthYear;
     private int vacationDays; //change later
-    ArrayList<Transaction> transactions;
+
 
     public Employee(String empID, String empName, int birthYear, double grossSalary,int vacationDays){
         this.empID = empID;

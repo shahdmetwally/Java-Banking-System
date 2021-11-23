@@ -21,6 +21,8 @@ public class Customer {
         this.transactions= new ArrayList<>();
     }
 
+    public final String EOL = System.lineSeparator();
+
     public String getFullName() {
         return fullName;
     }
@@ -87,16 +89,16 @@ public class Customer {
         return balance;
     }
 
-    public double transferMoney(double amount, int anotherPersonalID) {// 2.3 Transfer Money
-        if (amount < balance && amount > 0) {
+    public double transferMoney(double amount, int anotherPersonalID) throws Exception{// 2.3 Transfer Money
+
             for (Customer customer : Bank.customers) {
                 if (customer.getPersonalNumber() == anotherPersonalID) {
                     if (amount < this.balance && amount > 0) {
-                        double newBalance = customer.getBalance() + amount;
-                        this.balance = balance - amount;
-                        customer.setBalance(newBalance);
+                        withdrawMoney(amount);
+                        customer.depositMoney(amount);
 
-                    }
+
+
                 }
             }
 
@@ -129,8 +131,13 @@ public class Customer {
         return this.balance;
     }
 
-    public String transactionHistory() {
-        return "";
+    public String transactionHistory(Customer customer) {
+        String message= " Transaction history: " + EOL;
+        String message1= "";
+        for( Transaction transaction : customer.transactions){
+            message1 += transaction.toString()+ EOL;
+        }
+        return message+ message1;
 
     }
     public void addTransaction(double amount){
@@ -138,6 +145,21 @@ public class Customer {
         Transaction transaction1= new Transaction(amount);
         transactions.add(transaction1);
     }
+
+    public String contactEmployee(String message){
+        String message1 = userName + ": " +
+
+
+    }
+    public String budget(double amount){
+        if()
+    }
+
+    public String getTransaction(){
+        return transactions.toString();
+    }
+
+
 }
 //2.5 See Transaction History
 // 2.7 Deactivating customer account
