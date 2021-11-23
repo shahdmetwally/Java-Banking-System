@@ -18,6 +18,7 @@ public class Employee {
 
     }
 
+
     public void takeDaysOff(int amountOfDays){
         this.vacationDays -= amountOfDays;
     }
