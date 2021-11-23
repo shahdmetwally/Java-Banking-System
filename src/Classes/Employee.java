@@ -14,7 +14,7 @@ public class Employee {
         this.empName = empName;
         this.birthYear = birthYear;
         this.grossSalary = grossSalary;
-        this.vacationDays = 0;
+        this.vacationDays = vacationDays;
 
     }
 
