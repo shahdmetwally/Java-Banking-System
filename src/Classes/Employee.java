@@ -34,9 +34,9 @@ public class Employee {
     }
 
     public void removeEmployee(String emID){
-        for(Employee employee : Bank.employees){
-            if(employee.getEmpID().equals(emID)){
-                Bank.employees.remove(employee);
+        for(int i = 0; i < Bank.employees.size(); i++){
+            if(Bank.employees.get(i).equals(emID)){
+                Bank.employees.remove(i);
             }
         }
     }
@@ -94,7 +94,7 @@ public class Employee {
         return empName;
     }
 
-    public void setEmpName(String empName) {
+    public void updateEmpName(String empName) {
         this.empName = empName;
     }
 
@@ -102,7 +102,7 @@ public class Employee {
         return grossSalary;
     }
 
-    public void setGrossSalary(double grossSalary) {
+    public void updateGrossSalary(double grossSalary) {
         this.grossSalary = grossSalary;
     }
 
@@ -114,7 +114,7 @@ public class Employee {
         return vacationDays;
     }
 
-    public void setVacationDays(int vacationDays) {
+    public void updateVacationDays(int vacationDays) {
         this.vacationDays = vacationDays;
     }
 

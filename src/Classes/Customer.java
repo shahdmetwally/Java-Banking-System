@@ -12,7 +12,13 @@ public class Customer {
     ArrayList<Transaction> transactions;
     ArrayList<String> userInbox;
     boolean active;
-    double loan = 0.00;
+    double loan;
+    double expanse;
+    double budget;
+
+    public double getBudget() {
+        return budget;
+    }
 
     public Customer(String fullName, int personalNumber, String userName, double monthlyGrossSalary, double balance) {
         this.fullName = fullName;
@@ -25,6 +31,8 @@ public class Customer {
         this.userInbox = new ArrayList<>();
         this.active = true;
         this.loan = 0.00;
+        this.expanse = 0.00;
+        this.budget = 0.00;
     }
 
     public final String EOL = System.lineSeparator();
@@ -49,7 +57,7 @@ public class Customer {
         return balance;
     }
 
-    public void setFullName(String fullName) {
+    public void updateFullName(String fullName) {
         this.fullName = fullName;
     }
 
@@ -61,7 +69,7 @@ public class Customer {
         this.monthlyGrossSalary = monthlyGrossSalary;
     }
 
-    public void setBalance(double balance) {
+    public void updateBalance(double balance) {
         this.balance = balance;
     }
     // method for creating the userpassword
@@ -89,10 +97,14 @@ public class Customer {
     }
 
 
+
+
     public double withdrawMoney(double amount) throws Exception { //2.2 Withdraw Money
         if (amount < balance && amount > 0) {
             this.balance -= amount;
             addTransaction(-amount);
+            expanse+=amount;
+            checkBudget();
         } else {
             throw new Exception("The withdrawal amount must be less than your account balance.");
         }
@@ -106,6 +118,8 @@ public class Customer {
                     if (amount < this.balance && amount > 0) {
                         withdrawMoney(amount);
                         customer.depositMoney(amount);
+                        expanse+=amount;
+                        checkBudget();
 
 
 
