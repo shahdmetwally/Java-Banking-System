@@ -65,10 +65,8 @@ public class Controller {
 
     public void controlExpenses(){}
 
-    public void applyForLoan(double amountToLoan){} //This needs to be disscused
 
-
-    //Need to look thorugh this again
+    //Need to look thorugh this again, I will work more on this as more methods are created.
 
 
 

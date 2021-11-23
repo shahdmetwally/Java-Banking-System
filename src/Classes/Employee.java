@@ -24,6 +24,7 @@ public class Employee {
         Employee emp1 = new Employee(empID, empName, birthYear, grossSalary,vacationDays);
     }
 
+    //Need to look at this
     public void approveLoan(int personalNumber){
         for(Customer customer : Bank.customers){
             if(customer.getPersonalNumber()==personalNumber){
@@ -51,7 +52,7 @@ public class Employee {
     public void promoteEmployee(String emID){
         for(Employee employee : Bank.employees){
             if(employee.getEmpID().equals(emID)){
-                employee.getGrossSalary();// Example on how to find specefic attribut, also need to give it more access
+                employee.getGrossSalary();// Example on how to find specific attribute, also need to give it more access
 
             }
         }
