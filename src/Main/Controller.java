@@ -33,13 +33,42 @@ public class Controller {
 
 
     //Customer
+
     public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
 
     public double checkBalance(){
         return 0;
     }
 
+    public void depositMoney(double amount){}
 
+    public void withdrawMoney(double amount){}
+
+    public void transferMoney(double amount){}
+
+    public void updateName(String newName){}
+
+    public void updateSalary(double salary){}
+
+    public void updatePassword(String password){}
+
+    public void updateUserName(String newUserName){}
+
+    public String transactionHistory(){
+        return "";
+    }
+
+    public void applyForLoan(double amountToLoan){}
+
+    public void textEmployee(String textMessage){}
+
+    public void controlExpenses(){}
+
+    public void applyForMortagages(double amountToLoan){} //This needs to be disscused
+
+    public void applyForCard(){}
+
+    public void deleteAccount(){}
 
 
 
