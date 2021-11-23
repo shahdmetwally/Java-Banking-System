@@ -18,6 +18,51 @@ public class Employee {
 
     }
 
+    public void createEmployee(String empID, String empName, int birthYear, double grossSalary, int vacationDays){
+        Employee emp1 = new Employee(empID, empName, birthYear, grossSalary,vacationDays);
+    }
+
+    public void approveMortagageRequest(String customerID){
+        for(Customer customer : Bank.customers){
+            if(customer.getCustomerID().equals(customerID)){
+                System.out.println("Mortgage approved.");
+            }
+        }
+    }
+
+    public void removeEmployee(String emID){
+        for(Employee employee : Bank.employees){
+            if(employee.empID.equals(emID)){
+                Bank.employees.remove(employee);
+            }
+        }
+    }
+
+    public void removeCustomerAccount(String customerID){
+        for(int i = 0; i < Bank.customers.size(); i++){
+            if(Bank.customers.get(i).getCustomerID().equals(customerID)){
+                Bank.customers.remove(i);
+            }
+        }
+    }
+
+    public void promoteEmployee(String emID){
+        for(Employee employee : Bank.employees){
+            if(employee.getEmpID().equals(emID)){
+                employee.getGrossSalary();// Example on how to find specefic attribut
+
+            }
+        }
+    }
+
+    //This needs work
+    public void sendMessageToCustomer(String message, Bank.customers customer){
+
+    }
+        //customer.inbox.add(message)
+
+
+
     //this needs work, but its a structure
     public String getCustomerInfo(String customerID){
         String infoCustomer = "";
@@ -27,7 +72,7 @@ public class Employee {
 
             }
         }
-        return infoCustomer; // add loan and more
+        return infoCustomer; // add loan and more customer info
     }
 
 
