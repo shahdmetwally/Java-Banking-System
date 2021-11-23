@@ -64,11 +64,12 @@ public class Controller {
 
     public void controlExpenses(){}
 
-    public void applyForMortagages(double amountToLoan){} //This needs to be disscused
+    public void applyForMortagages(double amountToLoan) //This needs to be disscused
 
-    public void applyForCard(){}
 
-    public void deleteAccount(){}
+
+
+
 
 
 
