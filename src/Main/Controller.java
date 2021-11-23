@@ -7,13 +7,13 @@ public class Controller {
 
     //Employee
 
-    public void createEmploye(){}
+    public void createEmployee(){}
 
     public void createManager(){}
 
-    public void takeDaysof(int amountDays) { }
+    public void takeDaysOff(int amountDays) { }
 
-    public void approveMortageRequest(String customerID){}
+    public void approveMortgageRequest(String customerID){}
 
     public void removeEmployee(String emID){}
 
@@ -27,9 +27,9 @@ public class Controller {
         return "";
     }
 
-    public void updateEmployeName(String emID, String newName){}
+    public void updateEmployeeName(String emID, String newName){}
 
-    public void updateEmployeSalary(String emID, double newGrossSalary){}
+    public void updateEmployeeSalary(String emID, double newGrossSalary){}
 
 
     //Customer
@@ -64,7 +64,7 @@ public class Controller {
 
     public void controlExpenses(){}
 
-    public void applyForMortagages(double amountToLoan){} //This needs to be disscused
+    public void applyForMortgages(double amountToLoan){} //This needs to be discussed
 
     public void applyForCard(){}
 
