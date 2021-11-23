@@ -12,6 +12,7 @@ public class Customer {
     ArrayList<Transaction> transactions;
     ArrayList<String> userInbox;
     boolean active;
+    double loan = 0.00;
 
     public Customer(String fullName, int personalNumber, String userName, double monthlyGrossSalary, double balance) {
         this.fullName = fullName;
@@ -23,6 +24,7 @@ public class Customer {
         this.transactions= new ArrayList<>();
         this.userInbox = new ArrayList<>();
         this.active = true;
+        this.loan = 0.00;
     }
 
     public final String EOL = System.lineSeparator();
@@ -185,6 +187,19 @@ public class Customer {
 
     public void setActive(boolean active){
         this.active = active;
+    }
+
+    public double getLoan() {
+        return loan;
+    }
+
+    public void applyForLoan(double amount) throws Exception{
+        if((monthlyGrossSalary * 12) > amount ){
+            depositMoney(amount);
+            loan = amount;
+        } else {
+            throw new Exception("Loan is not approved");
+        }
     }
 
 

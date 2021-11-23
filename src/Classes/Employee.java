@@ -24,7 +24,7 @@ public class Employee {
         Employee emp1 = new Employee(empID, empName, birthYear, grossSalary,vacationDays);
     }
 
-    public void approveMortagageRequest(int personalNumber){
+    public void approveLoan(int personalNumber){
         for(Customer customer : Bank.customers){
             if(customer.getPersonalNumber()==personalNumber){
                 System.out.println("Mortgage approved.");
@@ -34,7 +34,7 @@ public class Employee {
 
     public void removeEmployee(String emID){
         for(Employee employee : Bank.employees){
-            if(employee.empID.equals(emID)){
+            if(employee.getEmpID().equals(emID)){
                 Bank.employees.remove(employee);
             }
         }
@@ -51,7 +51,7 @@ public class Employee {
     public void promoteEmployee(String emID){
         for(Employee employee : Bank.employees){
             if(employee.getEmpID().equals(emID)){
-                employee.getGrossSalary();// Example on how to find specefic attribut
+                employee.getGrossSalary();// Example on how to find specefic attribut, also need to give it more access
 
             }
         }
@@ -59,23 +59,26 @@ public class Employee {
 
     //This needs work
     public void sendMessageToCustomer(String message, Customer customer){
-
-    }
         //customer.inbox.add(message)
+    }
 
 
 
-    //this needs work, but its a structure
+
     public String getCustomerInfo(String userName, int personalNumer){
         String infoCustomer = "";
         for(Customer customer : Bank.customers){
             if(customer.getUserName().equals(userName) && customer.getPersonalNumber() == personalNumer) {
-                infoCustomer =  customer.getTransaction();// add loan when finished
+                infoCustomer =  customer.getTransaction() + "Loan: "+ customer.getLoan();
 
             }
         }
-        return infoCustomer; // add loan and more customer info
+        return infoCustomer;
     }
+
+
+
+
 
 
     public void takeDaysOff(int amountOfDays){

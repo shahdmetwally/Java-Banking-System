@@ -32,7 +32,8 @@ public class Controller {
     public void updateEmployeSalary(String emID, double newGrossSalary){}
 
 
-    //Customer
+
+    //Customer. Should I add all the set and get also for customer?
 
     public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
 
@@ -64,10 +65,10 @@ public class Controller {
 
     public void controlExpenses(){}
 
-    public void applyForMortagages(double amountToLoan){} //This needs to be disscused
+    public void applyForLoan(double amountToLoan){} //This needs to be disscused
 
 
-
+    //Need to look thorugh this again
 
 
 
