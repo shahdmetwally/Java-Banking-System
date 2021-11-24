@@ -7,13 +7,13 @@ public class Controller {
 
     //Employee
 
-    public void createEmployee(){}
+    public void createEmploye(){}
 
     public void createManager(){}
 
-    public void takeDaysOff(int amountDays) { }
+    public void takeDaysof(int amountDays) { }
 
-    public void approveMortgageRequest(String customerID){}
+    public void approveMortageRequest(String customerID){}
 
     public void removeEmployee(String emID){}
 
@@ -27,12 +27,13 @@ public class Controller {
         return "";
     }
 
-    public void updateEmployeeName(String emID, String newName){}
+    public void updateEmployeName(String emID, String newName){}
 
-    public void updateEmployeeSalary(String emID, double newGrossSalary){}
+    public void updateEmployeSalary(String emID, double newGrossSalary){}
 
 
-    //Customer
+
+    //Customer. Should I add all the set and get also for customer?
 
     public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
 
@@ -64,10 +65,8 @@ public class Controller {
 
     public void controlExpenses(){}
 
-    public void applyForMortgages(double amountToLoan){} //This needs to be discussed
 
-
-
+    //Need to look thorugh this again, I will work more on this as more methods are created.
 
 
 
