@@ -3,20 +3,20 @@ import java.util.ArrayList;
 
 public class Employee extends Account {
 
-    final double TAX = 0 ; //change later
+    final double TAX = 0.33; //change later
     private int birthYear;
-    private int vacationDays;//change later
+    private int vacationDays;
 
 
-    public Employee(String empName, String empID, String password, int birthYear, double grossSalary,int vacationDays){
+    public Employee(String empName, String empID, String password, int birthYear, double grossSalary){
         super(empName, empID, password, grossSalary);
         this.birthYear = birthYear;
-        this.vacationDays = vacationDays;
+        this.vacationDays = 25;
 
     }
 
     public void createEmployee(String empID, String password, String empName, int birthYear, double grossSalary, int vacationDays){
-        Employee emp1 = new Employee(empID, password, empName, birthYear, grossSalary,vacationDays);
+        Employee emp1 = new Employee(empID, password, empName, birthYear, grossSalary);
     }
 
     //Need to look at this

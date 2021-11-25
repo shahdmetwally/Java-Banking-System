@@ -1,5 +1,8 @@
 package Main;
 
+import Classes.Bank;
+import Classes.Customer;
+
 public class Controller {
 
 
@@ -104,19 +107,45 @@ public class Controller {
 
     //Customer. Should I add all the set and get also for customer?
 
-    public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
+    public void createBankAccount(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance){
+        Customer customer = new Customer(fullName, personalNumber, userName,password,monthlyGrossSalary,balance);
+    }
+    //public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
 
-    public double checkBalance(){
+    public double checkBalance() { // 2.0  Check Balance
         return 0;
     }
+    //public double checkBalance(){return 0;}
 
-    public void depositMoney(double amount){}
+    public double depositMoney(String ID, double amount) throws Exception {
+        double balance = 0;
+        for(Customer customer: Bank.customers) {
+            if (customer.getID().equals(ID)) {
+                if (customer.getActive()) {
+                    if (amount > 0) {
+                        balance+= amount;
+                        customer.updateBalance(balance);
+                        customer.addTransaction(amount);
+                    } else {
+                        throw new Exception("You cannot add an amount with a negative value. ");
+                    }
+                } else {
+                    System.out.println("Your account is deactivated.");
+                }
+            }
+        }return balance ;
 
-    public void withdrawMoney(double amount){}
+        }
 
-    public void transferMoney(double amount){}
 
-    public void updateName(String newName){}
+    public void withdrawMoney(double amount) {
+    }
+
+    public void transferMoney(double amount) {
+    }
+
+    public void updateName(String newName){
+    }
 
     public void updateSalary(double salary){}
 
