@@ -9,6 +9,11 @@ public class Manager extends Employee{
 
     }
 
+    public void createManager(String emName, String emID, String password, int birthYear, double grossSalary, int vacationDays){
+        Manager manager= new Manager(emName,emID,password,birthYear,grossSalary,vacationDays);
+
+    }
+
     public void promoteEmployee(String emID, double newSalary){
         for(Employee employee : Bank.employees){
             if(employee.getID().equals(emID)){
