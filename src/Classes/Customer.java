@@ -27,6 +27,10 @@ public class Customer extends Account{
         this.budget = 0.00;
     }
 
+    public void createBankAccount(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance){
+        Customer customer = new Customer(fullName, personalNumber, userName,password,monthlyGrossSalary,balance);
+    }
+
     public double getBudget() {
         return budget;
     }
