@@ -16,11 +16,7 @@ public class Customer {
     double expanse;
     double budget;
 
-    public double getBudget() {
-        return budget;
-    }
-
-    public Customer(String fullName, int personalNumber, String userName, String password,double monthlyGrossSalary, double balance) {
+    public Customer(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance) {
         this.fullName = fullName;
         this.personalNumber = personalNumber;
         this.userName = userName;
@@ -33,6 +29,14 @@ public class Customer {
         this.loan = 0.00;
         this.expanse = 0.00;
         this.budget = 0.00;
+    }
+
+    public double getBudget() {
+        return budget;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public final String EOL = System.lineSeparator();

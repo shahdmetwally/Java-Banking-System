@@ -23,7 +23,7 @@ public class Employee {
     }
 
     public void createEmployee(String empID, String password, String empName, int birthYear, double grossSalary, int vacationDays){
-        Employee emp1 = new Employee(empID,password, empName, birthYear, grossSalary,vacationDays);
+        Employee emp1 = new Employee(empID,, password, empName, birthYear, grossSalary,vacationDays);
     }
 
     //Need to look at this
