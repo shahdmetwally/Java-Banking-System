@@ -28,8 +28,8 @@ public class Controller {
         Employee emp1 = new Employee(empID, personalNo, password, empName, birthYear, grossSalary);
     }
 
-    public void createManager(String emName, String emID, String password, int birthYear, double grossSalary){
-        Manager manager= new Manager(emName,emID,password,birthYear,grossSalary);
+    public void createManager(String emName,int personalNo, String emID, String password, int birthYear, double grossSalary){
+        Manager manager= new Manager(emName,personalNo, emID,password,birthYear,grossSalary);
 
     }
 
@@ -59,8 +59,9 @@ public class Controller {
                 String ID = employee.getID();
                 String password = employee.getPassword();
                 int birthYear= employee.getBirthYear();
+                int personalNo= employee.getPersonalNo();
                 int vaccationDays = employee.getVacationDays();
-                Employee emp1 = new Manager(name,ID,password,birthYear,newSalary);
+                Employee emp1 = new Manager(name,personalNo,ID,password,birthYear,newSalary);
                 Bank.employees.remove(employee);
                 Bank.employees.add(emp1);// Example on how to find specific attribute, also need to give it more access
 

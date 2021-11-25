@@ -4,13 +4,13 @@ public class Manager extends Employee{
 
 
 
-    public Manager(String emName, String emID, String password, int birthYear, double grossSalary){
-        super(emName, emID, password, birthYear, grossSalary);
+    public Manager(String emName, int personalNo, String emID, String password, int birthYear, double grossSalary){
+        super(emName, personalNo, emID, password, birthYear, grossSalary);
 
     }
 
-    public void createManager(String emName, String emID, String password, int birthYear, double grossSalary){
-        Manager manager= new Manager(emName,emID,password,birthYear,grossSalary);
+    public void createManager(String emName, int personalNo, String emID, String password, int birthYear, double grossSalary){
+        Manager manager= new Manager(emName, personalNo, emID,password,birthYear,grossSalary);
 
     }
 
@@ -22,8 +22,9 @@ public class Manager extends Employee{
                 String ID = employee.getID();
                 String password = employee.getPassword();
                 int birthYear= employee.getBirthYear();
+                int personalNo= employee.getPersonalNo();
                 int vaccationDays = employee.getVacationDays();
-                Employee emp1 = new Manager(name,ID,password,birthYear,newSalary);
+                Employee emp1 = new Manager(name,personalNo,ID,password,birthYear,newSalary);
                 Bank.employees.remove(employee);
                 Bank.employees.add(emp1);// Example on how to find specific attribute, also need to give it more access
 
@@ -37,16 +38,16 @@ public class Manager extends Employee{
     public String getTotalBalance(){
         double message = 0;
         String message1 = "Banks total balance: ";
-        for (BankAccount customer : Bank.customers){
-            message += customer.getBalance();
+        for (Customer customer : Bank.customers){
+            message += customer.getBankAccount().getBalance();
         }
         return message1 + message ;
     }
 
     public String getAllTransactions(){
         String message = "";
-        for (BankAccount customer : Bank.customers){
-            message = "Customer: " + customer.getFullName() + customer.transactionHistory(customer);
+        for (Customer customer : Bank.customers){                                 //We comented out in the customer class
+           // message = "Customer: " + customer.getFullName() + customer.getBankAccount().transactionHistory(customer);
         }
         return message;
     }
@@ -54,8 +55,8 @@ public class Manager extends Employee{
     public String getTotalLoan(){
         String message= "Total amount of loan giving out: ";
         double totalLoan = 0;
-        for(BankAccount customer:Bank.customers){
-            totalLoan+= customer.getLoan();
+        for(Customer customer:Bank.customers){
+            totalLoan+= customer.getBankAccount().getLoan();
         }
         return message +totalLoan;
     }
