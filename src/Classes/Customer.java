@@ -96,14 +96,6 @@ public class Customer {
 
 
 
-    // method for creating the userpassword
-
-    public void createUserPassword(String password) {
-        this.password = password;
-    }
-
-
-
     public double checkBalance() { // 2.0  Check Balance
         return this.balance;
     }
