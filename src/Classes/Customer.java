@@ -17,12 +17,8 @@ public class Customer extends Account{
 
     public Customer(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance) {
         super(fullName,userName,password,monthlyGrossSalary);
-
         this.personalNumber = personalNumber;
-
-
         this.balance = 0;
-
         this.transactions= new ArrayList<>();
         this.userInbox = new ArrayList<>();
         this.active = true;

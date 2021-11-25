@@ -64,7 +64,7 @@ public class Employee extends Account {
     public String getCustomerInfo(String userName, int personalNumer){
         String infoCustomer = "";
         for(Customer customer : Bank.customers){
-            if(customer.getUserName().equals(userName) && customer.getPersonalNumber() == personalNumer) {
+            if(customer.getFullName().equals(userName)&& (customer.getPersonalNumber() == personalNumer)) {
                 infoCustomer =  customer.getTransaction() + "Loan: "+ customer.getLoan();
 
             }
