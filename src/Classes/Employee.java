@@ -44,16 +44,8 @@ public class Employee extends Account {
         }
     }
 
-    public void promoteEmployee(String emID){
-        for(Employee employee : Bank.employees){
-            if(employee.getID().equals(emID)){
-                employee.getSalary();// Example on how to find specific attribute, also need to give it more access
 
-            }
-        }
-    }
-
-    //This needs work
+    //This needs work discuss it
     public void sendMessageToCustomer(String message, Customer customer){
         //customer.inbox.add(message)
     }
@@ -73,6 +65,17 @@ public class Employee extends Account {
     }
 
 
+    public void setVacationDays(int vacationDays) {
+        this.vacationDays = vacationDays;
+    }
+
+    public int getBirthYear() {
+        return birthYear;
+    }
+
+    public void setBirthYear(int birthYear) {
+        this.birthYear = birthYear;
+    }
     public void takeDaysOff(int amountOfDays){
         this.vacationDays -= amountOfDays;
     }
