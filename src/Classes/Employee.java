@@ -9,14 +9,14 @@ public class Employee extends Account {
 
 
     public Employee(String empName, String empID, String password, int birthYear, double grossSalary,int vacationDays){
-        super(empName, empID, password, grossSalary)
+        super(empName, empID, password, grossSalary);
         this.birthYear = birthYear;
         this.vacationDays = vacationDays;
 
     }
 
     public void createEmployee(String empID, String password, String empName, int birthYear, double grossSalary, int vacationDays){
-        Employee emp1 = new Employee(empID,, password, empName, birthYear, grossSalary,vacationDays);
+        Employee emp1 = new Employee(empID, password, empName, birthYear, grossSalary,vacationDays);
     }
 
     //Need to look at this
@@ -46,8 +46,8 @@ public class Employee extends Account {
 
     public void promoteEmployee(String emID){
         for(Employee employee : Bank.employees){
-            if(employee.getEmpID().equals(emID)){
-                employee.getGrossSalary();// Example on how to find specific attribute, also need to give it more access
+            if(employee.getID().equals(emID)){
+                employee.getSalary();// Example on how to find specific attribute, also need to give it more access
 
             }
         }
@@ -73,17 +73,9 @@ public class Employee extends Account {
     }
 
 
-
-
-
-
     public void takeDaysOff(int amountOfDays){
         this.vacationDays -= amountOfDays;
     }
-
-
-
-
 
     public double calculateNetSalary(){
         return super.getSalary() * TAX;
