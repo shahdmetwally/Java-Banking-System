@@ -1,12 +1,18 @@
 package Main;
 
-import Classes.Bank;
-import Classes.Customer;
+import Classes.*;
 
-import Classes.Employee;
+import Classes.Customer;
 
 public class Controller {
 
+    private Customer customer;
+    public Controller(Customer customer){
+        this.customer = customer;
+    }
+    public void logInCustomer(int personNumber, String password){
+
+    }
 
 
 
@@ -113,6 +119,22 @@ public class Controller {
         Customer customer = new Customer(fullName, personalNumber, userName,password,monthlyGrossSalary,balance);
     }
     //public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
+
+    public void createBankAccount(){
+        String clearNumber= "5051";
+        // how many number a bank account has.
+        // check for ramdom number functions in java. 8
+        // as an example:
+        String bankNumber = "12345678";
+        // we need a list for all the bankaccounts.
+        // option: if we use map for the list. key: personNumber, bankaccount number
+        /* for( BankAcoount bankacount: banckAccountList){
+           do{ if( bankaccount.equals(banksAccunt){
+           // create a 8 new ramdon numbers
+           while(! bankAccount.equals(BankAccount))
+         */
+        Customer customer = customer.createBankAccount();
+    }
 
     public double checkBalance() { // 2.0  Check Balance
         return 0;

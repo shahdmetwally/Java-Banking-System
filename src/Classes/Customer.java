@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Customer extends Account{
 
-
+// encapsulation?!!!
     final int personalNumber;
 
     double balance = 0.00;
@@ -14,6 +14,7 @@ public class Customer extends Account{
     double loan;
     double expanse;
     double budget;
+    private BankAccount bankAccount;
 
     public Customer(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance) {
         super(fullName,userName,password,monthlyGrossSalary);
@@ -25,7 +26,17 @@ public class Customer extends Account{
         this.loan = 0.00;
         this.expanse = 0.00;
         this.budget = 0.00;
+
     }
+
+    public void createBankAccount(String accountNumber, int balance){
+        BankAccount bankAccount = new BankAccount(accountNumber,balance);
+    }
+
+    public double depositMoney(double amount) throws Exception{
+        return bankAccount.depositMoney(amount);
+    }
+
 
     public void createBankAccount(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance){
         Customer customer = new Customer(fullName, personalNumber, userName,password,monthlyGrossSalary,balance);
