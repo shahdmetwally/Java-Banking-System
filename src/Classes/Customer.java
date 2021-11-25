@@ -61,22 +61,48 @@ public class Customer {
         this.fullName = fullName;
     }
 
-    public void setUserName(String userName) {
+    public void updateUserName(String userName) {
         this.userName = userName;
     }
 
-    public void setMonthlyGrossSalary(double monthlyGrossSalary) {
+    public void updateMonthlyGrossSalary(double monthlyGrossSalary) {
         this.monthlyGrossSalary = monthlyGrossSalary;
     }
 
     public void updateBalance(double balance) {
         this.balance = balance;
     }
+
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+     public String getTransaction(){
+            return transactions.toString();
+        }
+
+    public double getLoan() {
+        return loan;
+    }
+
+    public boolean getActive(){
+        return active;
+    }
+
+    public void setActive(boolean active){
+        this.active = active;
+    }
+
+
+
     // method for creating the userpassword
 
     public void createUserPassword(String password) {
         this.password = password;
     }
+
+
 
     public double checkBalance() { // 2.0  Check Balance
         return this.balance;
@@ -131,29 +157,7 @@ public class Customer {
         return this.balance; //?? */
     }
 
-    public String updateName(String newName) { //2.4 Update personal information
-        this.fullName = newName;
-        return this.fullName;
-    }
 
-    public double updateMonthlySalary(double newSalary) {
-        this.monthlyGrossSalary = newSalary;
-        return this.monthlyGrossSalary;
-    }
-
-    public String updateUserName(String newUserName) {
-        this.userName = newUserName;
-        return this.userName;
-    }
-
-    // public String updateUserPassword(String newPassword)
-    public double applyForALoan(double loan) { // 2.6 Apply for a loan
-        if ((getMonthlyGrossSalary() * 12) > loan) {
-            // System.out.println("Loan approved.");
-            this.balance += loan;
-        }
-        return this.balance;
-    }
 
     public String transactionHistory(Customer customer) {
         String message= " Transaction history: " + EOL;
@@ -182,30 +186,7 @@ public class Customer {
 
         return "Your message was sent successfully.";
     }
-    public String budget(double amount){
-        return "";
-    }
 
-    public String getTransaction(){
-        return transactions.toString();
-    }
-    public void allInbox(){
-        for( Customer customer : Bank.customers){
-            Bank.inbox.add(customer.userInbox);
-        }
-    }
-
-    public boolean getActive(){
-        return active;
-    }
-
-    public void setActive(boolean active){
-        this.active = active;
-    }
-
-    public double getLoan() {
-        return loan;
-    }
 
     public void applyForLoan(double amount) throws Exception{
         if((monthlyGrossSalary * 12) > amount ){
@@ -216,6 +197,23 @@ public class Customer {
         }
     }
 
+
+    public String checkBudget(){
+        String message = "";
+        if(expanse>budget){
+            message= " You have excided your monthly budget. ";
+
+        }
+        return message;
+    }
+
+
+    //that
+
+
+    // Apply for card discuss
+
+    // To delete account contact employee
 
 }
 //2.5 See Transaction History
