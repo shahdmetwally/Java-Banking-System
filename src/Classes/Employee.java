@@ -1,23 +1,16 @@
 package Classes;
 import java.util.ArrayList;
 
-public class Employee {
+public class Employee extends Account {
 
     final double TAX = 0 ; //change later
-    final String empID;
-    final String password;
-    private String empName;
-    private double grossSalary;
     private int birthYear;
     private int vacationDays;//change later
 
 
-    public Employee(String empID, String password, String empName, int birthYear, double grossSalary,int vacationDays){
-        this.empID = empID;
-        this.password = password;
-        this.empName = empName;
+    public Employee(String empName, String empID, String password, int birthYear, double grossSalary,int vacationDays){
+        super(empName, empID, password, grossSalary)
         this.birthYear = birthYear;
-        this.grossSalary = grossSalary;
         this.vacationDays = vacationDays;
 
     }
