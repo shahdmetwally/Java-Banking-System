@@ -1,5 +1,7 @@
 package Main;
 
+import Classes.Employee;
+
 public class Controller {
 
 
@@ -7,7 +9,9 @@ public class Controller {
 
     //Employee
 
-    public void createEmploye(){}
+     public void createEmployee(String empID, String password, String empName, int birthYear, double grossSalary, int vacationDays){
+        Employee emp1 = new Employee(empID, password, empName, birthYear, grossSalary,vacationDays);
+    }
 
     public void createManager(){}
 
