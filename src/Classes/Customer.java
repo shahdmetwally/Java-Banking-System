@@ -20,7 +20,7 @@ public class Customer {
         return budget;
     }
 
-    public Customer(String fullName, int personalNumber, String userName, double monthlyGrossSalary, double balance) {
+    public Customer(String fullName, int personalNumber, String userName, String password,double monthlyGrossSalary, double balance) {
         this.fullName = fullName;
         this.personalNumber = personalNumber;
         this.userName = userName;
