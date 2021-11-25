@@ -1,14 +1,13 @@
 package Classes;
 import java.util.ArrayList;
 
-public class Customer {
+public class Customer extends Account{
 
-    String fullName;
+
     final int personalNumber;
-    String userName;
-    double monthlyGrossSalary;
+
     double balance = 0.00;
-    String password;
+
     ArrayList<Transaction> transactions;
     ArrayList<String> userInbox;
     boolean active;
@@ -17,12 +16,13 @@ public class Customer {
     double budget;
 
     public Customer(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance) {
-        this.fullName = fullName;
+        super(fullName,userName,password,monthlyGrossSalary);
+
         this.personalNumber = personalNumber;
-        this.userName = userName;
-        this.monthlyGrossSalary = monthlyGrossSalary;
+
+
         this.balance = 0;
-        this.password = null;
+
         this.transactions= new ArrayList<>();
         this.userInbox = new ArrayList<>();
         this.active = true;
@@ -35,52 +35,23 @@ public class Customer {
         return budget;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public final String EOL = System.lineSeparator();
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
 
     public int getPersonalNumber() {
         return personalNumber;
     }
 
-    public double getMonthlyGrossSalary() {
-        return monthlyGrossSalary;
-    }
+
 
     public double getBalance() {
         return balance;
-    }
-
-    public void updateFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public void updateUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void updateMonthlyGrossSalary(double monthlyGrossSalary) {
-        this.monthlyGrossSalary = monthlyGrossSalary;
     }
 
     public void updateBalance(double balance) {
         this.balance = balance;
     }
 
-
-    public void updatePassword(String password) {
-        this.password = password;
-    }
 
      public String getTransaction(){
             return transactions.toString();
@@ -183,7 +154,7 @@ public class Customer {
     }
 
     public String contactEmployee(String message){
-        String message1 = userName + ": " + message;
+        String message1 = super.getID() + ": " + message;
         userInbox.add(message1);
 
         return "Your message was sent successfully.";
@@ -191,7 +162,7 @@ public class Customer {
 
 
     public void applyForLoan(double amount) throws Exception{
-        if((monthlyGrossSalary * 12) > amount ){
+        if((super.getSalary() * 12) > amount ){
             depositMoney(amount);
             loan = amount;
         } else {
