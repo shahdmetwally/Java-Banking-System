@@ -33,6 +33,75 @@ public class Controller {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //Customer. Should I add all the set and get also for customer?
 
     public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
