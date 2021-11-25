@@ -5,14 +5,16 @@ public class Employee {
 
     final double TAX = 0 ; //change later
     final String empID;
+    final String password;
     private String empName;
     private double grossSalary;
     private int birthYear;
     private int vacationDays;//change later
 
 
-    public Employee(String empID, String empName, int birthYear, double grossSalary,int vacationDays){
+    public Employee(String empID, String password, String empName, int birthYear, double grossSalary,int vacationDays){
         this.empID = empID;
+        this.password = password;
         this.empName = empName;
         this.birthYear = birthYear;
         this.grossSalary = grossSalary;
@@ -20,8 +22,8 @@ public class Employee {
 
     }
 
-    public void createEmployee(String empID, String empName, int birthYear, double grossSalary, int vacationDays){
-        Employee emp1 = new Employee(empID, empName, birthYear, grossSalary,vacationDays);
+    public void createEmployee(String empID, String password, String empName, int birthYear, double grossSalary, int vacationDays){
+        Employee emp1 = new Employee(empID,, password, empName, birthYear, grossSalary,vacationDays);
     }
 
     //Need to look at this
