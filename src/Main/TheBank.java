@@ -1,11 +1,13 @@
 package Main;
 
+import Classes.Customer;
 import Utilities.UserInput;
 
 public class TheBank {
     private MenuOptions mainMenu = new MenuOptions();
     private MenuOptions customer = new MenuOptions();
     private MenuOptions employee = new MenuOptions();
+
 
 
 
@@ -61,6 +63,7 @@ public class TheBank {
 
         switch(userChoice){
             case 0:
+
         }
 
     }
