@@ -114,7 +114,7 @@ public class Employee extends Account {
     }
 
     public String toString(){
-        return empName + "'s gross salary is " + grossSalary + " SEK per month." ;
+        return super.getFullName() + "'s gross salary is " + super.getSalary() + " SEK per month." ;
     }
 
     public void deactivateAccount(Customer customer){
