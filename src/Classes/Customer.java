@@ -130,7 +130,10 @@ public class Customer {
             this.balance -= amount;
             addTransaction(-amount);
             expanse+=amount;
-            checkBudget();
+            if(budget>0){
+                checkBudget();
+            }
+
         } else {
             throw new Exception("The withdrawal amount must be less than your account balance.");
         }
@@ -145,7 +148,10 @@ public class Customer {
                         withdrawMoney(amount);
                         customer.depositMoney(amount);
                         expanse+=amount;
-                        checkBudget();
+                        if( budget>0){
+                            checkBudget();
+                        }
+
 
 
 
