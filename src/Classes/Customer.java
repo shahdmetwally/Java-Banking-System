@@ -114,14 +114,8 @@ public class Customer extends Account{
                         if( budget>0){
                             checkBudget();
                         }
-
-
-
-
                 }
             }
-
-
         }
         return this.balance; //?? */
     }
