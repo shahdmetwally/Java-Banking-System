@@ -37,7 +37,7 @@ public class Manager extends Employee{
     public String getTotalBalance(){
         double message = 0;
         String message1 = "Banks total balance: ";
-        for (Customer customer : Bank.customers){
+        for (BankAccount customer : Bank.customers){
             message += customer.getBalance();
         }
         return message1 + message ;
@@ -45,7 +45,7 @@ public class Manager extends Employee{
 
     public String getAllTransactions(){
         String message = "";
-        for (Customer customer : Bank.customers){
+        for (BankAccount customer : Bank.customers){
             message = "Customer: " + customer.getFullName() + customer.transactionHistory(customer);
         }
         return message;
@@ -54,7 +54,7 @@ public class Manager extends Employee{
     public String getTotalLoan(){
         String message= "Total amount of loan giving out: ";
         double totalLoan = 0;
-        for(Customer customer:Bank.customers){
+        for(BankAccount customer:Bank.customers){
             totalLoan+= customer.getLoan();
         }
         return message +totalLoan;

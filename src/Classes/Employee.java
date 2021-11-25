@@ -1,28 +1,27 @@
 package Classes;
-import java.util.ArrayList;
 
-public class Employee extends Account {
+public class Employee extends Person {
 
     final double TAX = 0.33; //change later
     private int birthYear;
     private int vacationDays;
 
 
-    public Employee(String empName, String empID, String password, int birthYear, double grossSalary){
-        super(empName, empID, password, grossSalary);
+    public Employee(String empName, int personalNo, String empID, String password, int birthYear, double grossSalary){
+        super(empName, personalNo, empID, password, grossSalary);
         this.birthYear = birthYear;
         this.vacationDays = 25;
 
     }
 
-    public void createEmployee(String empID, String password, String empName, int birthYear, double grossSalary, int vacationDays){
-        Employee emp1 = new Employee(empID, password, empName, birthYear, grossSalary);
+    public void createEmployee(String empID, int personalNo, String password, String empName, int birthYear, double grossSalary, int vacationDays){
+        Employee emp1 = new Employee(empID,personalNo, password, empName, birthYear, grossSalary);
     }
 
     //Need to look at this
     public void approveLoan(int personalNumber){
         for(Customer customer : Bank.customers){
-            if(customer.getPersonalNumber()==personalNumber){
+            if(customer.getPersonalNo()==personalNumber){
                 System.out.println("Mortgage approved.");
             }
         }
@@ -38,7 +37,7 @@ public class Employee extends Account {
 
     public void removeCustomerAccount(int personalNumber){
         for(int i = 0; i < Bank.customers.size(); i++){
-            if(Bank.customers.get(i).getPersonalNumber()==personalNumber){
+            if(Bank.customers.get(i).getPersonalNo()==personalNumber){
                 Bank.customers.remove(i);
             }
         }
@@ -46,7 +45,7 @@ public class Employee extends Account {
 
 
     //This needs work discuss it
-    public void sendMessageToCustomer(String message, Customer customer){
+    public void sendMessageToCustomer(String message, BankAccount customer){
         //customer.inbox.add(message)
     }
 
@@ -56,8 +55,8 @@ public class Employee extends Account {
     public String getCustomerInfo(String userName, int personalNumer){
         String infoCustomer = "";
         for(Customer customer : Bank.customers){
-            if(customer.getFullName().equals(userName)&& (customer.getPersonalNumber() == personalNumer)) {
-                infoCustomer =  customer.getTransaction() + "Loan: "+ customer.getLoan();
+            if(customer.getFullName().equals(userName)&& (customer.getPersonalNo()== personalNumer)) {
+                infoCustomer =  customer.getBankAccount().getTransaction() + "Loan: "+ customer.getBankAccount().getLoan();
 
             }
         }
@@ -96,7 +95,7 @@ public class Employee extends Account {
         return super.getFullName() + "'s gross salary is " + super.getSalary() + " SEK per month." ;
     }
 
-    public void deactivateAccount(Customer customer){
+    public void deactivateAccount(BankAccount customer){
         customer.setActive(false);
     }
 

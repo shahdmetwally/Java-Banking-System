@@ -1,6 +1,5 @@
 package Main;
 
-import Classes.Customer;
 import Utilities.UserInput;
 
 public class TheBank {

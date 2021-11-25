@@ -2,12 +2,18 @@ package Main;
 
 import Classes.*;
 
-import Classes.Customer;
+import Classes.BankAccount;
+
+
+import Classes.Employee;
+import Classes.Manager;
+
+
 
 public class Controller {
 
-    private Customer customer;
-    public Controller(Customer customer){
+    private BankAccount customer;
+    public Controller(BankAccount customer){
         this.customer = customer;
     }
     public void logInCustomer(int personNumber, String password){
@@ -18,91 +24,74 @@ public class Controller {
 
     //Employee
 
-    public void createEmploye(){}
+     public void createEmployee(String empID, int personalNo, String password, String empName, int birthYear, double grossSalary){
+        Employee emp1 = new Employee(empID, personalNo, password, empName, birthYear, grossSalary);
+    }
 
-    public void createManager(){}
+    public void createManager(String emName, String emID, String password, int birthYear, double grossSalary){
+        Manager manager= new Manager(emName,emID,password,birthYear,grossSalary);
 
-    public void takeDaysof(int amountDays) { }
+    }
 
+    public void takeDaysOff(String ID,int amountOfDays){
+         for( Employee employee: Bank.employees){
+             if(employee.getID().equals(ID)){
+                 //employee.getVacationDays() -= amountOfDays;
+             }
+         }
+
+    }
     public void approveMortageRequest(String customerID){}
 
-    public void removeEmployee(String emID){}
+    public void removeEmployee(String emID){
+        for(int i = 0; i < Bank.employees.size(); i++){
+            if(Bank.employees.get(i).equals(emID)){
+                Bank.employees.remove(i);
+            }
+        }
+    }
 
-    public void promoteEmployee(String emID){}
+    public void promoteEmployee(String emID, double newSalary){
+        for(Employee employee : Bank.employees){
+            if(employee.getID().equals(emID)){
 
-    public void removeCustomerAccount(String customerID){}
+                String name= employee.getFullName();
+                String ID = employee.getID();
+                String password = employee.getPassword();
+                int birthYear= employee.getBirthYear();
+                int vaccationDays = employee.getVacationDays();
+                Employee emp1 = new Manager(name,ID,password,birthYear,newSalary);
+                Bank.employees.remove(employee);
+                Bank.employees.add(emp1);// Example on how to find specific attribute, also need to give it more access
+
+            }
+        }
+    }
+
+   /* public void removeCustomerAccount(int personalNumber){
+        for(int i = 0; i < Bank.customers.size(); i++){
+            if(Bank.customers.get(i).getPersonalNumber()==personalNumber){
+                Bank.customers.remove(i);
+            }
+        }
+    }
 
     public void sendMessageToCustomer(String customerID){} //another argument
 
-    public String getCustomerInfo(String customerID){
-        return "";
+    public String getCustomerInfo(String userName, int personalNumer){
+        String infoCustomer = "";
+        for(BankAccount customer : Bank.customers){
+            if(customer.getFullName().equals(userName)&& (customer.getPersonalNumber() == personalNumer)) {
+                infoCustomer =  customer.getTransaction() + "Loan: "+ customer.getLoan();
+
+            }
+        }
+        return infoCustomer;
     }
 
     public void updateEmployeName(String emID, String newName){}
 
-    public void updateEmployeSalary(String emID, double newGrossSalary){}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void updateEmployeSalary(String emID, double newGrossSalary){}*/
 
 
 
@@ -115,9 +104,12 @@ public class Controller {
 
     //Customer. Should I add all the set and get also for customer?
 
-    public void createBankAccount(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance){
-        Customer customer = new Customer(fullName, personalNumber, userName,password,monthlyGrossSalary,balance);
-    }
+    public final String EOL = System.lineSeparator();
+
+   /* public void createBankAccount(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance){
+        BankAccount customer = new BankAccount(fullName, personalNumber, userName,password,monthlyGrossSalary,balance);
+    }*/
+
     //public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
 
     public void createBankAccount(){
@@ -133,17 +125,17 @@ public class Controller {
            // create a 8 new ramdon numbers
            while(! bankAccount.equals(BankAccount))
          */
-        Customer customer = customer.createBankAccount();
+
     }
 
-    public double checkBalance() { // 2.0  Check Balance
-        return 0;
+   /* public double checkBalance() { // 2.0  Check Balance
+
     }
     //public double checkBalance(){return 0;}
 
     public double depositMoney(String ID, double amount) throws Exception {
         double balance = 0;
-        for(Customer customer: Bank.customers) {
+        for(BankAccount customer: Bank.customers) {
             if (customer.getID().equals(ID)) {
                 if (customer.getActive()) {
                     if (amount > 0) {
@@ -159,7 +151,19 @@ public class Controller {
             }
         }return balance ;
 
+    }
+
+    public String transactionHistory(BankAccount customer) {
+        String message= " Transaction history: " + EOL;
+        String message1= "";
+        for( Transaction transaction : customer.transactions){
+            message1 += transaction.toString()+ EOL;
         }
+        return message+ message1;
+
+    }
+
+
 
 
     public void withdrawMoney(double amount) {
@@ -192,7 +196,7 @@ public class Controller {
 
 
 
- //ysahuduasid
+ //ysahuduasid*/
 
 
 }

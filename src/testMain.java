@@ -1,6 +1,3 @@
-import Classes.Customer;
-import Classes.Employee;
-
 public class testMain {
     public static void main(String [] args) throws Exception {
         System.out.println("hello");
