@@ -81,28 +81,12 @@ public class Employee extends Account {
         this.vacationDays -= amountOfDays;
     }
 
-    public String getEmpID() {
-        return empID;
-    }
 
-    public String getEmpName() {
-        return empName;
-    }
 
-    public void updateEmpName(String empName) {
-        this.empName = empName;
-    }
 
-    public double getGrossSalary() {
-        return grossSalary;
-    }
-
-    public void updateGrossSalary(double grossSalary) {
-        this.grossSalary = grossSalary;
-    }
 
     public double calculateNetSalary(){
-        return grossSalary * TAX;
+        return super.getSalary() * TAX;
     }
 
     public int getVacationDays() {
