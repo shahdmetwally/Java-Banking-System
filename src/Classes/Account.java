@@ -1,6 +1,6 @@
 package Classes;
 
-public class Account {
+public abstract class Account {
     private String fullName;
     private String ID;
     private String password;
@@ -37,6 +37,7 @@ public class Account {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
 
     public Account(String fullName, String ID, String password, double salary ){
         this.fullName = fullName;
