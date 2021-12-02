@@ -1,6 +1,6 @@
 package Classes;
 
-public class Employee extends Person {
+public class Employee extends User {
 
     final double TAX = 0.33; //change later
     private int birthYear;
@@ -37,8 +37,8 @@ public class Employee extends Person {
 
     public void removeCustomerAccount(int personalNumber){
         for(int i = 0; i < Bank.customers.size(); i++){
-            if(Bank.customers.get(i).getPersonalNo()==personalNumber){
-                Bank.customers.remove(i);
+         //   if(Bank.customers.get(i).getPersonalNo().personalNumber){
+           //     Bank.customers.remove(i);
             }
         }
     }
@@ -102,3 +102,5 @@ public class Employee extends Person {
 
 
 }
+
+

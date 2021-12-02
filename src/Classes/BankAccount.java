@@ -30,9 +30,6 @@ public class BankAccount {
     }*/
 
 
-
-    public final String EOL = System.lineSeparator();
-
     public String getAccountNo() {return accountNo;}
     public double getBudget() {return budget;}
     public double getBalance() {return balance;}
@@ -78,7 +75,7 @@ public class BankAccount {
 
     public double transferMoney(double amount, String  anotherBankAccountNo) throws Exception{// 2.3 Transfer Money
 
-            for (Customer customer : Bank.customers) {
+            for (Customer customer : Bank.persons) {
                 if (customer.getBankAccount().accountNo.equals(anotherBankAccountNo)) {
                     if (amount < this.balance && amount > 0) {
                         withdrawMoney(amount);

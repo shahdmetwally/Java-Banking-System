@@ -7,7 +7,6 @@ public class MenuOptions {
     private String menuName;
     private HashMap<Integer, String> menus = new HashMap<>();
 
-
     public String getMenuName() {
         return menuName;
     }

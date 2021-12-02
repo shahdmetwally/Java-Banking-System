@@ -2,17 +2,40 @@ package Main;
 
 import Classes.*;
 
-import Classes.BankAccount;
 
-
-import Classes.Employee;
-import Classes.Manager;
-
+//import Classes.Employee;
 
 
 public class Controller {
 
-    private BankAccount customer;
+    public Customer logInCustomer(String inputPersonNo, String inputPassword){
+        for(User currentPerson: Bank.persons){ // clone the list for safety // encapsulation
+            if(currentPerson instanceof Customer){
+                if(currentPerson.isSamePersonNo(inputPersonNo) && currentPerson.isSamePassword(inputPassword)){
+                    return (Customer) currentPerson;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Employee logInEmployee(String inputPersonNumber, String inputPassword){
+        for( User currentPerson: Bank.persons){
+            if(currentPerson instanceof Employee){
+                if(currentPerson.isSamePersonNo(inputPersonNumber) && currentPerson.isSamePassword(inputPassword)){
+                    return (Employee) currentPerson;
+                }
+            }
+        }
+        return null;
+    }
+}
+
+
+
+
+
+    /* private BankAccount customer;
     public Controller(BankAccount customer){
         this.customer = customer;
     }
@@ -20,10 +43,11 @@ public class Controller {
 
     }
 
+     */
 
 
     //Employee
-
+/*
      public void createEmployee(String empID, int personalNo, String password, String empName, int birthYear, double grossSalary){
         Employee emp1 = new Employee(empID, personalNo, password, empName, birthYear, grossSalary);
     }
@@ -69,6 +93,8 @@ public class Controller {
         }
     }
 
+ */
+
    /* public void removeCustomerAccount(int personalNumber){
         for(int i = 0; i < Bank.customers.size(); i++){
             if(Bank.customers.get(i).getPersonalNumber()==personalNumber){
@@ -105,7 +131,7 @@ public class Controller {
 
     //Customer. Should I add all the set and get also for customer?
 
-    public final String EOL = System.lineSeparator();
+  //  public final String EOL = System.lineSeparator();
 
    /* public void createBankAccount(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance){
         BankAccount customer = new BankAccount(fullName, personalNumber, userName,password,monthlyGrossSalary,balance);
@@ -113,21 +139,21 @@ public class Controller {
 
     //public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
 
-    public void createBankAccount(){
+  /*  public void createBankAccount(){
         String clearNumber= "5051";
-        // how many number a bank account has.
         // check for ramdom number functions in java. 8
         // as an example:
-        String bankNumber = "12345678";
+        String bankNumber = "1234567890"; // 10 numbers
         // we need a list for all the bankaccounts.
         // option: if we use map for the list. key: personNumber, bankaccount number
         /* for( BankAcoount bankacount: banckAccountList){
            do{ if( bankaccount.equals(banksAccunt){
            // create a 8 new ramdon numbers
            while(! bankAccount.equals(BankAccount))
-         */
-
     }
+
+   */
+
 
    /* public double checkBalance() { // 2.0  Check Balance
 
@@ -197,7 +223,8 @@ public class Controller {
 
 
 
- //ysahuduasid*/
+
+
 
 
 }

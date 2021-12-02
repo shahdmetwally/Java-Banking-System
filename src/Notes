@@ -12,6 +12,8 @@ example we choice 1.
 -----------------------
 Enter username:
 Enter password:
+
+object: Maria 900101-5555
 -----------------------
 do{
 for( Customer customer: curstomerList){

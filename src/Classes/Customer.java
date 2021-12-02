@@ -1,10 +1,10 @@
 package Classes;
 
-public class Customer extends Person{
+public class Customer extends User {
     private BankAccount bankAccount;
 
-    public Customer(String fullName, int personalNo, String ID, String password, double salary){
-        super(fullName, personalNo, ID, password, salary);
+    public Customer(String fullName, String personalNo, String ID, String password, double salary){
+        super(fullName, personalNo,salary);
     }
 
     public BankAccount getBankAccount() {
@@ -26,4 +26,20 @@ public class Customer extends Person{
     public String checkBudget(){
         return bankAccount.checkBudget();
     }
+
+   /* public boolean equals(Object anotherObject){
+        if(this == anotherObject){
+            return true;
+        }else if(anotherObject == null){
+            return false;
+        }else if( anotherObject instanceof Customer){
+            Customer anotherCustomer = (Customer) anotherObject;
+            boolean isSameCustomer = this.getPersonalNo().equals(anotherCustomer.getPersonalNo()) && this.getPassword().equals(anotherCustomer.getPassword());
+            return false;
+        }else{
+            return false;
+        }
+    }
+
+    */
 }
