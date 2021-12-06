@@ -72,10 +72,9 @@ public class BankAccount {
         }
         return balance;
     }
+    // something is wrong here.
+   /* public double transferMoney(Customer customer, double amount, String  anotherBankAccountNo) throws Exception{// 2.3 Transfer Money
 
-    public double transferMoney(double amount, String  anotherBankAccountNo) throws Exception{// 2.3 Transfer Money
-
-            for (Customer customer : Bank.persons) {
                 if (customer.getBankAccount().accountNo.equals(anotherBankAccountNo)) {
                     if (amount < this.balance && amount > 0) {
                         withdrawMoney(amount);
@@ -87,8 +86,10 @@ public class BankAccount {
                 }
             }
         }
-        return this.balance; //?? */
-    }
+        return this.balance; //??
+
+    */
+
 
 
     public String checkBudget(){

@@ -3,8 +3,8 @@ package Classes;
 public class Customer extends User {
     private BankAccount bankAccount;
 
-    public Customer(String fullName, String personalNo, String ID, String password, double salary){
-        super(fullName, personalNo,salary);
+    public Customer(String fullName, String personalNo, String password)throws Exception{
+        super(fullName, personalNo,password);
     }
 
     public BankAccount getBankAccount() {
@@ -19,9 +19,11 @@ public class Customer extends User {
         return bankAccount.withdrawMoney(amount);
     }
 
-    public double transferMoney(double amount, String  anotherBankAccountNo) throws Exception{
+   /* public double transferMoney(double amount, String  anotherBankAccountNo) throws Exception{
         return bankAccount.transferMoney(amount, anotherBankAccountNo);
     }
+
+    */
 
     public String checkBudget(){
         return bankAccount.checkBudget();

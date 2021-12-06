@@ -4,22 +4,27 @@ import java.util.ArrayList;
 
 public class Bank {
 
+    public static ArrayList<User> users = new ArrayList<>();
+
+    //-------- not know about the onces below get-------------------------
     public static ArrayList<String> newCardRequests = new ArrayList<>();
     public static ArrayList<String> loanRequests = new ArrayList<>();
     public static ArrayList<String> mortgageRequests = new ArrayList<>();
     public static ArrayList<String> accountRequests = new ArrayList<>();
+    public static ArrayList<String> inbox = new ArrayList<>();
 
 
-   // public static ArrayList<Customer> customers = new ArrayList<>();
-    //public static ArrayList<Employee> employees = new ArrayList<>();
-    public static ArrayList<ArrayList> inbox = new ArrayList<>();
+    // create constructor
+    // add
+    public ArrayList<User> getUsers(){
+        ArrayList<User> usersClone = users;
+        return usersClone;
+    }
 
-    public static ArrayList<User> persons = new ArrayList<>();
+    public void removeUser(Employee employee){
+        users.remove(employee);
+    }
 
-   /* public void allInbox(){
-        for( BankAccount customer : customers){
-            inbox.add(customer.userInbox);
-        }
-    }*/
+
 
 }

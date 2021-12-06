@@ -1,41 +1,30 @@
 package Classes;
 
-import java.util.List;
-
 public abstract class User {
+    // if abstract we need to devide the log in to part
     private String fullName;
     private String personalNo; // look up francisco example with personnumber (
     private String password;
-    private double salary;
 
-
-
-    public User(String fullName, String personalNo, double salary ) throws Exception{
-        if(fullName.isBlank()){
+    public User(String fullName,String personalNo, String password) throws Exception{
+        if(fullName.isBlank()) {
             throw new Exception("Name cannot be blank.");
         }
-        if(personalNo.length() != 13){
-            throw new Exception("Personal number be in this format: YYYYMMDD- XXXX");
+        if(personalNo.length() != 12) {
+            throw new Exception("Personal number be in this format: YYYYMMDDXXXX");
         }
-        if(!isStrongPassword(password)){
-            throw new Exception(" The password is weak. The password must have a minimum of 8 characters in length" +
+        if(!isStrongPassword(password)) {
+            throw new Exception("The password is weak. The password must have a minimum of 8 characters in length" +
                     " and contain at least  contain: lowercase letter, uppercase letter, digit.");
         }
-        // exception for personal number
-        // exception password
-
         this.fullName = fullName;
         this.personalNo = personalNo;
         this.password = password;
-        this.salary = salary;
     }
-    public double getSalary() {return salary;}
 
     public String getPersonalNo() {
-        return personalNo;
+        return this.personalNo;
     }
-
-    public void setSalary(double salary) {this.salary = salary;}
 
     public String getPassword() {return password;}
 
@@ -58,8 +47,8 @@ public abstract class User {
         boolean hasDigits = password.matches(".*\\d+.*");
         boolean hasUpperCase = password.matches(".*[A-Z]+.*");
         boolean hasLowerCase = password.matches(".*[a-z]+.*");
-        boolean islong = password.length() > 8;
-        return hasDigits && hasLowerCase && hasUpperCase && islong;
+        boolean isLong = password.length() > 8;
+        return hasDigits && hasLowerCase && hasUpperCase && isLong;
     }
 
 }

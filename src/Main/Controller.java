@@ -2,16 +2,19 @@ package Main;
 
 import Classes.*;
 
-
-//import Classes.Employee;
-
-
 public class Controller {
+    private Bank bank;
 
-    public Customer logInCustomer(String inputPersonNo, String inputPassword){
-        for(User currentPerson: Bank.persons){ // clone the list for safety // encapsulation
-            if(currentPerson instanceof Customer){
-                if(currentPerson.isSamePersonNo(inputPersonNo) && currentPerson.isSamePassword(inputPassword)){
+    public Controller() {
+        bank = new Bank();
+    }
+// LOGIN AUTHORIZATION CONTROLLER
+//-----------------------------------
+
+    public Customer logInCustomer(String inputPersonNo, String inputPassword) {
+        for (User currentPerson : bank.getUsers()) { // clone the list for safety // encapsulation
+            if (currentPerson instanceof Customer) {
+                if (currentPerson.isSamePersonNo(inputPersonNo) && currentPerson.isSamePassword(inputPassword)) {
                     return (Customer) currentPerson;
                 }
             }
@@ -19,16 +22,99 @@ public class Controller {
         return null;
     }
 
-    public Employee logInEmployee(String inputPersonNumber, String inputPassword){
-        for( User currentPerson: Bank.persons){
-            if(currentPerson instanceof Employee){
-                if(currentPerson.isSamePersonNo(inputPersonNumber) && currentPerson.isSamePassword(inputPassword)){
+    public Employee logInEmployee(String inputPersonNumber, String inputPassword) {
+        for (User currentPerson : bank.getUsers()) {
+            if (currentPerson instanceof Employee) {
+                if (currentPerson.isSamePersonNo(inputPersonNumber) && currentPerson.isSamePassword(inputPassword)) {
+                    return (Employee) currentPerson;
+                }
+            } else if (currentPerson instanceof Manager) {
+                return (Manager) currentPerson;
+            }
+        }
+        return null;
+    }
+
+
+    public boolean alreadyExistUser(String inputUsername) {
+        boolean repeated = false;
+        for (User currentUser : bank.getUsers()) {
+            if (currentUser.isSamePersonNo(inputUsername)) {
+                repeated = true;
+            }
+        }
+        return false;
+    }
+
+
+    // CUSTOMER CONTROLLER
+    //----------------------------------------
+
+
+    // ADMINISTRATION CONTROLLER
+    //------------------------------------
+
+    /*
+      administration.addOptions(0, "Change administration password.");
+        administration.addOptions(1,"Create manager.");
+        administration.addOptions(2, "Remove manager.");
+        administration.addOptions(3,"Update manager salary.");
+        administration.addOptions(4,"Update manager password.");
+        administration.addOptions(5,"Go back to main menu.");
+     */
+
+
+    // EMPLOYEE CONTROLLER
+    //--------------------------------------
+
+
+
+
+
+    // MANAGER CONTROLLER
+
+    /*
+     manager.addOptions(0,"Show Bank Balace");
+        manager.addOptions(1, "Show total loaned amount");
+        manager.addOptions(2,"Create employee");
+        manager.addOptions(3, "Remove employee");
+        manager.addOptions(4,"update employee salary");
+        manager.addOptions(5,"Update employee password");
+     */
+
+    public String createEmployee(String fullName, String personalNo, String password, double salary) throws Exception {
+        Employee employee = new Employee(fullName, personalNo, password, salary) {
+        };
+        Bank.users.add(employee);
+        return "Employee " + fullName + " was registered successfully.";
+    }
+    public Employee getEmployee(String inputPersonNumber) {
+        for (User currentPerson : bank.getUsers()) {
+            if (currentPerson instanceof Employee) {
+                if (currentPerson.isSamePersonNo(inputPersonNumber)) {
                     return (Employee) currentPerson;
                 }
             }
         }
         return null;
     }
+
+    public String removeEmployee(String personalNo)throws Exception{
+        String removalResult = "";
+        Employee employee = getEmployee(personalNo);
+        if (employee == null) {
+            throw new Exception("Employee with personal number " + personalNo + " was not registered yet.");
+        } else {
+
+            removalResult = "Employee " + personalNo + " was successfully removed.";
+        }
+
+        return removalResult;
+    }
+    //--------------------------------------
+
+
+
 }
 
 
@@ -48,9 +134,7 @@ public class Controller {
 
     //Employee
 /*
-     public void createEmployee(String empID, int personalNo, String password, String empName, int birthYear, double grossSalary){
-        Employee emp1 = new Employee(empID, personalNo, password, empName, birthYear, grossSalary);
-    }
+
 
     public void createManager(String emName,int personalNo, String emID, String password, int birthYear, double grossSalary){
         Manager manager= new Manager(emName,personalNo, emID,password,birthYear,grossSalary);
@@ -67,13 +151,7 @@ public class Controller {
     }
     public void approveMortageRequest(String customerID){}
 
-    public void removeEmployee(String emID){
-        for(int i = 0; i < Bank.employees.size(); i++){
-            if(Bank.employees.get(i).equals(emID)){
-                Bank.employees.remove(i);
-            }
-        }
-    }
+
 
     public void promoteEmployee(String emID, double newSalary){
         for(Employee employee : Bank.employees){
@@ -154,8 +232,8 @@ public class Controller {
 
    */
 
-
-   /* public double checkBalance() { // 2.0  Check Balance
+/*
+    public double checkBalance() { // 2.0  Check Balance
 
     }
     //public double checkBalance(){return 0;}
@@ -219,12 +297,6 @@ public class Controller {
     public void controlExpenses(){}
 
 
-    //Need to look thorugh this again, I will work more on this as more methods are created.
+    Need to look through this again, I will work more on this as more methods are created.
 
-
-
-
-
-
-
-}
+    */
