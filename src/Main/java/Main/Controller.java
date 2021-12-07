@@ -53,9 +53,8 @@ public class Controller {
     //----------------------------------------
 
 
-
-    public void createCustomer(String fullName, String personalNo, String password) throws Exception{
-        User customer = new Customer(fullName, personalNo,password);
+    public void createCustomer(String fullName, String personalNo, String password) throws Exception {
+        User customer = new Customer(fullName, personalNo, password);
         Bank.users.add(customer);
     }
 
@@ -75,7 +74,7 @@ public class Controller {
     // What to do for the deposit, withdraw and transfer money ? Idk how to put the code in the controller
 
 
-    public String viewAccountBalance(Customer customer){
+    public String viewAccountBalance(Customer customer) {
         customer.getBankAccount();
         return "Your balance is " + customer.getBalance();
     }
@@ -88,18 +87,18 @@ public class Controller {
         return customer.withdrawMoney(amount);
     }
 
-    public String transferMoney(Customer customer,double amount, String anotherBankAccountNo) throws Exception{
-        return customer.transferMoney(amount,anotherBankAccountNo);
+    public String transferMoney(Customer customer, double amount, String anotherBankAccountNo) throws Exception {
+        return customer.transferMoney(amount, anotherBankAccountNo);
     }
 
-    public String FiveLatestTransaction(Customer customer){
+    public String FiveLatestTransaction(Customer customer) {
         String message = "Five latest transaction: " + Utilities.EOL;
-        String message1= "";
-        for(int i = customer.getTransactions().size()-6; i > customer.getTransactions().size()-6; i++){
+        String message1 = "";
+        for (int i = customer.getTransactions().size() - 6; i > customer.getTransactions().size() - 6; i++) {
             customer.getTransactions().get(i);
-            message1= customer.getTransactions().get(i).toString() + Utilities.EOL;
+            message1 = customer.getTransactions().get(i).toString() + Utilities.EOL;
         }
-        return message+ message1;
+        return message + message1;
     }
 
 
@@ -112,20 +111,15 @@ public class Controller {
         return message + message1;
     }
 
-    public void updateBudget(Customer customer, double budget){
+    public void updateBudget(Customer customer, double budget) {
         customer.getBankAccount().setBudget(budget);
     }
-
 
 
     // For the set budget we can use the update budget in th menu
 
 
-
-
-
-
-        // ADMINISTRATION CONTROLLER
+    // ADMINISTRATION CONTROLLER
     //------------------------------------
 
     /*
@@ -134,39 +128,40 @@ public class Controller {
         /*
         administration.addOptions(1,"Create manager.");
         */
-        public void createManager(String name, String personalNo, String password, double salary, double bonus) throws Exception {
-            User manager = new Manager(name, personalNo, password, salary, bonus);
-            Bank.users.add(manager);
+    public void createManager(String name, String personalNo, String password, double salary, double bonus) throws Exception {
+        User manager = new Manager(name, personalNo, password, salary, bonus);
+        Bank.users.add(manager);
+    }
+
+    /*
+    administration.addOptions(2, "Remove manager.");
+    */
+    public String removeManager(String personalNo) throws Exception {
+        String removeResult = "";
+        Manager manager = getManager(personalNo);
+        if (manager == null) {
+            throw new Exception("Manager with personal number " + personalNo + "was not registered yet.");
+        } else {
+            removeResult = "Manager: " + personalNo + " was successfully removed.";
+            Bank.users.remove(manager);
         }
-
-        /*
-        administration.addOptions(2, "Remove manager.");
-        */
-            public String removeManager(String personalNo) throws Exception{
-                String removeResult = "";
-                Manager manager = getManager(personalNo);
-                if(manager == null){
-                    throw new Exception("Manager with personal number " + personalNo + "was not registered yet.");
-                } else {
-                    removeResult = "Manager: " + personalNo + " was successfully removed.";
-                    Bank.users.remove(manager);
-                }
-                return  removeResult;
-            }
+        return removeResult;
+    }
 
 
-        /*
-        administration.addOptions(3,"Update manager salary.");
-        */
-         public void setManagerSalary(double newSalary, String personalNo) {
-             getManager(personalNo).setSalary(newSalary);
-         }
-         /*
-        administration.addOptions(4,"Update manager password.");
-        */
-         public void setManagerPassword(String newPassword, String personalNo) {
-             getManager(personalNo).setPassword(newPassword);
-         }
+    /*
+    administration.addOptions(3,"Update manager salary.");
+    */
+    public void setManagerSalary(double newSalary, String personalNo) {
+        getManager(personalNo).setSalary(newSalary);
+    }
+
+    /*
+   administration.addOptions(4,"Update manager password.");
+   */
+    public void setManagerPassword(String newPassword, String personalNo) {
+        getManager(personalNo).setPassword(newPassword);
+    }
 
         /*
         administration.addOptions(5,"Go back to main menu.");
@@ -178,26 +173,25 @@ public class Controller {
 
     public String removeCustomerAccount(String personalNo) throws Exception {
         String removeResult = "";
-            Customer customer = getCustomer(personalNo);
-            if(customer == null){
-                throw new Exception("A customer with personal number " + personalNo + " was not registered yet.");
+        Customer customer = getCustomer(personalNo);
+        if (customer == null) {
+            throw new Exception("A customer with personal number " + personalNo + " was not registered yet.");
         } else {
-                removeResult = "Customer: " + personalNo + " was successfully removed.";
-                Bank.users.remove(customer);
-            }
-            return removeResult;
+            removeResult = "Customer: " + personalNo + " was successfully removed.";
+            Bank.users.remove(customer);
+        }
+        return removeResult;
     }
 
 
-    public String getCustomerInfo(String personalNumer){
+    public String getCustomerInfo(String personalNumer) {
         String infoCustomer = "";
-                Customer customer = getCustomer(personalNumer) ;
-                return infoCustomer =  customer.getBankAccount().getTransaction() + "Loan: "+ customer.getBankAccount().getLoan();
-        }
+        Customer customer = getCustomer(personalNumer);
+        return infoCustomer = customer.getBankAccount().getTransaction() + "Loan: " + customer.getBankAccount().getLoan();
+    }
 
 
-
-      public Employee getEmployee(String inputPersonNumber) {
+    public Employee getEmployee(String inputPersonNumber) {
         for (User currentPerson : bank.getUsers()) {
             if (currentPerson instanceof Employee) {
                 if (currentPerson.isSamePersonNo(inputPersonNumber)) {
@@ -208,7 +202,7 @@ public class Controller {
         return null;
     }
 
-    public void takeDaysOff(String personalNo,int amountOfDays){
+    public void takeDaysOff(String personalNo, int amountOfDays) {
         Employee employee = getEmployee(personalNo);
         int vacationDays = employee.getVacationDays();
         vacationDays -= amountOfDays;
@@ -216,35 +210,33 @@ public class Controller {
     }
 
 
-
-
     // MANAGER CONTROLLER
 
     /*
      manager.addOptions(0,"Show Bank Balace");
 */
-        public String getTotalBalance(){
+    public String getTotalBalance() {
         double message = 0;
         String message1 = "Banks total balance: ";
-        for (User currentUser : Bank.users){
-            if(currentUser instanceof Customer) {
+        for (User currentUser : Bank.users) {
+            if (currentUser instanceof Customer) {
                 Customer customer = (Customer) currentUser;
-                message +=  customer.getBankAccount().getBalance();
+                message += customer.getBankAccount().getBalance();
             }
         }
-        return message1 + message ;
+        return message1 + message;
     }
 
-        /*
-        manager.addOptions(1, "Show total loaned amount");
-        */
-        public String getTotalLoan(){
-        String message= "Total amount of loan giving out: ";
+    /*
+    manager.addOptions(1, "Show total loaned amount");
+    */
+    public String getTotalLoan() {
+        String message = "Total amount of loan giving out: ";
         double totalLoan = 0;
-        for(User user : Bank.users){
-            if(user instanceof Customer){
+        for (User user : Bank.users) {
+            if (user instanceof Customer) {
                 Customer customer = (Customer) user;
-               totalLoan+= customer.getBankAccount().getLoan();
+                totalLoan += customer.getBankAccount().getLoan();
             }
         }
         return message + totalLoan;
@@ -255,15 +247,17 @@ public class Controller {
          */
 
 
-        public String createEmployee(String fullName, String personalNo, String password, double salary) throws Exception {
-        Employee employee = new Employee(fullName, personalNo, password, salary) { };
+    public String createEmployee(String fullName, String personalNo, String password, double salary) throws Exception {
+        Employee employee = new Employee(fullName, personalNo, password, salary) {
+        };
         Bank.users.add(employee);
         return "Employee " + fullName + " was registered successfully.";
     }
-        /*
-        manager.addOptions(3, "Remove employee");
-        */
-        public String removeEmployee(String personalNo)throws Exception{
+
+    /*
+    manager.addOptions(3, "Remove employee");
+    */
+    public String removeEmployee(String personalNo) throws Exception {
         String removalResult = "";
         Employee employee = getEmployee(personalNo);
         if (employee == null) {
@@ -277,27 +271,26 @@ public class Controller {
         return removalResult;
     }
 
-         /*
-        manager.addOptions(4,"update employee salary");
-        */
-         public void setEmployeeSalary(double newSalary, String personalNo) {
-             getEmployee(personalNo).setSalary(newSalary);
-         }
+    /*
+   manager.addOptions(4,"update employee salary");
+   */
+    public void setEmployeeSalary(double newSalary, String personalNo) {
+        getEmployee(personalNo).setSalary(newSalary);
+    }
 
 
-        /*
-        manager.addOptions(5,"Update employee password");
-        */
-        public void setEmployeePassword(String newPassword, String personalNo) {
-            getEmployee(personalNo).setPassword(newPassword);
-        }
+    /*
+    manager.addOptions(5,"Update employee password");
+    */
+    public void setEmployeePassword(String newPassword, String personalNo) {
+        getEmployee(personalNo).setPassword(newPassword);
+    }
 
 
-
-    public Manager getManager(String personalNo){
-        for (User currentUser : Bank.users){
-            if(currentUser instanceof Manager){
-                if(currentUser.isSamePersonNo(personalNo)){
+    public Manager getManager(String personalNo) {
+        for (User currentUser : Bank.users) {
+            if (currentUser instanceof Manager) {
+                if (currentUser.isSamePersonNo(personalNo)) {
                     return (Manager) currentUser;
                 }
 
@@ -307,11 +300,26 @@ public class Controller {
     }
 
 
+    public void promoteEmployee(String personalNo, double newSalary, double bonus) throws Exception {
+        Employee employee = getEmployee(personalNo);
+        if (employee.getPersonalNo().equals(personalNo)) {
+            String name = employee.getFullName();
+            String password = employee.getPassword();
+            Employee emp1 = new Manager(name, personalNo, password, newSalary, bonus);
+            Bank.users.remove(employee);
+            Bank.users.add(emp1);// Example on how to find specific attribute, also need to give it more access
+
+        }
+    }
+}
+
+
+
     //--------------------------------------
 
 
 
-}
+
 
 
 
@@ -346,30 +354,12 @@ public class Controller {
 
     }
     public void approveMortageRequest(String customerID){}
+*/
 
 
 
-    public void promoteEmployee(String emID, double newSalary){
-        for(Employee employee : Bank.employees){
-            if(employee.getID().equals(emID)){
-
-                String name= employee.getFullName();
-                String ID = employee.getID();
-                String password = employee.getPassword();
-                int birthYear= employee.getBirthYear();
-                int personalNo= employee.getPersonalNo();
-                int vaccationDays = employee.getVacationDays();
-                Employee emp1 = new Manager(name,personalNo,ID,password,birthYear,newSalary);
-                Bank.employees.remove(employee);
-                Bank.employees.add(emp1);// Example on how to find specific attribute, also need to give it more access
-
-            }
-        }
-    }
-
- */
-
-   /* public void removeCustomerAccount(int personalNumber){
+ /*
+   public void removeCustomerAccount(int personalNumber){
         for(int i = 0; i < Bank.customers.size(); i++){
             if(Bank.customers.get(i).getPersonalNumber()==personalNumber){
                 Bank.customers.remove(i);
