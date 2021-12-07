@@ -223,11 +223,12 @@ public class Menu {
                         option = UserInput.readLine("Do you want to continue?");
 
                     } while (option.equalsIgnoreCase("yes"));
-
+                        break;
                 case 2: // Remove employee
+
                         break;
                 case 3:// update employee name
-                    break;
+                        break;
                 case 4:// update employee salary
                         break;
                 case 5: // update employees password

@@ -130,24 +130,18 @@ public class Controller {
 
     /*
       administration.addOptions(0, "Change administration password.");
-        administration.addOptions(1,"Create manager.");
-        administration.addOptions(2, "Remove manager.");
-
      */
-
-     /* I was testing something out
-        public String removeManger(String peronlNo) throws Exception {
-            String removeManager = "";
-            for (User currentManager : Bank.users) {
-                if (currentManager instanceof Manager) {
-                    Manager currrenManager = (Manager) currentManager;
-                    if (Manager == null)
-                }
-            }
-        }
+        /*
+        administration.addOptions(1,"Create manager.");
         */
+        public void createManager(String name, String personalNo, String password, double salary, double bonus) throws Exception {
+            User manager = new Manager(name, personalNo, password, salary, bonus);
+            Bank.users.add(manager);
+        }
 
-
+        /*
+        administration.addOptions(2, "Remove manager.");
+        */
             public String removeManager(String personalNo) throws Exception{
                 String removeResult = "";
                 Manager manager = getManager(personalNo);
@@ -163,22 +157,24 @@ public class Controller {
 
         /*
         administration.addOptions(3,"Update manager salary.");
+        */
+         public void setManagerSalary(double newSalary, String personalNo) {
+             getManager(personalNo).setSalary(newSalary);
+         }
+         /*
         administration.addOptions(4,"Update manager password.");
+        */
+         public void setManagerPassword(String newPassword, String personalNo) {
+             getManager(personalNo).setPassword(newPassword);
+         }
+
+        /*
         administration.addOptions(5,"Go back to main menu.");
-     */
+        */
 
 
     // EMPLOYEE CONTROLLER
     //--------------------------------------
-
-        /*
-       public void removeCustomerAccount(int personalNumber){
-        for(int i = 0; i < Bank.customers.size(); i++){
-         //   if(Bank.customers.get(i).getPersonalNo().personalNumber){
-           //     Bank.customers.remove(i);
-            }
-        }
-         */
 
     public String removeCustomerAccount(String personalNo) throws Exception {
         String removeResult = "";
@@ -193,19 +189,13 @@ public class Controller {
     }
 
 
-    public String getCustomerInformation(String userName, String personalNumer){
+    public String getCustomerInfo(String personalNumer){
         String infoCustomer = "";
-        for(User currentUser : Bank.users){
-            if(currentUser instanceof Customer){
-                Customer customer = (Customer) currentUser;
-                if(currentUser.getFullName().equals(userName)&& (currentUser.getPersonalNo()== personalNumer)) {
-                    infoCustomer =  customer.getBankAccount().getTransaction() + "Loan: "+ customer.getBankAccount().getLoan();
-
-                }
-            }
+                Customer customer = getCustomer(personalNumer) ;
+                return infoCustomer =  customer.getBankAccount().getTransaction() + "Loan: "+ customer.getBankAccount().getLoan();
         }
-        return infoCustomer;
-    }
+
+
 
       public Employee getEmployee(String inputPersonNumber) {
         for (User currentPerson : bank.getUsers()) {
@@ -218,7 +208,12 @@ public class Controller {
         return null;
     }
 
+    public void takeDaysOff(String personalNo,int amountOfDays){
+        Employee employee = getEmployee(personalNo);
+        int vacationDays = employee.getVacationDays();
+        vacationDays -= amountOfDays;
 
+    }
 
 
 
@@ -252,7 +247,7 @@ public class Controller {
                totalLoan+= customer.getBankAccount().getLoan();
             }
         }
-        return message +totalLoan;
+        return message + totalLoan;
     }
 
         /*
@@ -282,20 +277,22 @@ public class Controller {
         return removalResult;
     }
 
-        // Which method are we using
-              /* public void removeEmployee(String emID){
-        for(int i = 0; i < Bank.employees.size(); i++){
-            if(Bank.employees.get(i).equals(emID)){
-                Bank.employees.remove(i);
-            }
-        }
-    }
-
+         /*
         manager.addOptions(4,"update employee salary");
+        */
+         public void setEmployeeSalary(double newSalary, String personalNo) {
+             getEmployee(personalNo).setSalary(newSalary);
+         }
+
+
+        /*
         manager.addOptions(5,"Update employee password");
+        */
+        public void setEmployeePassword(String newPassword, String personalNo) {
+            getEmployee(personalNo).setPassword(newPassword);
+        }
 
 
-         */
 
     public Manager getManager(String personalNo){
         for (User currentUser : Bank.users){
