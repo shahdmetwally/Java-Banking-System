@@ -248,7 +248,7 @@ public class Controller {
         /*
         manager.addOptions(2,"Create employee");
          */
-        /*
+
 
         public String createEmployee(String fullName, String personalNo, String password, double salary) throws Exception {
         Employee employee = new Employee(fullName, personalNo, password, salary) { };
