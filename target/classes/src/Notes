@@ -1,0 +1,35 @@
+To create a log in system:
+we will need to use the a while inside the option menu.
+
+--------------------------
+Welcome to blabla bank system
+
+1. log in as an user
+2. log in as an employee
+--------------------------
+
+example we choice 1.
+-----------------------
+Enter username:
+Enter password:
+
+object: Maria 900101-5555
+-----------------------
+do{
+for( Customer customer: curstomerList){
+if( customer.password.equals.inputPassword || customer.userName.equals.inputUserName){
+return customer;
+}
+
+Controller
+
+
+"sub menu options"
+
+2.
+3
+n. Log out
+while(n!=0)
+
+---------------------------------------------------------------------------------------------------------------
+

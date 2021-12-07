@@ -1,6 +1,5 @@
 package Menu;
 
-import Classes.Customer;
 import Main.Controller;
 import Utilities.Utilities;
 import Utilities.UserInput;
