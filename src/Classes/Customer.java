@@ -19,11 +19,11 @@ public class Customer extends User {
         return bankAccount.withdrawMoney(amount);
     }
 
-   /* public double transferMoney(double amount, String  anotherBankAccountNo) throws Exception{
+   public double transferMoney(double amount, String  anotherBankAccountNo) throws Exception{
         return bankAccount.transferMoney(amount, anotherBankAccountNo);
     }
 
-    */
+
 
     public String checkBudget(){
         return bankAccount.checkBudget();

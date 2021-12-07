@@ -1,6 +1,7 @@
 package Main;
 
 import Classes.*;
+import Utilities.Utilities;
 
 public class Controller {
     private Bank bank;
@@ -51,7 +52,69 @@ public class Controller {
     //----------------------------------------
 
 
-    // ADMINISTRATION CONTROLLER
+
+    public void createCustomer(String fullName, String personalNo, String password) throws Exception{
+        User customer = new Customer(fullName, personalNo,password);
+        Bank.users.add(customer);
+    }
+
+
+    public Customer getCustomer(String inputPersonNumber) {
+        for (User currentUser : Bank.users) {
+            if (currentUser instanceof Customer) {
+                if (currentUser.isSamePersonNo(inputPersonNumber)) {
+                    return (Customer) currentUser;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    // What to do for the deposit, withdraw and transfer money ? Idk how to put the code in the controller
+
+
+    public String viewAccountBalance(String inputPersonNumber){
+        Customer customer = getCustomer(inputPersonNumber);
+        return "Your balance is " + customer.getBankAccount().getBalance();
+    }
+
+    public String FiveLatestTransaction(String inputPersonNumber){
+        String message = "Five latest transaction: " + Utilities.EOL;
+        String message1= "";
+        Customer customer = getCustomer(inputPersonNumber);
+        for(int i = customer.getBankAccount().getTransactions().size()-6; i > customer.getBankAccount().getTransactions().size()-6; i++){
+            customer.getBankAccount().getTransactions().get(i);
+            message1= customer.getBankAccount().getTransactions().get(i).toString() + Utilities.EOL;
+        }
+        return message+ message1;
+    }
+
+
+    public String transactionHistory(String inputPersonNumber) {
+        String message = " Transaction history: " + Utilities.EOL;
+        String message1 = "";
+        Customer customer = getCustomer(inputPersonNumber);
+        for (Transaction transaction : customer.getBankAccount().getTransactions()) {
+            message1 += transaction.toString() + Utilities.EOL;
+        }
+        return message + message1;
+    }
+
+    public void updateBudget(String inputPersonNumber, double budget){
+        Customer customer = getCustomer(inputPersonNumber);
+        customer.getBankAccount().setBudget(budget);
+
+    }
+
+    // For the set budget we can use the update budget in th menu
+
+
+
+
+
+
+        // ADMINISTRATION CONTROLLER
     //------------------------------------
 
     /*
