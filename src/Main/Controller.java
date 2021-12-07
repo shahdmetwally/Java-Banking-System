@@ -12,6 +12,7 @@ public class Controller {
 // LOGIN AUTHORIZATION CONTROLLER
 //-----------------------------------
 
+
     public Customer logInCustomer(String inputPersonNo, String inputPassword) {
         for (User currentPerson : bank.getUsers()) { // clone the list for safety // encapsulation
             if (currentPerson instanceof Customer) {
@@ -121,6 +122,36 @@ public class Controller {
       administration.addOptions(0, "Change administration password.");
         administration.addOptions(1,"Create manager.");
         administration.addOptions(2, "Remove manager.");
+
+     */
+
+     /* I was testing something out
+        public String removeManger(String peronlNo) throws Exception {
+            String removeManager = "";
+            for (User currentManager : Bank.users) {
+                if (currentManager instanceof Manager) {
+                    Manager currrenManager = (Manager) currentManager;
+                    if (Manager == null)
+                }
+            }
+        }
+        */
+
+
+            public String removeManager(String personalNo) throws Exception{
+                String removeResult = "";
+                Manager manager = getManager(personalNo);
+                if(manager == null){
+                    throw new Exception("Manager with personal number " + personalNo + "was not registered yet.");
+                } else {
+                    removeResult = "Manager: " + personalNo + " was successfully removed.";
+                    Bank.users.remove(manager);
+                }
+                return  removeResult;
+            }
+
+
+        /*
         administration.addOptions(3,"Update manager salary.");
         administration.addOptions(4,"Update manager password.");
         administration.addOptions(5,"Go back to main menu.");
@@ -130,28 +161,43 @@ public class Controller {
     // EMPLOYEE CONTROLLER
     //--------------------------------------
 
+        /*
+       public void removeCustomerAccount(int personalNumber){
+        for(int i = 0; i < Bank.customers.size(); i++){
+         //   if(Bank.customers.get(i).getPersonalNo().personalNumber){
+           //     Bank.customers.remove(i);
+            }
+        }
+         */
 
-
-
-
-    // MANAGER CONTROLLER
-
-    /*
-     manager.addOptions(0,"Show Bank Balace");
-        manager.addOptions(1, "Show total loaned amount");
-        manager.addOptions(2,"Create employee");
-        manager.addOptions(3, "Remove employee");
-        manager.addOptions(4,"update employee salary");
-        manager.addOptions(5,"Update employee password");
-     */
-
-    public String createEmployee(String fullName, String personalNo, String password, double salary) throws Exception {
-        Employee employee = new Employee(fullName, personalNo, password, salary) {
-        };
-        Bank.users.add(employee);
-        return "Employee " + fullName + " was registered successfully.";
+    public String removeCustomerAccount(String personalNo) throws Exception {
+        String removeResult = "";
+            Customer customer = getCustomer(personalNo);
+            if(customer == null){
+                throw new Exception("A customer with personal number " + personalNo + " was not registered yet.");
+        } else {
+                removeResult = "Customer: " + personalNo + " was successfully removed.";
+                Bank.users.remove(customer);
+            }
+            return removeResult;
     }
-    public Employee getEmployee(String inputPersonNumber) {
+
+
+    public String getCustomerInformation(String userName, String personalNumer){
+        String infoCustomer = "";
+        for(User currentUser : Bank.users){
+            if(currentUser instanceof Customer){
+                Customer customer = (Customer) currentUser;
+                if(currentUser.getFullName().equals(userName)&& (currentUser.getPersonalNo()== personalNumer)) {
+                    infoCustomer =  customer.getBankAccount().getTransaction() + "Loan: "+ customer.getBankAccount().getLoan();
+
+                }
+            }
+        }
+        return infoCustomer;
+    }
+
+      public Employee getEmployee(String inputPersonNumber) {
         for (User currentPerson : bank.getUsers()) {
             if (currentPerson instanceof Employee) {
                 if (currentPerson.isSamePersonNo(inputPersonNumber)) {
@@ -162,7 +208,57 @@ public class Controller {
         return null;
     }
 
-    public String removeEmployee(String personalNo)throws Exception{
+
+
+
+
+
+    // MANAGER CONTROLLER
+
+    /*
+     manager.addOptions(0,"Show Bank Balace");
+*/
+        public String getTotalBalance(){
+        double message = 0;
+        String message1 = "Banks total balance: ";
+        for (User currentUser : Bank.users){
+            if(currentUser instanceof Customer) {
+                Customer customer = (Customer) currentUser;
+                message +=  customer.getBankAccount().getBalance();
+            }
+        }
+        return message1 + message ;
+    }
+
+        /*
+        manager.addOptions(1, "Show total loaned amount");
+        */
+        public String getTotalLoan(){
+        String message= "Total amount of loan giving out: ";
+        double totalLoan = 0;
+        for(User user : Bank.users){
+            if(user instanceof Customer){
+                Customer customer = (Customer) user;
+               totalLoan+= customer.getBankAccount().getLoan();
+            }
+        }
+        return message +totalLoan;
+    }
+
+        /*
+        manager.addOptions(2,"Create employee");
+         */
+        /*
+
+        public String createEmployee(String fullName, String personalNo, String password, double salary) throws Exception {
+        Employee employee = new Employee(fullName, personalNo, password, salary) { };
+        Bank.users.add(employee);
+        return "Employee " + fullName + " was registered successfully.";
+    }
+        /*
+        manager.addOptions(3, "Remove employee");
+        */
+        public String removeEmployee(String personalNo)throws Exception{
         String removalResult = "";
         Employee employee = getEmployee(personalNo);
         if (employee == null) {
@@ -170,10 +266,40 @@ public class Controller {
         } else {
 
             removalResult = "Employee " + personalNo + " was successfully removed.";
+            Bank.users.remove(employee);
         }
 
         return removalResult;
     }
+
+        // Which method are we using
+              /* public void removeEmployee(String emID){
+        for(int i = 0; i < Bank.employees.size(); i++){
+            if(Bank.employees.get(i).equals(emID)){
+                Bank.employees.remove(i);
+            }
+        }
+    }
+
+        manager.addOptions(4,"update employee salary");
+        manager.addOptions(5,"Update employee password");
+
+
+         */
+
+    public Manager getManager(String personalNo){
+        for (User currentUser : Bank.users){
+            if(currentUser instanceof Manager){
+                if(currentUser.isSamePersonNo(personalNo)){
+                    return (Manager) currentUser;
+                }
+
+            }
+        }
+        return null;
+    }
+
+
     //--------------------------------------
 
 
@@ -296,9 +422,9 @@ public class Controller {
    */
 
 /*
-    public double checkBalance() { // 2.0  Check Balance
+    public double checkBalance() { // 2.0  Check Balance }
 
-    }
+
     //public double checkBalance(){return 0;}
 
     public double depositMoney(String ID, double amount) throws Exception {
