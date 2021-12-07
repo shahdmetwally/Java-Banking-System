@@ -1,5 +1,7 @@
 package Classes;
 
+import java.util.ArrayList;
+
 public class Customer extends User {
     private BankAccount bankAccount;
 
@@ -11,18 +13,29 @@ public class Customer extends User {
         return bankAccount;
     }
 
-    public double depositMoney(double amount) throws Exception {
+    public String depositMoney(double amount) throws Exception {
       return bankAccount.depositMoney(amount);
     }
 
-    public double withdrawMoney(double amount) throws Exception {
+    public String withdrawMoney(double amount) throws Exception {
         return bankAccount.withdrawMoney(amount);
     }
 
-   public double transferMoney(double amount, String  anotherBankAccountNo) throws Exception{
+    public String transferMoney(double amount, String  anotherBankAccountNo) throws Exception{
         return bankAccount.transferMoney(amount, anotherBankAccountNo);
     }
 
+    public double getBalance() {
+        return bankAccount.getBalance();
+    }
+
+    public void setBudget(double budget){
+        bankAccount.setBudget(budget);
+    }
+
+    public ArrayList<Transaction> getTransactions() {
+        return bankAccount.getTransactions();
+    }
 
 
     public String checkBudget(){

@@ -75,38 +75,48 @@ public class Controller {
     // What to do for the deposit, withdraw and transfer money ? Idk how to put the code in the controller
 
 
-    public String viewAccountBalance(String inputPersonNumber){
-        Customer customer = getCustomer(inputPersonNumber);
-        return "Your balance is " + customer.getBankAccount().getBalance();
+    public String viewAccountBalance(Customer customer){
+        customer.getBankAccount();
+        return "Your balance is " + customer.getBalance();
     }
 
-    public String FiveLatestTransaction(String inputPersonNumber){
+    public String depositMoney(Customer customer, double amount) throws Exception {
+        return customer.depositMoney(amount);
+    }
+
+    public String withdrawMoney(Customer customer, double amount) throws Exception {
+        return customer.withdrawMoney(amount);
+    }
+
+    public String transferMoney(Customer customer,double amount, String anotherBankAccountNo) throws Exception{
+        return customer.transferMoney(amount,anotherBankAccountNo);
+    }
+
+    public String FiveLatestTransaction(Customer customer){
         String message = "Five latest transaction: " + Utilities.EOL;
         String message1= "";
-        Customer customer = getCustomer(inputPersonNumber);
-        for(int i = customer.getBankAccount().getTransactions().size()-6; i > customer.getBankAccount().getTransactions().size()-6; i++){
-            customer.getBankAccount().getTransactions().get(i);
-            message1= customer.getBankAccount().getTransactions().get(i).toString() + Utilities.EOL;
+        for(int i = customer.getTransactions().size()-6; i > customer.getTransactions().size()-6; i++){
+            customer.getTransactions().get(i);
+            message1= customer.getTransactions().get(i).toString() + Utilities.EOL;
         }
         return message+ message1;
     }
 
 
-    public String transactionHistory(String inputPersonNumber) {
+    public String transactionHistory(Customer customer) {
         String message = " Transaction history: " + Utilities.EOL;
         String message1 = "";
-        Customer customer = getCustomer(inputPersonNumber);
-        for (Transaction transaction : customer.getBankAccount().getTransactions()) {
+        for (Transaction transaction : customer.getTransactions()) {
             message1 += transaction.toString() + Utilities.EOL;
         }
         return message + message1;
     }
 
-    public void updateBudget(String inputPersonNumber, double budget){
-        Customer customer = getCustomer(inputPersonNumber);
+    public void updateBudget(Customer customer, double budget){
         customer.getBankAccount().setBudget(budget);
-
     }
+
+
 
     // For the set budget we can use the update budget in th menu
 
