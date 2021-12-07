@@ -1,5 +1,10 @@
 package Classes;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public abstract class User {
     // if abstract we need to devide the log in to part
     private String fullName;
@@ -32,7 +37,7 @@ public abstract class User {
 
     public String getFullName() {return fullName;}
 
-    public void setFullName(String fullName) {this.fullName = fullName;}
+    public void setFullName(String fullName) throws IOException, ParseException {this.fullName = fullName;}
 
 
     public boolean isSamePersonNo(String inputPersonalNo){
