@@ -2,7 +2,7 @@ package Classes;
 
 public class Employee extends User {
 
-    final double TAX = 0.33; //change later
+    final double TAX = 0.33; //change later /
     private int vacationDays;
     private double salary;
     private int amountOfDays;
