@@ -70,6 +70,7 @@ public class Controller {
 
 
     public String viewAccountBalance(Customer customer) {
+        customer.getBankAccount();
         return "Your balance is " + customer.getBalance();
     }
 
@@ -167,7 +168,7 @@ public class Controller {
 
     // EMPLOYEE CONTROLLER
     //--------------------------------------
-//ohiausf
+//ohiausfdsfsd
     public void applyForVacation(Employee employee, int amountDays){
 
     }
