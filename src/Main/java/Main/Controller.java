@@ -120,6 +120,9 @@ public class Controller {
     /*
       administration.addOptions(0, "Change administration password.");
      */
+    public void changePassword(AdministrationOptions administrationOptions, String newPassword) throws Exception {
+        administrationOptions.setPassword(newPassword);
+    }
         /*
         administration.addOptions(1,"Create manager.");
         */
@@ -165,7 +168,18 @@ public class Controller {
 
     // EMPLOYEE CONTROLLER
     //--------------------------------------
+//ohiausf
+    public void applyForVacation(Employee employee, int amountDays){
 
+    }
+    public void takeDaysOff(String ID,int amountOfDays){
+        for( Employee employee: Bank.employees){
+            if(employee.getID().equals(ID)){
+                //employee.getVacationDays() -= amountOfDays;
+            }
+        }
+
+    }
 
     public String viewSalary(Employee employee){
         return "Salary: "+ employee.getSalary();
