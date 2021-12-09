@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class Customer extends User {
     private BankAccount bankAccount;
-    private String accountNo;
-    private double balance;
 
     public Customer(String fullName, String personalNo, String password)throws Exception{
         super(fullName, personalNo,password);
@@ -39,6 +37,8 @@ public class Customer extends User {
     public ArrayList<Transaction> getTransactions() {
         return bankAccount.getTransactions();
     }
+
+
 
 
     public String checkBudget(){

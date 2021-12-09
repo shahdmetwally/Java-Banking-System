@@ -19,7 +19,7 @@ public class Bank {
 
     // create constructor
     // add
-    public static ArrayList<User> getUsers(){
+    public ArrayList<User> getUsers(){
         ArrayList<User> usersClone = users;
         return usersClone;
     }
