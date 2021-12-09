@@ -1,5 +1,6 @@
 package Menu;
 
+import Classes.Customer;
 import Main.Controller;
 import Utilities.Utilities;
 import Utilities.UserInput;
@@ -42,31 +43,51 @@ public class CustomersMenu {
         otherService.addOptions(5,"Go back to Customer menu");
     }
 
-    public void handleCustomerMenu(){
+    public void handleCustomerMenu(Customer customer){
         this.customer.printOptions();
             int userChoice = UserInput.readInt("Type in the option: ");
             switch (userChoice) {
-                case 0:
+                case 0:controller.viewAccountBalance(customer);
                     break;
                 case 1:
+                    double value = UserInput.readDouble("Please enter the amount you want to deposit: ");
+                    try {
+                        controller.depositMoney(customer, value);
+                    } catch (Exception exception) {           // bit confused how to put the exception for every try catch
+                        System.out.println(exception.getMessage());
+                    }
                     break;
                 case 2:
+                    try {
+                        controller.withdrawMoney(customer,  UserInput.readDouble("Please enter the amount you want to withdraw: "));
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
                     break;
                 case 3:
+                    try {
+                        controller.transferMoney(customer, UserInput.readDouble("Please enter the amount you want to transfer: "), UserInput.readLine("Please enter the account No of the recievient:"));
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
                     break;
                 case 4:
+                    controller.FiveLatestTransaction(customer);
                     break;
                 case 5:
+                    controller.transactionHistory(customer);
                     break;
                 case 6:
+                    controller.updateBudget(customer,UserInput.readDouble("Please enter the budget: "));
                     break;
                 case 7:
+                    controller.updateBudget(customer,UserInput.readDouble("Please enter the budget you want to set: "));
                     break;
                 case 8:handleOtherService();
                     break;
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                    handleCustomerMenu();
+                    handleCustomerMenu(customer);
             }
     }
 

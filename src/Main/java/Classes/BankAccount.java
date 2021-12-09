@@ -1,6 +1,8 @@
 package Classes;
 import Main.Controller;
+import Utilities.Utilities;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 
 public class BankAccount {
@@ -73,7 +75,7 @@ public class BankAccount {
     }
 
 
-    public double depositMoney(double amount) throws Exception { // 2.1  Deposit Money
+    public String depositMoney(double amount) throws Exception { // 2.1  Deposit Money
         // if(active) {
         if (amount > 0) {
             this.balance += amount;
@@ -84,11 +86,11 @@ public class BankAccount {
         // } else {
         // System.out.println("Your account is deactivated.");
         // }
-        return this.balance;
+        return "Your balance is " + Utilities.truncateDouble(balance);
     }
 
 
-    public double withdrawMoney(double amount) throws Exception { //2.2 Withdraw Money
+    public String withdrawMoney(double amount) throws Exception { //2.2 Withdraw Money
         if (amount < balance && amount > 0) {
             this.balance -= amount;
             addTransaction(-amount);
@@ -100,29 +102,34 @@ public class BankAccount {
         } else {
             throw new Exception("The withdrawal amount must be less than your account balance.");
         }
-        return balance;
+        return "Your balance is " +Utilities.truncateDouble(balance);
     }
 
     // something is wrong here. I fixed it , check
-    public double transferMoney( double amount, String anotherBankAccountNo) throws Exception {// 2.3 Transfer Money
-        for(User user : Bank.users){                        // I couldn't put this in the controller
-            if( user instanceof Customer) {
-                Customer customer = (Customer) user;
+    public String transferMoney( double amount, String anotherBankAccountNo) throws Exception {// 2.3 Transfer Money
+        if (amount < balance && amount > 0) {
+            for (User user : Bank.users) {                        // I couldn't put this in the controller
+                if (user instanceof Customer) {
+                    Customer customer = (Customer) user;
 
-                if(customer.getBankAccount().equals(anotherBankAccountNo)) {
-                    if (amount < this.balance && amount > 0) {
-                        withdrawMoney(amount);
-                        customer.getBankAccount().depositMoney(amount);
-                        expanse += amount;
-                        if (budget > 0) {
-                            checkBudget();
+                    if (customer.getBankAccount().equals(anotherBankAccountNo)) {
+                        if (amount < this.balance && amount > 0) {
+                            withdrawMoney(amount);
+                            customer.getBankAccount().depositMoney(amount);
+                            expanse += amount;
+                            if (budget > 0) {
+                                checkBudget();
+                            }
                         }
                     }
                 }
             }
+        } else {
+            throw new Exception("The withdrawal amount must be less than your account balance.");
         }
-        return this.balance;
+        return "Your balance is " + Utilities.truncateDouble(balance);
     }
+
          //??
 
 

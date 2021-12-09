@@ -83,7 +83,7 @@ public class Menu {
         Customer customer = controller.logInCustomer(personNumber,password);
 
         if (customer != null) {
-            customersMenu.handleCustomerMenu();
+            customersMenu.handleCustomerMenu(customer);
         } else {
             System.out.println(" Invalid personal number or password");
             int option = UserInput.readInt(" Enter 0 to try again." + Utilities.EOL + " Enter 1 to go back to main menu. ");
@@ -156,7 +156,7 @@ public class Menu {
         Customer customer = controller.logInCustomer(personNumber,password);
 
         if (customer != null) {
-            customersMenu.handleCustomerMenu();
+            customersMenu.handleCustomerMenu(customer);
         } else {
             System.out.println(" Invalid personal number or password");
             int option = UserInput.readInt(" Enter 0 to try again." + Utilities.EOL + " Enter 1 to go back to main menu. ");
@@ -185,9 +185,9 @@ public class Menu {
                     String option;
                     do {
                         try {
-                            System.out.println(" Registering a Employee user: ");
+                            System.out.println("Registering a Employee user: ");
                             String fullName = UserInput.readLine(" Type you full name:");
-                            String personalNo = UserInput.readLine(" Enter your personal number ( YYYYMMDDXXXX): ");
+                            String personalNo = UserInput.readLine(" Enter your personal number (YYYYMMDDXXXX): ");
                             String password;
                             String repeatedPassword;
                             do {
@@ -212,11 +212,12 @@ public class Menu {
                         option = UserInput.readLine("Do you want to continue?");
 
                     } while (option.equalsIgnoreCase("yes"));
-
+                        break;
                 case 2: // Remove employee
+
                         break;
                 case 3:// update employee name
-                    break;
+                        break;
                 case 4:// update employee salary
                         break;
                 case 5: // update employees password

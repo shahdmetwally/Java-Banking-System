@@ -33,7 +33,7 @@ public class Employee extends User {
     }
 
    */
-// should not be here
+// should not be here / done
    /* public void removeEmployee(String emID){
         for(int i = 0; i < Bank.employees.size(); i++){
             if(Bank.employees.get(i).equals(emID)){
@@ -43,7 +43,7 @@ public class Employee extends User {
     }
 
     */
-// should not be here
+// should not be here / done
   /*  public void removeCustomerAccount(int personalNumber){
         for(int i = 0; i < Bank.customers.size(); i++){
          //   if(Bank.customers.get(i).getPersonalNo().personalNumber){
@@ -62,7 +62,7 @@ public class Employee extends User {
 
 
 
-// should not be here
+// should not be here / done
   /*  public String getCustomerInfo(String userName, String personalNumer){
         String infoCustomer = "";
         for(Customer customer : Bank.customers){
