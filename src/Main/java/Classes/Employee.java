@@ -2,14 +2,16 @@ package Classes;
 
 public class Employee extends User {
 
-    final double TAX = 0.33; //change later
+    final double TAX = 0.33; //change later /
     private int vacationDays;
     private double salary;
+    private int amountOfDays;
 
 
     public Employee(String empName, String personalNo, String password, double salary) throws Exception {
         super(empName, personalNo, password);
         this.vacationDays = 25;
+        this.amountOfDays=0;
         if(salary < 0){
             throw new Exception(" Salary cannot be less than 0.");
         }
@@ -20,6 +22,10 @@ public class Employee extends User {
     public double getSalary() {return salary;}
 
     public void setSalary(double salary) {this.salary = salary;}
+
+    public void setAmountOfDays(int amountOfDays) {
+        this.amountOfDays = amountOfDays;
+    }
 
     //Need to look at this
     // this should depend on the salary of the person.

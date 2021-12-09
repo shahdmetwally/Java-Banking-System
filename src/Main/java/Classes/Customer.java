@@ -7,6 +7,7 @@ public class Customer extends User {
 
     public Customer(String fullName, String personalNo, String password)throws Exception{
         super(fullName, personalNo,password);
+        bankAccount = new BankAccount();
     }
 
     public BankAccount getBankAccount() {
@@ -36,6 +37,8 @@ public class Customer extends User {
     public ArrayList<Transaction> getTransactions() {
         return bankAccount.getTransactions();
     }
+
+
 
 
     public String checkBudget(){

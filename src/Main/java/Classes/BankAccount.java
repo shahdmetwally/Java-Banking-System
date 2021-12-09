@@ -4,6 +4,7 @@ import Utilities.Utilities;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class BankAccount {
 
@@ -17,8 +18,8 @@ public class BankAccount {
     private double budget;
     private ArrayList<String> userInbox; // Don't know if we are using the message function
 
-    public BankAccount(String accountNo, double balance) {
-        this.accountNo = accountNo;
+    public BankAccount() {
+        this.accountNo = uniqueAccountNoGenerator();
         this.balance = 0;
         this.transactions = new ArrayList<>();
         this.userInbox = new ArrayList<>();
@@ -28,12 +29,32 @@ public class BankAccount {
         this.budget = 0.00;
 
     }
-
-  /*  public void createBankAccount(String accountNumber, int balance){
+    /*public void createBankAccount(String accountNumber, int balance){
         BankAccount bankAccount = new BankAccount(accountNumber,balance);
-    }*/
+    }
+*/
 
+    public static String accountNoGenerator() {
+        int clearingNumber = 5051;
+        int account = 0;
+        Random accountGenerator = new Random();
+        for (int i = 0; i < 11; i++) {
+            account = accountGenerator.nextInt();
+        }
 
+        return clearingNumber + "-" + Math.abs(account);
+    }
+
+    public static String uniqueAccountNoGenerator() {
+        String accountNo = accountNoGenerator();
+        for (BankAccount bankAccount : Bank.bankAccounts) {
+            do {
+                if (bankAccount.getAccountNo().equals(accountNo))
+                    accountNo = accountNoGenerator();
+            } while (!bankAccount.getAccountNo().equals(accountNoGenerator()));
+
+        } return accountNo;
+    }
     public String getAccountNo() {
         return accountNo;
     }
