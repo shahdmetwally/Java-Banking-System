@@ -169,20 +169,6 @@ public class Controller {
     // EMPLOYEE CONTROLLER
     //--------------------------------------
 
-    public String applyForVacation(Employee employee, int amountDays){
-    employee.setAmountOfDays(amountDays);
-    return "Your vacation was applied successfully";
-    }
-
-    public void takeDaysOff(String ID,int amountOfDays){
-        for( Employee employee: Bank.employees){
-            if(employee.getID().equals(ID)){
-                //employee.getVacationDays() -= amountOfDays;
-            }
-        }
-
-    }
-
     public String viewSalary(Employee employee){
         return "Salary: "+ employee.getSalary();
     }
@@ -239,6 +225,8 @@ public class Controller {
         User customer = new Customer(fullName, personalNo, password);
         Bank.users.add(customer);
     }
+
+
 
     /*
      manager.addOptions(0,"Show Bank Balace");
