@@ -15,7 +15,7 @@ public class CustomersMenu {
         otherService = new MenuOptions();
         controller = new Controller();
     }
-    public void startCustomersMenu(){
+    public void setUpCustomerMenu(){
         customer.setMenuName("Customer Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
@@ -32,6 +32,8 @@ public class CustomersMenu {
         // should be the last option, if you want to add something, add it above!
         customer.addOptions(9,"Back to Main Menu");
 
+    }
+    public void setUpOtherServiceMenu(){
         otherService.setMenuName("Other services Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
@@ -42,9 +44,15 @@ public class CustomersMenu {
         otherService.addOptions(4,"Request loan and apply for mortgages");
         otherService.addOptions(5,"Go back to Customer menu");
     }
+    public void printOptionCustomer(){
+        this.customer.printOptions();
+    }
+    public void printOptionOtherService(){
+        this.otherService.printOptions();
+    }
 
     public void handleCustomerMenu(Customer customer){
-        this.customer.printOptions();
+      printOptionCustomer();
             int userChoice = UserInput.readInt("Type in the option: ");
             switch (userChoice) {
                 case 0:controller.viewAccountBalance(customer);
@@ -83,7 +91,8 @@ public class CustomersMenu {
                 case 7:
                     controller.updateBudget(customer,UserInput.readDouble("Please enter the budget you want to set: "));
                     break;
-                case 8:handleOtherService();
+                case 8: //setUpOtherServiceMenu();
+                    handleOtherService();
                     break;
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
@@ -108,6 +117,7 @@ public class CustomersMenu {
                 break;
             case 5:
             break;
+
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                 handleOtherService();

@@ -52,7 +52,7 @@ public abstract class User {
         boolean hasDigits = password.matches(".*\\d+.*");
         boolean hasUpperCase = password.matches(".*[A-Z]+.*");
         boolean hasLowerCase = password.matches(".*[a-z]+.*");
-        boolean isLong = password.length() > 8;
+        boolean isLong = password.length() > 7;
         return hasDigits && hasLowerCase && hasUpperCase && isLong;
     }
 

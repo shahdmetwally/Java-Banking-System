@@ -36,7 +36,12 @@ public class Controller {
         }
         return null;
     }
-
+    public boolean accessManagerOption(Employee employee){
+        if(employee instanceof Manager){
+            return true;
+        }
+        return false;
+    }
 
     public boolean alreadyExistUser(String inputUsername) {
         boolean repeated = false;
@@ -310,7 +315,7 @@ public class Controller {
         return null;
     }
 
-
+// show the manager or the admin do this?
     public void promoteEmployee(String personalNo, double newSalary, double bonus) throws Exception {
         Employee employee = getEmployee(personalNo);
         if (employee.getPersonalNo().equals(personalNo)) {

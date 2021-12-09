@@ -19,7 +19,7 @@ public class jsontest {
             JSONArray array1 = (JSONArray) person.get("employees");
             JSONArray array2 = (JSONArray) person.get("customers");
 
-            for (Object o1 : array1) {
+            for (Object o1 : array1){
 
                 JSONObject employee = (JSONObject) o1;
 
@@ -33,7 +33,6 @@ public class jsontest {
                 Employee e = new Employee(empName, personalNo, password, grossSalary);
                 employees.add(e);
                 System.out.println(e);
-
 
             }
             for (Object o2 : array2) {

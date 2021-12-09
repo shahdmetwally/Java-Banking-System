@@ -20,6 +20,11 @@ public class Bank {
         ArrayList<User> usersClone = users;
         return usersClone;
     }
+    public void addUser(User user){
+        users.add(user);
+    }
+
+
 
     public void removeUser(Employee employee){
         users.remove(employee);

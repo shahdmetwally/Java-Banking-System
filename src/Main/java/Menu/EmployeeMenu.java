@@ -1,6 +1,7 @@
 package Menu;
 
 import Classes.Customer;
+import Classes.Employee;
 import Main.Controller;
 import Utilities.Utilities;
 import Utilities.UserInput;
@@ -12,9 +13,10 @@ public class EmployeeMenu {
     private final MenuOptions employee = new MenuOptions();
     private final MenuOptions manager  = new MenuOptions();
     private Controller controller = new Controller();
+    private Menu mainMenu;
 
     public EmployeeMenu(){
-
+        this.mainMenu = new Menu();
     }
 
     public void setUpEmployeeMenu(){
@@ -30,10 +32,11 @@ public class EmployeeMenu {
         employee.addOptions(4, "Update customer password");
         employee.addOptions(5, "View salary");
         employee.addOptions(6,"Apply for vacation");
-
-        employee.addOptions(7,"Manager options");
-        employee.addOptions(8, "Go back to Main Menu");
+        employee.addOptions(7,"Request inbox.");
+        employee.addOptions(8,"Manager options");
+        employee.addOptions(9, "Go back to Main Menu");
     }
+
     public void setUpManagerMenu(){
         manager.setMenuName("Manager Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -54,7 +57,7 @@ public class EmployeeMenu {
         this.employee.printOptions();
     }
 
-    public void handleEmployeeMenu() {
+    public void handleEmployeeMenu(Employee employee) {
         this.employee.printOptions();
         int userChoice = UserInput.readInt("Type in the option");
 
@@ -99,6 +102,28 @@ public class EmployeeMenu {
                 break;
             case 6:
                 break;
+            case 7:
+                break;
+            case 8: if(controller.accessManagerOption(employee)) {
+                 printOptionManager();
+                 userChoice = UserInput.readInt("Type in the option");
+
+                switch (userChoice) {
+                    case 0:controller.getTotalBalance();
+                        break;
+                    case 1:controller.getTotalLoan();
+                        break;
+                    case 2:
+                    break;
+                    case 3:
+
+                }
+            }else{
+                System.out.println("Access deny." + Utilities.EOL);
+                handleEmployeeMenu(employee);
+            }
+                break;
+            case 9: mainMenu.handleMainMenu();
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
 
