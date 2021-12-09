@@ -53,11 +53,6 @@ public class Controller {
     //----------------------------------------
 
 
-    public void createCustomer(String fullName, String personalNo, String password) throws Exception {
-        User customer = new Customer(fullName, personalNo, password);
-        Bank.users.add(customer);
-    }
-
 
     public Customer getCustomer(String inputPersonNumber) {
         for (User currentUser : Bank.users) {
@@ -134,7 +129,7 @@ public class Controller {
     }
 
     /*
-    administration.addOptions(2, "Remove manager.");
+    administration.addOptions(2, "Remove manager."); /
     */
     public String removeManager(String personalNo) throws Exception {
         String removeResult = "";
@@ -170,6 +165,16 @@ public class Controller {
 
     // EMPLOYEE CONTROLLER
     //--------------------------------------
+
+
+    public String viewSalary(Employee employee){
+        return "Salary: "+ employee.getSalary();
+    }
+
+    public void updateCustomerPassword(String personalNo, String newPassword){
+        Customer customer = getCustomer(personalNo);
+        customer.setPassword(newPassword);
+    }
 
     public String removeCustomerAccount(String personalNo) throws Exception {
         String removeResult = "";
@@ -212,6 +217,13 @@ public class Controller {
 
     // MANAGER CONTROLLER
 
+
+
+    public void createCustomer(String fullName, String personalNo, String password) throws Exception {
+        User customer = new Customer(fullName, personalNo, password);
+        Bank.users.add(customer);
+    }
+
     /*
      manager.addOptions(0,"Show Bank Balace");
 */
@@ -248,8 +260,7 @@ public class Controller {
 
 
     public String createEmployee(String fullName, String personalNo, String password, double salary) throws Exception {
-        Employee employee = new Employee(fullName, personalNo, password, salary) {
-        };
+        User employee = new Employee(fullName, personalNo, password, salary) ;
         Bank.users.add(employee);
         return "Employee " + fullName + " was registered successfully.";
     }
