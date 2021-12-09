@@ -168,10 +168,12 @@ public class Controller {
 
     // EMPLOYEE CONTROLLER
     //--------------------------------------
-//ohiausfdsfsd
-    public void applyForVacation(Employee employee, int amountDays){
 
+    public String applyForVacation(Employee employee, int amountDays){
+    employee.setAmountOfDays(amountDays);
+    return "Your vacation was applied successfully";
     }
+
     public void takeDaysOff(String ID,int amountOfDays){
         for( Employee employee: Bank.employees){
             if(employee.getID().equals(ID)){
