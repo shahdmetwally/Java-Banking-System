@@ -171,6 +171,11 @@ public class Controller {
         return "Salary: "+ employee.getSalary();
     }
 
+    public void updateCustomerPassword(String personalNo, String newPassword){
+        Customer customer = getCustomer(personalNo);
+        customer.setPassword(newPassword);
+    }
+
     public String removeCustomerAccount(String personalNo) throws Exception {
         String removeResult = "";
         Customer customer = getCustomer(personalNo);
