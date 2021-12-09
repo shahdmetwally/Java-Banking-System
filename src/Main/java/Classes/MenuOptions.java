@@ -1,4 +1,4 @@
-package Menu;
+package Classes;
 
 import java.util.HashMap;
 
@@ -22,13 +22,6 @@ public class MenuOptions {
     public void printOptions(){
         System.out.println(menuName);
         menus.forEach((optionNumber, optionName) -> System.out.println(optionNumber + " : " + optionName));
-
-        /*
-         public void printOptions(){
-        System.out.println(menuName);
-        options.forEach((optionId, optionName) -> System.out.println(optionId + " : " + optionName));
-    }
-         */
     }
 
 }

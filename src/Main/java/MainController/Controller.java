@@ -1,6 +1,7 @@
-package Main;
+package MainController;
 
 import Classes.*;
+import Classes.AdministrationOptions;
 import Utilities.Utilities;
 
 public class Controller {
@@ -10,7 +11,7 @@ public class Controller {
         bank = new Bank();
     }
 // LOGIN AUTHORIZATION CONTROLLER
-//-----------------------------------hi
+//-----------------------------------
 
 
     public Customer logInCustomer(String inputPersonNo, String inputPassword) {
@@ -36,7 +37,12 @@ public class Controller {
         }
         return null;
     }
-
+    public boolean accessManagerOption(Employee employee){
+        if(employee instanceof Manager){
+            return true;
+        }
+        return false;
+    }
 
     public boolean alreadyExistUser(String inputUsername) {
         boolean repeated = false;
@@ -156,7 +162,7 @@ public class Controller {
     /*
    administration.addOptions(4,"Update manager password.");
    */
-    public void setManagerPassword(String newPassword, String personalNo) {
+    public void setManagerPassword(String personalNo,String newPassword) {
         getManager(personalNo).setPassword(newPassword);
     }
 
@@ -172,8 +178,8 @@ public class Controller {
     employee.setAmountOfDays(amountDays);
     return "Your vacation was applied successfully";
     }
-    /*
-    public void takeDaysOff(String ID,int amountOfDays){
+
+/*    public void takeDaysOff(String ID,int amountOfDays){
         for( Employee employee: Bank.employees){
             if(employee.getID().equals(ID)){
                 //employee.getVacationDays() -= amountOfDays;
@@ -181,8 +187,8 @@ public class Controller {
         }
 
     }
-    */
 
+ */
 
     public String viewSalary(Employee employee) {
         return "Salary: " + employee.getSalary();
@@ -230,15 +236,15 @@ public class Controller {
         vacationDays -= amountOfDays;
 
     }
+    public String createCustomer(String fullName, String personalNo, String password) throws Exception {
+        User customer = new Customer(fullName, personalNo, password);
+        Bank.users.add(customer);
+        return "Customer " + fullName + "with personal number " + personalNo + " has successfully register.";
+    }
 
 
     // MANAGER CONTROLLER
 
-
-    public void createCustomer(String fullName, String personalNo, String password) throws Exception {
-        User customer = new Customer(fullName, personalNo, password);
-        Bank.users.add(customer);
-    }
 
     /*
      manager.addOptions(0,"Show Bank Balace");
@@ -326,7 +332,7 @@ public class Controller {
         return null;
     }
 
-
+// show the manager or the admin do this?
     public void promoteEmployee(String personalNo, double newSalary, double bonus) throws Exception {
         Employee employee = getEmployee(personalNo);
         if (employee.getPersonalNo().equals(personalNo)) {

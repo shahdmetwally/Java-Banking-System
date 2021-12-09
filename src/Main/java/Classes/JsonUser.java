@@ -1,4 +1,5 @@
 package Classes;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -17,7 +18,5 @@ public class JsonUser {
         Bank.users.add(jennifer);
         mapper.writeValue(Paths.get("users.json").toFile(), Bank.users);
 
-            }
-        }
-    
-// hi
+    }
+}
