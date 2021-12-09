@@ -43,17 +43,6 @@ public class Menu {
         employee.addOptions(7,"Manager options");
         employee.addOptions(8, "Go back to Main Menu");
 
-        manager.setMenuName("Manager Menu " + Utilities.EOL +
-                "--------------------" + Utilities.EOL +
-                " Choose one of the options below.");
-        manager.addOptions(0,"Show Bank Balace");
-        manager.addOptions(1, "Show total loaned amount");
-        manager.addOptions(2,"Create employee");
-        manager.addOptions(3, "Remove employee");
-        manager.addOptions(4,"update employee salary");
-        manager.addOptions(5,"Update employee password");
-
-
         administration.setMenuName("Administration Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
