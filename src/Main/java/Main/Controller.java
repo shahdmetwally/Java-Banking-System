@@ -218,7 +218,6 @@ public class Controller {
     // MANAGER CONTROLLER
 
 
-
     public void createCustomer(String fullName, String personalNo, String password) throws Exception {
         User customer = new Customer(fullName, personalNo, password);
         Bank.users.add(customer);

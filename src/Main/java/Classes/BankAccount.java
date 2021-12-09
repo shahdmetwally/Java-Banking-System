@@ -28,12 +28,32 @@ public class BankAccount {
         this.budget = 0.00;
 
     }
-
-  /*  public void createBankAccount(String accountNumber, int balance){
+    /*public void createBankAccount(String accountNumber, int balance){
         BankAccount bankAccount = new BankAccount(accountNumber,balance);
-    }*/
+    }
+*/
 
+    public static String accountNoGenerator() {
+        int clearingNumber = 5051;
+        int account = 0;
+        Random accountGenerator = new Random();
+        for (int i = 0; i < 11; i++) {
+            account = accountGenerator.nextInt();
+        }
 
+        return clearingNumber + "-" + Math.abs(account);
+    }
+
+    public static String uniqueAccountNoGenerator() {
+        String accountNo = accountNoGenerator();
+        for (BankAccount bankAccount : Bank.bankAccounts) {
+            do {
+                if (bankAccount.getAccountNo().equals(accountNo))
+                    accountNo = accountNoGenerator();
+            } while (!bankAccount.getAccountNo().equals(accountNoGenerator()));
+
+        } return accountNo;
+    }
     public String getAccountNo() {
         return accountNo;
     }

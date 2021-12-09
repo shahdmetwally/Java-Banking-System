@@ -9,7 +9,7 @@ public class Customer extends User {
 
     public Customer(String fullName, String personalNo, String password)throws Exception{
         super(fullName, personalNo,password);
-        bankAccount = new BankAccount(accountNo, balance);
+        bankAccount = new BankAccount();
     }
 
     public BankAccount getBankAccount() {
