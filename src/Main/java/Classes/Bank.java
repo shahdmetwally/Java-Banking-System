@@ -14,9 +14,12 @@ public class Bank {
     public static ArrayList<String> inbox = new ArrayList<>();
 
 
+    public static ArrayList<BankAccount> bankAccounts= new ArrayList<>();
+
+
     // create constructor
     // add
-    public static ArrayList<User> getUsers(){
+    public ArrayList<User> getUsers(){
         ArrayList<User> usersClone = users;
         return usersClone;
     }

@@ -53,7 +53,6 @@ public class Controller {
     //----------------------------------------
 
 
-
     public Customer getCustomer(String inputPersonNumber) {
         for (User currentUser : Bank.users) {
             if (currentUser instanceof Customer) {
@@ -172,7 +171,7 @@ public class Controller {
         return "Salary: "+ employee.getSalary();
     }
 
-    public void updateCustomerPassword(String personalNo, String newPassword){
+    public void updateCustomerPassword(String personalNo, String newPassword) {
         Customer customer = getCustomer(personalNo);
         customer.setPassword(newPassword);
     }
@@ -263,7 +262,7 @@ public class Controller {
 
 
     public String createEmployee(String fullName, String personalNo, String password, double salary) throws Exception {
-        User employee = new Employee(fullName, personalNo, password, salary) ;
+        User employee = new Employee(fullName, personalNo, password, salary);
         Bank.users.add(employee);
         return "Employee " + fullName + " was registered successfully.";
     }
@@ -326,6 +325,8 @@ public class Controller {
         }
     }
 }
+
+
 
 
 
@@ -411,9 +412,10 @@ public class Controller {
 
   //  public final String EOL = System.lineSeparator();
 
-   /* public void createBankAccount(String fullName, int personalNumber, String userName, String password, double monthlyGrossSalary, double balance){
-        BankAccount customer = new BankAccount(fullName, personalNumber, userName,password,monthlyGrossSalary,balance);
-    }*/
+   /*public void createBankAccount(String accountNo){
+        BankAccount customer = new BankAccount(accountNo);
+    }
+}*/
 
     //public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
 

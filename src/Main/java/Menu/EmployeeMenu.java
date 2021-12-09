@@ -74,8 +74,7 @@ public class EmployeeMenu {
                         if (controller.alreadyExistUser(personalNo)) {
                             throw new Exception("This personal number " + personalNo + " has already been registered.");
                         }
-                        Customer customer = new Customer(fullName, personalNo, password) {
-                        };
+                        Customer customer = new Customer(fullName, personalNo, password);
                         users.add(customer);
                     } catch (IllegalAccessException scannerError) {
                         System.out.println("Invalid input");
