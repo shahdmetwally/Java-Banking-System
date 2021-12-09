@@ -52,13 +52,12 @@ public class jsontest {
             }
         }
 
-        for (Employee e : employees){
-            if(e.getFullName().equals("Jennifer Hälgh")){
+        for (Employee e : employees) {
+            if (e.getFullName().equals("Jennifer Hälgh")) {
                 e.setFullName("Jen Hälgh");
                 System.out.println(e);
             }
         }
-        //hi
 
 
 

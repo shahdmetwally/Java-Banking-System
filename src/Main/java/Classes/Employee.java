@@ -2,9 +2,10 @@ package Classes;
 
 public class Employee extends User {
 
-    final double TAX = 0.33; //change later
+    final double TAX = 0.33; //change later /
     private int vacationDays;
     private double salary;
+
 
 
     public Employee(String empName, String personalNo, String password, double salary) throws Exception {
@@ -20,6 +21,7 @@ public class Employee extends User {
     public double getSalary() {return salary;}
 
     public void setSalary(double salary) {this.salary = salary;}
+
 
     //Need to look at this
     // this should depend on the salary of the person.
