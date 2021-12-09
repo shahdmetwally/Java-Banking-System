@@ -129,7 +129,7 @@ public class Controller {
     }
 
     /*
-    administration.addOptions(2, "Remove manager.");
+    administration.addOptions(2, "Remove manager."); /
     */
     public String removeManager(String personalNo) throws Exception {
         String removeResult = "";
