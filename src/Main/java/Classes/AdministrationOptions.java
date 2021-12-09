@@ -1,6 +1,4 @@
-package Main;
-
-import Menu.MenuOptions;
+package Classes;
 
 public class AdministrationOptions extends MenuOptions {
     private String password;
