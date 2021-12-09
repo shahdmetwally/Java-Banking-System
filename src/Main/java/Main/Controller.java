@@ -171,6 +171,11 @@ public class Controller {
     // EMPLOYEE CONTROLLER
     //--------------------------------------
 
+    public void updateCustomerPassword(String personalNo, String newPassword){
+        Customer customer = getCustomer(personalNo);
+        customer.setPassword(newPassword);
+    }
+
     public String removeCustomerAccount(String personalNo) throws Exception {
         String removeResult = "";
         Customer customer = getCustomer(personalNo);
