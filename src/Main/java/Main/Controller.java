@@ -70,7 +70,6 @@ public class Controller {
 
 
     public String viewAccountBalance(Customer customer) {
-        customer.getBankAccount();
         return "Your balance is " + customer.getBalance();
     }
 
