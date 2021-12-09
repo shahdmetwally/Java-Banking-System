@@ -1,6 +1,7 @@
 package Menu;
 
 import Classes.Customer;
+import Classes.Employee;
 import Main.Controller;
 import Utilities.Utilities;
 import Utilities.UserInput;
@@ -54,7 +55,7 @@ public class EmployeeMenu {
         this.employee.printOptions();
     }
 
-    public void handleEmployeeMenu() {
+    public void handleEmployeeMenu(Employee employee) {
         this.employee.printOptions();
         int userChoice = UserInput.readInt("Type in the option");
 
@@ -86,17 +87,21 @@ public class EmployeeMenu {
                 } while (option.equalsIgnoreCase("yes"));
 
                 break;
-            case 1://create a bank account for customer
+            case 1: //create a bank account for customer, someone is supposed to code this
                 break;
-            case 2://Show customer accounts
+            case 2:
+                controller.getCustomerInfo(UserInput.readLine("Please type the customer you wish to get information on:"));//Show customer accounts
                 break;
-            case 3://Approve loans and mortgages
+            case 3://Approve loans and mortgages, are we doing this
                 break;
-            case 4://update customer password
+            case 4:
+                controller.updateCustomerPassword(UserInput.readLine("Please type the personalNumber for the customer"),UserInput.readLine("Please type the new password"));
+                //update customer password
                 break;
             case 5://
+                controller.viewSalary(employee);
                 break;
-            case 6:
+            case 6: // Are we doing apply for vacation
                 break;
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);

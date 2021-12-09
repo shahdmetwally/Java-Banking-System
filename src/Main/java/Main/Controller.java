@@ -172,7 +172,7 @@ public class Controller {
     employee.setAmountOfDays(amountDays);
     return "Your vacation was applied successfully";
     }
-
+    /*
     public void takeDaysOff(String ID,int amountOfDays){
         for( Employee employee: Bank.employees){
             if(employee.getID().equals(ID)){
@@ -181,6 +181,8 @@ public class Controller {
         }
 
     }
+    */
+
 
     public String viewSalary(Employee employee) {
         return "Salary: " + employee.getSalary();
