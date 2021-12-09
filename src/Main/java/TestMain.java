@@ -2,7 +2,7 @@ import Classes.Bank;
 import Classes.Customer;
 import Classes.Employee;
 import Classes.Manager;
-import Menu.Menu;
+import Menu.MainMenu;
 import Utilities.Utilities;
 
 public class TestMain {
@@ -18,10 +18,11 @@ public class TestMain {
                 bank.addUser(customer);
                 bank.addUser(emp);
                 bank.addUser(manager);
+                customer.depositMoney(100000);
 
                 System.out.println("Welcome"+ Utilities.EOL + "-------------");
 
-                Menu bankMenu = new Menu();
+                MainMenu bankMenu = new MainMenu();
                 bankMenu.handleMainMenu();
 
             }catch (Exception exception){

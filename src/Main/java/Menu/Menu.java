@@ -1,8 +1,9 @@
 package Menu;
+import Classes.AdministrationOptions;
 import Classes.Customer;
 import Classes.Employee;
-import Main.AdministrationOptions;
-import Main.Controller;
+import Classes.MenuOptions;
+import MainController.Controller;
 import Utilities.UserInput;
 import Utilities.Utilities;
 
@@ -11,7 +12,6 @@ public class Menu {
     private  final AdministrationOptions administration;
     private final EmployeeMenu employeeMenu;
     private final CustomersMenu customersMenu;
-
     private final Controller controller = new Controller();
 
     public Menu() {
@@ -28,7 +28,6 @@ public class Menu {
         mainMenu.setMenuName(menuName);
         mainMenu.addOptions(0, "Log in as a Customer.");
         mainMenu.addOptions(1, "Log in as a Employee.");
-       // mainMenu.addOptions(2,"Log in as a Manager.");
         mainMenu.addOptions(2, "System Administration.");
         mainMenu.addOptions(3, "Close System.");
     }
@@ -123,17 +122,6 @@ public class Menu {
             } while (option < 0 || option > 2);
         }
     }
-  /*  public void handleManagerMenu(){
-        this.employeeMenu.printOptionManager();
-        String personNumber = UserInput.readLine("Enter personal number: ");
-        String password = UserInput.readLine("Enter password: ");
-        Customer customer = controller.logInCustomer(personNumber, password);
-
-
-    }
-
-   */
-
 
     public void handleAdministration() {
         String inputPassword = UserInput.readLine(" Enter password: ");
@@ -143,9 +131,23 @@ public class Menu {
             int userChoice = UserInput.readInt("Type in the option:");
             switch (userChoice) {
                 case 0:
+                   try {
+                       String password;
+                       String repeatedPassword;
+                       do {
+                           password = UserInput.readLine("Create a password: " + Utilities.EOL +
+                                   "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                   "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                           repeatedPassword = UserInput.readLine("Confirm password");
+
+                       } while (!password.equals(repeatedPassword));
+                       administration.setPassword(password);
+                   }catch (Exception exception){
+                       System.out.println(exception.getMessage());
+                   }
                     handleAdministration();
                     break;
-                case 1:// create manager
+                case 1:
                     System.out.println(" Create a Manager: ");
                     String option;
                     do {
@@ -179,21 +181,42 @@ public class Menu {
                     break;
 
                 case 2:
-                    String personNr = UserInput.readLine("Enter managers personal number: ");
-                    //controller.removeManager(personNr);
+                    try {
+                        String personNr = UserInput.readLine("Enter managers personal number: ");
+                        controller.removeManager(personNr);
+                    }catch (Exception exception){
+                        System.out.println(exception.getMessage());
+                    }
                     handleAdministration();
                     break;
 
                 case 3:
-                    personNr = UserInput.readLine("Enter manger personal number: ");
-                   // controller.updateManagerSalary(personNr);
+                   try {
+                       String personNr = UserInput.readLine("Enter manger personal number: ");
+                       double newSalary = UserInput.readDouble("Enter Manager salary: ");
+                       controller.setManagerSalary(newSalary, personNr);
+                   }catch (Exception exception){
+                       System.out.println(exception.getMessage());
+                   }
                     handleAdministration();
                     break;
                 case 4:
-                    personNr = UserInput.readLine("Enter manger personal number: ");
-                    //controller.updateManagerPassword();
-                    handleAdministration();
+                    try {
+                        String personNr = UserInput.readLine("Enter manger personal number: ");
+                        String password;
+                        String repeatedPassword;
+                        do {
+                            password = UserInput.readLine("Create a password: " + Utilities.EOL +
+                                    "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                    "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                            repeatedPassword = UserInput.readLine("Confirm password");
 
+                        } while (!password.equals(repeatedPassword));
+                        controller.setManagerPassword(personNr,password);
+                    }catch (Exception exception){
+                        System.out.println(exception.getMessage());
+                    }
+                    handleAdministration();
                     break;
                 case 5:
                     handleMainMenu();

@@ -2,58 +2,64 @@ package Menu;
 
 import Classes.Customer;
 import Classes.Employee;
-import Main.Controller;
+import Classes.Manager;
+import Classes.MenuOptions;
+import MainController.Controller;
 import Utilities.Utilities;
 import Utilities.UserInput;
 
 import static Classes.Bank.users;
 
-public class EmployeeMenu {
+public class EmployeeMenu{
 
     private final MenuOptions employee = new MenuOptions();
-    private final MenuOptions manager  = new MenuOptions();
-    private Controller controller = new Controller();
-    private Menu mainMenu;
+    private final MenuOptions manager = new MenuOptions();
+    private final Controller controller = new Controller();
 
-    public EmployeeMenu(){
-        this.mainMenu = new Menu();
+    public EmployeeMenu() {
+      /*  this.controller = new Controller();
+        this.manager = new MenuOptions();
+        this.employee = new MenuOptions();
+
+       */
     }
 
-    public void setUpEmployeeMenu(){
+    public void setUpEmployeeMenu() {
         employee.setMenuName("Employee Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         employee.addOptions(0, "Create Customer");
-        employee.addOptions(1,"Create a bank account for customer");
+        employee.addOptions(1, "Create a bank account for customer");
         employee.addOptions(2, "Show customer accounts");
-        employee.addOptions(3,"Approve loans and mortgages");
+        employee.addOptions(3, "Approve loans and mortgages");
         // we can maybe give access to the employee to enter the customer menu, getting
         // the user personal number and a personal code (4 digit).
         employee.addOptions(4, "Update customer password");
         employee.addOptions(5, "View salary");
-        employee.addOptions(6,"Apply for vacation");
-        employee.addOptions(7,"Request inbox.");
-        employee.addOptions(8,"Manager options");
+        employee.addOptions(6, "Apply for vacation");
+        employee.addOptions(7, "Request inbox.");
+        employee.addOptions(8, "Manager options");
         employee.addOptions(9, "Go back to Main Menu");
     }
 
-    public void setUpManagerMenu(){
+    public void setUpManagerMenu() {
         manager.setMenuName("Manager Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
-        manager.addOptions(0,"Show Bank Balace");
+        manager.addOptions(0, "Show Bank Balace");
         manager.addOptions(1, "Show total loaned amount");
-        manager.addOptions(2,"Create employee");
+        manager.addOptions(2, "Create employee");
         manager.addOptions(3, "Remove employee");
-        manager.addOptions(4,"update employee salary");
-        manager.addOptions(5,"Update employee password");
+        manager.addOptions(4, "update employee salary");
+        manager.addOptions(5, "Update employee password");
     }
 
 
-    public void printOptionManager(){
+    public void printOptionManager() {
         this.manager.printOptions();
     }
-    public void printOptionEmployee(){
+
+    public void printOptionEmployee() {
         this.employee.printOptions();
     }
 
@@ -103,50 +109,40 @@ public class EmployeeMenu {
                 break;
             case 7:
                 break;
-            case 8: if(controller.accessManagerOption(employee)) {
-                 printOptionManager();
-                 userChoice = UserInput.readInt("Type in the option");
-
-                switch (userChoice) {
-                    case 0:controller.getTotalBalance();
-                        break;
-                    case 1:controller.getTotalLoan();
-                        break;
-                    case 2:
-                    break;
-                    case 3:
-
+            case 8:
+                if (controller.accessManagerOption(employee)) {
+                    printOptionManager();
                 }
-            }else{
-                System.out.println("Access deny." + Utilities.EOL);
-                handleEmployeeMenu(employee);
-            }
                 break;
-            case 9: mainMenu.handleMainMenu();
+            case 9:
+
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
 
 
-                /*
-                  employee.addOptions(0, "Create Customer");
-        employee.addOptions(1,"Create a bank account for customer");
-        employee.addOptions(2, "Show customer accounts");
-        employee.addOptions(3,"Approve loans and mortgages");
-        // we can maybe give access to the employee to enter the customer menu, getting
-        // the user personal number and a personal code (4 digit).
-        employee.addOptions(4, "Update customer password");
-        employee.addOptions(5, "View salary");
-        employee.addOptions(6,"Apply for vacation");
-
-        employee.addOptions(7,"Manager options");
-        employee.addOptions(8, "Go back to Main Menu");
-                 */
         }
 
+      /*  public void handleManagerMenu(Employee employee){
+            userChoice = UserInput.readInt("Type in the option");
+            switch (userChoice) {
+                case 0:
+                    controller.getTotalBalance();
+                    break;
+                case 1:
+                    controller.getTotalLoan();
+                    break;
+                case 2:
+                    break;
+                case 3:
+
+            }
+        }else{
+            System.out.println("Access deny." + Utilities.EOL);
+            handleEmployeeMenu(employee);
+        }
+
+       */
     }
-
-
-
-
-
 }
+
+
