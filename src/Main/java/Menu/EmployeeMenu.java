@@ -12,7 +12,7 @@ import Utilities.UserInput;
 
 import static Classes.Bank.users;
 
-public class EmployeeMenu{
+public class EmployeeMenu {
 
     private final MenuOptions employee = new MenuOptions();
     private final MenuOptions manager = new MenuOptions();
@@ -105,7 +105,7 @@ public class EmployeeMenu{
             case 3://Approve loans and mortgages, are we doing this
                 break;
             case 4:
-                controller.updateCustomerPassword(UserInput.readLine("Please type the personalNumber for the customer"),UserInput.readLine("Please type the new password"));
+                controller.updateCustomerPassword(UserInput.readLine("Please type the personalNumber for the customer"), UserInput.readLine("Please type the new password"));
                 //update customer password
                 break;
             case 5://
@@ -127,8 +127,11 @@ public class EmployeeMenu{
 
 
         }
+    }
+}
 
-      /*  public void handleManagerMenu(Employee employee){
+/*
+        public void handleManagerMenu(Employee employee){
             userChoice = UserInput.readInt("Type in the option");
             switch (userChoice) {
                 case 0:
@@ -145,11 +148,13 @@ public class EmployeeMenu{
         }else{
             System.out.println("Access deny." + Utilities.EOL);
             handleEmployeeMenu(employee);
-        }hi
+        }
 
-       */
+
     }
 }
+
+ */
 
 
 
