@@ -39,8 +39,6 @@ public class Customer extends User {
     }
 
 
-
-
     public String checkBudget(){
         return bankAccount.checkBudget();
     }

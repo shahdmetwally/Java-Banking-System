@@ -51,8 +51,10 @@ public class BankAccount {
                     accountNo = accountNoGenerator();
             } while (!bankAccount.getAccountNo().equals(accountNoGenerator()));
 
-        } return accountNo;
+        }
+        return accountNo;
     }
+
     public String getAccountNo() {
         return accountNo;
     }
@@ -121,11 +123,11 @@ public class BankAccount {
         } else {
             throw new Exception("The withdrawal amount must be less than your account balance.");
         }
-        return "Your balance is " +Utilities.truncateDouble(balance);
+        return "Your balance is " + Utilities.truncateDouble(balance);
     }
 
     // something is wrong here. I fixed it , check
-    public String transferMoney( double amount, String anotherBankAccountNo) throws Exception {// 2.3 Transfer Money
+    public String transferMoney(double amount, String anotherBankAccountNo) throws Exception {// 2.3 Transfer Money
         if (amount < balance && amount > 0) {
             for (User user : Bank.users) {                        // I couldn't put this in the controller
                 if (user instanceof Customer) {
@@ -140,6 +142,8 @@ public class BankAccount {
                                 checkBudget();
                             }
                         }
+                    } else {
+                        return "The customer does not exists. ";
                     }
                 }
             }
@@ -149,29 +153,30 @@ public class BankAccount {
         return "Your balance is " + Utilities.truncateDouble(balance);
     }
 
-         //??
 
-
-
-
-    public String checkBudget(){
+    public String checkBudget() {
         String message = "";
-        if(expanse>budget){
-            message= " You have exceeded your monthly budget. ";
+        if (expanse > budget) {
+            message = " You have exceeded your monthly budget. ";
         }
         return message;
     }
 
 
-    public void addTransaction(double amount){
+    public void addTransaction(double amount) {
         //if (active) {                                      // Jeniffer - Activation/ Deactivation of account
-            Transaction transaction1 = new Transaction(amount);
-            transactions.add(transaction1);
-        }
-        //else {
-        //    System.out.println("Your account is deactivated.");
-        //}
+        Transaction transaction1 = new Transaction(amount);
+        transactions.add(transaction1);
     }
+    //else {
+    //    System.out.println("Your account is deactivated.");
+    //}
+
+
+    public String toString() {
+        return "balance: " + balance;
+    }
+}
 
 
 

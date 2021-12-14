@@ -1,7 +1,7 @@
 package MainController;
 
 
-import Menu.Menu;
+import Menu.MainMenu;
 
 public class StartProgram {
 
@@ -11,7 +11,7 @@ public class StartProgram {
 
           try {
               System.out.println(" Welcomen to --name -- Banking System");
-              Menu bankMenu = new Menu();
+              MainMenu bankMenu = new MainMenu();
               bankMenu.handleMainMenu();
           }catch (Exception exception){
               System.out.println(exception.getMessage());
