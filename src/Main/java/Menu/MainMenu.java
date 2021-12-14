@@ -302,12 +302,12 @@ public class MainMenu {
 
             switch (userChoice) {
                 case 0:
-                    System.out.println(" Registering a new Customer: ");
+                    System.out.println("Registering a new Customer: ");
                     String option;
                     try {
-                        System.out.println(" Registering a Customer user: ");
-                        String fullName = UserInput.readLine(" Enter your:");
-                        String personalNo = UserInput.readLine(" Enter your personal number (YYYYMMDDXXXX): ");
+                        System.out.println("Registering a Customer user: ");
+                        String fullName = UserInput.readLine("Enter your full name:");
+                        String personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
                         String password = UserInput.readLine("Create a password: " + Utilities.EOL +
                                 "The password must have a minimum of 8 characters in length" + Utilities.EOL +
                                 "and contain at least  contain: lowercase letter, uppercase letter, digit.");
@@ -317,7 +317,7 @@ public class MainMenu {
                         }
                         controller.createCustomer(fullName,personalNo,password);
                     } catch (IllegalAccessException scannerError) {
-                        System.out.println("Invalid input");
+                        System.out.println("Invalid input.");
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
@@ -335,11 +335,11 @@ public class MainMenu {
                     handleEmployeeMenu(employee);
                     break;
                 case 4:
-                    controller.updateCustomerPassword(UserInput.readLine("Please type the personalNumber for the customer"),UserInput.readLine("Please type the new password"));
+                    controller.updateCustomerPassword(UserInput.readLine("Please type the personal number for the customer:"),UserInput.readLine("Please type the new password:"));
                     handleEmployeeMenu(employee);
                     break;
                 case 5:
-                    controller.viewSalary(employee);
+                    System.out.println(controller.viewSalary(employee));
                     handleEmployeeMenu(employee);
                     break;
                 case 6:
@@ -353,7 +353,7 @@ public class MainMenu {
                         manager.printOptions();
                         handleManagerMenu(employee);
                     }else{
-                        System.out.println("Access deny." + Utilities.EOL);
+                        System.out.println("Access denied." + Utilities.EOL);
                         handleEmployeeMenu(employee);
                     }
                     break;
@@ -361,6 +361,7 @@ public class MainMenu {
                     handleMainMenu();
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                    handleEmployeeMenu(employee);
 
 
             }
