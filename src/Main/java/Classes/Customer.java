@@ -14,6 +14,10 @@ public class Customer extends User {
         return bankAccount;
     }
 
+    public String getAccountNo() {
+        return bankAccount.getAccountNo();
+    }
+
     public String depositMoney(double amount) throws Exception {
       return bankAccount.depositMoney(amount);
     }
@@ -43,19 +47,19 @@ public class Customer extends User {
         return bankAccount.checkBudget();
     }
 
-   /* public boolean equals(Object anotherObject){
+    public boolean equals(Object anotherObject){
         if(this == anotherObject){
             return true;
         }else if(anotherObject == null){
             return false;
         }else if( anotherObject instanceof Customer){
             Customer anotherCustomer = (Customer) anotherObject;
-            boolean isSameCustomer = this.getPersonalNo().equals(anotherCustomer.getPersonalNo()) && this.getPassword().equals(anotherCustomer.getPassword());
+            boolean isSameCustomer = this.getPersonalNo().equals(anotherCustomer.getPersonalNo()) && this.getPassword().equals(anotherCustomer.getPassword())&& this.getAccountNo().equals(anotherCustomer.getAccountNo());
             return false;
         }else{
             return false;
         }
     }
 
-    */
+
 }

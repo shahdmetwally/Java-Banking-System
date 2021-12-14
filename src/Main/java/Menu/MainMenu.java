@@ -44,25 +44,26 @@ public class MainMenu {
         administration.addOptions(1,"Create manager.");
         administration.addOptions(2, "Remove manager.");
         administration.addOptions(3,"Update manager salary.");
-        administration.addOptions(4,"Update manager password.");
+        administration.addOptions(4,"Change manager password.");
         administration.addOptions(5,"Promote employee.");
         administration.addOptions(6,"Log out.");
 
         customer.setMenuName("Customer Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
-        customer.addOptions(0, "View account balance.");
-        customer.addOptions(1, "Deposit money.");
-        customer.addOptions(2, "Withdraw cash.");
-        customer.addOptions(3, "Transfer money.");
-        customer.addOptions(4, "View 5 latest transaction.");
-        customer.addOptions(5, "View all transactions.");
-        customer.addOptions(6, "Set a budget.");
-        customer.addOptions(7, "Update budget.");
-        customer.addOptions(8, "Other services menu.");
+        customer.addOptions(0,"View account number.");
+        customer.addOptions(1, "View account balance.");
+        customer.addOptions(2, "Deposit money.");
+        customer.addOptions(3, "Withdraw cash.");
+        customer.addOptions(4, "Transfer money.");
+        customer.addOptions(5, "View 5 latest transaction.");
+        customer.addOptions(6, "View all transactions.");
+        customer.addOptions(7, "Set a budget.");
+        customer.addOptions(8, "Update budget.");
+        customer.addOptions(9, "Other services menu.");
 
         // should be the last option, if you want to add something, add it above!
-        customer.addOptions(9,"Log out.");
+        customer.addOptions(10,"Log out.");
 
         otherService.setMenuName("Other services Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -171,62 +172,73 @@ public class MainMenu {
     }
 
     public void handleCustomerMenu(Customer customer) {
-
+        String message = "";
         if (customer != null) {
             this.customer.printOptions();
             int userChoice = UserInput.readInt("Type in the option: ");
             switch (userChoice) {
                 case 0:
-                    String message = controller.viewAccountBalance(customer);
+                    message=controller.viewAccountNo(customer);
                     System.out.println(message);
                     handleCustomerMenu(customer);
                     break;
                 case 1:
-                    double value = UserInput.readDouble("Please enter the amount you want to deposit: ");
-                    try {
-                        controller.depositMoney(customer, value);
-                    } catch (Exception exception) {           // bit confused how to put the exception for every try catch
-                        System.out.println(exception.getMessage());
-                    }
+                    message=controller.viewAccountBalance(customer);
+                    System.out.println(message);
                     handleCustomerMenu(customer);
                     break;
                 case 2:
+                    double value = UserInput.readDouble("Please enter the amount you want to deposit: ");
                     try {
-                        controller.withdrawMoney(customer, UserInput.readDouble("Please enter the amount you want to withdraw: "));
-                    } catch (Exception exception) {
+                        message = controller.depositMoney(customer, value);
+                    } catch (Exception exception) {           // bit confused how to put the exception for every try catch
                         System.out.println(exception.getMessage());
                     }
+                    System.out.println(message);
                     handleCustomerMenu(customer);
                     break;
                 case 3:
                     try {
-                        controller.transferMoney(customer, UserInput.readDouble("Please enter the amount you want to transfer: "), UserInput.readLine("Please enter the account No of the recievient:"));
+                        message=controller.withdrawMoney(customer, UserInput.readDouble("Please enter the amount you want to withdraw: "));
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
+                    System.out.println(message);
                     handleCustomerMenu(customer);
                     break;
                 case 4:
-
-                    controller.FiveLatestTransaction(customer);
+                    try {
+                        message=controller.transferMoney(customer, UserInput.readDouble("Please enter the amount you want to transfer: "), UserInput.readLine("Please enter the account No of the recievient:"));
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                    System.out.println(message);
                     handleCustomerMenu(customer);
                     break;
                 case 5:
-                    controller.transactionHistory(customer);
+                    message=controller.FiveLatestTransaction(customer);
+                    System.out.println(message);
                     handleCustomerMenu(customer);
                     break;
                 case 6:
-                    controller.updateBudget(customer, UserInput.readDouble("Please enter the budget: "));
+                    message=controller.transactionHistory(customer);
+                    System.out.println(message);
                     handleCustomerMenu(customer);
                     break;
                 case 7:
-                    controller.updateBudget(customer, UserInput.readDouble("Please enter the budget you want to set: "));
+                    controller.updateBudget(customer, UserInput.readDouble("Please enter the budget: "));
+                    System.out.println("Your budget was set successfully");
                     handleCustomerMenu(customer);
                     break;
                 case 8:
+                    controller.updateBudget(customer, UserInput.readDouble("Please enter the budget you want to set: "));
+                    System.out.println("You have updated your budget successfully");
+                    handleCustomerMenu(customer);
+                    break;
+                case 9:
                     handleOtherService(customer);
                     break;
-                case 9: handleMainMenu();
+                case 10: handleMainMenu();
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                     handleCustomerMenu(customer);
