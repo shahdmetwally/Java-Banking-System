@@ -142,6 +142,8 @@ public class BankAccount {
                                 checkBudget();
                             }
                         }
+                    } else {
+                        return "The customer does not exists. ";
                     }
                 }
             }
