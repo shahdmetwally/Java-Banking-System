@@ -327,7 +327,8 @@ public class MainMenu {
                     handleEmployeeMenu(employee);
                     break;
                 case 2:
-                    controller.getCustomerInfo(enterPersonalNr());
+                    String message = controller.getCustomerInfo(enterPersonalNr());
+                    System.out.println(message);
                     handleEmployeeMenu(employee);
                     break;
                 case 3://Approve loans and mortgages
