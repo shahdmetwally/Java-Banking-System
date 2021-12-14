@@ -11,14 +11,15 @@ public class TestMain {
         do{
 
             try {
-                Customer customer = new Customer("Maria K", "199001041848","Chu44asco!");
-                Employee emp = new Employee("Angelica K", "199001041858","Chu44asco!",50000);
-                Manager manager= new Manager("Anna L", "199001041868","Chu44asco!",50000,2000);
+                Customer customer = new Customer("Maria K", "199001041818","Asd1234!");
+                Employee emp = new Employee("Angelica K", "199001041819","Asd1234!",50000);
+                Manager manager= new Manager("Anna L", "199001041820","Asd1234!",50000,2000);
                 Bank bank = new Bank();
                 bank.addUser(customer);
                 bank.addUser(emp);
                 bank.addUser(manager);
                 customer.depositMoney(100000);
+
 
                 System.out.println("Welcome"+ Utilities.EOL + "-------------");
 

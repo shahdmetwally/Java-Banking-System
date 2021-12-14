@@ -25,9 +25,7 @@ public class MainMenu {
         this.controller = new Controller();
         this.manager = new MenuOptions();
         this.employee = new MenuOptions();
-
     }
-
 
     public void setUpMainMenu() {
         String menuName = "Main Menu " + Utilities.EOL +
@@ -47,7 +45,8 @@ public class MainMenu {
         administration.addOptions(2, "Remove manager.");
         administration.addOptions(3,"Update manager salary.");
         administration.addOptions(4,"Update manager password.");
-        administration.addOptions(5,"Log out.");
+        administration.addOptions(5,"Promote employee.");
+        administration.addOptions(6,"Log out.");
 
         customer.setMenuName("Customer Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -102,6 +101,34 @@ public class MainMenu {
         manager.addOptions(5, "Update employee password.");
         manager.addOptions(6,"Go back to employee menu.");
     }
+/*
+    public void printMain(){
+        mainMenu.printOptions();
+    }
+    public void printEmployee(){
+        employee.printOptions();
+    }
+    public void printManager(){
+        manager.printOptions();
+    }
+    public void printOtherService(){
+        otherService.printOptions();
+    }
+    public void printCustomer(){
+        customer.printOptions();
+    }
+    public void printAdministration(){
+        administration.printOptions();
+    }
+
+ */
+
+    public User logIn(){
+        String personNumber = UserInput.readLine("Enter personal number: ");
+        String password = UserInput.readLine("Enter password: ");
+        User user = controller.logIn(personNumber, password);
+        return user;
+    }
 
     public Employee loginEmployee(){
         String personNumber = UserInput.readLine("Enter personal number: ");
@@ -116,6 +143,10 @@ public class MainMenu {
         return customer;
     }
 
+    public String enterPersonalNr(){
+        String personNr = UserInput.readLine(" Enter customer personal number: ");
+        return personNr;
+    }
     public void handleMainMenu(){
         setUpMainMenu();
         this.mainMenu.printOptions();
@@ -144,60 +175,62 @@ public class MainMenu {
         if (customer != null) {
             this.customer.printOptions();
             int userChoice = UserInput.readInt("Type in the option: ");
-                switch (userChoice) {
-                    case 0:
-                        controller.viewAccountBalance(customer);
-                        handleCustomerMenu(customer);
-                        break;
-                    case 1:
-                        double value = UserInput.readDouble("Please enter the amount you want to deposit: ");
-                        try {
-                            controller.depositMoney(customer, value);
-                        } catch (Exception exception) {           // bit confused how to put the exception for every try catch
-                            System.out.println(exception.getMessage());
-                        }
-                        handleCustomerMenu(customer);
-                        break;
-                    case 2:
-                        try {
-                            controller.withdrawMoney(customer, UserInput.readDouble("Please enter the amount you want to withdraw: "));
-                        } catch (Exception exception) {
-                            System.out.println(exception.getMessage());
-                        }
-                        handleCustomerMenu(customer);
-                        break;
-                    case 3:
-                        try {
-                            controller.transferMoney(customer, UserInput.readDouble("Please enter the amount you want to transfer: "), UserInput.readLine("Please enter the account No of the recievient:"));
-                        } catch (Exception exception) {
-                            System.out.println(exception.getMessage());
-                        }
-                        handleCustomerMenu(customer);
-                        break;
-                    case 4:
-                        controller.FiveLatestTransaction(customer);
-                        handleCustomerMenu(customer);
-                        break;
-                    case 5:
-                        controller.transactionHistory(customer);
-                        handleCustomerMenu(customer);
-                        break;
-                    case 6:
-                        controller.updateBudget(customer, UserInput.readDouble("Please enter the budget: "));
-                        handleCustomerMenu(customer);
-                        break;
-                    case 7:
-                        controller.updateBudget(customer, UserInput.readDouble("Please enter the budget you want to set: "));
-                        handleCustomerMenu(customer);
-                        break;
-                    case 8:
-                        handleOtherService();
-                        break;
-                    case 9: handleMainMenu();
-                    default:
-                        System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                        handleCustomerMenu(customer);
-                }
+            switch (userChoice) {
+                case 0:
+                    String message = controller.viewAccountBalance(customer);
+                    System.out.println(message);
+                    handleCustomerMenu(customer);
+                    break;
+                case 1:
+                    double value = UserInput.readDouble("Please enter the amount you want to deposit: ");
+                    try {
+                        controller.depositMoney(customer, value);
+                    } catch (Exception exception) {           // bit confused how to put the exception for every try catch
+                        System.out.println(exception.getMessage());
+                    }
+                    handleCustomerMenu(customer);
+                    break;
+                case 2:
+                    try {
+                        controller.withdrawMoney(customer, UserInput.readDouble("Please enter the amount you want to withdraw: "));
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                    handleCustomerMenu(customer);
+                    break;
+                case 3:
+                    try {
+                        controller.transferMoney(customer, UserInput.readDouble("Please enter the amount you want to transfer: "), UserInput.readLine("Please enter the account No of the recievient:"));
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                    handleCustomerMenu(customer);
+                    break;
+                case 4:
+
+                    controller.FiveLatestTransaction(customer);
+                    handleCustomerMenu(customer);
+                    break;
+                case 5:
+                    controller.transactionHistory(customer);
+                    handleCustomerMenu(customer);
+                    break;
+                case 6:
+                    controller.updateBudget(customer, UserInput.readDouble("Please enter the budget: "));
+                    handleCustomerMenu(customer);
+                    break;
+                case 7:
+                    controller.updateBudget(customer, UserInput.readDouble("Please enter the budget you want to set: "));
+                    handleCustomerMenu(customer);
+                    break;
+                case 8:
+                    handleOtherService(customer);
+                    break;
+                case 9: handleMainMenu();
+                default:
+                    System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                    handleCustomerMenu(customer);
+            }
         } else {
             System.out.println(" Invalid personal number or password");
             int option = UserInput.readInt(" Enter 0 to try again." + Utilities.EOL + " Enter 1 to go back to main menu. ");
@@ -216,32 +249,47 @@ public class MainMenu {
         }
     }
 
-    public void handleOtherService(){
+    public void handleOtherService(Customer customer){
         this.otherService.printOptions();
         int userChoice = UserInput.readInt("Type in the option: ");
         switch (userChoice) {
+            /*
+                otherService.addOptions(0," Update name.");
+        otherService.addOptions(1,"Apply for card.");
+        otherService.addOptions(2,"Block payment card.");
+        otherService.addOptions(3, "Deactivate account.");
+        otherService.addOptions(4,"Request loan and apply for mortgages.");
+        otherService.addOptions(5,"Go back to Customer menu.");
+             */
+
             case 0:
-                handleOtherService();
+                try{
+                    String newName= UserInput.readLine("Enter new name: ");
+                    controller.updateCustomerName(customer,newName);
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
+                }
+                handleOtherService(customer);
                 break;
             case 1:
-                handleOtherService();
+                handleOtherService(customer);
                 break;
             case 2:
-                handleOtherService();
+                handleOtherService(customer);
                 break;
             case 3:
-                handleOtherService();
+                handleOtherService(customer);
                 break;
             case 4:
-                handleOtherService();
+                handleOtherService(customer);
                 break;
             case 5:
-                handleOtherService();
+                handleCustomerMenu(customer);
                 break;
 
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                handleOtherService();
+                handleOtherService(customer);
         }
 
     }
@@ -256,38 +304,41 @@ public class MainMenu {
                 case 0:
                     System.out.println(" Registering a new Customer: ");
                     String option;
-                        try {
-                            System.out.println(" Registering a Customer user: ");
-                            String fullName = UserInput.readLine(" Enter you full name:");
-                            String personalNo = UserInput.readLine(" Enter your personal number (YYYYMMDDXXXX): ");
-                            String password = UserInput.readLine("Create a password: " + Utilities.EOL +
-                                    "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                    "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                    try {
+                        System.out.println(" Registering a Customer user: ");
+                        String fullName = UserInput.readLine(" Enter your:");
+                        String personalNo = UserInput.readLine(" Enter your personal number (YYYYMMDDXXXX): ");
+                        String password = UserInput.readLine("Create a password: " + Utilities.EOL +
+                                "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                "and contain at least  contain: lowercase letter, uppercase letter, digit.");
 
-                            if (controller.alreadyExistUser(personalNo)) {
-                                throw new Exception("This personal number " + personalNo + " has already been registered.");
-                            }
-                          controller.createCustomer(fullName,personalNo,password);
-                        } catch (IllegalAccessException scannerError) {
-                            System.out.println("Invalid input");
-                        } catch (Exception exception) {
-                            System.out.println(exception.getMessage());
+                        if (controller.alreadyExistUser(personalNo)) {
+                            throw new Exception("This personal number " + personalNo + " has already been registered.");
                         }
-                        handleEmployeeMenu(employee);
+                        controller.createCustomer(fullName,personalNo,password);
+                    } catch (IllegalAccessException scannerError) {
+                        System.out.println("Invalid input");
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                    handleEmployeeMenu(employee);
                     break;
                 case 1://create a bank account for customer
                     handleEmployeeMenu(employee);
                     break;
-                case 2://Show customer accounts
+                case 2:
+                    controller.getCustomerInfo(enterPersonalNr());
                     handleEmployeeMenu(employee);
                     break;
                 case 3://Approve loans and mortgages
                     handleEmployeeMenu(employee);
                     break;
-                case 4://update customer password
+                case 4:
+                    controller.updateCustomerPassword(UserInput.readLine("Please type the personalNumber for the customer"),UserInput.readLine("Please type the new password"));
                     handleEmployeeMenu(employee);
                     break;
-                case 5://
+                case 5:
+                    controller.viewSalary(employee);
                     handleEmployeeMenu(employee);
                     break;
                 case 6:
@@ -367,7 +418,7 @@ public class MainMenu {
             int userChoice = UserInput.readInt("Type in the option:");
             switch (userChoice) {
                 case 0:
-                    try {
+                    try{
                         String password;
                         String repeatedPassword;
                         do {
@@ -455,6 +506,16 @@ public class MainMenu {
                     handleAdministration();
                     break;
                 case 5:
+                    String personNr= UserInput.readLine("Enter employees personal number: ");
+                    double salary = UserInput.readDouble("Enter new salary: ");
+                    double bonus = UserInput.readDouble("Enter salary bonus: ");
+                    try{
+                        controller.promoteEmployee(personNr,salary,bonus);
+                    }catch (Exception exception){
+                        System.out.println(exception.getMessage());
+                    }
+                    break;
+                case 6:
                     handleMainMenu();
                     break;
                 default: System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
@@ -476,6 +537,7 @@ public class MainMenu {
             }while (option < 0 || option > 1);
         }
     }
+
 
 }
 

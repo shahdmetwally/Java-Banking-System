@@ -1,18 +1,28 @@
 package MainController;
 
 import Classes.*;
-import Classes.AdministrationOptions;
 import Utilities.Utilities;
 
 public class Controller {
     private Bank bank;
+    private User customer;
+    private User manager;
+    private User employee;
 
     public Controller() {
         bank = new Bank();
     }
+
 // LOGIN AUTHORIZATION CONTROLLER
 //-----------------------------------
-
+    public User logIn(String inputPersonNo, String inputPassword) {
+        for (User currentPerson : bank.getUsers()) { // clone the list for safety // encapsulation
+            if (currentPerson.isSamePersonNo(inputPersonNo) && currentPerson.isSamePassword(inputPassword)) {
+                return currentPerson;
+            }
+        }
+        return null;
+    }
 
     public Customer logInCustomer(String inputPersonNo, String inputPassword) {
         for (User currentPerson : bank.getUsers()) { // clone the list for safety // encapsulation
@@ -69,14 +79,10 @@ public class Controller {
         }
         return null;
     }
-
-
     // What to do for the deposit, withdraw and transfer money ? Idk how to put the code in the controller
 
-
     public String viewAccountBalance(Customer customer) {
-        customer.getBankAccount();
-        return "Your balance is " + customer.getBalance();
+        return "Your balance is " + Utilities.truncateForPrint(customer.getBalance());
     }
 
     public String depositMoney(Customer customer, double amount) throws Exception {
@@ -101,7 +107,6 @@ public class Controller {
         return message + message1;
     }
 
-
     public String transactionHistory(Customer customer) {
         String message = " Transaction history: " + Utilities.EOL;
         String message1 = "";
@@ -122,23 +127,14 @@ public class Controller {
     // ADMINISTRATION CONTROLLER
     //------------------------------------
 
-    /*
-      administration.addOptions(0, "Change administration password.");
-     */
-    public void changePassword(AdministrationOptions administrationOptions, String newPassword) throws Exception {
-        administrationOptions.setPassword(newPassword);
-    }
-        /*
-        administration.addOptions(1,"Create manager.");
-        */
+    // change administration password is already in the menu
+
     public void createManager(String name, String personalNo, String password, double salary, double bonus) throws Exception {
         User manager = new Manager(name, personalNo, password, salary, bonus);
         Bank.users.add(manager);
     }
 
-    /*
-    administration.addOptions(2, "Remove manager."); /
-    */
+
     public String removeManager(String personalNo) throws Exception {
         String removeResult = "";
         Manager manager = getManager(personalNo);
@@ -152,23 +148,18 @@ public class Controller {
     }
 
 
-    /*
-    administration.addOptions(3,"Update manager salary.");
-    */
     public void setManagerSalary(double newSalary, String personalNo) {
         getManager(personalNo).setSalary(newSalary);
     }
 
-    /*
-   administration.addOptions(4,"Update manager password.");
-   */
     public void setManagerPassword(String personalNo,String newPassword) {
         getManager(personalNo).setPassword(newPassword);
     }
 
-        /*
-        administration.addOptions(5,"Go back to main menu.");
-        */
+    public String updateCustomerName(Customer customer, String newName) throws Exception{
+        customer.setName(newName);
+        return "Customer " + customer.getPersonalNo() + "name has successfully update to " + newName;
+    }
 
 
     // EMPLOYEE CONTROLLER
@@ -335,14 +326,7 @@ public class Controller {
 
 
     //--------------------------------------
-
-
-
-
-
-
-
-
+            //OLD CODE below
 
     /* private BankAccount customer;
     public Controller(BankAccount customer){
@@ -359,10 +343,6 @@ public class Controller {
 /*
 
 
-    public void createManager(String emName,int personalNo, String emID, String password, int birthYear, double grossSalary){
-        Manager manager= new Manager(emName,personalNo, emID,password,birthYear,grossSalary);
-
-    }
 
     public void takeDaysOff(String ID,int amountOfDays){
          for( Employee employee: Bank.employees){
@@ -378,13 +358,6 @@ public class Controller {
 
 
  /*
-   public void removeCustomerAccount(int personalNumber){
-        for(int i = 0; i < Bank.customers.size(); i++){
-            if(Bank.customers.get(i).getPersonalNumber()==personalNumber){
-                Bank.customers.remove(i);
-            }
-        }
-    }
 
     public void sendMessageToCustomer(String customerID){} //another argument
 
@@ -404,24 +377,7 @@ public class Controller {
     public void updateEmployeSalary(String emID, double newGrossSalary){}*/
 
 
-
-
-
-
-
-
-
-
     //Customer. Should I add all the set and get also for customer?
-
-  //  public final String EOL = System.lineSeparator();
-
-   /*public void createBankAccount(String accountNo){
-        BankAccount customer = new BankAccount(accountNo);
-    }
-}*/
-
-    //public void createBankAccount(String name, int birthYear, String customerID, String userName, String userPassword){}
 
   /*  public void createBankAccount(){
         String clearNumber= "5051";
