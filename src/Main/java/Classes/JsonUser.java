@@ -33,7 +33,7 @@ public class JsonUser {
 
             Customer jennifer = new Customer("Jennifer", "200202011234", "Qwerty1234");
             Bank.users.add(jennifer);
-            mapper.writeValue(Paths.get("users.json").toFile(), Bank.users);
+            mapper.writeValue(Paths.get("users.json").toFile(), Bank.users); //hi
 
         }
     }
