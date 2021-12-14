@@ -2,10 +2,9 @@ package Classes;
 
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public abstract class User {
+public class User {
     // if abstract we need to devide the log in to part
     private String fullName;
     private String personalNo; // look up francisco example with personnumber (
@@ -22,7 +21,7 @@ public abstract class User {
             throw new Exception("The password is weak. The password must have a minimum of 8 characters in length" +
                     " and contain at least  contain: lowercase letter, uppercase letter, digit.");
         }
-        this.fullName = fullName;
+        this.fullName = fullName.trim();
         this.personalNo = personalNo;
         this.password = password;
     }
@@ -37,7 +36,12 @@ public abstract class User {
 
     public String getFullName() {return fullName;}
 
-    public void setFullName(String fullName) throws IOException, ParseException {this.fullName = fullName;}
+    public void setName(String newName) throws Exception {
+        if(newName.isBlank()) {
+            throw new Exception("Name cannot be blank.");
+        }
+        this.fullName = newName.trim();
+    }
 
 
     public boolean isSamePersonNo(String inputPersonalNo){

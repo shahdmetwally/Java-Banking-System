@@ -9,11 +9,6 @@ public class Utilities {
         double newDouble = (double)(truncInt)/ 100.00;
         return newDouble;
     }
-    public static double truncateDoubleOne( double number){
-        int truncInt = (int)(number * 10);
-        double newDouble = (double)(truncInt)/ 10.00;
-        return newDouble;
-    }
 
     public static String truncateForPrint(double number){
         int truncInt = (int)(number * 100);
