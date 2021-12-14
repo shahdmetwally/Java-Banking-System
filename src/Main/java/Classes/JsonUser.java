@@ -28,39 +28,34 @@ public class JsonUser {
         JsonNode employeeNode = root.path("employees");
         for (int i = 0; i < employeeNode.size(); i++) {
             String fullName = employeeNode.get(i).path("fullName").asText();
-            String empID = employeeNode.get(i).path("empID").asText();
             String password = employeeNode.get(i).path("password").asText();
-            int birthYear = employeeNode.get(i).path("birthYear").asInt();
             String personalNo = employeeNode.get(i).path("personalNo").asText();
             double salary = employeeNode.get(i).path("salary").asDouble();
             Employee employee = new Employee(fullName, personalNo, password, salary);
             jsonEmployees.add(employee);
+            Bank.users.add(employee);
         }
 
         JsonNode customerNode = root.path("customers");
         for (int i = 0; i < customerNode.size(); i++) {
             String fullName = customerNode.get(i).path("fullName").asText();
-            String empID = customerNode.get(i).path("empID").asText();
             String password = customerNode.get(i).path("password").asText();
-            int birthYear = customerNode.get(i).path("birthYear").asInt();
             String personalNo = customerNode.get(i).path("personalNo").asText();
-            double salary = customerNode.get(i).path("salary").asDouble();
             Customer customer = new Customer(fullName, personalNo, password);
             jsonCustomers.add(customer);
+            Bank.users.add(customer);
         }
 
         JsonNode managerNode = root.path("managers");
         for (int i = 0; i < managerNode.size(); i++) {
             String fullName = managerNode.get(i).path("fullName").asText();
-            String empID = managerNode.get(i).path("empID").asText();
             String password = managerNode.get(i).path("password").asText();
-            int birthYear = managerNode.get(i).path("birthYear").asInt();
             String personalNo = managerNode.get(i).path("personalNo").asText();
             double salary = managerNode.get(i).path("salary").asDouble();
             double bonus = managerNode.get(i).path("bonus").asDouble();
             Manager manager = new Manager(fullName, personalNo, password, salary, bonus);
             jsonManagers.add(manager);
-
+            Bank.users.add(manager);
         }
 
         /*
