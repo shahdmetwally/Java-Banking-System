@@ -31,15 +31,19 @@ public class BankAccount {
         BankAccount bankAccount = new BankAccount(accountNumber,balance);
     }
 */
+    public void addBankAccount(){
+        this.accountNo = uniqueAccountNoGenerator();
+    }
 
     public static String accountNoGenerator() {
         int clearingNumber = 5051;
         int account = 0;
         Random accountGenerator = new Random();
         for (int i = 0; i < 11; i++) {
-            account = accountGenerator.nextInt();
+           account = accountGenerator.nextInt();
         }
 
+        //check that account nr is not bigger or less then 9
         return clearingNumber + "-" + Math.abs(account);
     }
 
@@ -121,7 +125,8 @@ public class BankAccount {
             expanse += amount;
 
             if (budget > 0) {
-                checkBudget();
+                return checkBudget() + Utilities.EOL+ this;
+
             }
             return toString();
 
@@ -162,7 +167,7 @@ public class BankAccount {
     public String checkBudget() {
         String message = "";
         if (expanse > budget) {
-            message = " You have exceeded your monthly budget. ";
+            message = "You have exceeded your monthly budget. ";
         }
         return message;
     }

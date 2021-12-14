@@ -3,6 +3,9 @@ package MainController;
 import Classes.*;
 import Utilities.Utilities;
 
+import java.util.List;
+import java.util.ListIterator;
+
 public class Controller {
     private Bank bank;
     private User customer;
@@ -101,9 +104,9 @@ public class Controller {
 
     public String FiveLatestTransaction(Customer customer) {
         String message = "Five latest transaction: " + Utilities.EOL;
-        String message1 = "";
-        for (int i = customer.getTransactions().size() - 6; i >=customer.getTransactions().size() - 6 && i <= customer.getTransactions().size() ; i++) {
-            message1 = customer.getTransactions().get(i).toString() + Utilities.EOL;
+        StringBuilder message1 = new StringBuilder();
+        for (int i = customer.getTransactions().size() - 6 ; i < customer.getTransactions().size()-1 ; i++) {
+            message1.append(customer.getTransactions().get(i).toString()).append(Utilities.EOL);
         }
         return message + message1;
     }

@@ -65,12 +65,13 @@ public class StartProgram {
               System.out.println(" Welcomen to --name -- Banking System");
               MainMenu bankMenu = new MainMenu();
               bankMenu.handleMainMenu();
+              mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
           }catch (Exception exception){
               System.out.println(exception.getMessage());
           }
           option = "Do you want to continue?";
       }while (option.equalsIgnoreCase("yes"));
-        mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
+
     }
 
 }
