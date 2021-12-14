@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class JsonUser {
-    public static <JsonObjectBuilder> void main(String[] args) throws IOException, ParseException, Exception {
+    public static <JsonObjectBuilder> void main(String[] args) throws IOException, Exception {
         HashMap<String, ArrayList> jsonBank = new HashMap<>();
         ArrayList<Customer> jsonCustomers = new ArrayList<>();
         ArrayList<Employee> jsonEmployees = new ArrayList<>();

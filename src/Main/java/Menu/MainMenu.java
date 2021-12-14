@@ -44,7 +44,7 @@ public class MainMenu {
         administration.addOptions(1,"Create manager.");
         administration.addOptions(2, "Remove manager.");
         administration.addOptions(3,"Update manager salary.");
-        administration.addOptions(4,"Update manager password.");
+        administration.addOptions(4,"Change manager password.");
         administration.addOptions(5,"Promote employee.");
         administration.addOptions(6,"Log out.");
 
