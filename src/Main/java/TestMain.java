@@ -12,13 +12,18 @@ public class TestMain {
 
             try {
                 Customer customer = new Customer("Maria K", "199001041818","Asd1234!");
+                Customer customer1 = new Customer("Robert L","173901918902","Lfr5673!");
                 Employee emp = new Employee("Angelica K", "199001041819","Asd1234!",50000);
                 Manager manager= new Manager("Anna L", "199001041820","Asd1234!",50000,2000);
                 Bank bank = new Bank();
                 bank.addUser(customer);
                 bank.addUser(emp);
                 bank.addUser(manager);
+                bank.addUser(customer1);
                 customer.depositMoney(100000);
+                customer1.depositMoney(1000000);
+                //5051-1248549804
+
 
 
                 System.out.println("Welcome"+ Utilities.EOL + "-------------");

@@ -101,13 +101,14 @@ public class BankAccount {
         if (amount > 0) {
             this.balance += amount;
             addTransaction(amount);
+            return toString();
         } else {
             throw new Exception("You cannot add an amount with a negative value. ");
         }
         // } else {
         // System.out.println("Your account is deactivated.");
         // }
-        return "Your balance is " + Utilities.truncateDouble(balance);
+
     }
 
 
@@ -116,14 +117,16 @@ public class BankAccount {
             this.balance -= amount;
             addTransaction(-amount);
             expanse += amount;
+
             if (budget > 0) {
                 checkBudget();
             }
+            return toString();
 
         } else {
             throw new Exception("The withdrawal amount must be less than your account balance.");
         }
-        return "Your balance is " + Utilities.truncateDouble(balance);
+
     }
 
     // something is wrong here. I fixed it , check
@@ -133,24 +136,24 @@ public class BankAccount {
                 if (user instanceof Customer) {
                     Customer customer = (Customer) user;
 
-                    if (customer.getBankAccount().equals(anotherBankAccountNo)) {
-                        if (amount < this.balance && amount > 0) {
-                            withdrawMoney(amount);
-                            customer.getBankAccount().depositMoney(amount);
-                            expanse += amount;
-                            if (budget > 0) {
-                                checkBudget();
-                            }
+                    if (customer.getAccountNo().equals(anotherBankAccountNo)) {
+                        withdrawMoney(amount);
+                        customer.depositMoney(amount);
+                        expanse += amount;
+                        if (budget > 0) {
+                            checkBudget();
                         }
+
                     } else {
                         return "The customer does not exists. ";
                     }
                 }
             }
+            return toString();
         } else {
             throw new Exception("The withdrawal amount must be less than your account balance.");
         }
-        return "Your balance is " + Utilities.truncateDouble(balance);
+
     }
 
 
@@ -172,9 +175,8 @@ public class BankAccount {
     //    System.out.println("Your account is deactivated.");
     //}
 
-
     public String toString() {
-        return "balance: " + balance;
+        return "Your balance is " + Utilities.truncateDouble(balance);
     }
 }
 

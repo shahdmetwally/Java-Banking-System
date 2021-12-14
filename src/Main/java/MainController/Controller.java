@@ -79,7 +79,9 @@ public class Controller {
         }
         return null;
     }
-    // What to do for the deposit, withdraw and transfer money ? Idk how to put the code in the controller
+   public String viewAccountNo(Customer customer){
+        return "Account Number: " + customer.getAccountNo();
+   }
 
     public String viewAccountBalance(Customer customer) {
         return "Your balance is " + Utilities.truncateForPrint(customer.getBalance());
@@ -100,8 +102,7 @@ public class Controller {
     public String FiveLatestTransaction(Customer customer) {
         String message = "Five latest transaction: " + Utilities.EOL;
         String message1 = "";
-        for (int i = customer.getTransactions().size() - 6; i > customer.getTransactions().size() - 6; i++) {
-            customer.getTransactions().get(i);
+        for (int i = customer.getTransactions().size() - 6; i >=customer.getTransactions().size() - 6 && i <= customer.getTransactions().size() ; i++) {
             message1 = customer.getTransactions().get(i).toString() + Utilities.EOL;
         }
         return message + message1;
