@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -69,5 +70,7 @@ public class StartProgram {
           }
           option = "Do you want to continue?";
       }while (option.equalsIgnoreCase("yes"));
+        mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
     }
+
 }

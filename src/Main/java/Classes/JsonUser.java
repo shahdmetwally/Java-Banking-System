@@ -10,8 +10,6 @@ import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
 public class JsonUser {
     public static <JsonObjectBuilder> void main(String[] args) throws IOException, ParseException, Exception {
@@ -73,17 +71,6 @@ public class JsonUser {
                 Employee employee = new Employee(empName, personalNo, password, salary);
                 System.out.println(employee);
             }*/
-
-
-            //Customer jennifer = new Customer("Jennifer", "200202011234", "Qwerty1234");
-            //Bank.users.add(jennifer);
-
-            //ArrayList<Customer> jsonCustomers = new ArrayList<>();
-            //Customer anasha = new Customer("Anasha Sarker", "200202011234", "Qwerty1234");
-            //jsonCustomers.add(anasha);
-            //ArrayList<Employee> jsonEmployees = new ArrayList<>();
-            //Employee sadhana = new Employee("Sadhana Anandan", "200202011234", "Abcde1234", 35000.0);
-            //jsonEmployees.add(sadhana);
 
 
             mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
