@@ -1,13 +1,38 @@
 package Classes;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Customer extends User {
     private BankAccount bankAccount;
 
     public Customer(String fullName, String personalNo, String password)throws Exception{
         super(fullName, personalNo,password);
-        bankAccount = new BankAccount();
+        String accountNo = uniqueAccountNoGenerator();
+        bankAccount = new BankAccount(accountNo);
+    }
+
+    public static String accountNoGenerator() {
+        int clearingNumber = 5051;
+        int account = 0;
+        Random accountGenerator = new Random();
+        for (int i = 0; i < 11; i++) {
+            account = accountGenerator.nextInt();
+        }
+
+        return clearingNumber + "-" + Math.abs(account);
+    }
+
+    public static String uniqueAccountNoGenerator() {
+        String accountNo = accountNoGenerator();
+        for (BankAccount bankAccount : Bank.bankAccounts) {
+            do {
+                if (bankAccount.getAccountNo().equals(accountNo))
+                    accountNo = accountNoGenerator();
+            } while (!bankAccount.getAccountNo().equals(accountNoGenerator()));
+
+        }
+        return accountNo;
     }
 
     public BankAccount getBankAccount() {

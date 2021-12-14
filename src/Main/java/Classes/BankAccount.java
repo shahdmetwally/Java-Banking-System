@@ -16,8 +16,8 @@ public class BankAccount {
     private double budget;
     private ArrayList<String> userInbox; // Don't know if we are using the message function
 
-    public BankAccount() {
-        this.accountNo = uniqueAccountNoGenerator();
+    public BankAccount(String accountNo) {
+        this.accountNo = accountNo;
         this.balance = 0;
         this.transactions = new ArrayList<>();
         this.userInbox = new ArrayList<>();
@@ -54,6 +54,8 @@ public class BankAccount {
         }
         return accountNo;
     }
+
+
 
     public String getAccountNo() {
         return accountNo;
