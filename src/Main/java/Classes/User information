@@ -1,0 +1,29 @@
+Customers:
+
+Anasha Sarker:
+personalNo: 200202151234
+password: Lmnop1234
+
+Elias Samantzis:
+personalNo: 200203031234
+password: Pqrst1234
+
+Employees:
+
+Sadhana Anandan:
+personalNo: 200211051234
+password: Uvwx1234
+salary: 35000
+
+Shahd Metwally
+personalNo: 200210271234
+password: Hijkl1234
+salary: 35000
+
+Manager:
+
+Jennifer Hälgh:
+personalNo: 200201011234
+password: Zabc1234
+salary: 50000
+bonus: 5000
