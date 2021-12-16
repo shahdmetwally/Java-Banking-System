@@ -322,12 +322,13 @@ public class MainMenu {
                         String personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
                         String password = UserInput.readLine("Create a password: " + Utilities.EOL +
                                 "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                "and contain: lowercase letter, uppercase letter, digit.");
 
                         if (controller.alreadyExistUser(personalNo)) {
                             throw new Exception("This personal number " + personalNo + " has already been registered.");
                         }
                         controller.createCustomer(fullName,personalNo,password);
+                        System.out.println("Customer was successfully registered.");
                     } catch (IllegalAccessException scannerError) {
                         System.out.println("Invalid input.");
                     } catch (Exception exception) {
