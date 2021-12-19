@@ -357,10 +357,10 @@ public class MainMenu {
                     System.out.println(controller.viewSalary(employee));
                     handleEmployeeMenu(employee);
                     break;
-                case 6:
+                case 6: // We dont have the method
                     handleEmployeeMenu(employee);
                     break;
-                case 7:
+                case 7: // we dont hav ehte method
                     handleEmployeeMenu(employee);
                     break;
                 case 8:
