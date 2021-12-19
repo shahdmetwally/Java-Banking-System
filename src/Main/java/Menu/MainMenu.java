@@ -399,6 +399,7 @@ public class MainMenu {
 
         switch (userChoice) {
             case 0: // show bank balance
+                System.out.println(controller.getTotalBalance());
                 handleManagerMenu(employee);
                 break;
             case 1: // show total loaned amount

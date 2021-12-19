@@ -11,7 +11,7 @@ public class TestMain {
         do{
 
             try {
-                Customer customer = new Customer("Maria K", "199001041818","Asd1234!");
+                Customer customer = new Customer("Maria K", "173901918902","Asd1234!");
                 Customer customer1 = new Customer("Robert L","173901918902","Lfr5673!");
                 Employee emp = new Employee("Angelica K", "199001041819","Asd1234!",50000);
                 Manager manager= new Manager("Anna L", "199001041820","Asd1234!",50000,2000);

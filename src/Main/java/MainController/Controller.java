@@ -286,8 +286,9 @@ public class Controller {
     /*
    manager.addOptions(4,"update employee salary");
    */
-    public void setEmployeeSalary(double newSalary, String personalNo) {
+    public String setEmployeeSalary(String personalNo,double newSalary) {
         getEmployee(personalNo).setSalary(newSalary);
+        return "The salary was updated. ";
     }
 
 
@@ -296,6 +297,7 @@ public class Controller {
     */
     public void setEmployeePassword(String newPassword, String personalNo) {
         getEmployee(personalNo).setPassword(newPassword);
+        return "The password was updated. ";
     }
 
 
@@ -466,3 +468,4 @@ public class Controller {
     Need to look through this again, I will work more on this as more methods are created.
 
     */
+
