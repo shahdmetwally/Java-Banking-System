@@ -156,8 +156,9 @@ public class Controller {
         getManager(personalNo).setSalary(newSalary);
     }
 
-    public void setManagerPassword(String personalNo,String newPassword) {
+    public String setManagerPassword(String personalNo,String newPassword) {
         getManager(personalNo).setPassword(newPassword);
+        return "The password was updated ";
     }
 
     public String updateCustomerName(Customer customer, String newName) throws Exception{
@@ -173,7 +174,7 @@ public class Controller {
         return "Salary: "+ employee.getSalary();
     }
 
-    public void updateCustomerPassword(String personalNo, String newPassword) {
+    public String updateCustomerPassword(String personalNo, String newPassword) {
         Customer customer = getCustomer(personalNo);
         customer.setPassword(newPassword);
     }

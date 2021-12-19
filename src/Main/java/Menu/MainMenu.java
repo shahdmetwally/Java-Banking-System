@@ -348,7 +348,9 @@ public class MainMenu {
                     handleEmployeeMenu(employee);
                     break;
                 case 4:
-                    controller.updateCustomerPassword(UserInput.readLine("Please type the personal number for the customer:"),UserInput.readLine("Please type the new password:"));
+                    String personalNo = UserInput.readLine("Please type the personal number for the customer:");
+                    String newPassword = UserInput.readLine("Please type the new password:");
+                    System.out.println(controller.updateCustomerPassword(personalNo, newPassword));
                     handleEmployeeMenu(employee);
                     break;
                 case 5:
