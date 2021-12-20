@@ -12,18 +12,17 @@ public class Customer extends User {
         bankAccount = new BankAccount(accountNo);
     }
 
-    public static String accountNoGenerator() {
+    public String accountNoGenerator() {
         int clearingNumber = 5051;
         int account = 0;
         Random accountGenerator = new Random();
         for (int i = 0; i < 11; i++) {
             account = accountGenerator.nextInt();
         }
-
         return clearingNumber + "-" + Math.abs(account);
     }
 
-    public static String uniqueAccountNoGenerator() {
+    public String uniqueAccountNoGenerator() {
         String accountNo = accountNoGenerator();
         for (BankAccount bankAccount : Bank.bankAccounts) {
             do {
@@ -44,7 +43,8 @@ public class Customer extends User {
     }
 
     public String depositMoney(double amount) throws Exception {
-      return bankAccount.depositMoney(amount);
+       bankAccount.depositMoney(amount);
+       return bankAccount.toString();
     }
 
     public String withdrawMoney(double amount) throws Exception {

@@ -13,6 +13,9 @@ public class Manager extends Employee{
     }
     public void setBonus(double newBonus){this.bonus = newBonus;
     }
+    public String toString(){
+        return "Manger: " + getFullName() + "personal number " + getPersonalNo();
+    }
 
 
 

@@ -16,6 +16,16 @@ public class Controller {
         bank = new Bank();
     }
 
+    public String showAllManager(){
+        String message = "";
+        for( User user : bank.getUsers()){
+            if( user instanceof Manager){
+                message += manager.toString() + Utilities.EOL;
+            }
+        } return message;
+    }
+
+
 // LOGIN AUTHORIZATION CONTROLLER
 //-----------------------------------
     public User logIn(String inputPersonNo, String inputPassword) {
@@ -56,6 +66,7 @@ public class Controller {
         }
         return false;
     }
+
 
     public boolean alreadyExistUser(String inputUsername) {
         boolean repeated = false;
@@ -124,6 +135,41 @@ public class Controller {
         customer.getBankAccount().setBudget(budget);
     }
 
+    /*
+      otherService.addOptions(0," Update name.");
+        otherService.addOptions(1,"Apply for card.");
+        otherService.addOptions(2,"Block payment card.");
+        otherService.addOptions(3, "Deactivate account.");
+        otherService.addOptions(4,"Request loan and apply for mortgages.");
+        otherService.addOptions(5,"Go back to Customer menu.");
+     */
+    public String updateCustomerName(Customer customer, String newName) throws Exception{
+        customer.setName(newName);
+        return "Customer " + customer.getPersonalNo() + "name has successfully update to " + newName;
+    }
+
+    public String ApplyForCard(){
+
+        return "Card request has been send.";
+    }
+
+    public String blockCard(){
+
+        return "Payment card has been blocked";
+    }
+
+    public String deactivateAccount(){
+
+        return "Account has been deactivated ";
+    }
+
+    public String loanRequest(){
+
+        return "Loan request has been send.";
+    }
+
+
+
 
     // For the set budget we can use the update budget in th menu
 
@@ -160,12 +206,6 @@ public class Controller {
         getManager(personalNo).setPassword(newPassword);
         return "The password was updated ";
     }
-
-    public String updateCustomerName(Customer customer, String newName) throws Exception{
-        customer.setName(newName);
-        return "Customer " + customer.getPersonalNo() + "name has successfully update to " + newName;
-    }
-
 
     // EMPLOYEE CONTROLLER
     //--------------------------------------
@@ -217,17 +257,26 @@ public class Controller {
         vacationDays -= amountOfDays;
 
     }
+
     public String createCustomer(String fullName, String personalNo, String password) throws Exception {
         User customer = new Customer(fullName, personalNo, password);
         Bank.users.add(customer);
         return "Customer " + fullName + "with personal number " + personalNo + " has successfully register.";
+    }
+    public boolean desactive(){  //personNr){
+        // get customer
+        // booalen desactive = false
+        // forward the aget active method from bank to customer
+        // customer...... (desactive);
+        return false; // I put this just to avoid the error
+
     }
 
 
     // MANAGER CONTROLLER
 
 
-    /*
+    /*2
      manager.addOptions(0,"Show Bank Balace");
 */
     public String getTotalBalance() {

@@ -7,6 +7,8 @@ import Utilities.Utilities;
 
 public class TestMain {
     public static void main(String[] args) {
+
+
         String option;
         do{
 
@@ -23,8 +25,6 @@ public class TestMain {
                 customer.depositMoney(100000);
                 customer1.depositMoney(1000000);
                 //5051-1248549804
-
-
 
                 System.out.println("Welcome"+ Utilities.EOL + "-------------");
 

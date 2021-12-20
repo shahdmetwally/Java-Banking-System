@@ -71,7 +71,6 @@ public class JsonUser {
                 System.out.println(employee);
             }*/
 
-
             mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
 
         }

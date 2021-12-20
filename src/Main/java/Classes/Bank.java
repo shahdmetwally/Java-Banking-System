@@ -27,13 +27,9 @@ public class Bank {
         users.add(user);
     }
 
-
-
     public void removeUser(Employee employee){
         users.remove(employee);
     }
-
-
 
 
 }

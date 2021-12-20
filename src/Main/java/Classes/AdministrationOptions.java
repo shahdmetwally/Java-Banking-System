@@ -6,7 +6,6 @@ public class AdministrationOptions extends MenuOptions {
 
     public AdministrationOptions(){
         super();
-       // this.userName = "Admin";
         this.password = "Admin000";
     }
     public static boolean isStrongPassword(String password){

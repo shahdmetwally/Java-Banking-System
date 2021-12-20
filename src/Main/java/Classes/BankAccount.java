@@ -20,18 +20,19 @@ public class BankAccount {
         this.accountNo = accountNo;
         this.balance = 0;
         this.transactions = new ArrayList<>();
-        this.userInbox = new ArrayList<>();
+        this.userInbox = new ArrayList<>();// maybe not here
         this.active = true;
         this.loan = 0.00;
         this.expanse = 0.00;
         this.budget = 0.00;
 
     }
+
     /*public void createBankAccount(String accountNumber, int balance){
         BankAccount bankAccount = new BankAccount(accountNumber,balance);
     }
 */
-    public void addBankAccount(){
+    public void addBankAccount() {
         this.accountNo = uniqueAccountNoGenerator();
     }
 
@@ -40,7 +41,7 @@ public class BankAccount {
         int account = 0;
         Random accountGenerator = new Random();
         for (int i = 0; i < 11; i++) {
-           account = accountGenerator.nextInt();
+            account = accountGenerator.nextInt();
         }
 
         //check that account nr is not bigger or less then 9
@@ -58,8 +59,6 @@ public class BankAccount {
         }
         return accountNo;
     }
-
-
 
     public String getAccountNo() {
         return accountNo;
@@ -90,7 +89,11 @@ public class BankAccount {
     }
 
     public void setActive(boolean active) {
-        this.active = active;
+        this.active = true;
+    }
+
+    public void setDeactivate(boolean deactivate) {
+        this.active = false;
     }
 
     public void setBudget(double budget) {
@@ -101,25 +104,23 @@ public class BankAccount {
         this.balance = balance;
     }
 
+    public void depositMoney(double amount) throws Exception { // 2.1  Deposit Money
 
-    public String depositMoney(double amount) throws Exception { // 2.1  Deposit Money
-        // if(active) {
-        if (amount > 0) {
-            this.balance += amount;
-            addTransaction(amount);
-            return toString();
-        } else {
+        if(!active){
+            throw new Exception("The account is deactivated");
+        }
+        if(amount <= 0){
             throw new Exception("You cannot add an amount with a negative value. ");
         }
-        // } else {
-        // System.out.println("Your account is deactivated.");
-        // }
-
+        if (amount > 0 && active) {
+            this.balance += amount;
+            addTransaction(amount);
+        }
     }
 
 
     public String withdrawMoney(double amount) throws Exception { //2.2 Withdraw Money
-        if (amount < balance && amount > 0) {
+        if (amount < balance && amount > 0 && active) {
             this.balance -= amount;
             addTransaction(-amount);
             expanse += amount;

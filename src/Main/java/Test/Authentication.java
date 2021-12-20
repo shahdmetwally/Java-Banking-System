@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Authentication {
 
-    public static ArrayList<User> users;
+    private ArrayList<User> users;
 
     public Authentication(){
         users = new ArrayList<>();
@@ -25,6 +25,7 @@ public class Authentication {
     public void removeUser(Employee employee){
         users.remove(employee);
     }
+
 
 
 }

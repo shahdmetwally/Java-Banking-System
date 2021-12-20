@@ -45,8 +45,9 @@ public class MainMenu {
         administration.addOptions(2, "Remove manager.");
         administration.addOptions(3,"Update manager salary.");
         administration.addOptions(4,"Change manager password.");
-        administration.addOptions(5,"Promote employee.");
+        administration.addOptions(5,"Promote employee.");;
         administration.addOptions(6,"Log out.");
+        administration.addOptions(7, "show all manager");
 
         customer.setMenuName("Customer Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -60,10 +61,11 @@ public class MainMenu {
         customer.addOptions(6, "View all transactions.");
         customer.addOptions(7, "Set a budget.");
         customer.addOptions(8, "Update budget.");
-        customer.addOptions(9, "Other services menu.");
+        customer.addOptions(9,"Message inbox");
+        customer.addOptions(10, "Other services menu.");
 
         // should be the last option, if you want to add something, add it above!
-        customer.addOptions(10,"Log out.");
+        customer.addOptions(11,"Log out.");
 
         otherService.setMenuName("Other services Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -144,6 +146,7 @@ public class MainMenu {
         return customer;
     }
 
+
     public String enterPersonalNr(){
         String personNr = UserInput.readLine(" Enter customer personal number: ");
         return personNr;
@@ -159,7 +162,8 @@ public class MainMenu {
             case 1:
                 handleEmployeeMenu(loginEmployee());
                 break;
-            case 2:handleAdministration();
+            case 2:   String password = UserInput.readLine(" Enter password: ");
+                adminLogIn(password);
                 break;
             case 3:
                 UserInput.input.close();
@@ -199,7 +203,7 @@ public class MainMenu {
                     break;
                 case 3:
                     try {
-                        message=controller.withdrawMoney(customer, UserInput.readDouble("Please enter the amount you want to withdraw: "));
+                        message = controller.withdrawMoney(customer, UserInput.readDouble("Please enter the amount you want to withdraw: "));
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
@@ -225,7 +229,7 @@ public class MainMenu {
                     System.out.println(message);
                     handleCustomerMenu(customer);
                     break;
-                case 7:
+                case 7:// inbox
                     controller.updateBudget(customer, UserInput.readDouble("Please enter the budget: "));
                     System.out.println("Your budget was set successfully");
                     handleCustomerMenu(customer);
@@ -235,10 +239,12 @@ public class MainMenu {
                     System.out.println("You have updated your budget successfully");
                     handleCustomerMenu(customer);
                     break;
-                case 9:
+                case 9:// inbox
+                    break;
+                case 10:
                     handleOtherService(customer);
                     break;
-                case 10: handleMainMenu();
+                case 11: handleMainMenu();
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                     handleCustomerMenu(customer);
@@ -452,12 +458,28 @@ public class MainMenu {
 
         }
     }
+    public void adminLogIn(String password) {
+        if (administration.isPasswordCorrect(password)){
+            handleAdministration();
+        } else {
+            System.out.println("Invalid password");
+            int option = UserInput.readInt(" Enter 0 to try again." + Utilities.EOL + " Enter 1 to go back to main menu.");
+            do {
+                switch (option) {
+                    case 0:
+                        adminLogIn(UserInput.readLine("Enter password: "));
+                        break;
+                    case 1:
+                        handleMainMenu();
+                    default:
+                        System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                }
+            } while (option < 0 || option > 1);
+        }
+    }
 
-    public void handleAdministration() {
-        String inputPassword = UserInput.readLine(" Enter password: ");
-
-        if (administration.isPasswordCorrect(inputPassword)) {
-            this.administration.printOptions();
+    public void handleAdministration(){
+            administration.printOptions();
             int userChoice = UserInput.readInt("Type in the option:");
             switch (userChoice) {
                 case 0:
@@ -472,6 +494,7 @@ public class MainMenu {
 
                         } while (!password.equals(repeatedPassword));
                         administration.setPassword(password);
+
                     }catch (Exception exception){
                         System.out.println(exception.getMessage());
                     }
@@ -504,7 +527,7 @@ public class MainMenu {
                         } catch (Exception exception) {
                             System.out.println(exception.getMessage());
                         }
-                        option = UserInput.readLine("Do you want to continue?");
+                        option = UserInput.readLine("Do you want to create another manager?");
 
                     } while (option.equalsIgnoreCase("yes"));
                     handleAdministration();
@@ -558,31 +581,19 @@ public class MainMenu {
                         System.out.println(exception.getMessage());
                     }
                     break;
-                case 6:
+                case 6:// apply for vacation
                     handleMainMenu();
                     break;
+                case 7:
+                    System.out.println(controller.showAllManager());
                 default: System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                     handleAdministration();
             }
-        } else {
-            System.out.println("Invalid password");
-            int option = UserInput.readInt(" Enter 0 to try again." + Utilities.EOL + " Enter 1 to go back to main menu.");
-            do{
-                switch (option) {
-                    case 0:
-                        handleAdministration();
-                        break;
-                    case 1:
-                        handleMainMenu();
-                    default:
-                        System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                }
-            }while (option < 0 || option > 1);
         }
     }
 
 
-}
+
 
 
 
