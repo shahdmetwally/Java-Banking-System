@@ -177,6 +177,7 @@ public class Controller {
     public String updateCustomerPassword(String personalNo, String newPassword) {
         Customer customer = getCustomer(personalNo);
         customer.setPassword(newPassword);
+        return "the password was updated.";
     }
 
     public String removeCustomerAccount(String personalNo) throws Exception {
@@ -296,7 +297,7 @@ public class Controller {
     /*
     manager.addOptions(5,"Update employee password");
     */
-    public void setEmployeePassword(String newPassword, String personalNo) {
+    public String setEmployeePassword(String newPassword, String personalNo) {
         getEmployee(personalNo).setPassword(newPassword);
         return "The password was updated. ";
     }

@@ -35,7 +35,7 @@ public class BankAccount {
         this.accountNo = uniqueAccountNoGenerator();
     }
 
-    public static String accountNoGenerator() {
+    public String accountNoGenerator() {
         int clearingNumber = 5051;
         int account = 0;
         Random accountGenerator = new Random();
@@ -47,7 +47,7 @@ public class BankAccount {
         return clearingNumber + "-" + Math.abs(account);
     }
 
-    public static String uniqueAccountNoGenerator() {
+    public String uniqueAccountNoGenerator() {
         String accountNo = accountNoGenerator();
         for (BankAccount bankAccount : Bank.bankAccounts) {
             do {

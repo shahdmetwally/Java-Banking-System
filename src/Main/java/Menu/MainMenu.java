@@ -191,7 +191,7 @@ public class MainMenu {
                     double value = UserInput.readDouble("Please enter the amount you want to deposit: ");
                     try {
                         message = controller.depositMoney(customer, value);
-                    } catch (Exception exception) {           // bit confused how to put the exception for every try catch
+                    } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
                     System.out.println(message);
@@ -337,6 +337,7 @@ public class MainMenu {
                     handleEmployeeMenu(employee);
                     break;
                 case 1://create a bank account for customer
+                    // creating a customer already creates a bank account and need to fix the account no. so it saves.
                     handleEmployeeMenu(employee);
                     break;
                 case 2:
@@ -405,18 +406,42 @@ public class MainMenu {
                 handleManagerMenu(employee);
                 break;
             case 1: // show total loaned amount
+                System.out.println(controller.getTotalLoan());
                 handleManagerMenu(employee);
                 break;
             case 2:// create employee
+                String name=UserInput.readLine("Please enter the name of the employee: ");
+                String personalNo = UserInput.readLine("The Personal number of the employee: ");
+                String password =UserInput.readLine("Please type the employees password: ");
+                double salary = UserInput.readDouble("Please type the salary of the employee: ");
+                try {
+                    System.out.println(controller.createEmployee(name,personalNo,password,salary));
+                    handleManagerMenu(employee);
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
+                }
                 handleManagerMenu(employee);
                 break;
             case 3:// remove employee
-                handleManagerMenu(employee);
+                personalNo = UserInput.readLine("Please type the personalNo of the employee you wish to remove: ");
+                try {
+                    System.out.println(controller.removeEmployee(personalNo));
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
+                }
+
+                handleManagerMenu(employee); //thisjoihasdhis
                 break;
             case 4://update employee salary
+                personalNo = UserInput.readLine("Type the personalNo of the employee you wish to change the salary of: ");
+                double newSalary = UserInput.readDouble("Write the new salary of the employee: ");
+                System.out.println(controller.setEmployeeSalary(personalNo,newSalary));
                 handleManagerMenu(employee);
                 break;
             case 5:// update employee password
+                personalNo=UserInput.readLine("Type the personalNo of the employee you wish to change the password of: ");
+                password=UserInput.readLine("Please type the new password of the employee: " );
+                System.out.println(controller.setEmployeePassword(password, personalNo));
                 handleManagerMenu(employee);
                 break;
             case 6:
@@ -524,7 +549,7 @@ public class MainMenu {
                     handleAdministration();
                     break;
                 case 5:
-                    String personNr= UserInput.readLine("Enter employees personal number: ");
+                    String personNr= UserInput.readLine("Enter employees personal number : ");
                     double salary = UserInput.readDouble("Enter new salary: ");
                     double bonus = UserInput.readDouble("Enter salary bonus: ");
                     try{

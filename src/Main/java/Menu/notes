@@ -12,6 +12,7 @@
 
 - insert "egetkapital" in the bank.
 - create inbox customer and employee queue.
--
 
+-Creating a customer already creat a bank account
+- The personnumber should be int so we don't need to do that many exceptions.
 
