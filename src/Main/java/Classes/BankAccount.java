@@ -15,6 +15,7 @@ public class BankAccount {
     private double expanse;
     private double budget;
     private ArrayList<String> userInbox; // Don't know if we are using the message function
+    private String date;
 
     public BankAccount() {
         this.accountNo = this.accountNoGenerator();
@@ -25,6 +26,7 @@ public class BankAccount {
         this.loan = 0.00;
         this.expanse = 0.00;
         this.budget = 0.00;
+        this.date="";
 
     }
 
@@ -97,6 +99,7 @@ public class BankAccount {
     }
 
     public void setBudget(double budget) {
+        date=Utilities.date();
         this.budget = budget;
     }
 
@@ -123,6 +126,10 @@ public class BankAccount {
         if (amount < balance && amount > 0 && active) {
             this.balance -= amount;
             addTransaction(-amount);
+
+            if(budget >0){
+                budgetMonth();
+            }
             expanse += amount;
 
             if (budget > 0) {
@@ -147,6 +154,9 @@ public class BankAccount {
                     if (customer.getAccountNo().equals(anotherBankAccountNo)) {
                         withdrawMoney(amount);
                         customer.depositMoney(amount);
+                        if(budget>0){
+                            budgetMonth();
+                        }
                         expanse += amount;
                         if (budget > 0) {
                             checkBudget();
@@ -163,6 +173,20 @@ public class BankAccount {
         }
 
     }
+
+    public void budgetMonth() {
+        String setYearMonth = date.substring(0, 5);
+
+        String currentYearMonth = Utilities.date().substring(0, 5);
+
+        if (!setYearMonth.equals(currentYearMonth)) {
+            date = Utilities.date();
+            expanse = 0;
+
+        }
+    }
+
+
 
 
     public String checkBudget() {
