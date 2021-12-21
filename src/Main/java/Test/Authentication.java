@@ -26,6 +26,13 @@ public class Authentication {
         users.remove(employee);
     }
 
-
+    public User logIn(String inputPersonNo, String inputPassword) {
+        for (User currentPerson : users) { // clone the list for safety // encapsulation
+            if (currentPerson.isSamePersonNo(inputPersonNo) && currentPerson.isSamePassword(inputPassword)) {
+                return currentPerson;
+            }
+        }
+        return null;
+    }
 
 }
