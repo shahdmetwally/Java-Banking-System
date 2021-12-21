@@ -10,7 +10,11 @@ public class User {
     private Integer personalNo; // look up francisco example with personnumber // changed from string to int
     private String password;
 
-
+    //int i = 1234;
+    //String str = Integer.toString(i);
+    // 10012 % 10 = 2
+    // 200105216749 / 1000000
+    //
 
     public User(String fullName, int personalNo, String password) throws Exception{
         if(fullName.isBlank()) {
