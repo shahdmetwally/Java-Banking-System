@@ -15,7 +15,7 @@ public class Controller {
 
     public String showAllManager(){
         String message = "";
-        for( User user : bank.getUsers()){
+        for( User user : bank.getAllUsers()){
             if( user instanceof Manager){
                 message += manager.toString() + Utilities.EOL;
             }
@@ -26,7 +26,7 @@ public class Controller {
 // LOGIN AUTHORIZATION CONTROLLER
 //-----------------------------------
     public User logIn(String inputPersonNo, String inputPassword) {
-        for (User currentPerson : bank.getUsers()) { // clone the list for safety // encapsulation
+        for (User currentPerson : bank.getAllUsers()) { // clone the list for safety // encapsulation
             if (currentPerson.isSamePersonNo(inputPersonNo) && currentPerson.isSamePassword(inputPassword)) {
                 return currentPerson;
             }
@@ -35,7 +35,7 @@ public class Controller {
     }
 
     public Customer logInCustomer(String inputPersonNo, String inputPassword) {
-        for (User currentPerson : bank.getUsers()) { // clone the list for safety // encapsulation
+        for (User currentPerson : bank.getAllUsers()) { // clone the list for safety // encapsulation
             if (currentPerson instanceof Customer) {
                 if (currentPerson.isSamePersonNo(inputPersonNo) && currentPerson.isSamePassword(inputPassword)) {
                     return (Customer) currentPerson;
@@ -46,7 +46,7 @@ public class Controller {
     }
 
     public Employee logInEmployee(String inputPersonNumber, String inputPassword) {
-        for (User currentPerson : bank.getUsers()) {
+        for (User currentPerson : bank.getAllUsers()) {
             if (currentPerson instanceof Employee) {
                 if (currentPerson.isSamePersonNo(inputPersonNumber) && currentPerson.isSamePassword(inputPassword)) {
                     return (Employee) currentPerson;
@@ -67,7 +67,7 @@ public class Controller {
 
     public boolean alreadyExistUser(String inputUsername) {
         boolean repeated = false;
-        for (User currentUser : bank.getUsers()) {
+        for (User currentUser : bank.getAllUsers()) {
             if (currentUser.isSamePersonNo(inputUsername)) {
                 repeated = true;
             }
@@ -176,15 +176,15 @@ public class Controller {
 
     // change administration password is already in the menu
 
-    public void createManager(String name, String personalNo, String password, double salary, double bonus) throws Exception {
+    public void createManager(String name, Integer personalNo, String password, double salary, double bonus) throws Exception {
         User manager = new Manager(name, personalNo, password, salary, bonus);
         Bank.users.add(manager);
     }
 
 
-    public String removeManager(String personalNo) throws Exception {
+    public String removeManager(Integer personalNo) throws Exception {
         String removeResult = "";
-        Manager manager = getManager(personalNo);
+        Manager manager = getManager(String.valueOf(personalNo));
         if (manager == null) {
             throw new Exception("Manager with personal number " + personalNo + "was not registered yet.");
         } else {
@@ -238,7 +238,7 @@ public class Controller {
 
 
     public Employee getEmployee(String inputPersonNumber) {
-        for (User currentPerson : bank.getUsers()) {
+        for (User currentPerson : bank.getAllUsers()) {
             if (currentPerson instanceof Employee) {
                 if (currentPerson.isSamePersonNo(inputPersonNumber)) {
                     return (Employee) currentPerson;
@@ -255,7 +255,7 @@ public class Controller {
 
     }
 
-    public String createCustomer(String fullName, String personalNo, String password) throws Exception {
+    public String createCustomer(String fullName, Integer personalNo, String password) throws Exception {
         User customer = new Customer(fullName, personalNo, password);
         Bank.users.add(customer);
         return "Customer " + fullName + "with personal number " + personalNo + " has successfully register.";
@@ -308,7 +308,7 @@ public class Controller {
          */
 
 
-    public String createEmployee(String fullName, String personalNo, String password, double salary) throws Exception {
+    public String createEmployee(String fullName, Integer personalNo, String password, double salary) throws Exception {
         User employee = new Employee(fullName, personalNo, password, salary);
         Bank.users.add(employee);
         return "Employee " + fullName + " was registered successfully.";
@@ -362,9 +362,9 @@ public class Controller {
     }
 
 // show the manager or the admin do this?
-    public void promoteEmployee(String personalNo, double newSalary, double bonus) throws Exception {
-        Employee employee = getEmployee(personalNo);
-        if (employee.getPersonalNo().equals(personalNo)) {
+    public void promoteEmployee(Integer personalNo, double newSalary, double bonus) throws Exception {
+        Employee employee = getEmployee(String.valueOf(personalNo));
+        if(employee.getPersonalNo() == personalNo) {
             String name = employee.getFullName();
             String password = employee.getPassword();
             Employee emp1 = new Manager(name, personalNo, password, newSalary, bonus);

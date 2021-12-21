@@ -6,32 +6,9 @@ import java.util.Random;
 public class Customer extends User {
     private BankAccount bankAccount;
 
-    public Customer(String fullName, String personalNo, String password)throws Exception{
+    public Customer(String fullName, int personalNo, String password)throws Exception{
         super(fullName, personalNo,password);
-        String accountNo = uniqueAccountNoGenerator();
-        bankAccount = new BankAccount(accountNo);
-    }
-
-    public String accountNoGenerator() {
-        int clearingNumber = 5051;
-        int account = 0;
-        Random accountGenerator = new Random();
-        for (int i = 0; i < 11; i++) {
-            account = accountGenerator.nextInt();
-        }
-        return clearingNumber + "-" + Math.abs(account);
-    }
-
-    public String uniqueAccountNoGenerator() {
-        String accountNo = accountNoGenerator();
-        for (BankAccount bankAccount : Bank.bankAccounts) {
-            do {
-                if (bankAccount.getAccountNo().equals(accountNo))
-                    accountNo = accountNoGenerator();
-            } while (!bankAccount.getAccountNo().equals(accountNoGenerator()));
-
-        }
-        return accountNo;
+        bankAccount = new BankAccount();
     }
 
     public BankAccount getBankAccount() {
@@ -79,7 +56,7 @@ public class Customer extends User {
             return false;
         }else if( anotherObject instanceof Customer){
             Customer anotherCustomer = (Customer) anotherObject;
-            boolean isSameCustomer = this.getPersonalNo().equals(anotherCustomer.getPersonalNo()) && this.getPassword().equals(anotherCustomer.getPassword())&& this.getAccountNo().equals(anotherCustomer.getAccountNo());
+            boolean isSameCustomer = this.getPersonalNo() == anotherCustomer.getPersonalNo() && this.getPassword().equals(anotherCustomer.getPassword())&& this.getAccountNo().equals(anotherCustomer.getAccountNo());
             return false;
         }else{
             return false;

@@ -16,8 +16,8 @@ public class BankAccount {
     private double budget;
     private ArrayList<String> userInbox; // Don't know if we are using the message function
 
-    public BankAccount(String accountNo) {
-        this.accountNo = accountNo;
+    public BankAccount() {
+        this.accountNo = this.accountNoGenerator();
         this.balance = 0;
         this.transactions = new ArrayList<>();
         this.userInbox = new ArrayList<>();// maybe not here
@@ -43,9 +43,9 @@ public class BankAccount {
         for (int i = 0; i < 11; i++) {
             account = accountGenerator.nextInt();
         }
-
         //check that account nr is not bigger or less then 9
         return clearingNumber + "-" + Math.abs(account);
+
     }
 
     public String uniqueAccountNoGenerator() {

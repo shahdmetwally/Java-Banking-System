@@ -8,7 +8,7 @@ public class Employee extends User {
 
 
 
-    public Employee(String empName, String personalNo, String password, double salary) throws Exception {
+    public Employee(String empName, Integer personalNo, String password, double salary) throws Exception {
         super(empName, personalNo, password);
         this.vacationDays = 25;
 

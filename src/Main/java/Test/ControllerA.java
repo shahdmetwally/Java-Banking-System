@@ -13,7 +13,7 @@ Bank bank;
     }
 
     public User logIn(String inputPersonNo, String inputPassword) {
-        for (User currentPerson : bank.getUsers()) { // clone the list for safety // encapsulation
+        for (User currentPerson : bank.getAllUsers()) { // clone the list for safety // encapsulation
             if (currentPerson.isSamePersonNo(inputPersonNo) && currentPerson.isSamePassword(inputPassword)) {
                 return currentPerson;
             }

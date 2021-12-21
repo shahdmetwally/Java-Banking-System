@@ -4,7 +4,7 @@ public class Manager extends Employee{
 
     private double bonus;
 
-    public Manager(String name, String personalNo, String password, double salary, double bonus) throws Exception{
+    public Manager(String name, Integer personalNo, String password, double salary, double bonus) throws Exception{
         super(name, personalNo, password, salary);
         this.bonus = bonus;
     }
@@ -35,7 +35,6 @@ public class Manager extends Employee{
                 Employee newEmployee = new Manager(name,personalNr,password,newSalary);
                 Bank.users.remove(currentEmployee);
                 Bank.users.add(newEmployee);// Example on how to find specific attribute, also need to give it more access
-
             }
         }
     }

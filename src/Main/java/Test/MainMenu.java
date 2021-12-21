@@ -331,7 +331,7 @@ public class MainMenu {
                         if (controller.alreadyExistUser(personalNo)) {
                             throw new Exception("This personal number " + personalNo + " has already been registered.");
                         }
-                        controller.createCustomer(fullName,personalNo,password);
+                        controller.createCustomer(fullName, Integer.valueOf(personalNo),password);
                         System.out.println("Customer was successfully registered.");
                     } catch (IllegalAccessException scannerError) {
                         System.out.println("Invalid input.");
@@ -419,7 +419,7 @@ public class MainMenu {
                 String password =UserInput.readLine("Please type the employees password: ");
                 double salary = UserInput.readDouble("Please type the salary of the employee: ");
                 try {
-                    System.out.println(controller.createEmployee(name,personalNo,password,salary));
+                    System.out.println(controller.createEmployee(name, Integer.valueOf(personalNo),password,salary));
                     handleManagerMenu(employee);
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
@@ -445,7 +445,7 @@ public class MainMenu {
             case 5:// update employee password
                 personalNo=UserInput.readLine("Type the personalNo of the employee you wish to change the password of: ");
                 password=UserInput.readLine("Please type the new password of the employee: " );
-                System.out.println(controller.setEmployeePassword(password, personalNo));
+                System.out.println(controller.setEmployeePassword(password, Integer.valueOf(personalNo)));
                 handleManagerMenu(employee);
                 break;
             case 6:
@@ -519,7 +519,7 @@ public class MainMenu {
                             double salary = UserInput.readDouble("Enter manager gross-salary: ");
                             double bonus = UserInput.readDouble("Enter manager bonus:");
 
-                            controller.createManager(fullName, personalNo, password, salary,bonus);
+                            controller.createManager(fullName, Integer.valueOf(personalNo), password, salary,bonus);
                         } catch (IllegalAccessException scannerError) {
                             System.out.println("Invalid input");
                         } catch (Exception exception) {
@@ -574,7 +574,7 @@ public class MainMenu {
                     double salary = UserInput.readDouble("Enter new salary: ");
                     double bonus = UserInput.readDouble("Enter salary bonus: ");
                     try{
-                        controller.promoteEmployee(personNr,salary,bonus);
+                        controller.promoteEmployee(Integer.valueOf(personNr),salary,bonus);
                     }catch (Exception exception){
                         System.out.println(exception.getMessage());
                     }

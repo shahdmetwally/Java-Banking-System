@@ -7,14 +7,16 @@ import java.io.IOException;
 public class User {
     // if abstract we need to devide the log in to part
     private String fullName;
-    private String personalNo; // look up francisco example with personnumber (
+    private Integer personalNo; // look up francisco example with personnumber // changed from string to int
     private String password;
 
-    public User(String fullName,String personalNo, String password) throws Exception{
+
+
+    public User(String fullName, int personalNo, String password) throws Exception{
         if(fullName.isBlank()) {
             throw new Exception("Name cannot be blank.");
         }
-        if(personalNo.length() != 12) {
+        if(personalNo != 12) {
             throw new Exception("Personal number be in this format: YYYYMMDDXXXX");
         }
         if(!isStrongPassword(password)) {
@@ -26,7 +28,7 @@ public class User {
         this.password = password;
     }
 
-    public String getPersonalNo() {
+    public int getPersonalNo() {
         return this.personalNo;
     }
 
