@@ -5,6 +5,9 @@ public class Transaction{
     private double amount;
     // private String date;( insert data)
 
+    public Transaction(){
+
+    }
     public Transaction(double amount){
         this.amount = amount;
 

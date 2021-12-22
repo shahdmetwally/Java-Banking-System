@@ -4,11 +4,12 @@ public class Manager extends Employee{
 
     private double bonus;
 
-    public Manager(String name, Integer personalNo, String password, double salary, double bonus) throws Exception{
+    public Manager(){}
+
+    public Manager(String name, long personalNo, String password, double salary, double bonus) throws Exception{
         super(name, personalNo, password, salary);
         this.bonus = bonus;
     }
-    public Manager(){}
 
     public double getBonus(){
        return this.bonus;

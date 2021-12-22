@@ -7,6 +7,9 @@ public class DebitCard {
     String expirationDate;
     int code;
 
+    public DebitCard(){
+
+    }
     public DebitCard(int cardNr, int cvc, String expirationDate, int code) throws Exception{
         if(cardNr != 16){
             throw new Exception("The card number should have 16 digits");

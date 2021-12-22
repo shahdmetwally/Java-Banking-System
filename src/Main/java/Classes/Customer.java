@@ -1,13 +1,15 @@
 package Classes;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Customer extends User {
     private DebitCard debitCard;
     private BankAccount bankAccount;
 
-    public Customer(String fullName, int personalNo, String password, String bankAccount,int cardNr, int cvc, String expirationDate,int code)throws Exception{
+    public Customer(){
+
+    }
+    public Customer(String fullName, long personalNo, String password, String bankAccount,int cardNr, int cvc, String expirationDate,int code)throws Exception{
         super(fullName, personalNo,password);
         this.bankAccount = new BankAccount(bankAccount);
         this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
@@ -75,6 +77,9 @@ public class Customer extends User {
 
     public void activeCard(){
         debitCard.setActive();
+    }
+    public String toString(){
+        return "Customer " + getFullName() + " with personal number " + getPersonalNo();
     }
 
 

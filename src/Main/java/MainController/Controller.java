@@ -8,11 +8,11 @@ import java.util.Random;
 
 public class Controller {
     private Bank bank;
-    private HashMap<Integer, User > users;
+    private HashMap<Long, User > users;
     private HashMap<String,User> bankAccounts;
     private User user;
 
-    public Controller(int userName, String password) throws Exception{
+    public Controller(long userName, String password) throws Exception{
         this.bank = new Bank();
         this.users = bank.getUsers();
         this.bankAccounts = bank.getBankAccounts();
@@ -126,13 +126,13 @@ public class Controller {
 
     // change administration password is already in the menu
 
-    public void createManager(String name, Integer personalNo, String password, double salary, double bonus) throws Exception {
+    public void createManager(String name, long personalNo, String password, double salary, double bonus) throws Exception {
         User manager = new Manager(name, personalNo, password, salary, bonus);
         bank.addUser(manager);
     }
 
 
-    public String removeManager(int personalNo) throws Exception {
+    public String removeManager(long personalNo) throws Exception {
         String removeResult = "";
         Manager manager = getManager(personalNo);
         if (manager == null) {
@@ -145,11 +145,11 @@ public class Controller {
     }
 
 
-    public void setManagerSalary(double newSalary, int personalNo) {
+    public void setManagerSalary(double newSalary, long personalNo) {
         getManager(personalNo).setSalary(newSalary);
     }
 
-    public String setManagerPassword(int personalNo,String newPassword) {
+    public String setManagerPassword(long personalNo,String newPassword) {
         getManager(personalNo).setPassword(newPassword);
         return "The password was updated ";
     }
@@ -160,7 +160,7 @@ public class Controller {
 
     // EMPLOYEE CONTROLLER
     //--------------------------------------
-    public Customer getCustomer(int inputPersonNumber) {
+    public Customer getCustomer(long inputPersonNumber) {
         if(users.containsKey(inputPersonNumber)){
             return (Customer)users.values();
         }
@@ -171,13 +171,13 @@ public class Controller {
         return "Salary: "+ ((Employee)user).getSalary();
     }
 
-    public String updateCustomerPassword(int personalNo, String newPassword) {
+    public String updateCustomerPassword(long personalNo, String newPassword) {
         Customer customer = getCustomer(personalNo);
         customer.setPassword(newPassword);
         return "The password was updated.";
     }
 
-    public String removeCustomerAccount(int personalNo) throws Exception {
+    public String removeCustomerAccount(long personalNo) throws Exception {
         String removeResult = "";
          Customer customer = getCustomer(personalNo);
         if (customer == null) {
@@ -190,28 +190,28 @@ public class Controller {
     }
 
 
-    public String getCustomerInfo(int personalNumer) {
+    public String getCustomerInfo(long personalNumer) {
         String infoCustomer = "";
         Customer customer = getCustomer(personalNumer);
         return infoCustomer = customer.getBankAccount().getTransaction() + "Loan: " + customer.getBankAccount().getLoan();
     }
 
 
-    public Employee getEmployee(int inputPersonNumber) {
+    public Employee getEmployee(long inputPersonNumber) {
         if(user instanceof Employee){
             return (Employee)user;
         }
         return null;
     }
 
-    public void takeDaysOff(int personalNo, int amountOfDays) {
+    public void takeDaysOff(long personalNo, int amountOfDays) {
         Employee employee = getEmployee(personalNo);
         int vacationDays = employee.getVacationDays();
         vacationDays -= amountOfDays;
 
     }
 
-    public String createCustomer(String fullName, int personalNo, String password,int cardNr, int cvc, String expirationDate, int code) throws Exception {
+    public String createCustomer(String fullName, long personalNo, String password,int cardNr, int cvc, String expirationDate, int code) throws Exception {
         String bankAccount = accountNoGenerator();
         Customer customer = new Customer(fullName, personalNo, password, bankAccount ,cardNr, cvc, expirationDate, code);
         bank.addUser(customer);
@@ -260,7 +260,7 @@ public class Controller {
     public String getTotalBalance() {
         double balance = 0;
         String message = "Banks total balance: ";
-        for(Map.Entry<Integer, User> entry: users.entrySet()){
+        for(Map.Entry<Long, User> entry: users.entrySet()){
             balance += ((Customer)entry.getValue()).getBalance();
         }
         return message + balance;
@@ -274,7 +274,7 @@ public class Controller {
         String message = "Total amount of loan giving out: ";
         double totalLoan = 0;
 
-        for(Map.Entry<Integer, User> entry: users.entrySet()){
+        for(Map.Entry<Long, User> entry: users.entrySet()){
             totalLoan += ((Customer)entry.getValue()).getBankAccount().getLoan();
         }
 
@@ -288,7 +288,7 @@ public class Controller {
          */
 
 
-    public String createEmployee(String fullName, int personalNo, String password, double salary) throws Exception {
+    public String createEmployee(String fullName, long personalNo, String password, double salary) throws Exception {
         User employee = new Employee(fullName, personalNo, password, salary);
         bank.addUser(employee);
         return "Employee " + fullName + " was registered successfully.";
@@ -297,7 +297,7 @@ public class Controller {
     /*
     manager.addOptions(3, "Remove employee");
     */
-    public String removeEmployee(int personalNo) throws Exception {
+    public String removeEmployee(long personalNo) throws Exception {
         String removalResult = "";
         Employee employee = getEmployee(personalNo);
         if (employee == null) {
@@ -314,7 +314,7 @@ public class Controller {
     /*
    manager.addOptions(4,"update employee salary");
    */
-    public String setEmployeeSalary(int personalNo,double newSalary) {
+    public String setEmployeeSalary(long personalNo,double newSalary) {
         getEmployee(personalNo).setSalary(newSalary);
         return "The salary was updated. ";
     }
@@ -323,13 +323,13 @@ public class Controller {
     /*
     manager.addOptions(5,"Update employee password");
     */
-    public String setEmployeePassword(String newPassword, int personalNo) {
+    public String setEmployeePassword(String newPassword, long personalNo) {
         getEmployee(personalNo).setPassword(newPassword);
         return "The password was updated. ";
     }
 
 
-    public Manager getManager(int personalNo) {
+    public Manager getManager(long personalNo) {
         if(users.containsKey(personalNo)){
             return ((Manager)user);
         }else{
@@ -338,7 +338,7 @@ public class Controller {
     }
 
     // show the manager or the admin do this?
-    public void promoteEmployee(int personalNo, double newSalary, double bonus) throws Exception {
+    public void promoteEmployee(long personalNo, double newSalary, double bonus) throws Exception {
         Employee employee = getEmployee(personalNo);
         if (employee.getPersonalNo() == Integer.parseInt(String.valueOf(personalNo))) {
             String name = employee.getFullName();

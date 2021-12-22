@@ -6,9 +6,11 @@ public class Employee extends User {
     private int vacationDays;
     private double salary;
 
+    public Employee(){
 
+    }
 
-    public Employee(String empName, Integer personalNo, String password, double salary) throws Exception {
+    public Employee(String empName, long personalNo, String password, double salary) throws Exception {
         super(empName, personalNo, password);
         this.vacationDays = 25;
 
@@ -18,8 +20,6 @@ public class Employee extends User {
         this.salary = salary;
 
     }
-
-    public Employee(){}
 
     public double getSalary() {return salary;}
 

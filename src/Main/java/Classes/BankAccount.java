@@ -17,6 +17,9 @@ public class BankAccount {
     private ArrayList<String> userInbox; // Don't know if we are using the message function
     private String date;
 
+    public BankAccount(){
+
+    }
     public BankAccount(String bankAccountNo) {
         this.accountNo = bankAccountNo;
         this.balance = 0;

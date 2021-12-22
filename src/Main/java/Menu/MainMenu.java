@@ -103,14 +103,14 @@ public class MainMenu {
         manager.addOptions(6,"Go back to employee menu.");
     }
 
-    public int enterPersonalNr(){
-        int personNr = UserInput.readInt(" Enter customer personal number: ");
+    public long enterPersonalNr(){
+        long personNr = UserInput.readInt(" Enter customer personal number: ");
         return personNr;
     }
 
     public Controller login(){
         try {
-            int userName = UserInput.readInt("Enter username: ");
+            long userName = UserInput.readInt("Enter username: ");
             String password = UserInput.readLine("Enter password: ");
             Controller controller = new Controller(userName, password);
             return controller;
@@ -293,7 +293,7 @@ public class MainMenu {
                 try {
                     System.out.println("Registering a Customer user: ");
                     String fullName = UserInput.readLine("Enter your full name:");
-                    int personalNo = UserInput.readInt("Enter your personal number (YYYYMMDDXXXX): ");
+                    long personalNo = UserInput.readInt("Enter your personal number (YYYYMMDDXXXX): ");
                     String password = UserInput.readLine("Create a password: " + Utilities.EOL +
                             "The password must have a minimum of 8 characters in length" + Utilities.EOL +
                             "and contain: lowercase letter, uppercase letter, digit.");
@@ -323,7 +323,7 @@ public class MainMenu {
                 handleEmployeeMenu(controller);
                 break;
             case 4:
-                int personalNo = UserInput.readInt("Please type the personal number for the customer:");
+                long personalNo = UserInput.readInt("Please type the personal number for the customer:");
                 String newPassword = UserInput.readLine("Please type the new password:");
                 System.out.println(controller.updateCustomerPassword(personalNo, newPassword));
                 handleEmployeeMenu(controller);
@@ -366,7 +366,7 @@ public class MainMenu {
                 break;
             case 2:// create employee
                 String name=UserInput.readLine("Please enter the name of the employee: ");
-                int personalNo = UserInput.readInt("The Personal number of the employee: ");
+                long personalNo = UserInput.readInt("The Personal number of the employee: ");
                 String password =UserInput.readLine("Please type the employees password: ");
                 double salary = UserInput.readDouble("Please type the salary of the employee: ");
                 try {
@@ -466,7 +466,7 @@ public class MainMenu {
 
                 case 2:
                     try {
-                        int personNr = UserInput.readInt("Enter managers personal number: ");
+                        long personNr = UserInput.readInt("Enter managers personal number: ");
                         controller.removeManager(personNr);
                     }catch (Exception exception){
                         System.out.println(exception.getMessage());
@@ -476,7 +476,7 @@ public class MainMenu {
 
                 case 3:
                     try {
-                        int personNr = UserInput.readInt("Enter manger personal number: ");
+                        long personNr = UserInput.readInt("Enter manger personal number: ");
                         double newSalary = UserInput.readDouble("Enter Manager salary: ");
                         controller.setManagerSalary(newSalary, personNr);
                     }catch (Exception exception){
@@ -486,7 +486,7 @@ public class MainMenu {
                     break;
                 case 4:
                     try {
-                        int personNr = UserInput.readInt("Enter manger personal number: ");
+                        long personNr = UserInput.readInt("Enter manger personal number: ");
                         String password;
                         String repeatedPassword;
                         do {
@@ -503,7 +503,7 @@ public class MainMenu {
                     handleAdministration(controller);
                     break;
                 case 5:
-                    int personNr= UserInput.readInt("Enter employees personal number : ");
+                    long personNr= UserInput.readInt("Enter employees personal number : ");
                     double salary = UserInput.readDouble("Enter new salary: ");
                     double bonus = UserInput.readDouble("Enter salary bonus: ");
                     try{

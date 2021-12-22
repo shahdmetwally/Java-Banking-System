@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 public class Bank {
 
-    private final HashMap<Integer, User> users = new HashMap<Integer, User>();
+    private final HashMap<Long, User> users = new HashMap<Long, User>();
     private final HashMap<String, User> bankAccounts = new HashMap<>();
 
-    public HashMap<Integer, User> getUsers() {
+    public HashMap<Long, User> getUsers() {
         return users;
     }
 

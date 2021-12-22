@@ -12,6 +12,7 @@ import java.util.HashMap;
 public class StartProgram {
 
     public static void main(String[] args) throws Exception {
+        Bank bank = new Bank();
         HashMap<String, ArrayList> jsonBank = new HashMap<>();
         ArrayList<Customer> jsonCustomers = new ArrayList<>();
         ArrayList<Employee> jsonEmployees = new ArrayList<>();
@@ -26,7 +27,7 @@ public class StartProgram {
         for (int i = 0; i < employeeNode.size(); i++) {
             Employee employee = mapper.treeToValue(employeeNode.get(i), Employee.class);
             jsonEmployees.add(employee);
-            Bank.users.add(employee);
+            bank.addUser(employee);
 
         }
 
@@ -34,14 +35,15 @@ public class StartProgram {
         for (int i = 0; i < customerNode.size(); i++) {
             Customer customer = mapper.treeToValue(customerNode.get(i), Customer.class);
             jsonCustomers.add(customer);
-            Bank.users.add(customer);
+            bank.addUser(customer);
+            System.out.println(customer);
         }
 
         JsonNode managerNode = root.path("managers");
         for (int i = 0; i < managerNode.size(); i++) {
             Manager manager = mapper.treeToValue(managerNode.get(i), Manager.class);
             jsonManagers.add(manager);
-            Bank.users.add(manager);
+            bank.addUser(manager);
         }
 
       String option;
