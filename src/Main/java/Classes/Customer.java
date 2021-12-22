@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Customer extends User {
+    private DebitCard debitCard;
     private BankAccount bankAccount;
 
-    public Customer(String fullName, int personalNo, String password)throws Exception{
+    public Customer(String fullName, int personalNo, String password, String bankAccount,int cardNr, int cvc, String expirationDate,int code)throws Exception{
         super(fullName, personalNo,password);
-        //bankAccount = new BankAccount();
+        this.bankAccount = new BankAccount(bankAccount);
+        this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
     }
-
-    public Customer(){}
 
     public BankAccount getBankAccount() {
         return bankAccount;
@@ -22,17 +22,19 @@ public class Customer extends User {
     }
 
     public String depositMoney(double amount) throws Exception {
-       bankAccount.depositMoney(amount);
-       return bankAccount.toString();
+        bankAccount.depositMoney(amount);
+        return bankAccount.toString();
     }
 
     public String withdrawMoney(double amount) throws Exception {
         return bankAccount.withdrawMoney(amount);
     }
 
-    public String transferMoney(double amount, String  anotherBankAccountNo) throws Exception{
+   /* public String transferMoney(double amount, String  anotherBankAccountNo) throws Exception{
         return bankAccount.transferMoney(amount, anotherBankAccountNo);
     }
+
+    */
 
     public double getBalance() {
         return bankAccount.getBalance();
@@ -64,6 +66,17 @@ public class Customer extends User {
             return false;
         }
     }
+
+    // Debitcard methods - below
+
+    public void  deactivateCard(){
+        debitCard.setDeactivate();
+    }
+
+    public void activeCard(){
+        debitCard.setActive();
+    }
+
 
 
 }

@@ -1,12 +1,17 @@
 package Classes;
 
 public class AdministrationOptions extends MenuOptions {
+    private Bank bank;
+    private int user;
     private String password;
+
    // private String userName;
 
-    public AdministrationOptions(){
+    public AdministrationOptions() throws Exception{
         super();
-        this.password = "Admin000";
+        this.bank = new Bank();
+        User user = new User("admin",000000000000,"Admin0000!");
+        bank.addUser(user);
     }
     public static boolean isStrongPassword(String password){
         boolean hasDigits = password.matches(".*\\d+.*");

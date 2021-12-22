@@ -7,7 +7,7 @@ import java.io.IOException;
 public class User {
     // if abstract we need to devide the log in to part
     private String fullName;
-    private Integer personalNo; // look up francisco example with personnumber // changed from string to int
+    private int personalNo; // look up francisco example with personnumber // changed from string to int
     private String password;
 
     //int i = 1234;
@@ -16,10 +16,7 @@ public class User {
     // 200105216749 / 1000000
     //
 
-
-    public User(){}
-
-    public User(String fullName,Integer personalNo, String password) throws Exception{
+    public User(String fullName,int personalNo, String password) throws Exception{
         if(fullName.isBlank()) {
             throw new Exception("Name cannot be blank.");
         }
@@ -52,9 +49,12 @@ public class User {
         this.fullName = newName.trim();
     }
 
-
-    public boolean isSamePersonNo(String inputPersonalNo){
-        return this.personalNo.equals(inputPersonalNo);
+    public boolean isSamePersonNo(int inputPersonalNo){
+        if(this.personalNo == inputPersonalNo){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public boolean isSamePassword(String inputPassword){
