@@ -8,8 +8,10 @@ public class Customer extends User {
 
     public Customer(String fullName, int personalNo, String password)throws Exception{
         super(fullName, personalNo,password);
-        bankAccount = new BankAccount();
+        //bankAccount = new BankAccount();
     }
+
+    public Customer(){}
 
     public BankAccount getBankAccount() {
         return bankAccount;

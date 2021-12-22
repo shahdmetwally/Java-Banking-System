@@ -45,7 +45,7 @@ public class MainMenu {
         administration.addOptions(2, "Remove manager.");
         administration.addOptions(3,"Update manager salary.");
         administration.addOptions(4,"Change manager password.");
-        administration.addOptions(5,"Promote employee.");;
+        administration.addOptions(5,"Promote employee.");
         administration.addOptions(6,"Log out.");
         administration.addOptions(7, "show all manager");
 
@@ -506,14 +506,14 @@ public class MainMenu {
                     do {
                         try {
                             System.out.println(" Registering a manager user: ");
-                            String fullName = UserInput.readLine(" Type you full name:");
+                            String fullName = UserInput.readLine(" Type your full name:");
                             String personalNo = UserInput.readLine(" Enter your personal number (YYYYMMDDXXXX): ");
                             String password;
                             String repeatedPassword;
                             do {
                                 password = UserInput.readLine("Create a password: " + Utilities.EOL +
                                         "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                        "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                        "and contain: lowercase letter, uppercase letter, digit.");
                                 repeatedPassword = UserInput.readLine("Confirm password");
 
                             } while (!password.equals(repeatedPassword));
@@ -561,7 +561,7 @@ public class MainMenu {
                         do {
                             password = UserInput.readLine("Create a password: " + Utilities.EOL +
                                     "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                    "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                    "and contain: lowercase letter, uppercase letter, digit.");
                             repeatedPassword = UserInput.readLine("Confirm password");
 
                         } while (!password.equals(repeatedPassword));

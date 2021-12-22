@@ -8,6 +8,8 @@ public class Manager extends Employee{
         super(name, personalNo, password, salary);
         this.bonus = bonus;
     }
+    public Manager(){}
+
     public double getBonus(){
        return this.bonus;
     }

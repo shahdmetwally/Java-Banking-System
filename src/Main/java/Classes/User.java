@@ -16,7 +16,10 @@ public class User {
     // 200105216749 / 1000000
     //
 
-    public User(String fullName, int personalNo, String password) throws Exception{
+
+    public User(){}
+
+    public User(String fullName,Integer personalNo, String password) throws Exception{
         if(fullName.isBlank()) {
             throw new Exception("Name cannot be blank.");
         }
@@ -25,7 +28,7 @@ public class User {
         }
         if(!isStrongPassword(password)) {
             throw new Exception("The password is weak. The password must have a minimum of 8 characters in length" +
-                    " and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                    " and contain: lowercase letter, uppercase letter, digit.");
         }
         this.fullName = fullName.trim();
         this.personalNo = personalNo;
