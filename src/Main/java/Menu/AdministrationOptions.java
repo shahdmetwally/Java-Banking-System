@@ -1,4 +1,6 @@
-package Classes;
+package Menu;
+
+import Bank.Bank;
 
 public class AdministrationOptions extends MenuOptions {
     private Bank bank;

@@ -1,5 +1,7 @@
 package MainController;
-
+import Bank.Bank;
+import Bank.LoanApplication;
+import Bank.TypesOfLoan;
 import Classes.*;
 import Utilities.Utilities;
 import Utilities.UserInput;
@@ -10,6 +12,7 @@ public class Controller {
     private final HashMap<String, User> users;
     private final HashMap<String, User> bankAccounts;
     private final User user;
+    private Inbox inbox;
 
     public Controller(String userName, String password, Bank bank) throws Exception {
             this.bank = new Bank();
@@ -26,6 +29,7 @@ public class Controller {
             } else {
                 throw new Exception("Username not found. Im in the controller");
             }
+            this.inbox = new Inbox();
         }
 
         // CUSTOMER CONTROLLER
@@ -86,15 +90,21 @@ public class Controller {
 
     /*
       otherService.addOptions(0," Update name.");
-        otherService.addOptions(1,"Apply for card.");
-        otherService.addOptions(2,"Block payment card.");
-        otherService.addOptions(3, "Deactivate account.");
-        otherService.addOptions(4,"Request loan and apply for mortgages.");
-        otherService.addOptions(5,"Go back to Customer menu.");
+        otherService.addOptions(1,"Update Salary");
+        otherService.addOptions(2,"Apply for new card.");
+        otherService.addOptions(3,"Block payment card.");
+        otherService.addOptions(4,"Loan request");
+        otherService.addOptions(5,"Loan status"); //? should we?
+        otherService.addOptions(6,"Go back to Customer menu.");
      */
         public String updateCustomerName (String newName) throws Exception {
             ((Customer) user).setName(newName);
             return "Customer " + ((Customer) user).getPersonalNo() + "name has successfully update to " + newName;
+        }
+
+        public String updateSalary(double salary) {
+            ((Customer)user).setSalary(salary);
+            return "Salary has been updated to " + salary;
         }
 
         public String ApplyForCard () {
@@ -107,85 +117,94 @@ public class Controller {
             return "Payment card has been blocked";
         }
 
+        public TypesOfLoan selectTypeOfLoan(int option){
+            TypesOfLoan typesOfLoan = null;
+            switch (option) {
+                case 1:
+                    typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
+                    break;
+                case 2:
+                    typesOfLoan = TypesOfLoan.HOUSE_LOAN;
+                    break;
+                case 3:
+                    typesOfLoan = TypesOfLoan.CAR_LOAN;
+                    break;
+                case 4:
+                    typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please select between option 1 to 4. ");
+            }
+            return typesOfLoan;
 
-        public String loanRequest () {
-
-            return "Loan request has been send.";
         }
+    public String loanRequestWithOutCoSigner (double amount, TypesOfLoan typesOfLoan, double time, String otherEquity, double otherEquityvalue, double cashContribution) {
+
+        String message = "Loan Application from : " + user.getFullName() + " with personal nr: " + user.getPersonalNo() + Utilities.EOL;
+        String inboxMessage;
+        LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time, otherEquity,otherEquityvalue, cashContribution);
+        bank.addLoanApplication(user.getPersonalNo(),loanApplication);
+        String loanMessage = loanApplication.toString();
+        inboxMessage = message + loanMessage;
+        System.out.println(inboxMessage);
+        inbox.addLoanApplicationMessage(inboxMessage);
+
+        return "Loan request has been send. The loan application ID is: LA"+user.getPersonalNo();
+    }
+
+        public String loanRequestWithCoSigner (double amount, TypesOfLoan typesOfLoan, double time, String otherEquity, double otherEquityvalue, double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
+
+            String message = "Loan Application from : " + user.getFullName() + " with personal nr: " + user.getPersonalNo() + Utilities.EOL;
+            String inboxMessage;
+            LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time, otherEquity,otherEquityvalue, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
+            bank.addLoanApplication(user.getPersonalNo(),loanApplication);
+            String loanMessage = loanApplication.toString();
+            inboxMessage = message + loanMessage;
+            System.out.println(inboxMessage);
+            inbox.addLoanApplicationMessage(inboxMessage);
+
+            return "Loan request has been send. The loan application ID is: LA"+ user.getPersonalNo();
+        }
+        // To Dimitrios:
+    /*
+        - The Employee has two choices to approve the loan or to decline.
+        If the loan is aprrove, Create a loan and add it to the Loan Hashmap
+        and send a message with the details of the loan and the loan ID
+        to the user and insert the loan amount in the user account.
+
+        If the loan is decline, delete the request and send message to the user.
+     */
+
 
         // INBOX
 
     //Methods For Customers--------
-//QUEUE FOR CUSTOMER MESSAGES-------------------------------------
-    Queue<String> messageInbox = new LinkedList<String>();
     public void sendMessageToEmployees(Customer customer){
         String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
         if (message == null){
             System.out.println("Your message cannot be empty.");
         }else{
-            messageInbox.add(message);
+          //  messageInbox.add(message);
             System.out.println("Your message has been sent successfully.");
         }
     }
 
     //QUEUE FOR CUSTOMER LOAN APPLICATIONS-------------- "if" statements need to be applied based on customer budget
-    Queue<String> loanApplications = new LinkedList<String>();
+
     public void sendApplicationForLoan(Customer customer){
         int loanAmount = UserInput.readInt("Please type the amount you would like to borrow from the bank: ");
 
         String message = "Customer with name: " + customer.getFullName() + " and account balance: "
                 + customer.getBalance() + " Would like to apply for a loan of amount: " + loanAmount + ".";
-        loanApplications.add(message);
+      //  loanApplications.add(message);
         System.out.println("Your loan application has been sent successfully.");
     }
 
-    //QUEUE FOR MESSAGE HISTORY(after a message has been processed by the Customer Support)
-    Queue<String> oldMessages = new LinkedList<String>();
-
-    //Methods For Employees----------------------------------------
-
-    //QUEUE FOR VACATION APPLICATIONS
-    Queue<String> vacationApplications = new LinkedList<String>();
-    public void applyForVacation(Employee employee){
-        String message = "Employee with name: " + employee.getFullName() + " Would like to apply for vacation.";
-        vacationApplications.add(message);
+    public void applyForVacation(){
+    //    String message = "Employee with name: " + employee.getFullName() + " Would like to apply for vacation.";
+     //   vacationApplications.add(message);
         System.out.println("Your vacation application has been sent successfully.");
     }
-
-    public void removeMessage() {
-        oldMessages.add(messageInbox.poll());
-        System.out.print("The message has been removed.");
-    }
-
-    public void approveLoanApplication(){
-        loanApplications.poll();
-        System.out.println("The loan application has been approved.");
-    }
-
-    public void seeMessageInbox(){
-        System.out.println(messageInbox);
-    }
-
-    public void seeLoanApplications(){
-        System.out.println(loanApplications);
-    }
-
-    public void seeMessageHistory(){
-        System.out.println(oldMessages);
-    }
-
-    //Methods For Managers-------------------------------
-
-    public void seeVacationApplications(){
-        System.out.println(vacationApplications);
-    }
-
-    public void approveVacationApplication(){
-        vacationApplications.poll();
-        System.out.println("The vacation application has been approved.");
-
-    }
-
 
     // ADMINISTRATION CONTROLLER
         //------------------------------------
@@ -277,7 +296,7 @@ public class Controller {
             vacationDays -= amountOfDays;
         }
 
-        public String createCustomer (String fullName, String personalNo, double salary ,String password,int cardNr, int cvc, String
+        public String createCustomer (String fullName, String personalNo, double salary ,String password,String cardNr, int cvc, String
         expirationDate,int code) throws Exception {
             String bankAccount = accountNoGenerator();
             Customer customer = new Customer(fullName, personalNo, salary, password, bankAccount, cardNr, cvc, expirationDate, code);

@@ -1,5 +1,7 @@
 package Classes;
 
+import Bank.BankAccount;
+
 import java.util.ArrayList;
 
 public class Customer extends User {
@@ -10,10 +12,11 @@ public class Customer extends User {
     public Customer(){
 
     }
-    public Customer(String fullName, String personalNo, double salary, String password, String bankAccount,int cardNr, int cvc, String expirationDate,int code)throws Exception{
+    public Customer(String fullName, String personalNo, double salary, String password, String bankAccount,String cardNr, int cvc, String expirationDate,int code)throws Exception{
         super(fullName, personalNo,password);
         this.bankAccount = new BankAccount(bankAccount);
         this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
+        this.salary = salary;
     }
 
     public BankAccount getBankAccount() {
@@ -78,5 +81,11 @@ public class Customer extends User {
     }
 
 
+    public double getSalary() {
+        return salary;
+    }
 
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
 }

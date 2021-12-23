@@ -1,7 +1,7 @@
 package Classes;
 
 public class DebitCard {
-    int cardNr;
+    String cardNr;
     boolean status;
     int cvc;
     String expirationDate;
@@ -10,8 +10,8 @@ public class DebitCard {
     public DebitCard(){
 
     }
-    public DebitCard(int cardNr, int cvc, String expirationDate, int code) throws Exception{
-        if(cardNr != 16){
+    public DebitCard(String cardNr, int cvc, String expirationDate, int code) throws Exception{
+        if(cardNr.length() != 16){
             throw new Exception("The card number should have 16 digits");
         }
         this.cardNr = cardNr;

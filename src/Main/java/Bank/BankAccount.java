@@ -1,8 +1,8 @@
-package Classes;
+package Bank;
+import Classes.Transaction;
 import Utilities.Utilities;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class BankAccount {
 
