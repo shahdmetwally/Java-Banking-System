@@ -1,0 +1,17 @@
+Employee
+When checking an customer account, null is thrown/ There is something wrong with the hashmaps values
+
+Create customer: You can type whatever number you want, however of you type letter for example in the
+CARD NUMBER, expcetion null is thrown and the system closes
+
+When you type 1 in the employee menu you should end up in the employee menu again same when you press 3
+
+An error message pops up when you enter a random number, when trying to update customers password
+
+
+SOMEBODY NEED TO WORK MORE WITH EMPLOYEE, I ONLY CHECKED SOME OF THE METHODS I WAS MANLY TRYING TO WORK ON CUSTOMER
+
+
+CUSTOMER
+The inbox does not work
+Withdraw cash, depostit money, Set/update Budget, an error pops up when you type letters instead of numbers
