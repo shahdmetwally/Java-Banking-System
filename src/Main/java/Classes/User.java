@@ -10,11 +10,6 @@ public class User {
     private String personalNo; // look up francisco example with personnumber // changed from string to int
     private String password;
 
-    //int i = 1234;
-    //String str = Integer.toString(i);
-    // 10012 % 10 = 2
-    // 200105216749 / 1000000
-    //
     public User(){
 
     }
@@ -42,7 +37,7 @@ public class User {
     public String getPersonalNo() {
         return this.personalNo;
     }
-// isdhifjsodofls
+
     public String getPassword() {return password;}
 
     public void setPassword(String password) {this.password = password;}

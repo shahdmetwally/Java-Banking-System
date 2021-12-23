@@ -7,13 +7,15 @@ import java.util.Map;
 import java.util.Random;
 
 public class Controller {
-    private Bank bank;
-    private HashMap<String, User > users;
-    private HashMap<String,User> bankAccounts;
-    private User user;
+    private final Bank bank;
+    private final HashMap<String, User > users;
+    private final HashMap<String,User> bankAccounts;
+    private final User user;
 
     public Controller(String userName, String password,Bank bank) throws Exception{
         this.bank = bank;
+    public Controller(String userName, String password, Bank bank) throws Exception{
+        this.bank = new Bank();
         this.users = bank.getUsers();
         this.bankAccounts = bank.getBankAccounts();
 
@@ -27,11 +29,6 @@ public class Controller {
         }else{
             throw new Exception("Username not found. Im in the controller");
         }
-
-        /*
-         ( key = personalNo, User)
-
-         */
     }
 
     // CUSTOMER CONTROLLER

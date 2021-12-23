@@ -14,17 +14,17 @@ public class MainMenu {
     private  final MenuOptions administration;
     private final MenuOptions employee;
     private final MenuOptions manager;
-    private Bank bank;
+   private Bank bank;
 
 
     public MainMenu(Bank bank) {
-        this.bank = bank;
         this.mainMenu = new MenuOptions();
         this.administration = new MenuOptions();
         this.customer = new MenuOptions();
         this.otherService = new MenuOptions();
         this.manager = new MenuOptions();
         this.employee = new MenuOptions();
+        this.bank = bank;
     }
 
     public void setUpMainMenu() {
