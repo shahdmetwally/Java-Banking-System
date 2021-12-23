@@ -33,7 +33,7 @@ public class User {
         this.personalNo = personalNo;
         this.password = password;
     }
-
+ // jifdosjfsdf
     public long getPersonalNo() {
         return this.personalNo;
     }
