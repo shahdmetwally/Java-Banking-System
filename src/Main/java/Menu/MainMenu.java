@@ -14,7 +14,7 @@ public class MainMenu {
     private  final MenuOptions administration;
     private final MenuOptions employee;
     private final MenuOptions manager;
-   private Bank bank;
+    private Bank bank;
     private final MenuOptions inbox;
 
 
