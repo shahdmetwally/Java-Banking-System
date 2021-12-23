@@ -2,9 +2,8 @@ package MainController;
 
 import Classes.*;
 import Utilities.Utilities;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import Utilities.UserInput;
+import java.util.*;
 
 public class Controller {
     private final Bank bank;
@@ -111,8 +110,79 @@ public class Controller {
 
         // INBOX
 
+    //Methods For Customers--------
+//QUEUE FOR CUSTOMER MESSAGES-------------------------------------
+    Queue<String> messageInbox = new LinkedList<String>();
+    public void sendMessageToEmployees(Customer customer){
+        String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
+        if (message == null){
+            System.out.println("Your message cannot be empty.");
+        }else{
+            messageInbox.add(message);
+            System.out.println("Your message has been sent successfully.");
+        }
+    }
 
-        // ADMINISTRATION CONTROLLER
+    //QUEUE FOR CUSTOMER LOAN APPLICATIONS-------------- "if" statements need to be applied based on customer budget
+    Queue<String> loanApplications = new LinkedList<String>();
+    public void sendApplicationForLoan(Customer customer){
+        int loanAmount = UserInput.readInt("Please type the amount you would like to borrow from the bank: ");
+
+        String message = "Customer with name: " + customer.getFullName() + " and account balance: "
+                + customer.getBalance() + " Would like to apply for a loan of amount: " + loanAmount + ".";
+        loanApplications.add(message);
+        System.out.println("Your loan application has been sent successfully.");
+    }
+
+    //QUEUE FOR MESSAGE HISTORY(after a message has been processed by the Customer Support)
+    Queue<String> oldMessages = new LinkedList<String>();
+
+    //Methods For Employees----------------------------------------
+
+    //QUEUE FOR VACATION APPLICATIONS
+    Queue<String> vacationApplications = new LinkedList<String>();
+    public void applyForVacation(Employee employee){
+        String message = "Employee with name: " + employee.getFullName() + " Would like to apply for vacation.";
+        vacationApplications.add(message);
+        System.out.println("Your vacation application has been sent successfully.");
+    }
+
+    public void removeMessage() {
+        oldMessages.add(messageInbox.poll());
+        System.out.print("The message has been removed.");
+    }
+
+    public void approveLoanApplication(){
+        loanApplications.poll();
+        System.out.println("The loan application has been approved.");
+    }
+
+    public void seeMessageInbox(){
+        System.out.println(messageInbox);
+    }
+
+    public void seeLoanApplications(){
+        System.out.println(loanApplications);
+    }
+
+    public void seeMessageHistory(){
+        System.out.println(oldMessages);
+    }
+
+    //Methods For Managers-------------------------------
+
+    public void seeVacationApplications(){
+        System.out.println(vacationApplications);
+    }
+
+    public void approveVacationApplication(){
+        vacationApplications.poll();
+        System.out.println("The vacation application has been approved.");
+
+    }
+
+
+    // ADMINISTRATION CONTROLLER
         //------------------------------------
 
         // change administration password is already in the menu
@@ -342,6 +412,9 @@ public class Controller {
                 bank.addUser(newEmployee);// Example on how to find specific attribute, also need to give it more access
             }
         }
+
+
+
 
     }
 
