@@ -57,9 +57,12 @@ public class Controller {
         }
 
 
-        public String FiveLatestTransaction () {
+        public String FiveLatestTransaction () throws Exception {
             String message = "Five latest transaction: " + Utilities.EOL;
             StringBuilder message1 = new StringBuilder();
+            if(((Customer) user).getTransactions().size() < 5){
+                throw new Exception(" You have less than 5 transaction");
+            }
             for (int i = ((Customer) user).getTransactions().size() - 6; i < ((Customer) user).getTransactions().size() - 1; i++) {
                 message1.append(((Customer) user).getTransactions().get(i).toString()).append(Utilities.EOL);
             }

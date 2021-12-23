@@ -206,8 +206,12 @@ public class MainMenu {
                 handleCustomerMenu(controller);
                 break;
             case 5:
-                message=controller.FiveLatestTransaction();
-                System.out.println(message);
+                try {
+                    message=controller.FiveLatestTransaction();
+                    System.out.println(message);
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
+                }
                 handleCustomerMenu(controller);
                 break;
             case 6:
