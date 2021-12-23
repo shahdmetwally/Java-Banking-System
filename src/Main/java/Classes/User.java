@@ -26,7 +26,7 @@ public class User {
             throw new Exception("Personal number be in this format: YYYYMMDDXXXX");
         }
         if(!isPersonNrCorrect(personalNo)){
-            throw new Exception("The age must be more than 18 and less than 120, please input valid month and day");
+            throw new Exception("Invalid Personal Number.");
         }
         if(!isStrongPassword(password)) {
             throw new Exception("The password is weak. The password must have a minimum of 8 characters in length" +

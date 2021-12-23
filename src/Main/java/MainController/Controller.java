@@ -12,13 +12,13 @@ public class Controller {
     private HashMap<String,User> bankAccounts;
     private User user;
 
-    public Controller(String userName, String password) throws Exception{
-        this.bank = new Bank();
+    public Controller(String userName, String password,Bank bank) throws Exception{
+        this.bank = bank;
         this.users = bank.getUsers();
         this.bankAccounts = bank.getBankAccounts();
 
         if(users.containsKey(userName)) {
-            User user = (User) users.values();
+            User user = users.get(userName);
             if(user.isSamePassword(password)) {
                 this.user = user;
             } else {

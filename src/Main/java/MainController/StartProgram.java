@@ -51,7 +51,7 @@ public class StartProgram {
 
           try {
               System.out.println(" Welcomen to --name -- Banking System");
-              MainMenu bankMenu = new MainMenu();
+              MainMenu bankMenu = new MainMenu(bank);
               bankMenu.handleMainMenu();
               //mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
           }catch (Exception exception){
