@@ -14,7 +14,9 @@ public class MainMenu {
     private  final MenuOptions administration;
     private final MenuOptions employee;
     private final MenuOptions manager;
-   private Bank bank;
+    private Bank bank;
+    private final MenuOptions inbox;
+
 
 
     public MainMenu(Bank bank) {
@@ -25,6 +27,7 @@ public class MainMenu {
         this.manager = new MenuOptions();
         this.employee = new MenuOptions();
         this.bank = bank;
+        this.inbox = new MenuOptions();
     }
 
     public void setUpMainMenu() {
@@ -203,8 +206,12 @@ public class MainMenu {
                 handleCustomerMenu(controller);
                 break;
             case 5:
-                message=controller.FiveLatestTransaction();
-                System.out.println(message);
+                try {
+                    message=controller.FiveLatestTransaction();
+                    System.out.println(message);
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
+                }
                 handleCustomerMenu(controller);
                 break;
             case 6:
