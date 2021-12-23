@@ -10,8 +10,8 @@ public class AdministrationOptions extends MenuOptions {
     public AdministrationOptions() throws Exception{
         super();
         this.bank = new Bank();
-        User user = new User("admin","199001041848","Admin0000!");
-        bank.addUser(user);
+       // User user = new User("admin","190001010000","Admin0000!");
+       // bank.addUser(user);
     }
     public static boolean isStrongPassword(String password){
         boolean hasDigits = password.matches(".*\\d+.*");
