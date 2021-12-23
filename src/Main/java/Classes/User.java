@@ -33,11 +33,11 @@ public class User {
         this.personalNo = personalNo;
         this.password = password;
     }
- // jifdosjfsdf
+
     public long getPersonalNo() {
         return this.personalNo;
     }
-
+// isdhifjsodofls
     public String getPassword() {return password;}
 
     public void setPassword(String password) {this.password = password;}
