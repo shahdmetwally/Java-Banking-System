@@ -76,7 +76,7 @@ public class MainMenu {
         otherService.addOptions(0," Update name.");
         otherService.addOptions(1,"Apply for new card.");
         otherService.addOptions(2,"Block payment card.");
-        otherService.addOptions(3,"Request loan and apply for mortgages.");
+        otherService.addOptions(3,"Loan request");
         otherService.addOptions(4,"Go back to Customer menu.");
 
         employee.setMenuName("Employee Menu " + Utilities.EOL +
@@ -280,12 +280,12 @@ public class MainMenu {
                 }
                 break;
             case 3:
+                String loanType = UserInput.readLine("Enter loan type: " + Utilities.EOL +
+                        " Personal loan, Home loan, Car loan, Unsecured loan ");
+
                 handleOtherService(controller);
                 break;
             case 4:
-                handleOtherService(controller);
-                break;
-            case 5:
                 handleCustomerMenu(controller);
                 break;
 
@@ -322,7 +322,8 @@ public class MainMenu {
                     int cvc = UserInput.readInt("Enter cvc number: ");
                     String expirationDate = UserInput.readLine("Enter expiration date: ");
                     int code = UserInput.readInt("Enter code: ");
-                    controller.createCustomer(fullName,personalNo,password,cardNr,cvc,expirationDate,code);
+                    double salary = UserInput.readDouble("Enter customer salary: ");
+                    controller.createCustomer(fullName,personalNo,salary,password,cardNr,cvc,expirationDate,code);
                     System.out.println("Customer was successfully registered.");
                 } catch (IllegalAccessException scannerError) {
                     System.out.println("Invalid input.");

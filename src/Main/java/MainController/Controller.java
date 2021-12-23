@@ -49,9 +49,11 @@ public class Controller {
 
         public String transferMoney ( double amount, String anotherBankAccountNo) throws Exception {
             String message;
-            if (((Customer) bankAccounts.values()).getBankAccount().equals(anotherBankAccountNo)) {
+
+            if (bankAccounts.containsKey(anotherBankAccountNo)) {
+                Customer anotherCustomer = (Customer) bankAccounts.get(anotherBankAccountNo);
                 ((Customer) user).withdrawMoney(amount);
-                ((Customer) bankAccounts.values()).depositMoney(amount);
+               anotherCustomer.depositMoney(amount);
             }
             return message = "Transaction successful to " + anotherBankAccountNo;
         }
@@ -273,13 +275,12 @@ public class Controller {
             Employee employee = getEmployee(personalNo);
             int vacationDays = employee.getVacationDays();
             vacationDays -= amountOfDays;
-
         }
 
-        public String createCustomer (String fullName, String personalNo, String password,int cardNr, int cvc, String
+        public String createCustomer (String fullName, String personalNo, double salary ,String password,int cardNr, int cvc, String
         expirationDate,int code) throws Exception {
             String bankAccount = accountNoGenerator();
-            Customer customer = new Customer(fullName, personalNo, password, bankAccount, cardNr, cvc, expirationDate, code);
+            Customer customer = new Customer(fullName, personalNo, salary, password, bankAccount, cardNr, cvc, expirationDate, code);
             bank.addUser(customer);
             bank.addBankAccount(bankAccount, customer);
             return "Customers details: " + Utilities.EOL +
@@ -307,29 +308,14 @@ public class Controller {
             return clearingNumber + "-" + Math.abs(account);
         }
 
-        public boolean desactive () {  //personNr){
-            // get customer
-            // booalen desactive = false
-            // forward the aget active method from bank to customer
-            // customer...... (desactive);
-            return false; // I put this just to avoid the error
-
-        }
-
-
-        // MANAGER CONTROLLER
+             // MANAGER CONTROLLER
 
 
     /*2
      manager.addOptions(0,"Show Bank Balace");
 */
         public String getTotalBalance () {
-            double balance = 0;
-            String message = "Banks total balance: ";
-            for (Map.Entry<String, User> entry : users.entrySet()) {
-                balance += ((Customer) entry.getValue()).getBalance();
-            }
-            return message + balance;
+            return "Banks total balance: " + bank.getTotalCustomerBalance();
         }
 
 

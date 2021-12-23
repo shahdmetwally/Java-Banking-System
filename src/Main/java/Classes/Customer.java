@@ -5,11 +5,12 @@ import java.util.ArrayList;
 public class Customer extends User {
     private DebitCard debitCard;
     private BankAccount bankAccount;
+    private double salary;
 
     public Customer(){
 
     }
-    public Customer(String fullName, String personalNo, String password, String bankAccount,int cardNr, int cvc, String expirationDate,int code)throws Exception{
+    public Customer(String fullName, String personalNo, double salary, String password, String bankAccount,int cardNr, int cvc, String expirationDate,int code)throws Exception{
         super(fullName, personalNo,password);
         this.bankAccount = new BankAccount(bankAccount);
         this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
