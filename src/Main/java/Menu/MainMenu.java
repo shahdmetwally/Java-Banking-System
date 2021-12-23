@@ -14,15 +14,17 @@ public class MainMenu {
     private  final MenuOptions administration;
     private final MenuOptions employee;
     private final MenuOptions manager;
+   private Bank bank;
 
 
-    public MainMenu() {
+    public MainMenu(Bank bank) {
         this.mainMenu = new MenuOptions();
         this.administration = new MenuOptions();
         this.customer = new MenuOptions();
         this.otherService = new MenuOptions();
         this.manager = new MenuOptions();
         this.employee = new MenuOptions();
+        this.bank = bank;
     }
 
     public void setUpMainMenu() {
@@ -111,7 +113,7 @@ public class MainMenu {
 
             String userName = UserInput.readLine("Enter username: ");
             String password = UserInput.readLine("Enter password: ");
-            Controller controller = new Controller(userName, password);
+            Controller controller = new Controller(userName, password,bank);
             return controller;
     }
 
