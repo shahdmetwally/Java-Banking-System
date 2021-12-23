@@ -6,7 +6,7 @@ public class Manager extends Employee{
 
     public Manager(){}
 
-    public Manager(String name, long personalNo, String password, double salary, double bonus) throws Exception{
+    public Manager(String name, String personalNo, String password, double salary, double bonus) throws Exception{
         super(name, personalNo, password, salary);
         this.bonus = bonus;
     }

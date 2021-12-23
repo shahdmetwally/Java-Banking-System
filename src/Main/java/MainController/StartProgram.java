@@ -28,7 +28,6 @@ public class StartProgram {
             Employee employee = mapper.treeToValue(employeeNode.get(i), Employee.class);
             jsonEmployees.add(employee);
             bank.addUser(employee);
-
         }
 
         JsonNode customerNode = root.path("customers");
@@ -36,7 +35,6 @@ public class StartProgram {
             Customer customer = mapper.treeToValue(customerNode.get(i), Customer.class);
             jsonCustomers.add(customer);
             bank.addUser(customer);
-            System.out.println(customer);
         }
 
         JsonNode managerNode = root.path("managers");
@@ -45,6 +43,8 @@ public class StartProgram {
             jsonManagers.add(manager);
             bank.addUser(manager);
         }
+
+        bank.showAllUser();
 
       String option;
         do{

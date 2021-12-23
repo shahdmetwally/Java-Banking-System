@@ -10,7 +10,7 @@ public class Employee extends User {
 
     }
 
-    public Employee(String empName, long personalNo, String password, double salary) throws Exception {
+    public Employee(String empName, String personalNo, String password, double salary) throws Exception {
         super(empName, personalNo, password);
         this.vacationDays = 25;
 
@@ -60,13 +60,6 @@ public class Employee extends User {
    */
 
 
-    //This needs work discuss it
-    public void sendMessageToCustomer(String message, BankAccount customer){
-        //customer.inbox.add(message)
-    }
-
-
-
 // should not be here / done
   /*  public String getCustomerInfo(String userName, String personalNumer){
         String infoCustomer = "";
@@ -105,12 +98,7 @@ public class Employee extends User {
     public String toString(){
         return super.getFullName() + "'s gross salary is " + salary + " SEK per month." ;
     }
-// should not be here
-  /*  public void deactivateAccount(BankAccount customer){
-        customer.setActive(false);
-    }
 
-   */
 
 
 

@@ -4,10 +4,14 @@ import java.util.HashMap;
 
 public class Bank {
 
-    private final HashMap<Long, User> users = new HashMap<Long, User>();
+    private final HashMap<String, User> users = new HashMap<String, User>();
     private final HashMap<String, User> bankAccounts = new HashMap<>();
 
-    public HashMap<Long, User> getUsers() {
+    public void showAllUser(){
+        users.forEach((personNo, user) -> System.out.println(user.getFullName() + " : " + personNo  + ": " + user.getPassword()));
+    }
+
+    public HashMap<String, User> getUsers() {
         return users;
     }
 

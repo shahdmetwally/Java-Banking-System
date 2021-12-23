@@ -103,21 +103,17 @@ public class MainMenu {
         manager.addOptions(6,"Go back to employee menu.");
     }
 
-    public long enterPersonalNr(){
-        long personNr = UserInput.readInt(" Enter customer personal number: ");
+    public String enterPersonalNr(){
+        String personNr = UserInput.readLine(" Enter customer personal number: ");
         return personNr;
     }
 
-    public Controller login(){
-        try {
-            long userName = UserInput.readInt("Enter username: ");
+    public Controller login() throws Exception{
+
+            String userName = UserInput.readLine("Enter username: ");
             String password = UserInput.readLine("Enter password: ");
             Controller controller = new Controller(userName, password);
             return controller;
-        }catch (Exception exception){
-            System.out.println(exception);
-        }
-        return login();
     }
 
     public void handleMainMenu(){
@@ -127,13 +123,25 @@ public class MainMenu {
         switch (userChoice) {
 
             case 0:
-                handleCustomerMenu(login());
+                    try {
+                        handleCustomerMenu(login());
+                    } catch (Exception exception) {
+                        System.out.println(exception);
+                    }
+                handleMainMenu();
                 break;
-            case 1:
+            case 1:try {
                 handleEmployeeMenu(login());
+            }catch (Exception exception){
+                System.out.println(exception.getMessage());
+                handleMainMenu();
+            }
                 break;
-            case 2:   String password = UserInput.readLine(" Enter password: ");
-                //adminLogIn(password);
+            case 2:try{
+                handleAdministration(login());
+            }catch (Exception exception){
+                System.out.println(exception.getMessage());
+            } handleMainMenu();
                 break;
             case 3:
                 UserInput.input.close();
@@ -293,7 +301,7 @@ public class MainMenu {
                 try {
                     System.out.println("Registering a Customer user: ");
                     String fullName = UserInput.readLine("Enter your full name:");
-                    long personalNo = UserInput.readInt("Enter your personal number (YYYYMMDDXXXX): ");
+                    String personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
                     String password = UserInput.readLine("Create a password: " + Utilities.EOL +
                             "The password must have a minimum of 8 characters in length" + Utilities.EOL +
                             "and contain: lowercase letter, uppercase letter, digit.");
@@ -305,10 +313,11 @@ public class MainMenu {
                     System.out.println("Customer was successfully registered.");
                 } catch (IllegalAccessException scannerError) {
                     System.out.println("Invalid input.");
+                    handleEmployeeMenu(controller);
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
+                    handleEmployeeMenu(controller);
                 }
-                handleEmployeeMenu(controller);
                 break;
             case 1://create a bank account for customer
                 // creating a customer already creates a bank account and need to fix the account no. so it saves.
@@ -323,7 +332,7 @@ public class MainMenu {
                 handleEmployeeMenu(controller);
                 break;
             case 4:
-                long personalNo = UserInput.readInt("Please type the personal number for the customer:");
+                String personalNo = UserInput.readLine("Please type the personal number for the customer:");
                 String newPassword = UserInput.readLine("Please type the new password:");
                 System.out.println(controller.updateCustomerPassword(personalNo, newPassword));
                 handleEmployeeMenu(controller);
@@ -366,7 +375,7 @@ public class MainMenu {
                 break;
             case 2:// create employee
                 String name=UserInput.readLine("Please enter the name of the employee: ");
-                long personalNo = UserInput.readInt("The Personal number of the employee: ");
+                String personalNo = UserInput.readLine("The Personal number of the employee: ");
                 String password =UserInput.readLine("Please type the employees password: ");
                 double salary = UserInput.readDouble("Please type the salary of the employee: ");
                 try {
@@ -374,11 +383,12 @@ public class MainMenu {
                     handleManagerMenu(controller);
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
+                    handleManagerMenu(controller);
                 }
                 handleManagerMenu(controller);
                 break;
             case 3:// remove employee
-                personalNo = UserInput.readInt("Please type the personalNo of the employee you wish to remove: ");
+                personalNo = UserInput.readLine("Please type the personalNo of the employee you wish to remove: ");
                 try {
                     System.out.println(controller.removeEmployee(personalNo));
                 } catch (Exception exception) {
@@ -388,13 +398,13 @@ public class MainMenu {
                 handleManagerMenu(controller); //thisjoihasdhisfsdsd
                 break;
             case 4://update employee salary
-                personalNo = UserInput.readInt("Type the personalNo of the employee you wish to change the salary of: ");
+                personalNo = UserInput.readLine("Type the personalNo of the employee you wish to change the salary of: ");
                 double newSalary = UserInput.readDouble("Write the new salary of the employee: ");
                 System.out.println(controller.setEmployeeSalary(personalNo,newSalary));
                 handleManagerMenu(controller);
                 break;
             case 5:// update employee password
-                personalNo=UserInput.readInt("Type the personalNo of the employee you wish to change the password of: ");
+                personalNo=UserInput.readLine("Type the personalNo of the employee you wish to change the password of: ");
                 password=UserInput.readLine("Please type the new password of the employee: " );
                 System.out.println(controller.setEmployeePassword(password, personalNo));
                 handleManagerMenu(controller);
@@ -438,7 +448,7 @@ public class MainMenu {
                         try {
                             System.out.println(" Registering a manager user: ");
                             String fullName = UserInput.readLine(" Type you full name:");
-                            int personalNo = UserInput.readInt(" Enter your personal number (YYYYMMDDXXXX): ");
+                            String personalNo = UserInput.readLine(" Enter your personal number (YYYYMMDDXXXX): ");
                             String password;
                             String repeatedPassword;
                             do {
@@ -458,7 +468,7 @@ public class MainMenu {
                         } catch (Exception exception) {
                             System.out.println(exception.getMessage());
                         }
-                        option = UserInput.readLine("Do you want to create another manager?");
+                        option = UserInput.readLine("Do you want to create another manager?" + Utilities.EOL + " Yes or No");
 
                     } while (option.equalsIgnoreCase("yes"));
                     handleAdministration(controller);
@@ -466,7 +476,7 @@ public class MainMenu {
 
                 case 2:
                     try {
-                        long personNr = UserInput.readInt("Enter managers personal number: ");
+                        String personNr = UserInput.readLine("Enter managers personal number: ");
                         controller.removeManager(personNr);
                     }catch (Exception exception){
                         System.out.println(exception.getMessage());
@@ -476,7 +486,7 @@ public class MainMenu {
 
                 case 3:
                     try {
-                        long personNr = UserInput.readInt("Enter manger personal number: ");
+                        String personNr = UserInput.readLine("Enter manger personal number: ");
                         double newSalary = UserInput.readDouble("Enter Manager salary: ");
                         controller.setManagerSalary(newSalary, personNr);
                     }catch (Exception exception){
@@ -486,7 +496,7 @@ public class MainMenu {
                     break;
                 case 4:
                     try {
-                        long personNr = UserInput.readInt("Enter manger personal number: ");
+                        String personNr = UserInput.readLine("Enter manger personal number: ");
                         String password;
                         String repeatedPassword;
                         do {
@@ -503,7 +513,7 @@ public class MainMenu {
                     handleAdministration(controller);
                     break;
                 case 5:
-                    long personNr= UserInput.readInt("Enter employees personal number : ");
+                    String personNr= UserInput.readLine("Enter employees personal number : ");
                     double salary = UserInput.readDouble("Enter new salary: ");
                     double bonus = UserInput.readDouble("Enter salary bonus: ");
                     try{

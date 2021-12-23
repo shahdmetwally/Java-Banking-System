@@ -10,7 +10,7 @@ public class AdministrationOptions extends MenuOptions {
     public AdministrationOptions() throws Exception{
         super();
         this.bank = new Bank();
-        User user = new User("admin",000000000000,"Admin0000!");
+        User user = new User("admin","199001041848","Admin0000!");
         bank.addUser(user);
     }
     public static boolean isStrongPassword(String password){

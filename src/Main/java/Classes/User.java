@@ -7,7 +7,7 @@ import java.io.IOException;
 public class User {
     // if abstract we need to devide the log in to part
     private String fullName;
-    private long personalNo; // look up francisco example with personnumber // changed from string to int
+    private String personalNo; // look up francisco example with personnumber // changed from string to int
     private String password;
 
     //int i = 1234;
@@ -18,11 +18,11 @@ public class User {
     public User(){
 
     }
-    public User(String fullName,long personalNo, String password) throws Exception{
+    public User(String fullName,String personalNo, String password) throws Exception{
         if(fullName.isBlank()) {
             throw new Exception("Name cannot be blank.");
         }
-        if(personalNo != 12) {
+        if(personalNo.length() != 12) {
             throw new Exception("Personal number be in this format: YYYYMMDDXXXX");
         }
         if(!isStrongPassword(password)) {
@@ -31,10 +31,12 @@ public class User {
         }
         this.fullName = fullName.trim();
         this.personalNo = personalNo;
+
         this.password = password;
     }
 
-    public long getPersonalNo() {
+
+    public String getPersonalNo() {
         return this.personalNo;
     }
 
@@ -51,8 +53,8 @@ public class User {
         this.fullName = newName.trim();
     }
 
-    public boolean isSamePersonNo(int inputPersonalNo){
-        if(this.personalNo == inputPersonalNo){
+    public boolean isSamePersonNo(String inputPersonalNo){
+        if(this.personalNo.equals(inputPersonalNo)){
             return true;
         }else{
             return false;
@@ -69,6 +71,10 @@ public class User {
         boolean hasLowerCase = password.matches(".*[a-z]+.*");
         boolean isLong = password.length() > 7;
         return hasDigits && hasLowerCase && hasUpperCase && isLong;
+    }
+
+    public String toString(){
+        return "Username: " + personalNo + " password: " + password;
     }
 
 }

@@ -9,7 +9,7 @@ public class Customer extends User {
     public Customer(){
 
     }
-    public Customer(String fullName, long personalNo, String password, String bankAccount,int cardNr, int cvc, String expirationDate,int code)throws Exception{
+    public Customer(String fullName, String personalNo, String password, String bankAccount,int cardNr, int cvc, String expirationDate,int code)throws Exception{
         super(fullName, personalNo,password);
         this.bankAccount = new BankAccount(bankAccount);
         this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
@@ -31,12 +31,6 @@ public class Customer extends User {
     public String withdrawMoney(double amount) throws Exception {
         return bankAccount.withdrawMoney(amount);
     }
-
-   /* public String transferMoney(double amount, String  anotherBankAccountNo) throws Exception{
-        return bankAccount.transferMoney(amount, anotherBankAccountNo);
-    }
-
-    */
 
     public double getBalance() {
         return bankAccount.getBalance();
