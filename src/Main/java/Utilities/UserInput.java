@@ -24,10 +24,5 @@ public class UserInput {
         String value = input.nextLine();
         return value;
     }
-    public static long readLong(String message){
-        System.out.println(message);
-        long value = input.nextLong();
-        input.nextLine();
-        return value;
-    }
+
 }

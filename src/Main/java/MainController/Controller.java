@@ -108,20 +108,19 @@ public class Controller {
         return "Payment card has been blocked";
     }
 
-    public String deactivateAccount(){
-
-        return "Account has been deactivated ";
-    }
 
     public String loanRequest(){
 
         return "Loan request has been send.";
     }
 
+    // INBOX
 
 
 
-    // For the set budget we can use the update budget in th menu
+
+
+
 
 
     // ADMINISTRATION CONTROLLER

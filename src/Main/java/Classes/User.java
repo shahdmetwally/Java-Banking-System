@@ -74,7 +74,7 @@ public class User {
     }
 
     public String toString(){
-        return "Username: " + personalNo + " password: " + password;
+        return "Username: " + personalNo + " password: " + password ;
     }
 
 }

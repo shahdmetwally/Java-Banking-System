@@ -71,9 +71,8 @@ public class MainMenu {
         otherService.addOptions(0," Update name.");
         otherService.addOptions(1,"Apply for new card.");
         otherService.addOptions(2,"Block payment card.");
-        otherService.addOptions(3, "Deactivate account.");
-        otherService.addOptions(4,"Request loan and apply for mortgages.");
-        otherService.addOptions(5,"Go back to Customer menu.");
+        otherService.addOptions(3,"Request loan and apply for mortgages.");
+        otherService.addOptions(4,"Go back to Customer menu.");
 
         employee.setMenuName("Employee Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -299,12 +298,17 @@ public class MainMenu {
                 System.out.println("Registering a new Customer: ");
                 String option;
                 try {
-                    System.out.println("Registering a Customer user: ");
                     String fullName = UserInput.readLine("Enter your full name:");
                     String personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
-                    String password = UserInput.readLine("Create a password: " + Utilities.EOL +
-                            "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                            "and contain: lowercase letter, uppercase letter, digit.");
+                    String password;
+                    String repeatedPassword;
+                    do {
+                        password = UserInput.readLine("Create a password: " + Utilities.EOL +
+                                "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                        repeatedPassword = UserInput.readLine("Confirm password");
+
+                    } while (!password.equals(repeatedPassword));
                     int cardNr = UserInput.readInt("Enter card number: ");
                     int cvc = UserInput.readInt("Enter cvc number: ");
                     String expirationDate = UserInput.readLine("Enter expiration date: ");

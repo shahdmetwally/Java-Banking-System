@@ -73,7 +73,7 @@ public class Customer extends User {
         debitCard.setActive();
     }
     public String toString(){
-        return "Customer " + getFullName() + " with personal number " + getPersonalNo();
+        return "Customer " + getFullName() + " with personal number " + getPersonalNo() + "  Bank account: " + getBankAccount();
     }
 
 
