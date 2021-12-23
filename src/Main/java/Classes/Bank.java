@@ -7,7 +7,7 @@ public class Bank {
 
     private  HashMap<String, User> users = new HashMap<String, User>();
     private  HashMap<String, User> bankAccounts = new HashMap<>();
-    private HashMap<String, Loan> = new HashMap<>();
+    private HashMap<String, Loan> loans = new HashMap<>();
     private double equity;
     private double loan;
 
