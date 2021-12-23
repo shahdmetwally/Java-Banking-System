@@ -25,21 +25,36 @@ public class StartProgram {
         JsonNode root = mapper.readTree(new File("users.json"));
         JsonNode employeeNode = root.path("employees");
         for (int i = 0; i < employeeNode.size(); i++) {
-            Employee employee = mapper.treeToValue(employeeNode.get(i), Employee.class);
+            String fullName = employeeNode.get(i).path("fullName").asText();
+            String password = employeeNode.get(i).path("password").asText();
+            Integer personalNo = employeeNode.get(i).path("personalNo").asInt();
+            double salary = employeeNode.get(i).path("salary").asDouble();
+            Employee employee = new Employee(fullName, personalNo, password, salary);
+            employee = mapper.treeToValue(employeeNode.get(i), Employee.class);
             jsonEmployees.add(employee);
             bank.addUser(employee);
         }
 
         JsonNode customerNode = root.path("customers");
         for (int i = 0; i < customerNode.size(); i++) {
-            Customer customer = mapper.treeToValue(customerNode.get(i), Customer.class);
+            String fullName = customerNode.get(i).path("fullName").asText();
+            String password = customerNode.get(i).path("password").asText();
+            Integer personalNo = customerNode.get(i).path("personalNo").asInt();
+            Customer customer = new Customer(fullName, personalNo, password);
+            customer = mapper.treeToValue(customerNode.get(i), Customer.class);
             jsonCustomers.add(customer);
             bank.addUser(customer);
         }
 
         JsonNode managerNode = root.path("managers");
         for (int i = 0; i < managerNode.size(); i++) {
-            Manager manager = mapper.treeToValue(managerNode.get(i), Manager.class);
+            String fullName = managerNode.get(i).path("fullName").asText();
+            String password = managerNode.get(i).path("password").asText();
+            Integer personalNo = managerNode.get(i).path("personalNo").asInt();
+            double salary = managerNode.get(i).path("salary").asDouble();
+            double bonus = managerNode.get(i).path("bonus").asDouble();
+            Manager manager = new Manager(fullName, personalNo, password, salary, bonus);
+            manager = mapper.treeToValue(managerNode.get(i), Manager.class);
             jsonManagers.add(manager);
             bank.addUser(manager);
         }

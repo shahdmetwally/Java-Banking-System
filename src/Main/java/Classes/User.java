@@ -39,7 +39,7 @@ public class User {
     public String getPersonalNo() {
         return this.personalNo;
     }
-
+// isdhifjsodofls
     public String getPassword() {return password;}
 
     public void setPassword(String password) {this.password = password;}
