@@ -22,8 +22,11 @@ public class User {
         if(fullName.isBlank()) {
             throw new Exception("Name cannot be blank.");
         }
-        if(personalNo.length() != 12) {
+        if(personalNo.length()!=12) {
             throw new Exception("Personal number be in this format: YYYYMMDDXXXX");
+        }
+        if(!isPersonNrCorrect(personalNo)){
+            throw new Exception("The age must be more than 18 and less than 120, please input valid month and day");
         }
         if(!isStrongPassword(password)) {
             throw new Exception("The password is weak. The password must have a minimum of 8 characters in length" +
@@ -71,6 +74,26 @@ public class User {
         boolean hasLowerCase = password.matches(".*[a-z]+.*");
         boolean isLong = password.length() > 7;
         return hasDigits && hasLowerCase && hasUpperCase && isLong;
+    }
+
+    public static boolean isPersonNrCorrect(String personalNo){
+        String yearStr = personalNo.substring(0,5);
+        int year= Integer.parseInt(yearStr);
+        String monthStr = personalNo.substring(5,7);
+        int month = Integer.parseInt(monthStr);
+        String dayStr= personalNo.substring(7,9);
+        int day = Integer.parseInt(dayStr);
+
+        if(year>1900 && year<2003) {
+            return false;
+        }
+        if(month> 12 || month < 1){
+            return false;
+        }
+        if(day>31 || day< 1){
+            return false;
+        }
+        return true;
     }
 
     public String toString(){
