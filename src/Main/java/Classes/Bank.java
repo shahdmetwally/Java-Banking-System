@@ -2,6 +2,7 @@ package Classes;
 
 import java.util.HashMap;
 import java.util.Map;
+import Bank.Loan;
 
 public class Bank {
 
