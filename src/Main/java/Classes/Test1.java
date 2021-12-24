@@ -1,6 +1,7 @@
 package Classes;
 
 import Bank.Bank;
+
 import MainController.Controller;
 import Utilities.Utilities;
 import Utilities.UserInput;
@@ -53,7 +54,7 @@ public class Test1 {
             String coSigner_personalNr = UserInput.readLine("Enter Co-signer personal number: ");
             double coSigner_salary = UserInput.readDouble("Enter Co-signer salary: ");
 
-            controller.loanRequest(loanAmount,typesOfLoan,time,otherEquity,otherEquitiesValue,cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
+            controller.loanRequestWithCoSigner(loanAmount,typesOfLoan,time,otherEquity,otherEquitiesValue,cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
             bank.getLoanApplications().toString();
 
          //   controller.loanRequest()
