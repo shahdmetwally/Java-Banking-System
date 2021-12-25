@@ -306,29 +306,47 @@ public class MainMenu {
             case 0:
                 System.out.println("Registering a new Customer: ");
                 String option;
-                try {
-                    String fullName = UserInput.readLine("Enter your full name:");
-                    String personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
-                    String password;
-                    String repeatedPassword;
-                    do {
-                        password = UserInput.readLine("Create a password: " + Utilities.EOL +
-                                "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                "and contain at least  contain: lowercase letter, uppercase letter, digit.");
-                        repeatedPassword = UserInput.readLine("Confirm password");
 
-                    } while (!password.equals(repeatedPassword));
-                    int cardNr = UserInput.readInt("Enter card number: ");
-                    int cvc = UserInput.readInt("Enter cvc number: ");
-                    String expirationDate = UserInput.readLine("Enter expiration date: ");
-                    int code = UserInput.readInt("Enter code: ");
-                    controller.createCustomer(fullName,personalNo,password,cardNr,cvc,expirationDate,code);
-                    System.out.println("Customer was successfully registered.");
-                } catch (IllegalAccessException scannerError) {
-                    System.out.println("Invalid input.");
-                    handleEmployeeMenu(controller);
-                } catch (Exception exception) {
-                    System.out.println(exception.getMessage());
+                 option = UserInput.readLine("Do you want to create a new customer?" + Utilities.EOL + "Yes or no" );
+                if(option.equalsIgnoreCase("yes")) {
+                    try {
+
+                        String fullName;
+                        do {
+                            fullName = UserInput.readLine("Enter your full name:");
+                        } while (controller.isBlank(fullName));
+
+                        String personalNo;
+
+                        do {
+                            personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
+
+                        } while (!controller.isPersonNrCorrect(personalNo));
+
+                        String password;
+                        String repeatedPassword;
+                        do {
+                            password = UserInput.readLine("Create a password: " + Utilities.EOL +
+                                    "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                    "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                            repeatedPassword = UserInput.readLine("Confirm password");
+
+                        } while (!password.equals(repeatedPassword));
+
+                        int cardNr = UserInput.readInt("Enter card number: ");
+                        int cvc = UserInput.readInt("Enter cvc number: ");
+                        String expirationDate = UserInput.readLine("Enter expiration date: ");
+                        int code = UserInput.readInt("Enter code: ");
+                        controller.createCustomer(fullName, personalNo, password, cardNr, cvc, expirationDate, code);
+                        System.out.println("Customer was successfully registered.");
+                    } catch (IllegalAccessException scannerError) {
+                        System.out.println("Invalid input.");
+                        handleEmployeeMenu(controller);
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                        handleEmployeeMenu(controller);
+                    }
+                }else{
                     handleEmployeeMenu(controller);
                 }
                 break;

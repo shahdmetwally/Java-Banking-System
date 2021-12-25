@@ -82,6 +82,43 @@ public class Controller {
             ((Customer) user).getBankAccount().setBudget(budget);
         }
 
+
+        public boolean isBlank(String name) throws Exception {
+
+        if(name.isBlank()){
+            return true;
+        }
+        return false;
+        }
+
+        public boolean isPersonNrCorrect(String personalNo) {
+            if (personalNo.length() == 12) {
+                String yearStr = personalNo.substring(0, 4);
+                int year = Integer.parseInt(yearStr);
+                String monthStr = personalNo.substring(4, 6);
+                int month = Integer.parseInt(monthStr);
+                String dayStr = personalNo.substring(6, 8);
+                int day = Integer.parseInt(dayStr);
+
+                if (year > 2003 || year < 1900) {
+                    return false;
+                }
+                if (month > 12 || month < 1) {
+                    return false;
+                }
+                if (day > 31 || day < 1) {
+                    return false;
+                }
+                return true;
+
+            } else {
+                return false;
+            }
+        }
+
+
+
+
     /*
       otherService.addOptions(0," Update name.");
         otherService.addOptions(1,"Apply for card.");

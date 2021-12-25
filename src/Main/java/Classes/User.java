@@ -17,12 +17,12 @@ public class User {
         if(fullName.isBlank()) {
             throw new Exception("Name cannot be blank.");
         }
-        if(personalNo.length()!=12) {
+        /*if(personalNo.length()!=12) {
             throw new Exception("Personal number be in this format: YYYYMMDDXXXX");
-        }
-        if(!isPersonNrCorrect(personalNo)){
-            throw new Exception("Invalid Personal Number.");
-        }
+        }*/
+        //if(!isPersonNrCorrect(personalNo)){
+          //  throw new Exception("Invalid Personal Number.");
+      //  }
         if(!isStrongPassword(password)) {
             throw new Exception("The password is weak. The password must have a minimum of 8 characters in length" +
                     " and contain: lowercase letter, uppercase letter, digit.");
@@ -71,7 +71,7 @@ public class User {
         return hasDigits && hasLowerCase && hasUpperCase && isLong;
     }
 
-    public static boolean isPersonNrCorrect(String personalNo){
+   /* public boolean isPersonNrCorrect(String personalNo){
         String yearStr = personalNo.substring(0,5);
         int year= Integer.parseInt(yearStr);
         String monthStr = personalNo.substring(5,7);
@@ -89,7 +89,7 @@ public class User {
             return false;
         }
         return true;
-    }
+    }*/
 
     public String toString(){
         return "Username: " + personalNo + " password: " + password ;
