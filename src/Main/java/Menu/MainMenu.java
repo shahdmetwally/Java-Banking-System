@@ -1,9 +1,10 @@
 package Menu;
 
-import Classes.*;
+import Bank.Bank;
 import MainController.Controller;
 import Utilities.UserInput;
 import Utilities.Utilities;
+import Bank.TypesOfLoan;
 
 
 public class MainMenu {
@@ -74,10 +75,13 @@ public class MainMenu {
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         otherService.addOptions(0," Update name.");
-        otherService.addOptions(1,"Apply for new card.");
-        otherService.addOptions(2,"Block payment card.");
-        otherService.addOptions(3,"Request loan and apply for mortgages.");
-        otherService.addOptions(4,"Go back to Customer menu.");
+        otherService.addOptions(1,"Update Salary");
+        otherService.addOptions(2,"Apply for new card.");
+        otherService.addOptions(3,"Block payment card.");
+        otherService.addOptions(4,"Loan request with Co-signer");
+        otherService.addOptions(5, "Loan request without Co-signer");
+        otherService.addOptions(6,"Loan status"); //? should we?
+        otherService.addOptions(7,"Go back to Customer menu.");
 
         employee.setMenuName("Employee Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -253,6 +257,7 @@ public class MainMenu {
         }
     }
 
+
     public void handleOtherService(Controller controller){
         this.otherService.printOptions();
         int userChoice = UserInput.readInt("Type in the option: ");
@@ -266,10 +271,15 @@ public class MainMenu {
                 }
                 handleOtherService(controller);
                 break;
-            case 1:
+            case 1: double salary = UserInput.readDouble("Enter salary: ");
+                String message = controller.updateSalary(salary);
+                System.out.println(message);
                 handleOtherService(controller);
                 break;
-            case 2:
+            case 2: //"Apply for new card."
+
+                break;
+            case 3:
                 String option = UserInput.readLine("Are you sure that you want to block your debit card? "+ Utilities.EOL + " Please answer: yes or no");
                 if(option.equalsIgnoreCase("yes")){
                     String cardBlocked = controller.blockCard();
@@ -279,16 +289,91 @@ public class MainMenu {
                     handleOtherService(controller);
                 }
                 break;
-            case 3:
-                handleOtherService(controller);
-                break;
-            case 4:
-                handleOtherService(controller);
-                break;
-            case 5:
+            case 4:  //otherService.addOptions(4,"Loan request");
+               //    PERSONAL_LOAN,HOME_LOAN,CAR_LOAN,UNSECURED_LOAN;
+                System.out.println(" Loan options: " + Utilities.EOL +
+                        "1. Personal loan " + Utilities.EOL +
+                        "2. House loan "+ Utilities.EOL +
+                        "3. Car loan"+ Utilities.EOL +
+                        "4. Unsecured loan");
+                TypesOfLoan typesOfLoan = null;
+                int newOption = UserInput.readInt("Enter loan option: ");
+                do {
+                    switch (newOption) {
+                        case 1:
+                            typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
+
+                        case 2:
+                            typesOfLoan = TypesOfLoan.HOUSE_LOAN;
+
+                        case 3:
+                            typesOfLoan = TypesOfLoan.CAR_LOAN;
+                            break;
+                        case 4:
+                            typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please select between option 1 to 4. ");
+                    }
+                }while (newOption>4 ||newOption < 1);
+
+                int loanAmount = UserInput.readInt("Enter the loan amount: ");
+                double time = UserInput.readDouble("Enter loan time (years): ");
+                String otherEquity = UserInput.readLine("Enter other equity");
+                double otherEquitiesValue = UserInput.readDouble("Enter other equities value: ");
+                double cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Show be at least 15% of the total loan amount");
+                String coSigner_name = UserInput.readLine("Enter Co-signer name: ");
+                String coSigner_personalNr = UserInput.readLine("Enter Co-signer personal number: ");
+                double coSigner_salary =UserInput.readDouble("Enter Co-signer salary: ");
+
+                message =  controller.loanRequestWithCoSigner(loanAmount,typesOfLoan,time,otherEquity,otherEquitiesValue,cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
+                System.out.println(message);
+                // controller:
+
+                String loanAppID= UserInput.readLine("Enter Loan ID");
+                String testMess = bank.viewLoanApplication(loanAppID);
+                System.out.println(testMess);
+
                 handleCustomerMenu(controller);
                 break;
+            case 5:  System.out.println(" Loan options: " + Utilities.EOL +
+                    "1. Personal loan " + Utilities.EOL +
+                    "2. House loan "+ Utilities.EOL +
+                    "3. Car loan"+ Utilities.EOL +
+                    "4. Unsecured loan");
+                 typesOfLoan = null;
+                 newOption = UserInput.readInt("Enter loan option: ");
+                do {
+                    switch (newOption) {
+                        case 1:
+                            typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
 
+                        case 2:
+                            typesOfLoan = TypesOfLoan.HOUSE_LOAN;
+
+                        case 3:
+                            typesOfLoan = TypesOfLoan.CAR_LOAN;
+                            break;
+                        case 4:
+                            typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please select between option 1 to 4. ");
+                    }
+                }while (newOption>4 ||newOption < 1);
+
+                 loanAmount = UserInput.readInt("Enter the loan amount: ");
+                 time = UserInput.readDouble("Enter loan time (years): ");
+                 otherEquity = UserInput.readLine("Enter other equity");
+                 otherEquitiesValue = UserInput.readDouble("Enter other equities value: ");
+                 cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Show be at least 15% of the total loan amount");
+                message =  controller.loanRequestWithOutCoSigner(loanAmount,typesOfLoan,time,otherEquity,otherEquitiesValue,cashContribution);
+                System.out.println(message);
+            break;
+            case 6://  otherService.addOptions(5,"Loan status"); //? should we?
+                    break;
+            case 7: handleCustomerMenu(controller);
+                break;
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                 handleOtherService(controller);
@@ -331,6 +416,19 @@ public class MainMenu {
                                     "and contain at least  contain: lowercase letter, uppercase letter, digit.");
                             repeatedPassword = UserInput.readLine("Confirm password");
 
+                    } while (!password.equals(repeatedPassword));
+                    String cardNr = UserInput.readLine("Enter card number: ");
+                    int cvc = UserInput.readInt("Enter cvc number: ");
+                    String expirationDate = UserInput.readLine("Enter expiration date: ");
+                    int code = UserInput.readInt("Enter code: ");
+                    double salary = UserInput.readDouble("Enter customer salary: ");
+                    controller.createCustomer(fullName,personalNo,salary,password,cardNr,cvc,expirationDate,code);
+                    System.out.println("Customer was successfully registered.");
+                } catch (IllegalAccessException scannerError) {
+                    System.out.println("Invalid input.");
+                    handleEmployeeMenu(controller);
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
                         } while (!password.equals(repeatedPassword));
 
                         int cardNr = UserInput.readInt("Enter card number: ");

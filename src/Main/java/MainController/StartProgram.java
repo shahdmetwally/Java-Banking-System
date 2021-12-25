@@ -1,6 +1,7 @@
 package MainController;
 
 
+import Bank.Bank;
 import Classes.*;
 import Menu.MainMenu;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 public class StartProgram {
 
     public static void main(String[] args) throws Exception {
+
         Bank bank = new Bank();
         HashMap<String, ArrayList> jsonBank = new HashMap<>();
         ArrayList<Customer> jsonCustomers = new ArrayList<>();
@@ -50,7 +52,7 @@ public class StartProgram {
         do{
 
           try {
-              System.out.println(" Welcomen to --name -- Banking System");
+              System.out.println("Banking System");
               MainMenu bankMenu = new MainMenu(bank);
               bankMenu.handleMainMenu();
               //mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
