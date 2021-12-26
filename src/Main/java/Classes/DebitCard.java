@@ -16,14 +16,17 @@ public class DebitCard {
         }
         this.cardNr = cardNr;
         this.status = true;
-        if(cvc != 3){
+
+        String cvcStr = cvc + "";
+        if(cvcStr.length() != 3){
             throw new Exception("The cvc should have only 3 digits.");
         }
         this.cvc = cvc;
         // find a way to make sure that the expiration date is in the future!
         this.expirationDate = expirationDate;
 
-        if( code != 4){
+        String codeStr = code + "";
+        if( codeStr.length() != 4){
             throw new Exception("The code should have 4 digits.");
         }
         this.code = code;

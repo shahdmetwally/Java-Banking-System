@@ -54,6 +54,10 @@ public class Bank {
 
     public void addUser(User user) {
         this.users.put(user.getPersonalNo(), user);
+        if(user instanceof Customer){
+            this.bankAccounts.put(((Customer) user).getAccountNo(), user);
+        }
+
     }
     public void addLoan(Loan loan, String personalNr ){
        String key = "L" + personalNr;

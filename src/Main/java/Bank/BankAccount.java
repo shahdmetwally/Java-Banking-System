@@ -9,7 +9,7 @@ public class BankAccount {
 
     private String accountNo;
     private double balance;
-    private ArrayList<Transaction> transactions;
+    private ArrayList<String> transactions;
     private boolean active;
     private double loan;
     private double expanse;
@@ -33,7 +33,6 @@ public class BankAccount {
 
     }
 
-
     public String getAccountNo() {
         return accountNo;
     }
@@ -54,7 +53,7 @@ public class BankAccount {
         return loan;
     }
 
-    public ArrayList<Transaction> getTransactions() {
+    public ArrayList<String> getTransactions() {
         return transactions;
     }
 
@@ -66,15 +65,18 @@ public class BankAccount {
         this.active = false;
     }
 
-    public void setBudget(double budget) {
+    public void setBudget(double budget) throws Exception {
+        if(budget<0){
+            throw new Exception("Budget cannot be negative.");
+        }
         date = Utilities.date();
         this.budget = budget;
     }
 
     public void addTransaction(double amount) {
         //if (active) {                                      // Jeniffer - Activation/ Deactivation of account
-        Transaction transaction1 = new Transaction(amount);
-        transactions.add(transaction1);
+        Transaction transaction = new Transaction(amount);
+        transactions.add(transaction.toString());
     }
 
     public void setBalance(double balance) {
@@ -110,7 +112,7 @@ public class BankAccount {
 
     public String depositMoney(double amount) throws Exception { // 2.1  Deposit Money
 
-        if (active == false) {
+        if (!active) {
             throw new Exception("The account is deactivated");
         } else if (amount <= 0) {
             throw new Exception("You cannot add an amount with a negative value. ");
@@ -136,7 +138,11 @@ public class BankAccount {
                 return checkBudget() + Utilities.EOL + this;
             }
             return toString();
-        } else {
+        }
+        else if (amount<0){
+            throw new Exception("The withdrawal amount cannot be less than zero.");
+
+            }else {
             throw new Exception("The withdrawal amount must be less than your account balance.");
         }
 

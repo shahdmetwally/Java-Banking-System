@@ -2,9 +2,13 @@ package Menu;
 
 import Bank.Bank;
 import MainController.Controller;
+import MainController.StartProgram;
 import Utilities.UserInput;
 import Utilities.Utilities;
 import Bank.TypesOfLoan;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.nio.file.Paths;
 
 
 public class MainMenu {
@@ -153,6 +157,13 @@ public class MainMenu {
                 break;
             case 3:
                 UserInput.input.close();
+                ObjectMapper mapper = new ObjectMapper();
+                try{
+                    mapper.writeValue(Paths.get("users.json").toFile(), StartProgram.jsonBank);
+
+                } catch (Exception exception){
+                    System.out.println(exception);
+                }
                 System.exit(0);
                 break;
             default:  System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
@@ -224,13 +235,22 @@ public class MainMenu {
                 handleCustomerMenu(controller);
                 break;
             case 7:// inbox
-                controller.updateBudget(UserInput.readDouble("Please enter the budget: "));
-                System.out.println("Your budget was set successfully");
+                try{
+                    controller.updateBudget(UserInput.readDouble("Please enter the budget: "));
+                    System.out.println("Your budget was set successfully");
+                } catch (Exception exception){
+                    System.out.println(exception.getMessage());
+                }
+
                 handleCustomerMenu(controller);
                 break;
             case 8:
-                controller.updateBudget(UserInput.readDouble("Please enter the budget you want to set: "));
-                System.out.println("You have updated your budget successfully");
+                try{
+                    controller.updateBudget(UserInput.readDouble("Please enter the budget you want to set: "));
+                    System.out.println("You have updated your budget successfully");
+                } catch (Exception exception){
+                System.out.println(exception.getMessage());
+            }
                 handleCustomerMenu(controller);
                 break;
             case 9:// inbox
@@ -410,6 +430,7 @@ public class MainMenu {
                     double salary = UserInput.readDouble("Enter customer salary: ");
                     controller.createCustomer(fullName,personalNo,salary,password,cardNr,cvc,expirationDate,code);
                     System.out.println("Customer was successfully registered.");
+                    handleEmployeeMenu(controller);
                 } catch (IllegalAccessException scannerError) {
                     System.out.println("Invalid input.");
                     handleEmployeeMenu(controller);

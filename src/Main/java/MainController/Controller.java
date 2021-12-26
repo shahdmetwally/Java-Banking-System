@@ -52,14 +52,28 @@ public class Controller {
         }
 
         public String transferMoney ( double amount, String anotherBankAccountNo) throws Exception {
-            String message;
+            String message="";
 
             if (bankAccounts.containsKey(anotherBankAccountNo)) {
                 Customer anotherCustomer = (Customer) bankAccounts.get(anotherBankAccountNo);
-                ((Customer) user).withdrawMoney(amount);
-               anotherCustomer.depositMoney(amount);
+                if(((Customer) user).getAccountNo().equals(anotherCustomer.getAccountNo())){
+                    message = "You cannot make a transfer to your own account.";
+                } else {
+                    if(amount < ((Customer) user).getBalance() && amount > 0){
+                        ((Customer) user).withdrawMoney(amount);
+                        anotherCustomer.depositMoney(amount);
+                    } else if(amount<0){
+                        throw new Exception("Transfer amount cannot be negative.");
+                    } else if(amount>((Customer) user).getBalance()){
+                        throw new Exception("Transfer amount cannot exceed your account balance.");
+                    }
+
+
+                    message = "Transaction successful to " + anotherBankAccountNo;
+                }
+
             }
-            return message = "Transaction successful to " + anotherBankAccountNo;
+            return message;
         }
 
 
@@ -69,22 +83,22 @@ public class Controller {
             if(((Customer) user).getTransactions().size() < 5){
                 throw new Exception(" You have less than 5 transaction");
             }
-            for (int i = ((Customer) user).getTransactions().size() - 6; i < ((Customer) user).getTransactions().size() - 1; i++) {
+            for (int i = 0; i < ((Customer) user).getTransactions().size(); i++) {
                 message1.append(((Customer) user).getTransactions().get(i).toString()).append(Utilities.EOL);
             }
             return message + message1;
         }
 
-        public String transactionHistory () {
+        public String transactionHistory(){
             String message = " Transaction history: " + Utilities.EOL;
             String message1 = "";
-            for (Transaction transaction : ((Customer) user).getTransactions()) {
-                message1 += transaction.toString() + Utilities.EOL;
+            for (int i=0; i< ((Customer) user).getTransactions().size();i++) {
+                message1 += ((Customer) user).getTransactions().get(i) + Utilities.EOL;
             }
             return message + message1;
         }
 
-        public void updateBudget ( double budget){
+        public void updateBudget ( double budget) throws Exception {
             ((Customer) user).getBankAccount().setBudget(budget);
         }
 
@@ -215,6 +229,7 @@ public class Controller {
         Exception {
             User manager = new Manager(name, personalNo, password, salary, bonus);
             bank.addUser(manager);
+            StartProgram.jsonManagers.add((Manager) manager);
         }
 
 
@@ -276,9 +291,9 @@ public class Controller {
         }
 
 
-        public String getCustomerInfo (String personalNumer){
+        public String getCustomerInfo (String personalNumber){
             String infoCustomer = "";
-            Customer customer = getCustomer(personalNumer);
+            Customer customer = getCustomer(personalNumber);
             return infoCustomer = customer.getBankAccount().getTransaction() + "Loan: " + customer.getBankAccount().getLoan();
         }
 
@@ -302,6 +317,7 @@ public class Controller {
             Customer customer = new Customer(fullName, personalNo, salary, password, bankAccount, cardNr, cvc, expirationDate, code);
             bank.addUser(customer);
             bank.addBankAccount(bankAccount, customer);
+            StartProgram.jsonCustomers.add(customer);
             return "Customers details: " + Utilities.EOL +
                     "--------------------" + Utilities.EOL +
                     "Name: " + fullName + Utilities.EOL +
@@ -363,6 +379,7 @@ public class Controller {
         Exception {
             User employee = new Employee(fullName, personalNo, password, salary);
             bank.addUser(employee);
+            StartProgram.jsonEmployees.add((Employee) employee);
             return "Employee " + fullName + " was registered successfully.";
         }
 

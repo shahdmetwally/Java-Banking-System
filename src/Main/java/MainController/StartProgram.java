@@ -7,18 +7,24 @@ import Menu.MainMenu;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StartProgram {
 
+    public static HashMap<String, ArrayList> jsonBank = new HashMap<>();
+    public static ArrayList<Customer> jsonCustomers = new ArrayList<>();
+    public static ArrayList<Employee> jsonEmployees = new ArrayList<>();
+    public static ArrayList<Manager> jsonManagers = new ArrayList<>();
+
+
     public static void main(String[] args) throws Exception {
 
         Bank bank = new Bank();
-        HashMap<String, ArrayList> jsonBank = new HashMap<>();
-        ArrayList<Customer> jsonCustomers = new ArrayList<>();
-        ArrayList<Employee> jsonEmployees = new ArrayList<>();
-        ArrayList<Manager> jsonManagers = new ArrayList<>();
+
+
+
         jsonBank.put("employees", jsonEmployees);
         jsonBank.put("customers", jsonCustomers);
         jsonBank.put("managers", jsonManagers);
@@ -37,6 +43,7 @@ public class StartProgram {
             Customer customer = mapper.treeToValue(customerNode.get(i), Customer.class);
             jsonCustomers.add(customer);
             bank.addUser(customer);
+            
         }
 
         JsonNode managerNode = root.path("managers");
@@ -55,7 +62,7 @@ public class StartProgram {
               System.out.println("Banking System");
               MainMenu bankMenu = new MainMenu(bank);
               bankMenu.handleMainMenu();
-              //mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
+              mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
           }catch (Exception exception){
               System.out.println(exception.getMessage());
           }

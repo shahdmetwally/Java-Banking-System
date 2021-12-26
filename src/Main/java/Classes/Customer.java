@@ -40,11 +40,11 @@ public class Customer extends User {
         return bankAccount.getBalance();
     }
 
-    public void setBudget(double budget){
+    public void setBudget(double budget) throws Exception {
         bankAccount.setBudget(budget);
     }
 
-    public ArrayList<Transaction> getTransactions() {
+    public ArrayList<String> getTransactions() {
         return bankAccount.getTransactions();
     }
 

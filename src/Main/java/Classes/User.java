@@ -18,7 +18,7 @@ public class User {
             throw new Exception("Name cannot be blank.");
         }
         if(personalNo.length()!=12) {
-            throw new Exception("Personal number be in this format: YYYYMMDDXXXX");
+            throw new Exception("Personal number must be in this format: YYYYMMDDXXXX");
         }
         if(!isPersonNrCorrect(personalNo)){
             throw new Exception("Invalid Personal Number.");
@@ -72,14 +72,15 @@ public class User {
     }
 
     public static boolean isPersonNrCorrect(String personalNo){
-        String yearStr = personalNo.substring(0,5);
+        String yearStr = personalNo.substring(0,4);
         int year= Integer.parseInt(yearStr);
-        String monthStr = personalNo.substring(5,7);
+        String monthStr = personalNo.substring(4,6);
         int month = Integer.parseInt(monthStr);
-        String dayStr= personalNo.substring(7,9);
+        String dayStr= personalNo.substring(6,8);
         int day = Integer.parseInt(dayStr);
 
-        if(year>1900 && year<2003) {
+
+        if(year<1900 || year>2003) {
             return false;
         }
         if(month> 12 || month < 1){
