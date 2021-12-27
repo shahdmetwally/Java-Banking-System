@@ -6,9 +6,9 @@ import Utilities.Utilities;
 public class LoanApplication {
 
     private final String loanApplication_ID;
-    private final double amount;
-    private final TypesOfLoan typesOfLoan;
-    private final double time;
+    private  double amount;
+    private  TypesOfLoan typesOfLoan;
+    private  double time;
     private String otherEquities;
     private double otherEquitiesValues;
     private  double cashContribution;
@@ -57,7 +57,6 @@ public class LoanApplication {
                 "Co-Signer salary: " + coSigner_salary;
     }
 
-
     public String getLoanApplication_ID() {
         return loanApplication_ID;
     }
@@ -66,12 +65,25 @@ public class LoanApplication {
         return amount;
     }
 
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
     public TypesOfLoan getTypesOfLoan() {
         return typesOfLoan;
     }
 
+    public void setTypesOfLoan(TypesOfLoan typesOfLoan) {
+        this.typesOfLoan = typesOfLoan;
+    }
+
+
     public double getTime() {
         return time;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
     }
 
     public String getOtherEquities() {
@@ -102,7 +114,7 @@ public class LoanApplication {
     public String getCoSigner_personalNr() {
         return coSigner_personalNr;
     }
-    public void setCoSigner_personalNr(String personalNr){
+    public void setCoSigner_personalNr(String personalNr) {
         coSigner_personalNr = personalNr;
     }
 
@@ -113,4 +125,5 @@ public class LoanApplication {
     public void setCoSigner_salary(double coSigner_salary) {
         this.coSigner_salary = coSigner_salary;
     }
+
 }

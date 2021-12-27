@@ -17,6 +17,10 @@ House loan between 50-70% of the house worth
  This is apart of the interest of the loan.
 at least 15% of the hole loan.
 
+
+monthly payment of the mortage:
+
+P * (interest rate)  (1+ i)
 Debt-to-income (DTI) ratio: Your DTI ratio is the amount
 of your monthly debt divided by your monthly gross income.
 Generally, a low DTI ratio is a signal to lenders that you
@@ -43,3 +47,7 @@ CHECK PERSONAL NR- DEFAULTS!!!! PRIO!
 
 Exception
 - PersonNr working but not for the length.
+
+queue
+
+peek; to see but not do anything about it.
