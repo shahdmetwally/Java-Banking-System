@@ -1,0 +1,15 @@
+ -change administration password-
+1.The password checking does not work, you can type whatever you want and it will still go thorugh
+
+ -Create manager-
+1. You can have as many spaces as you want when typing in the name of the manager
+2. You can type whatever you want everywhere. The text Personal number must be in this format: YYYYMMDDXXXX shows up in the end when you are done with the whole process
+(Some of these points also applies to the methods where you change password and salary)
+
+-Promote employee-
+1. No message indicating that you are done pops up
+2. When you enter random number only NULL pops up in the end and you get sent back to the menu
+
+
+-Show all manager-
+1. This options does not even work, its says that is an invalid menu option
