@@ -312,6 +312,7 @@ public class MainMenu {
                 try{
                     String newName= UserInput.readLine("Enter new name: ");
                     controller.updateCustomerName(newName);
+                    System.out.println(controller);
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
                 }
@@ -348,10 +349,10 @@ public class MainMenu {
                     switch (newOption) {
                         case 1:
                             typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
-
+                            break;
                         case 2:
                             typesOfLoan = TypesOfLoan.HOUSE_LOAN;
-
+                            break;
                         case 3:
                             typesOfLoan = TypesOfLoan.CAR_LOAN;
                             break;
@@ -376,8 +377,8 @@ public class MainMenu {
                 System.out.println(message);
                 // controller:
 
-                String loanAppID= UserInput.readLine("Enter Loan ID");
-                String testMess = bank.viewLoanApplication(loanAppID);
+                String loanAppID= UserInput.readLine("Enter Loan request ID");
+                String testMess = bank.getLoanApplications().get(loanAppID).toString();
                 System.out.println(testMess);
 
                 handleCustomerMenu(controller);

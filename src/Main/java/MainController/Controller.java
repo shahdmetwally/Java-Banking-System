@@ -15,7 +15,7 @@ public class Controller {
     private Inbox inbox;
 
     public Controller(String userName, String password, Bank bank) throws Exception {
-            this.bank = new Bank();
+            this.bank = bank;
             this.users = bank.getUsers();
             this.bankAccounts = bank.getBankAccounts();
 
@@ -141,6 +141,9 @@ public class Controller {
             }
         }
 
+        public String toString(){
+        return getUser().toString();
+        }
 
 
 
@@ -501,8 +504,6 @@ public class Controller {
                 bank.addUser(newEmployee);// Example on how to find specific attribute, also need to give it more access
             }
         }
-
-
 
 
     }
