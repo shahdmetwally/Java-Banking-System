@@ -512,7 +512,7 @@ public class MainMenu {
 
 
         }
-    }
+
 
     public void handleManagerMenu(Controller controller) {
         manager.printOptions();
