@@ -1,4 +1,4 @@
-package Inbox;
+package Classes;
 
 import java.util.LinkedList;
 import java.util.Queue;

@@ -6,6 +6,7 @@ import Classes.*;
 import Utilities.Utilities;
 import Utilities.UserInput;
 import java.util.*;
+import Classes.Inbox;
 
 public class Controller {
     private final Bank bank;
@@ -76,7 +77,6 @@ public class Controller {
 
                     message = "Transaction successful to " + anotherBankAccountNo;
                 }
-
             }
             return message;
         }
