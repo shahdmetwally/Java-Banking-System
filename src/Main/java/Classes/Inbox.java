@@ -1,23 +1,19 @@
-package Inbox;
+package Classes;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Inbox {
     Queue<String> loanApplications;
-    Queue<String> oldMessages; // maybe ArrayList instead.
+    Queue<String> oldMessages;
     Queue<String> vacationApplications;
     Queue<String> messageInbox;
-    Queue<String> messagesToCustomers;
-    Queue<String> messagesToEmployees;
 
     public Inbox(){
         this.loanApplications = new LinkedList<String>();
         this.oldMessages = new LinkedList<String>();
         this.vacationApplications= new LinkedList<String>();
         this.messageInbox  = new LinkedList<String>();
-        this.messagesToCustomers = new LinkedList<String>();
-        this.messagesToEmployees = new LinkedList<String>();
     }
 
 
@@ -25,19 +21,11 @@ public class Inbox {
     public void addLoanApplicationMessage(String message){
         loanApplications.add(message);
     }
-
     public void addOldMessages(String message){
         oldMessages.add(message);
     }
-
     public void addVacationApllication(String message){
         vacationApplications.add(message);
-    }
-    public void addMessageToEmployee(String message){
-        messagesToEmployees.add(message);
-    }
-    public void addMessageToCustomer(String message){
-        messagesToCustomers.add(message);
     }
     public void setMessageInbox(String message){
         messageInbox.add(message);
@@ -54,8 +42,7 @@ public class Inbox {
     }
 
     public void seeMessageInbox(){
-      //  messageInbox
-
+        System.out.println(messageInbox);
     }
 
     public void seeLoanApplications(){
