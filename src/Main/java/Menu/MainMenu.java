@@ -82,7 +82,7 @@ public class MainMenu {
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         otherService.addOptions(0,"Update name.");
-        otherService.addOptions(1,"Update Salary");
+        otherService.addOptions(1,"Update salary");
         otherService.addOptions(2,"Apply for new card.");
         otherService.addOptions(3,"Block payment card.");
         otherService.addOptions(4,"Loan request with Co-signer");
@@ -181,6 +181,7 @@ public class MainMenu {
     public void handleCustomerMenu(Controller controller) {
 
         if(controller.getUser().getRole() == Role.CUSTOMER) {
+
 
             this.customer.printOptions();
             int userChoice = UserInput.readInt("Type in the option: ");
@@ -385,6 +386,7 @@ public class MainMenu {
                 try{
                     String newName= UserInput.readLine("Enter new name: ");
                     controller.updateCustomerName(newName);
+                    System.out.println(controller);
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
                 }
@@ -421,10 +423,10 @@ public class MainMenu {
                     switch (newOption) {
                         case 1:
                             typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
-
+                            break;
                         case 2:
                             typesOfLoan = TypesOfLoan.HOUSE_LOAN;
-
+                            break;
                         case 3:
                             typesOfLoan = TypesOfLoan.CAR_LOAN;
                             break;
@@ -449,8 +451,8 @@ public class MainMenu {
                 System.out.println(message);
                 // controller:
 
-                String loanAppID= UserInput.readLine("Enter Loan ID");
-                String testMess = bank.viewLoanApplication(loanAppID);
+                String loanAppID= UserInput.readLine("Enter Loan request ID");
+                String testMess = bank.getLoanApplications().get(loanAppID).toString();
                 System.out.println(testMess);
 
                 handleCustomerMenu(controller);
@@ -510,9 +512,12 @@ public class MainMenu {
                 case 0:
                     System.out.println("Registering a new Customer: ");
                     String option;
+                    String personalNo ="";
                     try {
                         String fullName = UserInput.readLine("Enter your full name:");
-                        String personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
+                        do{
+                            personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
+                        }while(!controller.isPersonNrCorrect(personalNo));
                         String password;
                         String repeatedPassword;
                         do {
@@ -554,7 +559,7 @@ public class MainMenu {
                     handleEmployeeMenu(controller);
                     break;
                 case 4:
-                    String personalNo = UserInput.readLine("Please type the personal number for the customer:");
+                    personalNo = UserInput.readLine("Please type the personal number for the customer:");
                     String newPassword = UserInput.readLine("Please type the new password:");
                     System.out.println(controller.updateCustomerPassword(personalNo, newPassword));
                     handleEmployeeMenu(controller);

@@ -16,6 +16,6 @@ cvc, code: - had to parse them to strings to be able to check if the length was 
 Menu: -fixed so that a customer cant access the employee menu and vice versa by making an enum called "Role" which assigns a role
        to every user and the menu checks if they have access or not
 
-Exceptions: -fixed exceptions so that the system wont shut down when the you input letters instead of numbers
+Exceptions: -fixed exceptions so that the system wont shut down when the you input letters instead of numbers (for cvc and the code)
 
 Json: -added a bunch of getters and setters and default constructors to be able to save all the data in the Json file
