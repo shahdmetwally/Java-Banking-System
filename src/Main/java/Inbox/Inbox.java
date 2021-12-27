@@ -6,17 +6,13 @@ import java.util.Queue;
 public class Inbox {
     Queue<String> loanApplications;
     Queue<String> oldMessages; // maybe ArrayList instead.
-    Queue<String> vacationApplications;
     Queue<String> messageInbox;
-    Queue<String> messagesToCustomers;
     Queue<String> messagesToEmployees;
 
     public Inbox(){
         this.loanApplications = new LinkedList<String>();
         this.oldMessages = new LinkedList<String>();
-        this.vacationApplications= new LinkedList<String>();
         this.messageInbox  = new LinkedList<String>();
-        this.messagesToCustomers = new LinkedList<String>();
         this.messagesToEmployees = new LinkedList<String>();
     }
 
@@ -30,15 +26,10 @@ public class Inbox {
         oldMessages.add(message);
     }
 
-    public void addVacationApllication(String message){
-        vacationApplications.add(message);
-    }
     public void addMessageToEmployee(String message){
         messagesToEmployees.add(message);
     }
-    public void addMessageToCustomer(String message){
-        messagesToCustomers.add(message);
-    }
+
     public void setMessageInbox(String message){
         messageInbox.add(message);
     }
@@ -50,7 +41,7 @@ public class Inbox {
 
     public String approveLoanApplication(){
         loanApplications.poll();
-        return "The loan application has been approved."; // and if deny?
+        return "The loan application has been approved.";
     }
 
     public void seeMessageInbox(){
@@ -68,15 +59,6 @@ public class Inbox {
 
     //Methods For Managers-------------------------------
 
-    public void seeVacationApplications(){
-        System.out.println(vacationApplications);
-    }
-
-    public String approveVacationApplication(){
-        vacationApplications.poll();
-        return "The vacation application has been approved.";
-
-    }
 
 
 }
