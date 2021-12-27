@@ -41,7 +41,6 @@ public class Utilities {
     public static void main(String[] args) {
         System.out.println(dateAndTime());
     }
-
     //This was added
     public static boolean isNumber(String s) {
         for (int i = 0; i < s.length(); i++)
