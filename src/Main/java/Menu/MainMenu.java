@@ -423,9 +423,12 @@ public class MainMenu {
                 case 0:
                     System.out.println("Registering a new Customer: ");
                     String option;
+                    String personalNo ="";
                     try {
                         String fullName = UserInput.readLine("Enter your full name:");
-                        String personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
+                        do{
+                            personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
+                        }while(!controller.isPersonNrCorrect(personalNo));
                         String password;
                         String repeatedPassword;
                         do {
@@ -467,7 +470,7 @@ public class MainMenu {
                     handleEmployeeMenu(controller);
                     break;
                 case 4:
-                    String personalNo = UserInput.readLine("Please type the personal number for the customer:");
+                    personalNo = UserInput.readLine("Please type the personal number for the customer:");
                     String newPassword = UserInput.readLine("Please type the new password:");
                     System.out.println(controller.updateCustomerPassword(personalNo, newPassword));
                     handleEmployeeMenu(controller);
