@@ -81,7 +81,7 @@ public class MainMenu {
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         otherService.addOptions(0,"Update name.");
-        otherService.addOptions(1,"Update Salary");
+        otherService.addOptions(1,"Update salary");
         otherService.addOptions(2,"Apply for new card.");
         otherService.addOptions(3,"Block payment card.");
         otherService.addOptions(4,"Loan request with Co-signer");
@@ -180,6 +180,7 @@ public class MainMenu {
     public void handleCustomerMenu(Controller controller) {
 
         if(controller.getUser().getRole() == Role.CUSTOMER) {
+
 
             this.customer.printOptions();
             int userChoice = UserInput.readInt("Type in the option: ");
