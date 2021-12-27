@@ -258,6 +258,11 @@ public class MainMenu {
                     }
                     double actualAmount = Double.parseDouble(amount);
                     String account =UserInput.readLine("Please enter the account No of the recievient:");
+                    if (!bank.getBankAccounts().containsKey(account)) {
+                        do {
+                            account = UserInput.readLine("Please enter an existing account number: ");
+                        } while (!bank.getBankAccounts().containsKey(account));
+                    }
 
                         message = controller.transferMoney(actualAmount, account);
                         System.out.println(message);
