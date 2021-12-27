@@ -35,7 +35,12 @@ public class Controller {
         // CUSTOMER CONTROLLER
         //----------------------------------------
 
-        public String viewAccountNo () {
+
+    public User getUser() {
+        return user;
+    }
+
+    public String viewAccountNo () {
             return "Account Number: " + ((Customer) user).getAccountNo();
         }
 
@@ -52,14 +57,28 @@ public class Controller {
         }
 
         public String transferMoney ( double amount, String anotherBankAccountNo) throws Exception {
-            String message;
+            String message="";
 
             if (bankAccounts.containsKey(anotherBankAccountNo)) {
                 Customer anotherCustomer = (Customer) bankAccounts.get(anotherBankAccountNo);
-                ((Customer) user).withdrawMoney(amount);
-               anotherCustomer.depositMoney(amount);
+                if(((Customer) user).getAccountNo().equals(anotherCustomer.getAccountNo())){
+                    message = "You cannot make a transfer to your own account.";
+                } else {
+                    if(amount < ((Customer) user).getBalance() && amount > 0){
+                        ((Customer) user).withdrawMoney(amount);
+                        anotherCustomer.depositMoney(amount);
+                    } else if(amount<0){
+                        throw new Exception("Transfer amount cannot be negative.");
+                    } else if(amount>((Customer) user).getBalance()){
+                        throw new Exception("Transfer amount cannot exceed your account balance.");
+                    }
+
+
+                    message = "Transaction successful to " + anotherBankAccountNo;
+                }
+
             }
-            return message = "Transaction successful to " + anotherBankAccountNo;
+            return message;
         }
 
 
@@ -69,22 +88,22 @@ public class Controller {
             if(((Customer) user).getTransactions().size() < 5){
                 throw new Exception(" You have less than 5 transaction");
             }
-            for (int i = ((Customer) user).getTransactions().size() - 6; i < ((Customer) user).getTransactions().size() - 1; i++) {
+            for (int i = 0; i < ((Customer) user).getTransactions().size(); i++) {
                 message1.append(((Customer) user).getTransactions().get(i).toString()).append(Utilities.EOL);
             }
             return message + message1;
         }
 
-        public String transactionHistory () {
+        public String transactionHistory(){
             String message = " Transaction history: " + Utilities.EOL;
             String message1 = "";
-            for (Transaction transaction : ((Customer) user).getTransactions()) {
-                message1 += transaction.toString() + Utilities.EOL;
+            for (int i=0; i< ((Customer) user).getTransactions().size();i++) {
+                message1 += ((Customer) user).getTransactions().get(i) + Utilities.EOL;
             }
             return message + message1;
         }
 
-        public void updateBudget ( double budget){
+        public void updateBudget ( double budget) throws Exception {
             ((Customer) user).getBankAccount().setBudget(budget);
         }
 
@@ -248,10 +267,11 @@ public class Controller {
 
         // change administration password is already in the menu
 
-        public void createManager (String name, String personalNo, String password,double salary, double bonus) throws
+        public void createManager (String name, String personalNo, String password, double salary, double bonus) throws
         Exception {
-            User manager = new Manager(name, personalNo, password, salary, bonus);
+            User manager = new Manager(name, personalNo, password,  salary, bonus);
             bank.addUser(manager);
+            StartProgram.jsonManagers.add((Manager) manager);
         }
 
 
@@ -285,13 +305,13 @@ public class Controller {
         //--------------------------------------
         public Customer getCustomer (String inputPersonNumber){
             if (users.containsKey(inputPersonNumber)) {
-                return (Customer) users.values();
+                return (Customer) users.get(inputPersonNumber);
             }
             return null;
         }
 
         public String viewSalary () {
-            return "Salary: " + ((Employee) user).getSalary();
+            return "Your salary is " + ((Employee) user).getSalary();
         }
 
         public String updateCustomerPassword (String personalNo, String newPassword){
@@ -313,16 +333,19 @@ public class Controller {
         }
 
 
-        public String getCustomerInfo (String personalNumer){
-            String infoCustomer = "";
-            Customer customer = getCustomer(personalNumer);
-            return infoCustomer = customer.getBankAccount().getTransaction() + "Loan: " + customer.getBankAccount().getLoan();
+        public String getCustomerInfo (String personalNumber){
+            Customer customer = getCustomer(personalNumber);
+            return "--------------------" + Utilities.EOL +
+                    "Account information for " + customer.getFullName() + Utilities.EOL +
+                    "Transactions: " + Utilities.EOL +
+                            customer.getBankAccount().getTransactions() + Utilities.EOL + Utilities.EOL +
+                            "Loans: " + customer.getBankAccount().getLoan();
         }
 
 
         public Employee getEmployee (String inputPersonNumber){
-            if (user instanceof Employee) {
-                return (Employee) user;
+            if (users.containsKey(inputPersonNumber)) {
+                return (Employee) users.get(inputPersonNumber);
             }
             return null;
         }
@@ -339,6 +362,7 @@ public class Controller {
             Customer customer = new Customer(fullName, personalNo, salary, password, bankAccount, cardNr, cvc, expirationDate, code);
             bank.addUser(customer);
             bank.addBankAccount(bankAccount, customer);
+            StartProgram.jsonCustomers.add(customer);
             return "Customers details: " + Utilities.EOL +
                     "--------------------" + Utilities.EOL +
                     "Name: " + fullName + Utilities.EOL +
@@ -383,9 +407,10 @@ public class Controller {
             double totalLoan = 0;
 
             for (Map.Entry<String, User> entry : users.entrySet()) {
-                totalLoan += ((Customer) entry.getValue()).getBankAccount().getLoan();
+                if(entry.getValue() instanceof Customer){
+                    totalLoan += ((Customer) entry.getValue()).getBankAccount().getLoan();
+                }
             }
-
             return message + totalLoan;
         }
 
@@ -396,10 +421,11 @@ public class Controller {
          */
 
 
-        public String createEmployee (String fullName, String personalNo, String password,double salary) throws
+        public String createEmployee (String fullName, String personalNo, String password, double salary) throws
         Exception {
             User employee = new Employee(fullName, personalNo, password, salary);
             bank.addUser(employee);
+            StartProgram.jsonEmployees.add((Employee) employee);
             return "Employee " + fullName + " was registered successfully.";
         }
 
@@ -424,8 +450,17 @@ public class Controller {
    manager.addOptions(4,"update employee salary");
    */
         public String setEmployeeSalary (String personalNo,double newSalary){
-            getEmployee(personalNo).setSalary(newSalary);
-            return "The salary was updated. ";
+            String message="There is no registered employee with personal number " + personalNo + ".";
+            if(users.containsKey(personalNo)){
+                if (users.get(personalNo) instanceof Employee){
+                    getEmployee(personalNo).setSalary(newSalary);
+                    message = "The salary was successfully updated.";
+                } else {
+                    message = "The user with personal number " + personalNo + " is not an employee.";
+                }
+            }
+
+            return message;
         }
 
 
@@ -433,8 +468,17 @@ public class Controller {
     manager.addOptions(5,"Update employee password");
     */
         public String setEmployeePassword (String newPassword, String personalNo){
-            getEmployee(personalNo).setPassword(newPassword);
-            return "The password was updated. ";
+            String message="There is no registered employee with personal number " + personalNo + ".";
+            if(users.containsKey(personalNo)){
+                if (users.get(personalNo) instanceof Employee){
+                    getEmployee(personalNo).setPassword(newPassword);
+                    message = "The password was successfully updated.";
+                } else {
+                    message = "The user with personal number " + personalNo + " is not an employee.";
+                }
+            }
+
+            return message;
         }
 
 

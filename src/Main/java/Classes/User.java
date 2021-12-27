@@ -9,30 +9,39 @@ public class User {
     private String fullName;
     private String personalNo; // look up francisco example with personnumber // changed from string to int
     private String password;
+    private Role role;
 
     public User(){
 
     }
-    public User(String fullName,String personalNo, String password) throws Exception{
+    public User(String fullName,String personalNo, String password, Role role) throws Exception{
         if(fullName.isBlank()) {
             throw new Exception("Name cannot be blank.");
         }
-        /*if(personalNo.length()!=12) {
-            throw new Exception("Personal number be in this format: YYYYMMDDXXXX");
-        }*/
-        //if(!isPersonNrCorrect(personalNo)){
-          //  throw new Exception("Invalid Personal Number.");
-      //  }
+        if(personalNo.length()!=12) {
+            throw new Exception("Personal number must be in this format: YYYYMMDDXXXX");
+        }
+        if(!isPersonNrCorrect(personalNo)){
+            throw new Exception("Invalid Personal Number.");
+        }
         if(!isStrongPassword(password)) {
             throw new Exception("The password is weak. The password must have a minimum of 8 characters in length" +
                     " and contain: lowercase letter, uppercase letter, digit.");
         }
         this.fullName = fullName.trim();
         this.personalNo = personalNo;
-
         this.password = password;
+        this.role = role;
+
     }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Role getRole() {
+        return role;
+    }
 
     public String getPersonalNo() {
         return this.personalNo;
@@ -71,15 +80,15 @@ public class User {
         return hasDigits && hasLowerCase && hasUpperCase && isLong;
     }
 
-   /* public boolean isPersonNrCorrect(String personalNo){
-        String yearStr = personalNo.substring(0,5);
+    public static boolean isPersonNrCorrect(String personalNo){
+        String yearStr = personalNo.substring(0,4);
         int year= Integer.parseInt(yearStr);
-        String monthStr = personalNo.substring(5,7);
+        String monthStr = personalNo.substring(4,6);
         int month = Integer.parseInt(monthStr);
-        String dayStr= personalNo.substring(7,9);
+        String dayStr= personalNo.substring(6,8);
         int day = Integer.parseInt(dayStr);
 
-        if(year>1900 && year<2003) {
+        if(year<1900 || year>2003) {
             return false;
         }
         if(month> 12 || month < 1){
@@ -88,8 +97,17 @@ public class User {
         if(day>31 || day< 1){
             return false;
         }
+
+        if((month==4||month==6||month==9||month==11)&&day>30) {
+            return false;
+        }
+
+        if (month == 2 && day > 29) {
+                return false;
+        }
+
         return true;
-    }*/
+    }
 
     public String toString(){
         return "Username: " + personalNo + " password: " + password ;
