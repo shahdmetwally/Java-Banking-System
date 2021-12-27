@@ -265,7 +265,6 @@ public class MainMenu {
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
                 }
-// hello
 
                 /*
                 try {
