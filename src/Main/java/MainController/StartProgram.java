@@ -22,9 +22,6 @@ public class StartProgram {
     public static void main(String[] args) throws Exception {
 
         Bank bank = new Bank();
-
-
-
         jsonBank.put("employees", jsonEmployees);
         jsonBank.put("customers", jsonCustomers);
         jsonBank.put("managers", jsonManagers);
@@ -43,7 +40,6 @@ public class StartProgram {
             Customer customer = mapper.treeToValue(customerNode.get(i), Customer.class);
             jsonCustomers.add(customer);
             bank.addUser(customer);
-            
         }
 
         JsonNode managerNode = root.path("managers");

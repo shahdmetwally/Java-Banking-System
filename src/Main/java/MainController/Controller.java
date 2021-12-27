@@ -35,7 +35,12 @@ public class Controller {
         // CUSTOMER CONTROLLER
         //----------------------------------------
 
-        public String viewAccountNo () {
+
+    public User getUser() {
+        return user;
+    }
+
+    public String viewAccountNo () {
             return "Account Number: " + ((Customer) user).getAccountNo();
         }
 
@@ -225,9 +230,9 @@ public class Controller {
 
         // change administration password is already in the menu
 
-        public void createManager (String name, String personalNo, String password,double salary, double bonus) throws
+        public void createManager (String name, String personalNo, String password, double salary, double bonus) throws
         Exception {
-            User manager = new Manager(name, personalNo, password, salary, bonus);
+            User manager = new Manager(name, personalNo, password,  salary, bonus);
             bank.addUser(manager);
             StartProgram.jsonManagers.add((Manager) manager);
         }
@@ -375,7 +380,7 @@ public class Controller {
          */
 
 
-        public String createEmployee (String fullName, String personalNo, String password,double salary) throws
+        public String createEmployee (String fullName, String personalNo, String password, double salary) throws
         Exception {
             User employee = new Employee(fullName, personalNo, password, salary);
             bank.addUser(employee);

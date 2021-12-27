@@ -11,14 +11,17 @@ public class Employee extends User {
     }
 
     public Employee(String empName, String personalNo, String password, double salary) throws Exception {
-        super(empName, personalNo, password);
+        super(empName, personalNo, password, Role.CUSTOMER);
         this.vacationDays = 25;
 
         if(salary < 0){
-            throw new Exception(" Salary cannot be less than 0.");
+            throw new Exception("Salary cannot be less than 0.");
         }
         this.salary = salary;
 
+    }
+    public void setRole() {
+        super.setRole(Role.EMPLOYEE);
     }
 
     public double getSalary() {return salary;}
