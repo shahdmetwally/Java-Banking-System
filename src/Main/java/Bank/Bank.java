@@ -19,13 +19,13 @@ public class Bank {
         this.users = new HashMap<>();
         this.bankAccounts = new HashMap<>();
         this.loans = new HashMap<>();
-        this.loanApplications = new HashMap<>();
+       this.loanApplications = new HashMap<>();
         this.equity = 0;
     }
 
     public double getTotalCustomerBalance(){
         double balance = 0;
-
+        String message = "Banks total balance: ";
         for (Map.Entry<String, User> entry : users.entrySet()) {
             balance += ((Customer) entry.getValue()).getBalance();
         }

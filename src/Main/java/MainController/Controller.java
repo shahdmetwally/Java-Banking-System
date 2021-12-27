@@ -3,7 +3,6 @@ import Bank.Bank;
 import Bank.LoanApplication;
 import Bank.TypesOfLoan;
 import Classes.*;
-import Inbox.Inbox;
 import Utilities.Utilities;
 import Utilities.UserInput;
 import java.util.*;
@@ -198,11 +197,11 @@ public class Controller {
             return typesOfLoan;
 
         }
-    public String loanRequestWithOutCoSigner (double amount, TypesOfLoan typesOfLoan, double time, String otherEquity, double otherEquityvalue, double cashContribution) {
+    public String loanRequestWithOutCoSigner (double amount, TypesOfLoan typesOfLoan, double time,HashMap<String, Double> hashMap ,double cashContribution) {
 
         String message = "Loan Application from : " + user.getFullName() + " with personal nr: " + user.getPersonalNo() + Utilities.EOL;
         String inboxMessage;
-        LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time, otherEquity,otherEquityvalue, cashContribution);
+        LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time, hashMap, cashContribution);
         bank.addLoanApplication(user.getPersonalNo(),loanApplication);
         String loanMessage = loanApplication.toString();
         inboxMessage = message + loanMessage;
@@ -211,12 +210,23 @@ public class Controller {
 
         return "Loan request has been send. The loan application ID is: LA"+user.getPersonalNo();
     }
+    public HashMap<String,Double> tempHashmap(){
+            HashMap<String , Double> tempHashmap = new HashMap<>();
+            return tempHashmap;
+    }
+    public String addEquities(String equityName, double equityValue,HashMap<String,Double> tempHashmap){
+           if(tempHashmap.containsKey(equityName)){
+               return "The equity name cannot be the same";
+           }
+            tempHashmap.put(equityName,equityValue);
+            return "Successfully added";
+    }
 
-        public String loanRequestWithCoSigner (double amount, TypesOfLoan typesOfLoan, double time, String otherEquity, double otherEquityvalue, double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
+        public String loanRequestWithCoSigner (double amount, TypesOfLoan typesOfLoan, double time, HashMap<String,Double> hashMap,double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
 
             String message = "Loan Application from : " + user.getFullName() + " with personal nr: " + user.getPersonalNo() + Utilities.EOL;
             String inboxMessage;
-            LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time, otherEquity,otherEquityvalue, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
+            LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time,hashMap, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
             bank.addLoanApplication(user.getPersonalNo(),loanApplication);
             String loanMessage = loanApplication.toString();
             inboxMessage = message + loanMessage;
@@ -225,41 +235,46 @@ public class Controller {
 
             return "Loan request has been send. The loan application ID is: LA"+ user.getPersonalNo();
         }
-         // INBOX
+        // To Dimitrios:
+    /*
+        - The Employee has two choices to approve the loan or to decline.
+        If the loan is aprrove, Create a loan and add it to the Loan Hashmap
+        and send a message with the details of the loan and the loan ID
+        to the user and insert the loan amount in the user account.
+
+        If the loan is decline, delete the request and send message to the user.
+     */
 
 
-    public void ViewEmployeeMessageInbox() {
+        // INBOX
 
-
-    }
-
-    public void sendMessageToCustomers() {
-    }
-
-    public void ViewEmployeeMessageHistory() {
-    }
-
-    public void removeMessageFromCustomer() {
-    }
-
-    public void ViewCustomerMessageInbox() {
-    }
-
-    public String sendMessageToEmployees(String message) {
-        if (message.isBlank()){
-           return "Your message cannot be empty.";
+    //Methods For Customers--------
+    public void sendMessageToEmployees(Customer customer){
+        String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
+        if (message == null){
+            System.out.println("Your message cannot be empty.");
         }else{
-            inbox.addMessageToEmployee(message);
-            return "Your message has been sent successfully.";
+          //  messageInbox.add(message);
+            System.out.println("Your message has been sent successfully.");
         }
     }
 
-    public void ViewCustomerMessageHistory() {
+    //QUEUE FOR CUSTOMER LOAN APPLICATIONS-------------- "if" statements need to be applied based on customer budget
+
+    public void sendApplicationForLoan(Customer customer){
+        int loanAmount = UserInput.readInt("Please type the amount you would like to borrow from the bank: ");
+
+        String message = "Customer with name: " + customer.getFullName() + " and account balance: "
+                + customer.getBalance() + " Would like to apply for a loan of amount: " + loanAmount + ".";
+      //  loanApplications.add(message);
+        System.out.println("Your loan application has been sent successfully.");
     }
 
-    public void removeMessageFromEmployee() {
+    public void applyForVacation(){
+    //    String message = "Employee with name: " + employee.getFullName() + " Would like to apply for vacation.";
+     //   vacationApplications.add(message);
+        System.out.println("Your vacation application has been sent successfully.");
     }
-    
 
     // ADMINISTRATION CONTROLLER
         //------------------------------------
@@ -387,28 +402,7 @@ public class Controller {
             return clearingNumber + "-" + Math.abs(account);
         }
 
-        public String calculateDTI(double monthlyDebt, double grossIncome) {
-            double dti = monthlyDebt/grossIncome;
-            return Utilities.truncateForPrint(dti);
-        }
-
-        public String calculateMonthlyMortgage(double loan, double interestRate, double loanPeriod){
-            /* Montly mortgage formula:
-                 m= p * r (1+r)^n
-                   ----------------
-                   ((1+r)^n ) - 1
-             */
-        double loanXInterest = loan*interestRate;
-        double interestToThePower = Math.pow((1+interestRate),loanPeriod);
-        double numerator = loanXInterest * interestToThePower;
-        double denominator = interestToThePower -1;
-        double monthlyMortgage = numerator/denominator;
-        return "The monthly mortgage for this loan is: " + Utilities.truncateForPrint(monthlyMortgage);
-        }
-
-
-
-    // MANAGER CONTROLLER
+             // MANAGER CONTROLLER
 
 
     /*2
@@ -523,5 +517,5 @@ public class Controller {
         }
 
 
-}
+    }
 
