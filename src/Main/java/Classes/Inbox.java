@@ -24,7 +24,7 @@ public class Inbox {
     public void addOldMessages(String message){
         oldMessages.add(message);
     }
-    public void addVacationApllication(String message){
+    public void addVacationApplication(String message){
         vacationApplications.add(message);
     }
     public void setMessageInbox(String message){
