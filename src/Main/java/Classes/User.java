@@ -9,11 +9,12 @@ public class User {
     private String fullName;
     private String personalNo; // look up francisco example with personnumber // changed from string to int
     private String password;
+    private Role role;
 
     public User(){
 
     }
-    public User(String fullName,String personalNo, String password) throws Exception{
+    public User(String fullName,String personalNo, String password, Role role) throws Exception{
         if(fullName.isBlank()) {
             throw new Exception("Name cannot be blank.");
         }
@@ -29,10 +30,18 @@ public class User {
         }
         this.fullName = fullName.trim();
         this.personalNo = personalNo;
-
         this.password = password;
+        this.role = role;
+
     }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Role getRole() {
+        return role;
+    }
 
     public String getPersonalNo() {
         return this.personalNo;
@@ -79,7 +88,6 @@ public class User {
         String dayStr= personalNo.substring(6,8);
         int day = Integer.parseInt(dayStr);
 
-
         if(year<1900 || year>2003) {
             return false;
         }
@@ -89,6 +97,15 @@ public class User {
         if(day>31 || day< 1){
             return false;
         }
+
+        if((month==4||month==6||month==9||month==11)&&day>30) {
+            return false;
+        }
+
+        if (month == 2 && day > 29) {
+                return false;
+        }
+
         return true;
     }
 

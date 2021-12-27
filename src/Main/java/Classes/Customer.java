@@ -1,6 +1,8 @@
 package Classes;
 
 import Bank.BankAccount;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 
@@ -9,11 +11,10 @@ public class Customer extends User {
     private BankAccount bankAccount;
     private double salary;
 
-    public Customer(){
+    public Customer(){}
 
-    }
     public Customer(String fullName, String personalNo, double salary, String password, String bankAccount,String cardNr, int cvc, String expirationDate,int code)throws Exception{
-        super(fullName, personalNo,password);
+        super(fullName, personalNo, password, Role.CUSTOMER);
         this.bankAccount = new BankAccount(bankAccount);
         this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
         this.salary = salary;
@@ -23,6 +24,7 @@ public class Customer extends User {
         return bankAccount;
     }
 
+    @JsonIgnore
     public String getAccountNo() {
         return bankAccount.getAccountNo();
     }
@@ -32,10 +34,12 @@ public class Customer extends User {
         return bankAccount.toString();
     }
 
+
     public String withdrawMoney(double amount) throws Exception {
         return bankAccount.withdrawMoney(amount);
     }
 
+    @JsonIgnore
     public double getBalance() {
         return bankAccount.getBalance();
     }
@@ -44,6 +48,7 @@ public class Customer extends User {
         bankAccount.setBudget(budget);
     }
 
+    @JsonIgnore
     public ArrayList<String> getTransactions() {
         return bankAccount.getTransactions();
     }
@@ -51,6 +56,10 @@ public class Customer extends User {
 
     public String checkBudget(){
         return bankAccount.checkBudget();
+    }
+
+    public DebitCard getDebitCard() {
+        return debitCard;
     }
 
     public boolean equals(Object anotherObject){

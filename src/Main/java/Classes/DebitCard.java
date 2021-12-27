@@ -1,5 +1,7 @@
 package Classes;
 
+import Utilities.Utilities;
+
 public class DebitCard {
     String cardNr;
     boolean status;
@@ -45,19 +47,45 @@ public class DebitCard {
     }
 
     public void setCode(int newCode) throws Exception{
-        if(newCode != 4){
+        String newCodeStr = newCode + "";
+        if(newCodeStr.length() != 4){
             throw new Exception("The code must have 4 digits.");
         }
         this.code = newCode;
     }
 
+    public int getCode() {
+        return code;
+    }
 
+    public void setCvc(int cvc) {
+        this.cvc = cvc;
+    }
 
+    public int getCvc() {
+        return cvc;
+    }
 
+    public void setCardNr(String cardNr) {
+        this.cardNr = cardNr;
+    }
 
+    public String getCardNr() {
+        return cardNr;
+    }
 
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
+    public String getExpirationDate() {
+        return expirationDate;
+    }
 
-
-
+    public String toString(){
+        return "Card number: " + getCardNr() + Utilities.EOL +
+                "Code: " + getCode() + Utilities.EOL +
+                "Cvc: " + getCvc() + Utilities.EOL +
+                "Expiration date: " + getExpirationDate();
+    }
 }

@@ -22,13 +22,6 @@ public class StartProgram {
     public static void main(String[] args) throws Exception {
 
         Bank bank = new Bank();
-
-        //all the other account were deactivated, so I had to create a new one
-        Customer that = new Customer("That", "200001019999", 20000, "That1234", "5051-1111111111", "1111111111111111", 111, "10/20", 1010  );
-        Customer that1 = new Customer("That1", "200001019991", 20000, "That1235", "5051-1111111132", "1111111111111111", 111, "10/20", 1010  );
-        bank.addUser(that);
-        bank.addUser(that1);
-
         jsonBank.put("employees", jsonEmployees);
         jsonBank.put("customers", jsonCustomers);
         jsonBank.put("managers", jsonManagers);

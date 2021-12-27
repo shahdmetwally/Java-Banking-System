@@ -1,6 +1,8 @@
 package Bank;
 import Classes.Transaction;
 import Utilities.Utilities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,8 @@ public class BankAccount {
 
     }
 
+
+
     public String getAccountNo() {
         return accountNo;
     }
@@ -45,6 +49,15 @@ public class BankAccount {
         return balance;
     }
 
+    public double getExpanse() {
+        return expanse;
+    }
+
+    public ArrayList<String> getUserInbox() {
+        return userInbox;
+    }
+
+    @JsonIgnore
     public String getTransaction() {
         return transactions.toString();
     }
@@ -58,7 +71,11 @@ public class BankAccount {
     }
 
     public void setActive(boolean active) {
-        this.active = true;
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public void setDeactivate(boolean deactivate) {
