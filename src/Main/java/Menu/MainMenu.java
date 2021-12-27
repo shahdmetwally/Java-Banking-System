@@ -200,8 +200,14 @@ public class MainMenu {
                 break;
             case 3:
                 try {
-                    double amount = UserInput.readDouble("Please enter the amount you want to withdraw: ");
-                    message = controller.withdrawMoney(amount);
+                    String amount = UserInput.readLine("Please enter the amount you want to withdraw: ");
+                    double amount1 = 0;
+                    if (Utilities.isNumber(amount)) {
+                         amount1 = Double.parseDouble(amount);
+                    } else {
+                        System.out.println("Please enter a valid number.");
+                    }
+                    message = controller.withdrawMoney(amount1);
                     System.out.println(message);
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
@@ -211,9 +217,17 @@ public class MainMenu {
                 break;
             case 4:
                 try {
-                    double amount =UserInput.readDouble("Please enter the amount you want to transfer: ");
-                    String account =UserInput.readLine("Please enter the account No of the recievient:");
-                    message =controller.transferMoney(amount, account);
+                    String amount =UserInput.readLine("Please enter the amount you want to transfer: ");
+                    double amount2 = 0;
+                    String account = "";
+                    if (Utilities.isNumber(amount)){
+                        amount2 = Double.parseDouble(amount);
+                        account =UserInput.readLine("Please enter the account No of the recievient:");
+                    } else{
+                        System.out.println("Please make sure to enter a valid number.");
+                        //Can we call the method here istead of going back to the menu
+                    }
+                    message =controller.transferMoney(amount2, account);
                     System.out.println(message);
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
