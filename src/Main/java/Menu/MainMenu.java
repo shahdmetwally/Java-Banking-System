@@ -1,6 +1,7 @@
 package Menu;
 
 import Bank.Bank;
+import Classes.Customer;
 import Classes.Role;
 import MainController.Controller;
 import MainController.StartProgram;
@@ -195,18 +196,40 @@ public class MainMenu {
                     handleCustomerMenu(controller);
                     break;
                 case 2:
-                    double value = UserInput.readDouble("Please enter the amount you want to deposit: ");
+
+                    String value = UserInput.readLine("Please enter the amount you want to deposit: ");
                     try {
-                        message = controller.depositMoney(value);
+                    if(!Utilities.isNumber(value) || value.isEmpty()) {
+                        do {
+                            value = UserInput.readLine("Please enter a valid number:");
+                        } while (!Utilities.isNumber(value) || value.isEmpty());
+                    }
+                        double actualValue = Double.parseDouble(value);
+                        message = controller.depositMoney(actualValue);
                         System.out.println(message);
+
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
-
                 handleCustomerMenu(controller);
                 break;
             case 3:
                 try {
+                    String amount = UserInput.readLine("Please enter the amount you want to withdraw: ");
+                    if(!Utilities.isNumber(amount) || amount.isEmpty()) {
+                        do {
+                            amount = UserInput.readLine("Please enter a valid number: ");
+                        }while(!Utilities.isNumber(amount) || amount.isEmpty());
+                    }
+                    double acutalAmount = Double.parseDouble(amount);
+                    message = controller.withdrawMoney(acutalAmount);
+                    System.out.println(message);
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
+                }
+
+
+                /*try {
                     String amount = UserInput.readLine("Please enter the amount you want to withdraw: ");
                     double amount1 = 0;
                     if (Utilities.isNumber(amount)) {
@@ -220,9 +243,30 @@ public class MainMenu {
                     System.out.println(exception.getMessage());
                 }
 
+                 */
+
                 handleCustomerMenu(controller);
                 break;
             case 4:
+                String amount =UserInput.readLine("Please enter the amount you want to transfer: ");
+                try {
+                    if(!Utilities.isNumber(amount) || amount.isEmpty()){
+                        do{
+                            amount = UserInput.readLine("Please enter a valid number: ");
+                        }while(!Utilities.isNumber(amount) || amount.isEmpty());
+                    }
+                    double actualAmount = Double.parseDouble(amount);
+                    String account =UserInput.readLine("Please enter the account No of the recievient:");
+
+                        message = controller.transferMoney(actualAmount, account);
+                        System.out.println(message);
+
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
+                }
+
+
+                /*
                 try {
                     String amount =UserInput.readLine("Please enter the amount you want to transfer: ");
                     double amount2 = 0;
@@ -239,6 +283,10 @@ public class MainMenu {
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
                 }
+
+                 */
+
+
                 handleCustomerMenu(controller);
                 break;
             case 5:
@@ -256,8 +304,15 @@ public class MainMenu {
                 handleCustomerMenu(controller);
                 break;
             case 7:// inbox
-                try{
-                    controller.updateBudget(UserInput.readDouble("Please enter the budget: "));
+                try {
+                    String budget = UserInput.readLine("Please enter the budget: ");
+                    if (!Utilities.isNumber(budget) || budget.isEmpty()) {
+                        do {
+                            budget = UserInput.readLine("Please enter a valid number: ");
+                        } while (!Utilities.isNumber(budget) || budget.isEmpty());
+                    }
+                    double actualBudget = Double.parseDouble(budget);
+                    controller.updateBudget(actualBudget);
                     System.out.println("Your budget was set successfully");
                 } catch (Exception exception){
                     System.out.println(exception.getMessage());
@@ -267,6 +322,22 @@ public class MainMenu {
                     break;
                 case 8:
                     try {
+                        // how does the budget actually work
+                        String updateBudget = UserInput.readLine("Please enter the budget you want to set: ");
+                        if(!Utilities.isNumber(updateBudget) || updateBudget.isEmpty()) {
+                            do {
+                                updateBudget = UserInput.readLine("Please enter a valid number: ");
+                            } while (!Utilities.isNumber(updateBudget) || updateBudget.isEmpty());
+                        }
+                        double actualUpdatedBudget = Double.parseDouble(updateBudget);
+                        controller.updateBudget(actualUpdatedBudget);
+                        System.out.println("You have updated your budget successfully");
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                    handleCustomerMenu(controller);
+
+                    /*try {
                         controller.updateBudget(UserInput.readDouble("Please enter the budget you want to set: "));
                         System.out.println("You have updated your budget successfully");
                     } catch (Exception exception) {
@@ -274,6 +345,8 @@ public class MainMenu {
                     }
                     handleCustomerMenu(controller);
                     break;
+
+                     */
                 case 9:// inbox
                     break;
                 case 10:
