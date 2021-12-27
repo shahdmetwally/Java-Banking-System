@@ -49,8 +49,6 @@ public class StartProgram {
             bank.addUser(manager);
         }
 
-        bank.showAllUser();
-
       String option;
         do{
 

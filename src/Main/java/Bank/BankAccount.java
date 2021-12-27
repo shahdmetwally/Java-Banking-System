@@ -35,6 +35,8 @@ public class BankAccount {
 
     }
 
+
+
     public String getAccountNo() {
         return accountNo;
     }
@@ -69,7 +71,11 @@ public class BankAccount {
     }
 
     public void setActive(boolean active) {
-        this.active = true;
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public void setDeactivate(boolean deactivate) {

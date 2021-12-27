@@ -80,14 +80,14 @@ public class MainMenu {
         otherService.setMenuName("Other services Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
-        otherService.addOptions(0," Update name.");
+        otherService.addOptions(0,"Update name.");
         otherService.addOptions(1,"Update Salary");
         otherService.addOptions(2,"Apply for new card.");
         otherService.addOptions(3,"Block payment card.");
         otherService.addOptions(4,"Loan request with Co-signer");
         otherService.addOptions(5, "Loan request without Co-signer");
         otherService.addOptions(6,"Loan status"); //? should we?
-        otherService.addOptions(7,"Go back to Customer menu.");
+        otherService.addOptions(7,"Return to Customer menu.");
 
         employee.setMenuName("Employee Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -112,9 +112,9 @@ public class MainMenu {
         manager.addOptions(1, "Show total loaned amount.");
         manager.addOptions(2, "Create employee.");
         manager.addOptions(3, "Remove employee.");
-        manager.addOptions(4, "update employee salary.");
+        manager.addOptions(4, "Update employee salary.");
         manager.addOptions(5, "Update employee password.");
-        manager.addOptions(6,"Go back to employee menu.");
+        manager.addOptions(6,"Return to employee menu.");
     }
 
     public String enterPersonalNr(){
@@ -133,45 +133,48 @@ public class MainMenu {
     public void handleMainMenu(){
         setUpMainMenu();
         this.mainMenu.printOptions();
-        int userChoice = UserInput.readInt("Type in the option: ");
-        switch (userChoice) {
+            int userChoice = UserInput.readInt("Type in the option: ");
+            switch (userChoice) {
 
-            case 0:
+                case 0:
                     try {
                         handleCustomerMenu(login());
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
-                handleMainMenu();
-                break;
-            case 1:try {
-                handleEmployeeMenu(login());
-            }catch (Exception exception){
-                System.out.println(exception.getMessage());
-                handleMainMenu();
+                    handleMainMenu();
+                    break;
+                case 1:
+                    try {
+                        handleEmployeeMenu(login());
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                        handleMainMenu();
+                    }
+                    break;
+                case 2:
+                    try {
+                        handleAdministration(login());
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                    handleMainMenu();
+                    break;
+                case 3:
+                    UserInput.input.close();
+                    ObjectMapper mapper = new ObjectMapper();
+                    try {
+                        mapper.writeValue(Paths.get("users.json").toFile(), StartProgram.jsonBank);
+
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                    handleMainMenu();
             }
-                break;
-            case 2:try{
-                handleAdministration(login());
-            }catch (Exception exception){
-                System.out.println(exception.getMessage());
-            } handleMainMenu();
-                break;
-            case 3:
-                UserInput.input.close();
-                ObjectMapper mapper = new ObjectMapper();
-                try{
-                    mapper.writeValue(Paths.get("users.json").toFile(), StartProgram.jsonBank);
-
-                } catch (Exception exception){
-                    System.out.println(exception.getMessage());
-                }
-                System.exit(0);
-                break;
-            default:  System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                handleMainMenu();
-
-        }
     }
 
     public void handleCustomerMenu(Controller controller) {
