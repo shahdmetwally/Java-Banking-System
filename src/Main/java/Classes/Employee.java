@@ -11,7 +11,7 @@ public class Employee extends User {
     }
 
     public Employee(String empName, String personalNo, String password, double salary) throws Exception {
-        super(empName, personalNo, password, Role.CUSTOMER);
+        super(empName, personalNo, password, Role.EMPLOYEE);
         this.vacationDays = 25;
 
         if(salary < 0){

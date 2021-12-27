@@ -78,6 +78,8 @@ public class Controller {
                     message = "Transaction successful to " + anotherBankAccountNo;
                 }
 
+            } else {
+                message = "Account does not exist.";
             }
             return message;
         }
@@ -259,7 +261,7 @@ public class Controller {
 
     public void removeMessageFromEmployee() {
     }
-    
+
 
     // ADMINISTRATION CONTROLLER
         //------------------------------------
@@ -523,5 +525,8 @@ public class Controller {
         }
 
 
+    public HashMap<String, User> getBankAccounts() {
+        return bankAccounts;
+    }
 }
 
