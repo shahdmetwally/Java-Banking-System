@@ -10,6 +10,7 @@ import Bank.TypesOfLoan;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 
 
@@ -366,14 +367,22 @@ public class MainMenu {
 
                 int loanAmount = UserInput.readInt("Enter the loan amount: ");
                 double time = UserInput.readDouble("Enter loan time (years): ");
-                String otherEquity = UserInput.readLine("Enter other equity");
-                double otherEquitiesValue = UserInput.readDouble("Enter other equities value: ");
+                String addEquities;
+                HashMap<String,Double> temp = controller.tempHashmap();
+                do{
+                    String otherEquity = UserInput.readLine("Enter other equity name" + Utilities.EOL + "The name of the equity cannot be repeated");
+                    double otherEquitiesValue = UserInput.readDouble("Enter other equities value: ");
+                    System.out.println(controller.addEquities(otherEquity,otherEquitiesValue,temp));
+                    addEquities = UserInput.readLine(" Do you want to add another equity?");
+                }while(addEquities.equalsIgnoreCase("Yes"));
+
+
                 double cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Show be at least 15% of the total loan amount");
                 String coSigner_name = UserInput.readLine("Enter Co-signer name: ");
                 String coSigner_personalNr = UserInput.readLine("Enter Co-signer personal number: ");
                 double coSigner_salary =UserInput.readDouble("Enter Co-signer salary: ");
 
-                message =  controller.loanRequestWithCoSigner(loanAmount,typesOfLoan,time,otherEquity,otherEquitiesValue,cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
+                message =  controller.loanRequestWithCoSigner(loanAmount,typesOfLoan,time,temp,cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
                 System.out.println(message);
                 // controller:
 
@@ -411,10 +420,17 @@ public class MainMenu {
 
                  loanAmount = UserInput.readInt("Enter the loan amount: ");
                  time = UserInput.readDouble("Enter loan time (years): ");
-                 otherEquity = UserInput.readLine("Enter other equity");
-                 otherEquitiesValue = UserInput.readDouble("Enter other equities value: ");
+                HashMap<String,Double> tempHash = controller.tempHashmap();
+
+                do{
+                    String otherEquity = UserInput.readLine("Enter other equity");
+                    double otherEquitiesValue = UserInput.readDouble("Enter other equities value: ");
+                    System.out.println(controller.addEquities(otherEquity,otherEquitiesValue,tempHash));
+                    addEquities = UserInput.readLine(" Do you want to add another equity?");
+                }while(addEquities.equalsIgnoreCase("Yes"));
+
                  cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Show be at least 15% of the total loan amount");
-                message =  controller.loanRequestWithOutCoSigner(loanAmount,typesOfLoan,time,otherEquity,otherEquitiesValue,cashContribution);
+                message =  controller.loanRequestWithOutCoSigner(loanAmount,typesOfLoan,time,tempHash,cashContribution);
                 System.out.println(message);
             break;
             case 6://  otherService.addOptions(5,"Loan status"); //? should we?

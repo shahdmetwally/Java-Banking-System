@@ -1,7 +1,13 @@
 package Bank;
 
 
+import Classes.Customer;
+import Classes.User;
 import Utilities.Utilities;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoanApplication {
 
@@ -9,34 +15,31 @@ public class LoanApplication {
     private final double amount;
     private final TypesOfLoan typesOfLoan;
     private final double time;
-    private String otherEquities;
-    private double otherEquitiesValues;
+    private HashMap<String,Double> equities;
     private  double cashContribution;
     private String coSigner_name;
     private String coSigner_personalNr;
     private double coSigner_salary;
 
-    public LoanApplication(String personalNr, double amount, TypesOfLoan typesOfLoan, double time, String otherEquity,double otherEquitiesValues, double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
+    public LoanApplication(String personalNr, double amount, TypesOfLoan typesOfLoan, double time,HashMap<String,Double> hashMap , double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
         this.loanApplication_ID = "LA"+ personalNr;
         this.amount = amount;
         this.typesOfLoan = typesOfLoan;
         this.time = time;
-        this.otherEquities = otherEquity;
-        this.otherEquitiesValues = otherEquitiesValues;
+        this.equities = hashMap;
         this.cashContribution = cashContribution;
         this.coSigner_name = coSigner_name;
         this.coSigner_personalNr = coSigner_personalNr;
         this.coSigner_salary = coSigner_salary;
     }
 
-    public LoanApplication(String personalNr, double amount, TypesOfLoan typesOfLoan, double time, String otherEquity,double otherEquitiesValues, double cashContribution){
+    public LoanApplication(String personalNr, double amount, TypesOfLoan typesOfLoan, double time, HashMap<String, Double> hashMap, double cashContribution){
 
     this.loanApplication_ID = "LA"+ personalNr;
     this.amount = amount;
     this.typesOfLoan = typesOfLoan;
     this.time = time;
-    this.otherEquities = otherEquity;
-    this.otherEquitiesValues = otherEquitiesValues;
+    this.equities = hashMap;
     this.cashContribution = cashContribution;
     this.coSigner_name = "";
     this.coSigner_personalNr = "";
@@ -50,11 +53,19 @@ public class LoanApplication {
                 "Type of loan: " + typesOfLoan+ Utilities.EOL +
                 "Loan amount: " + amount + Utilities.EOL +
                 "Loan time: " + time + Utilities.EOL +
-                "OtherEquity: " + otherEquities + Utilities.EOL +
+                "OtherEquity: "+Utilities.EOL + printEquities() +
                 "Cash contribution: " + cashContribution + Utilities.EOL +
                 "Co-Signer name: " + coSigner_name + Utilities.EOL +
                 "Co-Signer personal number: " + coSigner_personalNr + Utilities.EOL +
                 "Co-Signer salary: " + coSigner_salary;
+    }
+
+    public String printEquities(){
+        StringBuilder print = new StringBuilder();
+        for (Map.Entry<String, Double> entry : equities.entrySet()) {
+               print.append(entry.getKey()).append(" : ").append(entry.getValue()).append(Utilities.EOL);
+        }
+        return print.toString();
     }
 
 
@@ -74,13 +85,6 @@ public class LoanApplication {
         return time;
     }
 
-    public String getOtherEquities() {
-        return otherEquities;
-    }
-
-    public void setOtherEquities(String otherEquities) {
-        this.otherEquities = otherEquities;
-    }
 
     public double getCashContribution() {
         return cashContribution;

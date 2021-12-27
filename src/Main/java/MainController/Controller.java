@@ -197,11 +197,11 @@ public class Controller {
             return typesOfLoan;
 
         }
-    public String loanRequestWithOutCoSigner (double amount, TypesOfLoan typesOfLoan, double time, String otherEquity, double otherEquityvalue, double cashContribution) {
+    public String loanRequestWithOutCoSigner (double amount, TypesOfLoan typesOfLoan, double time,HashMap<String, Double> hashMap ,double cashContribution) {
 
         String message = "Loan Application from : " + user.getFullName() + " with personal nr: " + user.getPersonalNo() + Utilities.EOL;
         String inboxMessage;
-        LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time, otherEquity,otherEquityvalue, cashContribution);
+        LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time, hashMap, cashContribution);
         bank.addLoanApplication(user.getPersonalNo(),loanApplication);
         String loanMessage = loanApplication.toString();
         inboxMessage = message + loanMessage;
@@ -210,12 +210,23 @@ public class Controller {
 
         return "Loan request has been send. The loan application ID is: LA"+user.getPersonalNo();
     }
+    public HashMap<String,Double> tempHashmap(){
+            HashMap<String , Double> tempHashmap = new HashMap<>();
+            return tempHashmap;
+    }
+    public String addEquities(String equityName, double equityValue,HashMap<String,Double> tempHashmap){
+           if(tempHashmap.containsKey(equityName)){
+               return "The equity name cannot be the same";
+           }
+            tempHashmap.put(equityName,equityValue);
+            return "Successfully added";
+    }
 
-        public String loanRequestWithCoSigner (double amount, TypesOfLoan typesOfLoan, double time, String otherEquity, double otherEquityvalue, double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
+        public String loanRequestWithCoSigner (double amount, TypesOfLoan typesOfLoan, double time, HashMap<String,Double> hashMap,double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
 
             String message = "Loan Application from : " + user.getFullName() + " with personal nr: " + user.getPersonalNo() + Utilities.EOL;
             String inboxMessage;
-            LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time, otherEquity,otherEquityvalue, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
+            LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time,hashMap, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
             bank.addLoanApplication(user.getPersonalNo(),loanApplication);
             String loanMessage = loanApplication.toString();
             inboxMessage = message + loanMessage;

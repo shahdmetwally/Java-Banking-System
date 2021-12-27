@@ -19,7 +19,7 @@ public class Bank {
         this.users = new HashMap<>();
         this.bankAccounts = new HashMap<>();
         this.loans = new HashMap<>();
-        this.loanApplications = new HashMap<>();
+       this.loanApplications = new HashMap<>();
         this.equity = 0;
     }
 
