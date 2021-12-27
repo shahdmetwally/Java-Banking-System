@@ -1,6 +1,8 @@
 package Classes;
 
 import Bank.BankAccount;
+import Bank.LoanRequest;
+import Inbox.Inbox;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,6 +12,7 @@ public class Customer extends User {
     private DebitCard debitCard;
     private BankAccount bankAccount;
     private double salary;
+    private Inbox inbox;
 
     public Customer(){}
 
@@ -18,6 +21,10 @@ public class Customer extends User {
         this.bankAccount = new BankAccount(bankAccount);
         this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
         this.salary = salary;
+        this.inbox = new Inbox();
+    }
+    public void addLoanRequest(LoanRequest loanRequest){
+        inbox.addLoanRequest(loanRequest);
     }
 
     public BankAccount getBankAccount() {

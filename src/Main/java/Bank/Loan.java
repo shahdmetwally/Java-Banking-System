@@ -12,7 +12,6 @@ public class Loan {
         this.interestRate = interestRate;
         this.loanID = "L"+personalNr;
 
-
     }
 
     public double getLoanAmount() {

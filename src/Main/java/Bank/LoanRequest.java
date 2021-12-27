@@ -1,58 +1,61 @@
 package Bank;
 
-
-import Classes.Customer;
-import Classes.User;
 import Utilities.Utilities;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoanApplication {
+public class LoanRequest {
 
-    private final String loanApplication_ID;
+    private final String id;
     private final double amount;
     private final TypesOfLoan typesOfLoan;
-    private final double time;
+    private final double loanPeriod;
     private HashMap<String,Double> equities;
     private  double cashContribution;
     private String coSigner_name;
     private String coSigner_personalNr;
     private double coSigner_salary;
+    private String dateAndTime;
 
-    public LoanApplication(String personalNr, double amount, TypesOfLoan typesOfLoan, double time,HashMap<String,Double> hashMap , double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
-        this.loanApplication_ID = "LA"+ personalNr;
+    public LoanRequest(String personalNr, double amount, TypesOfLoan typesOfLoan, double loanPeriod, HashMap<String,Double> hashMap , double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
+        this.id = "LR"+ personalNr;
         this.amount = amount;
         this.typesOfLoan = typesOfLoan;
-        this.time = time;
+        this.loanPeriod = loanPeriod;
         this.equities = hashMap;
         this.cashContribution = cashContribution;
         this.coSigner_name = coSigner_name;
         this.coSigner_personalNr = coSigner_personalNr;
         this.coSigner_salary = coSigner_salary;
+        this.dateAndTime = Utilities.dateAndTime();
     }
 
-    public LoanApplication(String personalNr, double amount, TypesOfLoan typesOfLoan, double time, HashMap<String, Double> hashMap, double cashContribution){
+    public LoanRequest(String personalNr, double amount, TypesOfLoan typesOfLoan, double loanPeriod, HashMap<String,Double> hashMap, double cashContribution){
 
-    this.loanApplication_ID = "LA"+ personalNr;
+    this.id = "LR"+ personalNr;
     this.amount = amount;
     this.typesOfLoan = typesOfLoan;
-    this.time = time;
+    this.loanPeriod = loanPeriod;
     this.equities = hashMap;
     this.cashContribution = cashContribution;
     this.coSigner_name = "";
     this.coSigner_personalNr = "";
     this.coSigner_salary = 0;
+    this.dateAndTime = Utilities.dateAndTime();
     }
 
-    public String toString(){
+    public String toString() {
+      return "ID: "+  id + " Date:" + dateAndTime;
+    }
+
+    public String printRequest(){
         return "Application details: " + Utilities.EOL +
                 "-----------------------"+ Utilities.EOL +
-                "Loan application ID: " + loanApplication_ID + Utilities.EOL +
+                "Loan application ID: " + id + Utilities.EOL +
+                "Send: " + dateAndTime + Utilities.EOL +
                 "Type of loan: " + typesOfLoan+ Utilities.EOL +
                 "Loan amount: " + amount + Utilities.EOL +
-                "Loan time: " + time + Utilities.EOL +
+                "Loan time: " + loanPeriod + Utilities.EOL +
                 "OtherEquity: "+Utilities.EOL + printEquities() +
                 "Cash contribution: " + cashContribution + Utilities.EOL +
                 "Co-Signer name: " + coSigner_name + Utilities.EOL +
@@ -69,8 +72,8 @@ public class LoanApplication {
     }
 
 
-    public String getLoanApplication_ID() {
-        return loanApplication_ID;
+    public String getId() {
+        return id;
     }
 
     public double getAmount() {
@@ -81,8 +84,8 @@ public class LoanApplication {
         return typesOfLoan;
     }
 
-    public double getTime() {
-        return time;
+    public double getLoanPeriod() {
+        return loanPeriod;
     }
 
 

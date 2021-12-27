@@ -13,7 +13,7 @@ public class BankAccount {
     private double balance;
     private ArrayList<String> transactions;
     private boolean active;
-    private double loan;
+    private Loan loan;
     private double expanse;
     private double budget;
     private ArrayList<String> userInbox; // Don't know if we are using the message function
@@ -28,7 +28,7 @@ public class BankAccount {
         this.transactions = new ArrayList<>();
         this.userInbox = new ArrayList<>();// maybe not here
         this.active = true;
-        this.loan = 0.00;
+        this.loan = null;
         this.expanse = 0.00;
         this.budget = 0.00;
         this.date = "";
@@ -62,8 +62,12 @@ public class BankAccount {
         return transactions.toString();
     }
 
-    public double getLoan() {
+    public Loan getLoan() {
         return loan;
+    }
+
+    public Loan setLoan(Loan loan){
+        return this.loan = loan;
     }
 
     public ArrayList<String> getTransactions() {

@@ -1,19 +1,20 @@
 package MainController;
 import Bank.Bank;
-import Bank.LoanApplication;
+import Bank.LoanRequest;
 import Bank.TypesOfLoan;
 import Classes.*;
 import Utilities.Utilities;
-import Utilities.UserInput;
+
 import java.util.*;
-import Classes.Inbox;
+import Bank.Loan;
 
 public class Controller {
     private final Bank bank;
     private final HashMap<String, User> users;
     private final HashMap<String, User> bankAccounts;
     private final User user;
-    private Inbox inbox;
+
+
 
     public Controller(String userName, String password, Bank bank) throws Exception {
             this.bank = bank;
@@ -28,10 +29,9 @@ public class Controller {
                     throw new Exception("Wrong password.");
                 }
             } else {
-                throw new Exception("Username not found. Im in the controller");
+                throw new Exception("Username not found.");
             }
-            this.inbox = new Inbox();
-        }
+    }
 
         // CUSTOMER CONTROLLER
         //----------------------------------------
@@ -89,7 +89,7 @@ public class Controller {
                 throw new Exception(" You have less than 5 transaction");
             }
             for (int i = 0; i < ((Customer) user).getTransactions().size(); i++) {
-                message1.append(((Customer) user).getTransactions().get(i).toString()).append(Utilities.EOL);
+                message1.append(((Customer) user).getTransactions().get(i)).append(Utilities.EOL);
             }
             return message + message1;
         }
@@ -115,31 +115,31 @@ public class Controller {
         }
         return false;
         }
+         public boolean isPersonNrCorrect(String personalNo) {
+             if (personalNo.length() == 12) {
+              String yearStr = personalNo.substring(0, 4);
+             int year = Integer.parseInt(yearStr);
+             String monthStr = personalNo.substring(4, 6);
+              int month = Integer.parseInt(monthStr);
+              String dayStr = personalNo.substring(6, 8);
+              int day = Integer.parseInt(dayStr);
 
-        public boolean isPersonNrCorrect(String personalNo) {
-            if (personalNo.length() == 12) {
-                String yearStr = personalNo.substring(0, 4);
-                int year = Integer.parseInt(yearStr);
-                String monthStr = personalNo.substring(4, 6);
-                int month = Integer.parseInt(monthStr);
-                String dayStr = personalNo.substring(6, 8);
-                int day = Integer.parseInt(dayStr);
-
-                if (year > 2003 || year < 1900) {
-                    return false;
-                }
-                if (month > 12 || month < 1) {
-                    return false;
-                }
-                if (day > 31 || day < 1) {
-                    return false;
-                }
-                return true;
-
-            } else {
+            if (year > 2003 || year < 1900) {
                 return false;
             }
+            if (month > 12 || month < 1) {
+                return false;
+            }
+            if (day > 31 || day < 1) {
+                return false;
+            }
+            return true;
+
+            } else {
+            return false;
+             }
         }
+
 
         public String toString(){
         return getUser().toString();
@@ -176,39 +176,18 @@ public class Controller {
             return "Payment card has been blocked";
         }
 
-        public TypesOfLoan selectTypeOfLoan(int option){
-            TypesOfLoan typesOfLoan = null;
-            switch (option) {
-                case 1:
-                    typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
-                    break;
-                case 2:
-                    typesOfLoan = TypesOfLoan.HOUSE_LOAN;
-                    break;
-                case 3:
-                    typesOfLoan = TypesOfLoan.CAR_LOAN;
-                    break;
-                case 4:
-                    typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please select between option 1 to 4. ");
-            }
-            return typesOfLoan;
 
-        }
+
+    // INBOX
+    //Customer methods
+
+
     public String loanRequestWithOutCoSigner (double amount, TypesOfLoan typesOfLoan, double time,HashMap<String, Double> hashMap ,double cashContribution) {
+        LoanRequest loanRequest = new LoanRequest(user.getPersonalNo(), amount, typesOfLoan, time, hashMap, cashContribution);
+        bank.addLoanApplication(user.getPersonalNo(),loanRequest);
+        ((Customer)user).addLoanRequest(loanRequest);
 
-        String message = "Loan Application from : " + user.getFullName() + " with personal nr: " + user.getPersonalNo() + Utilities.EOL;
-        String inboxMessage;
-        LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time, hashMap, cashContribution);
-        bank.addLoanApplication(user.getPersonalNo(),loanApplication);
-        String loanMessage = loanApplication.toString();
-        inboxMessage = message + loanMessage;
-        System.out.println(inboxMessage);
-        inbox.addLoanApplicationMessage(inboxMessage);
-
-        return "Loan request has been send. The loan application ID is: LA"+user.getPersonalNo();
+        return "Loan request has been send. The loan application ID is: LA" +user.getPersonalNo();
     }
     public HashMap<String,Double> tempHashmap(){
             HashMap<String , Double> tempHashmap = new HashMap<>();
@@ -222,59 +201,59 @@ public class Controller {
             return "Successfully added";
     }
 
-        public String loanRequestWithCoSigner (double amount, TypesOfLoan typesOfLoan, double time, HashMap<String,Double> hashMap,double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
+    public String loanRequestWithCoSigner (double amount, TypesOfLoan typesOfLoan, double time, HashMap<String,Double> hashMap,double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
 
-            String message = "Loan Application from : " + user.getFullName() + " with personal nr: " + user.getPersonalNo() + Utilities.EOL;
-            String inboxMessage;
-            LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time,hashMap, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
-            bank.addLoanApplication(user.getPersonalNo(),loanApplication);
-            String loanMessage = loanApplication.toString();
-            inboxMessage = message + loanMessage;
-            System.out.println(inboxMessage);
-            inbox.addLoanApplicationMessage(inboxMessage);
+            LoanRequest loanRequest = new LoanRequest(user.getPersonalNo(), amount, typesOfLoan, time,hashMap, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
+            bank.addLoanApplication(user.getPersonalNo(),loanRequest);
+            ((Customer)user).addLoanRequest(loanRequest);
 
             return "Loan request has been send. The loan application ID is: LA"+ user.getPersonalNo();
-        }
-        // To Dimitrios:
-    /*
-        - The Employee has two choices to approve the loan or to decline.
-        If the loan is aprrove, Create a loan and add it to the Loan Hashmap
-        and send a message with the details of the loan and the loan ID
-        to the user and insert the loan amount in the user account.
-
-        If the loan is decline, delete the request and send message to the user.
-     */
-
-
-        // INBOX
-
-    //Methods For Customers--------
-    public void sendMessageToEmployees(Customer customer){
-        String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
-        if (message == null){
-            System.out.println("Your message cannot be empty.");
-        }else{
-          //  messageInbox.add(message);
-            System.out.println("Your message has been sent successfully.");
-        }
     }
 
-    //QUEUE FOR CUSTOMER LOAN APPLICATIONS-------------- "if" statements need to be applied based on customer budget
-
-    public void sendApplicationForLoan(Customer customer){
-        int loanAmount = UserInput.readInt("Please type the amount you would like to borrow from the bank: ");
-
-        String message = "Customer with name: " + customer.getFullName() + " and account balance: "
-                + customer.getBalance() + " Would like to apply for a loan of amount: " + loanAmount + ".";
-      //  loanApplications.add(message);
-        System.out.println("Your loan application has been sent successfully.");
+    public void sendMessageToEmployees( String title, String message){
     }
 
+    public void ViewCustomerMessageInbox() {
+    }
+    public void removeMessageFromEmployee() {
+    }
+    public void ViewCustomerMessageHistory() {
+    }
+
+    // Employee methods
     public void applyForVacation(){
-    //    String message = "Employee with name: " + employee.getFullName() + " Would like to apply for vacation.";
-     //   vacationApplications.add(message);
-        System.out.println("Your vacation application has been sent successfully.");
     }
+
+    public void ViewEmployeeMessageInbox() {
+
+    }
+
+    public void sendMessageToCustomers() {
+    }
+
+    public void ViewEmployeeMessageHistory() {
+    }
+
+    public void removeMessageFromCustomer() {
+    }
+    public String approveLoan(){
+            Loan loan = new Loan();
+
+            // get the information from the loanRequest
+        // add to loan
+        // remove the loanRequest
+    }
+
+    //Manager
+    public void seeVacationApplications(){
+
+    }
+
+    public void approveVacationApplication(){
+
+    }
+
+
 
     // ADMINISTRATION CONTROLLER
         //------------------------------------
@@ -422,7 +401,7 @@ public class Controller {
 
             for (Map.Entry<String, User> entry : users.entrySet()) {
                 if(entry.getValue() instanceof Customer){
-                    totalLoan += ((Customer) entry.getValue()).getBankAccount().getLoan();
+                    totalLoan += ((Customer) entry.getValue()).getBankAccount().getLoan().getLoanAmount();
                 }
             }
             return message + totalLoan;
@@ -517,5 +496,6 @@ public class Controller {
         }
 
 
-    }
+
+}
 

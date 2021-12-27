@@ -12,7 +12,7 @@ public class Bank {
     private  HashMap<String, User> users; // key is the person Nr
     private  HashMap<String, User> bankAccounts; // the key is the bankaccount
     private  HashMap<String, Loan>  loans;
-    private  HashMap<String, LoanApplication> loanApplications;
+    private  HashMap<String, LoanRequest> loanApplications;
     private double equity;
 
     public Bank(){
@@ -42,8 +42,8 @@ public class Bank {
         return loanClone;
     }
 
-    public HashMap<String, LoanApplication> getLoanApplications(){
-        HashMap<String, LoanApplication> loanApplicationClone = loanApplications;
+    public HashMap<String, LoanRequest> getLoanApplications(){
+        HashMap<String, LoanRequest> loanApplicationClone = loanApplications;
         return loanApplicationClone;
     }
 
@@ -63,16 +63,16 @@ public class Bank {
        String key = "L" + personalNr;
         this.loans.put(key,loan);
     }
-    public void addLoanApplication(String personalNr, LoanApplication loanApplication){
-        String key = "LA" + personalNr;
+    public void addLoanApplication(String personalNr, LoanRequest loanApplication){
+        String key = "LR" + personalNr;
         this.loanApplications.put(key,loanApplication);
     }
     public void removeLoan(Loan loan, String personalNr ){
         String key = "L" + personalNr;
         this.loans.remove(key,loan);
     }
-    public void removeLoanApplication(String personalNr, LoanApplication loanApplication){
-        String key = "LA" + personalNr;
+    public void removeLoanApplication(String personalNr, LoanRequest loanApplication){
+        String key = "LR" + personalNr;
         this.loanApplications.remove(key,loanApplication);
     }
     public String viewLoanApplication(String loanApplicationID){

@@ -23,7 +23,9 @@ public class MainMenu {
     private final MenuOptions employee;
     private final MenuOptions manager;
     private Bank bank;
-    private final MenuOptions inbox;
+    private final MenuOptions customerInbox;
+    private final MenuOptions employeeInbox;
+    private final MenuOptions updateLoanRequest;
 
 
 
@@ -35,7 +37,9 @@ public class MainMenu {
         this.manager = new MenuOptions();
         this.employee = new MenuOptions();
         this.bank = bank;
-        this.inbox = new MenuOptions();
+        this.customerInbox = new MenuOptions();
+        this.employeeInbox = new MenuOptions();
+        this.updateLoanRequest = new MenuOptions();
     }
 
     public void setUpMainMenu() {
@@ -77,34 +81,68 @@ public class MainMenu {
 
         // should be the last option, if you want to add something, add it above!
         customer.addOptions(11,"Log out.");
+        //Customer Inbox
+
+        customerInbox.setMenuName("Customer Inbox Menu " + Utilities.EOL +
+                "--------------------" + Utilities.EOL +
+                " Choose one of the options below.");
+        customerInbox.addOptions(0, "View messages from employees.");
+        customerInbox.addOptions(1, "Send message to employees.");
+        customerInbox.addOptions(2, "View old messages.");
+        customerInbox.addOptions(3, "Remove oldest message.");
+        customerInbox.addOptions(4, "Go back to Customer menu.");
+
+//COPY PASTE THIS UNDER EMPLOYEE MENU
+        //Employee Inbox
+        employeeInbox.setMenuName("Employee Inbox Menu " + Utilities.EOL +
+                "--------------------" + Utilities.EOL +
+                " Choose one of the options below.");
+        employeeInbox.addOptions(0, "View messages from customer.");
+        employeeInbox.addOptions(1, "Send message to customer.");
+        employeeInbox.addOptions(2, "View old messages."); // maybe history
+        employeeInbox.addOptions(3, "Remove oldest message.");
+        employeeInbox.addOptions(4, "Go back to Employee menu.");
+
+
 
         otherService.setMenuName("Other services Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         otherService.addOptions(0,"Update name.");
-        otherService.addOptions(1,"Update Salary");
+        otherService.addOptions(1,"Update salary");
         otherService.addOptions(2,"Apply for new card.");
         otherService.addOptions(3,"Block payment card.");
         otherService.addOptions(4,"Loan request with Co-signer");
         otherService.addOptions(5, "Loan request without Co-signer");
-        otherService.addOptions(6,"Loan status"); //? should we?
+        otherService.addOptions(6,"Update Loan request"); //? should we?
         otherService.addOptions(7,"Return to Customer menu.");
+
+        updateLoanRequest.setMenuName("Update loan request"+ Utilities.EOL +
+                "--------------------" + Utilities.EOL +
+                " Choose one of the options below.");
+        updateLoanRequest.addOptions(0,"Update amount");
+        updateLoanRequest.addOptions(1,"Update type of loan");
+        updateLoanRequest.addOptions(2,"Update the time period of the loan");
+        updateLoanRequest.addOptions(3,"Update other equities");
+        updateLoanRequest.addOptions(4,"Update cash contribution");
+        updateLoanRequest.addOptions(5,"Update Co-Signer name");
+        updateLoanRequest.addOptions(6,"Update Co-Signer personal number");
+        updateLoanRequest.addOptions(7,"Update Co-Signers salary");
 
         employee.setMenuName("Employee Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         employee.addOptions(0, "Create Customer.");
-        employee.addOptions(1, "Create a bank account for customer.");
-        employee.addOptions(2, "Show customer accounts.");
-        employee.addOptions(3, "Approve loans and mortgages.");
-        // we can maybe give access to the employee to enter the customer menu, getting
-        // the user personal number and a personal code (4 digit).
-        employee.addOptions(4, "Update customer password.");
-        employee.addOptions(5, "View salary.");
-        employee.addOptions(6, "Apply for vacation.");
-        employee.addOptions(7, "Request inbox.");
-        employee.addOptions(8, "Manager options.");
-        employee.addOptions(9, "Log out.");
+        employee.addOptions(1, "Show customer accounts.");
+        employee.addOptions(2, "Approve loans.");
+        employee.addOptions(3,"Calculate Debt-to-income (DTI) ratio.");
+        employee.addOptions(4,"Calculate monthly mortgage.");
+        employee.addOptions(5, "Update customer password.");
+        employee.addOptions(6, "View salary.");
+        employee.addOptions(7, "Apply for vacation.");
+        employee.addOptions(8, "Request inbox.");
+        employee.addOptions(9, "Manager options.");
+        employee.addOptions(10, "Log out.");
 
         manager.setMenuName("Manager Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -129,6 +167,66 @@ public class MainMenu {
             String password = UserInput.readLine("Enter password: ");
             Controller controller = new Controller(userName, password,bank);
             return controller;
+    }
+
+    public void handleCustomerInbox(Controller controller){
+        this.customerInbox.printOptions();
+        int userChoice = UserInput.readInt("Type in the option: ");
+        switch (userChoice){
+            case 0:
+                controller.ViewCustomerMessageInbox();
+                handleCustomerInbox(controller);
+                break;
+            case 1:
+                 String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
+                controller.sendMessageToEmployees();
+                handleCustomerInbox(controller);
+                break;
+            case 2:
+                controller.ViewCustomerMessageHistory();
+                handleCustomerInbox(controller);
+                break;
+            case 3:
+                controller.removeMessageFromEmployee();
+                handleCustomerInbox(controller);
+                break;
+            case 4:
+                handleCustomerMenu(controller);
+                break;
+            default:
+                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                handleCustomerInbox(controller);
+        }
+    }
+
+    // Handle For Employee Inbox
+    public void handleEmployeeInbox(Controller controller){
+        this.employeeInbox.printOptions();
+        int userChoice = UserInput.readInt("Type in the option: ");
+        switch (userChoice){
+            case 0:
+                controller.ViewEmployeeMessageInbox();
+                handleEmployeeInbox(controller);
+                break;
+            case 1:
+                controller.sendMessageToCustomers();
+                handleEmployeeInbox(controller);
+                break;
+            case 2:
+                controller.ViewEmployeeMessageHistory();
+                handleEmployeeInbox(controller);
+                break;
+            case 3:
+                controller.removeMessageFromCustomer();
+                handleEmployeeInbox(controller);
+                break;
+            case 4:
+                handleEmployeeMenu(controller);
+                break;
+            default:
+                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                handleCustomerInbox(controller);
+        }
     }
 
     public void handleMainMenu(){
@@ -304,7 +402,6 @@ public class MainMenu {
         }
     }
 
-
     public void handleOtherService(Controller controller){
         this.otherService.printOptions();
         int userChoice = UserInput.readInt("Type in the option: ");
@@ -365,7 +462,7 @@ public class MainMenu {
                     }
                 }while (newOption>4 ||newOption < 1);
 
-                int loanAmount = UserInput.readInt("Enter the loan amount: ");
+                double loanAmount = UserInput.readDouble("Enter the loan amount: ");
                 double time = UserInput.readDouble("Enter loan time (years): ");
                 String addEquities;
                 HashMap<String,Double> temp = controller.tempHashmap();
@@ -418,7 +515,7 @@ public class MainMenu {
                     }
                 }while (newOption>4 ||newOption < 1);
 
-                 loanAmount = UserInput.readInt("Enter the loan amount: ");
+                 loanAmount = UserInput.readDouble("Enter the loan amount: ");
                  time = UserInput.readDouble("Enter loan time (years): ");
                 HashMap<String,Double> tempHash = controller.tempHashmap();
 
@@ -532,7 +629,6 @@ public class MainMenu {
 
 
         }
-
 
     public void handleManagerMenu(Controller controller) {
         manager.printOptions();
