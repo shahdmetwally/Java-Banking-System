@@ -1,10 +1,8 @@
 package Classes;
 
-import Bank.BankAccount;
-import Bank.LoanRequest;
+import Request.LoanRequest;
 import Inbox.Inbox;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 
@@ -25,6 +23,9 @@ public class Customer extends User {
     }
     public void addLoanRequest(LoanRequest loanRequest){
         inbox.addLoanRequest(loanRequest);
+    }
+    public void removeLoanRequest(LoanRequest loanRequest){
+        inbox.removeLoanRequest(loanRequest);
     }
 
     public BankAccount getBankAccount() {
@@ -85,6 +86,9 @@ public class Customer extends User {
 
     // Debitcard methods - below
 
+    public boolean getCardStatus(){
+       return debitCard.getStatus();
+    }
     public void  deactivateCard(){
         debitCard.setDeactivate();
     }

@@ -1,8 +1,8 @@
-package Bank;
+package Classes;
 import Classes.Transaction;
+import Loans.Loan;
 import Utilities.Utilities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 
@@ -19,8 +19,8 @@ public class BankAccount {
     private ArrayList<String> userInbox; // Don't know if we are using the message function
     private String date;
 
-    public BankAccount(){
 
+    public BankAccount(){
     }
     public BankAccount(String bankAccountNo) {
         this.accountNo = bankAccountNo;
@@ -34,8 +34,6 @@ public class BankAccount {
         this.date = "";
 
     }
-
-
 
     public String getAccountNo() {
         return accountNo;
@@ -128,7 +126,7 @@ public class BankAccount {
     //}
 
     public String toString() {
-        return "Your balance is " + Utilities.truncateDouble(balance);
+        return "Your balance is " + Utilities.truncateForPrint(balance);
     }
 
     public String depositMoney(double amount) throws Exception { // 2.1  Deposit Money

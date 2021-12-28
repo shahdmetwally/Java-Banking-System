@@ -1,16 +1,19 @@
 package Inbox;
 
-import Bank.LoanRequest;
-import Bank.TypesOfLoan;
+import Request.CardRequest;
+import Request.LoanRequest;
 import Utilities.Utilities;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+// Note: the queue should be an indicator of unread messages;
+// So if the message has been read maybe we should take it out of the queue and store it in the messageHistory;
 
 public class Inbox {
-    Queue<LoanRequest> loanRequests;
+    Queue<LoanRequest> loanRequests; // we store the send loanRequest? Every Customer should only be alow to have one request
+    Queue<CardRequest> cardRequests;
     ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
     Queue<MessageFormat> messageInbox;
     //Customer -> send message -> employee
@@ -30,14 +33,15 @@ public class Inbox {
         this.messageHistory = new ArrayList<>();
         this.messageInbox  = new LinkedList<MessageFormat>();
         this.messagesToEmployees = new LinkedList<MessageFormat>();
+        this.cardRequests = new LinkedList<>();
     }
 
     //Methods For Employees----------------------------------------
     public void addLoanRequest(LoanRequest loanRequest){
         loanRequests.add(loanRequest);
     }
-    public void removeLoanRequest(){
-
+    public void removeLoanRequest(LoanRequest loanRequest){
+        loanRequests.remove(loanRequest);
     }
 
     public void addToMessageHistory(MessageFormat message){
@@ -57,10 +61,8 @@ public class Inbox {
         return "The message has been removed.";
     }
 
-    // get 4 methods
 
-
-    public String getMessageInbox() {
+    public String getAllMessageInbox() {
         String message = "";
         for( MessageFormat  inbox: this.messageInbox){
             message += inbox + Utilities.EOL;
@@ -68,7 +70,7 @@ public class Inbox {
         return message;
     }
 
-    public String getLoanRequests() {
+    public String getAllLoanRequests() {
        String message = "";
        for( LoanRequest  loanRequest: this.loanRequests){
            message += loanRequest.toString() + Utilities.EOL;
@@ -80,23 +82,12 @@ public class Inbox {
         String message = "";
         return "";
     }
-
-    public ArrayList<String> getMessageHistory(){
+// do we want to return the hole array? are we using it? or we just want to print all? in that case change this method.
+    public String getMessageHistory(){
        ArrayList<String> clone = new ArrayList<>();
         return clone;
     }
 
-    public static void main(String[] args) {
 
-        Inbox i = new Inbox();
-
-        LoanRequest a = new LoanRequest("199001041848",5000000, TypesOfLoan.CAR_LOAN,1,null,50000);
-        LoanRequest b = new LoanRequest("199001041849",5000000, TypesOfLoan.CAR_LOAN,1,null,50000);
-        i.addLoanRequest(a);
-        i.addLoanRequest(b);
-
-        System.out.print(i.getLoanRequests());
-        System.out.println(i.getMessageInbox());
-    }
 
 }
