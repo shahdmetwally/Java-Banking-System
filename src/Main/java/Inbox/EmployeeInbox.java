@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class EmployeeInbox extends Inbox{
-    private final Queue<MessageFormat> messagesToCustomers;
+    public static Queue<MessageFormat> messagesToCustomers;
     private final Queue<CardRequest> cardRequests;
 
     public EmployeeInbox(){
@@ -18,7 +18,7 @@ public class EmployeeInbox extends Inbox{
     public void addMessageToCustomer(MessageFormat message){
         messagesToCustomers.add(message);
     }
-    public void removeMessaToCustomer(MessageFormat message){
+    public void removeMessagesToCustomer(MessageFormat message){
         messagesToCustomers.remove(message);
     }
     public void addCardRequest(CardRequest request){
@@ -27,6 +27,7 @@ public class EmployeeInbox extends Inbox{
     public void removeCardRequest(CardRequest cardRequest){
         cardRequests.remove(cardRequest);
     }
+
 
 
 

@@ -14,10 +14,10 @@ import java.util.Queue;
 public class Inbox {
     Queue<LoanRequest> loanRequests; // we store the send loanRequest? Every Customer should only be alow to have one request
     Queue<CardRequest> cardRequests;
-    ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
-    Queue<MessageFormat> messageInbox;
+    public static ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
+    public static Queue<MessageFormat> messageInbox;
     //Customer -> send message -> employee
-    Queue<MessageFormat> messagesToEmployees; // send messages?
+    public static Queue<MessageFormat> messagesToEmployees; // send messages?
 
     /*
             controller:
@@ -83,7 +83,7 @@ public class Inbox {
         return "";
     }
 // do we want to return the hole array? are we using it? or we just want to print all? in that case change this method.
-    public String getMessageHistory(){
+    public ArrayList<String> getMessageHistory(){
        ArrayList<String> clone = new ArrayList<>();
         return clone;
     }

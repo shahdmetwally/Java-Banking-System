@@ -1,6 +1,7 @@
 package MainController;
 import Bank.Bank;
 import Inbox.EmployeeInbox;
+import Inbox.Inbox;
 import Inbox.ManagerInbox;
 import Loans.Loan;
 import Loans.TypeOfInterest;
@@ -254,13 +255,34 @@ public class Controller {
     }
 
     public void sendMessageToEmployees(){
+        String message = ""; //is this right?
+        if (message == null) {
+            System.out.println("Your message cannot be empty.");
+        } else {
+            Inbox.messagesToEmployees.add("Customer" + message);
+            System.out.println("Your message has been sent successfully.");
+        }
     }
 
-    public void ViewCustomerMessageInbox() {
+    public String viewEmployeeCustomerMessageInbox() {
+        String message = "Message Inbox: " + Utilities.EOL;
+        String message1 ="";
+        for (int i=0; i < Inbox.getAllMessageInbox().get(i); i++){
+            message1 += String.format(message) + Utilities.EOL;
+        }
+        return message + message1;
     }
     public void removeMessageFromEmployee() {
+        Inbox.messageHistory.add(Inbox.messageInbox.poll());
+        System.out.print("The message has been removed.");
     }
-    public void ViewCustomerMessageHistory() {
+    public String viewEmployeeCustomerMessageHistory(){
+        String message = "Message History: " + Utilities.EOL;
+        String message1 = "";
+        for (int i = 0; i < Inbox.getMessageHistory().size(); i++) {
+            message1 += Inbox.getMessageHistory().get(i) + Utilities.EOL;
+        }
+        return message + message1;
     }
 
     // Employee methods
@@ -271,15 +293,14 @@ public class Controller {
         return "Vacation request has been send.";
     }
 
-    public void ViewEmployeeMessageInbox() {
-
-    }
 
     public void sendMessageToCustomers(String message, String tittle) {
-
-    }
-
-    public void ViewEmployeeMessageHistory() {
+        if (message == null){
+            System.out.println("Your message cannot be empty.");
+        }else{
+            EmployeeInbox.messagesToCustomers.add("Employee:" + message);
+            System.out.println("Your message has been sent successfully.");
+        }
     }
 
     public void removeMessageFromCustomer() {
@@ -298,7 +319,7 @@ public class Controller {
         throw  new Exception("The loan Request was not found");
     }
 
-    // check the remove loanrequest.
+    // check the decline loan request.
     // if it is inside in side the user remember that you are log in as an employee so you need to get the user.
 
     public String declineLoanRequest(String loanRequestID,String message) throws Exception {

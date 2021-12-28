@@ -103,7 +103,7 @@ public class MainMenu {
                 " Choose one of the options below.");
         employeeInbox.addOptions(0, "View messages from customer.");
         employeeInbox.addOptions(1, "Send message to customer.");
-        employeeInbox.addOptions(2, "View old messages."); // maybe history
+        employeeInbox.addOptions(2, "View message history."); // maybe history
         employeeInbox.addOptions(3, "Remove oldest message.");
         employeeInbox.addOptions(4, "Go back to Employee menu.");
 
@@ -183,7 +183,7 @@ public class MainMenu {
         int userChoice = UserInput.readInt("Type in the option: ");
         switch (userChoice){
             case 0:
-                controller.ViewCustomerMessageInbox();
+                controller.viewEmployeeCustomerMessageInbox();
                 handleCustomerInbox(controller);
                 break;
             case 1:
@@ -192,7 +192,7 @@ public class MainMenu {
                 handleCustomerInbox(controller);
                 break;
             case 2:
-                controller.ViewCustomerMessageHistory();
+                controller.viewEmployeeCustomerMessageHistory();
                 handleCustomerInbox(controller);
                 break;
             case 3:
@@ -214,7 +214,7 @@ public class MainMenu {
         int userChoice = UserInput.readInt("Type in the option: ");
         switch (userChoice){
             case 0:
-                controller.ViewEmployeeMessageInbox();
+                controller.viewEmployeeCustomerMessageInbox();
                 handleEmployeeInbox(controller);
                 break;
             case 1:
@@ -224,7 +224,7 @@ public class MainMenu {
                 handleEmployeeInbox(controller);
                 break;
             case 2:
-                controller.ViewEmployeeMessageHistory();
+                controller.viewEmployeeCustomerMessageHistory();
                 handleEmployeeInbox(controller);
                 break;
             case 3:
