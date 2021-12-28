@@ -17,7 +17,7 @@ public class Inbox {
     public static ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
     public static Queue<MessageFormat> messageInbox;
     //Customer -> send message -> employee
-    public static Queue<MessageFormat> messagesToEmployees; // send messages?
+    public static Queue<String> messagesToEmployees; // send messages?
 
     /*
             controller:
@@ -32,7 +32,7 @@ public class Inbox {
         this.loanRequests = new LinkedList<LoanRequest>();
         this.messageHistory = new ArrayList<>();
         this.messageInbox  = new LinkedList<MessageFormat>();
-        this.messagesToEmployees = new LinkedList<MessageFormat>();
+        this.messagesToEmployees = new LinkedList<String>();
         this.cardRequests = new LinkedList<>();
     }
 
@@ -48,7 +48,7 @@ public class Inbox {
         messageHistory.add(message);
     }
 
-    public void sendMessageToEmployee(MessageFormat message){
+    public void sendMessageToEmployee(String message){
         messagesToEmployees.add(message);
     }
 
@@ -83,7 +83,7 @@ public class Inbox {
         return "";
     }
 // do we want to return the hole array? are we using it? or we just want to print all? in that case change this method.
-    public ArrayList<String> getMessageHistory(){
+    public String getMessageHistory(){
        ArrayList<String> clone = new ArrayList<>();
         return clone;
     }
