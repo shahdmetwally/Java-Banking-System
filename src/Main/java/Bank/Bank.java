@@ -31,7 +31,9 @@ public class Bank {
     private EmployeeInbox employeeInbox;
     private ManagerInbox managerInbox;
 
-    private double equity;
+    private double equity; // everytime the banks a payment the equity must increase with that amount.
+    // create a bankAccount for the bank, maybe just a composition with a bank account can do it. So that it can have access to those methods.
+
 
     public Bank(){
         this.users = new HashMap<>();
