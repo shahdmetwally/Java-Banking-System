@@ -23,6 +23,5 @@ public class ManagerInbox extends EmployeeInbox {
         return "The vacation application has been approved.";
     }
 
-    public String
 
 }

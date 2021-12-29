@@ -16,13 +16,13 @@ public class Manager extends Employee{
         return super.getRole();
     }
 
-    @Override
     public void setRole() {
         super.setRole(Role.MANAGER);
     }
 
+
     public double getBonus(){
-       return this.bonus;
+        return this.bonus;
     }
     public void setBonus(double newBonus){this.bonus = newBonus;
     }

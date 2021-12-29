@@ -192,11 +192,11 @@ public class MainMenu {
                 handleCustomerInbox(controller);
                 break;
             case 2:
-                controller.viewEmployeeCustomerMessageHistory();
+                //controller.viewEmployeeCustomerMessageHistory();
                 handleCustomerInbox(controller);
                 break;
             case 3:
-                controller.removeMessageFromEmployee();
+                controller.removeMessageFromEmployeeCustomer();
                 handleCustomerInbox(controller);
                 break;
             case 4:
@@ -224,11 +224,11 @@ public class MainMenu {
                 handleEmployeeInbox(controller);
                 break;
             case 2:
-                controller.viewEmployeeCustomerMessageHistory();
+                //controller.viewEmployeeCustomerMessageHistory();
                 handleEmployeeInbox(controller);
                 break;
             case 3:
-                controller.removeMessageFromCustomer();
+                controller.removeMessageFromEmployeeCustomer();
                 handleEmployeeInbox(controller);
                 break;
             case 4:

@@ -337,13 +337,9 @@ public class Controller {
 
     public String viewEmployeeCustomerMessageInbox() {
         String message = "Message Inbox: " + Utilities.EOL;
-        String message1 ="";
-        for (int i=0; i < Inbox.getAllMessageInbox().get(i); i++){
-            message1 += String.format(message) + Utilities.EOL;
-        }
-        return message + message1;
+        return employeeInbox.getAllMessageInbox();
     }
-    public void removeMessageFromEmployee() {
+    public void removeMessageFromEmployeeCustomer() {
         Inbox.messageHistory.add(Inbox.messageInbox.poll());
         System.out.print("The message has been removed.");
     }
@@ -372,9 +368,6 @@ public class Controller {
             EmployeeInbox.messagesToCustomers.add("Employee:" + message);
             System.out.println("Your message has been sent successfully.");
         }
-    }
-
-    public void removeMessageFromCustomer() {
     }
 
     public void takeDaysOff (String personalNo,int amountOfDays){
