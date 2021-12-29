@@ -351,7 +351,7 @@ public class Controller {
         String message = "Message History: " + Utilities.EOL;
         String message1 = "";
         for (int i = 0; i < Inbox.getMessageHistory().size(); i++) {
-            message1 += Inbox.getMessageHistory().get(i) + Utilities.EOL;
+            message1 += String.format(message) + Utilities.EOL;
         }
         return message + message1;
     }
