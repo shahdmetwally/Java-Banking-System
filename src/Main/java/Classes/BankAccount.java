@@ -1,8 +1,8 @@
-package Bank;
+package Classes;
 import Classes.Transaction;
+import Loans.Loan;
 import Utilities.Utilities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 
@@ -13,14 +13,14 @@ public class BankAccount {
     private double balance;
     private ArrayList<String> transactions;
     private boolean active;
-    private double loan;
+    private Loan loan;
     private double expanse;
     private double budget;
     private ArrayList<String> userInbox; // Don't know if we are using the message function
     private String date;
 
-    public BankAccount(){
 
+    public BankAccount(){
     }
     public BankAccount(String bankAccountNo) {
         this.accountNo = bankAccountNo;
@@ -28,14 +28,12 @@ public class BankAccount {
         this.transactions = new ArrayList<>();
         this.userInbox = new ArrayList<>();// maybe not here
         this.active = true;
-        this.loan = 0.00;
+        this.loan = null;
         this.expanse = 0.00;
         this.budget = 0.00;
         this.date = "";
 
     }
-
-
 
     public String getAccountNo() {
         return accountNo;
@@ -62,8 +60,12 @@ public class BankAccount {
         return transactions.toString();
     }
 
-    public double getLoan() {
+    public Loan getLoan() {
         return loan;
+    }
+
+    public Loan setLoan(Loan loan){
+        return this.loan = loan;
     }
 
     public ArrayList<String> getTransactions() {
@@ -124,7 +126,7 @@ public class BankAccount {
     //}
 
     public String toString() {
-        return "Your balance is " + Utilities.truncateDouble(balance);
+        return "Your balance is " + Utilities.truncateForPrint(balance);
     }
 
     public String depositMoney(double amount) throws Exception { // 2.1  Deposit Money

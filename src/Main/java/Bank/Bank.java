@@ -2,25 +2,51 @@ package Bank;
 
 import Classes.Customer;
 import Classes.User;
+import Inbox.EmployeeInbox;
+import Inbox.ManagerInbox;
+import Loans.Loan;
+import Request.CardRequest;
+import Request.LoanRequest;
+import Request.VacationRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Bank {
 
-
+    private  double variableInterestRate;
     private  HashMap<String, User> users; // key is the person Nr
-    private  HashMap<String, User> bankAccounts; // the key is the bankaccount
+    private  HashMap<String, User> bankAccounts; // do we really need this if is stored in the user?
     private  HashMap<String, Loan>  loans;
-    private  HashMap<String, LoanApplication> loanApplications;
-    private double equity;
+
+    // we are having the HashMaps as a back up for the request made.
+    // because this ones are HashMap we are not allowing more than one request per customer at the same time.
+    // Either we leave it this way or we find another solution to this.
+    private  HashMap<String, LoanRequest> loanRequests;
+    private  HashMap<String, CardRequest> cardRequests;
+    private HashMap<String, VacationRequest> vacationRequest;
+
+    // is just a test- need to talk to jennifer about this.
+    // this inbox are part of the banks inbox.
+    private EmployeeInbox employeeInbox;
+    private ManagerInbox managerInbox;
+
+    private double equity; // everytime the banks a payment the equity must increase with that amount.
+    // create a bankAccount for the bank, maybe just a composition with a bank account can do it. So that it can have access to those methods.
+
 
     public Bank(){
         this.users = new HashMap<>();
         this.bankAccounts = new HashMap<>();
         this.loans = new HashMap<>();
-       this.loanApplications = new HashMap<>();
+        this.loanRequests = new HashMap<>();
         this.equity = 0;
+        this.cardRequests = new HashMap<>();
+        this.employeeInbox = new EmployeeInbox();
+        this.managerInbox = new ManagerInbox();
+        this.vacationRequest = new HashMap<>();
+        this.variableInterestRate = 0;
+
     }
 
     public double getTotalCustomerBalance(){
@@ -31,7 +57,7 @@ public class Bank {
         }
         return balance;
     }
-
+// is here for testing purposes
     public void showAllUser(){
         users.forEach((personNo, user) -> System.out.println(user.getFullName() + " : " + personNo  + ": " + user.getPassword()));
     }
@@ -41,9 +67,14 @@ public class Bank {
         HashMap<String,Loan> loanClone = loans;
         return loanClone;
     }
+    public void setAllVariableInterest(double interestRate){
+        for (Map.Entry<String, Loan> entry : loans.entrySet()) {
+            entry.getValue().setInterestRate(interestRate);
+        }
+    }
 
-    public HashMap<String, LoanApplication> getLoanApplications(){
-        HashMap<String, LoanApplication> loanApplicationClone = loanApplications;
+    public HashMap<String, LoanRequest> getLoanRequests(){
+        HashMap<String, LoanRequest> loanApplicationClone = loanRequests;
         return loanApplicationClone;
     }
 
@@ -59,24 +90,37 @@ public class Bank {
         }
 
     }
-    public void addLoan(Loan loan, String personalNr ){
+    public void addLoan(String personalNr,Loan loan ){
        String key = "L" + personalNr;
         this.loans.put(key,loan);
     }
-    public void addLoanApplication(String personalNr, LoanApplication loanApplication){
-        String key = "LA" + personalNr;
-        this.loanApplications.put(key,loanApplication);
+    public void addLoanApplication(String personalNr, LoanRequest loanApplication){
+        String key = "LR" + personalNr;
+        this.loanRequests.put(key,loanApplication);
+    }
+    public void addCardRequest(String personalNr,CardRequest inputCardRequest){
+        String key = "C" + personalNr;
+        cardRequests.put(key,inputCardRequest);
+    }
+    public void removeCardRequest(String personalNr, CardRequest inputCardRequest){
+        String key = "C" + personalNr;
+        this.cardRequests.remove(key,inputCardRequest);
     }
     public void removeLoan(Loan loan, String personalNr ){
         String key = "L" + personalNr;
         this.loans.remove(key,loan);
     }
-    public void removeLoanApplication(String personalNr, LoanApplication loanApplication){
-        String key = "LA" + personalNr;
-        this.loanApplications.remove(key,loanApplication);
+    public void removeLoanRequest(String personalNr, LoanRequest loanApplication){
+        String key = "LR" + personalNr;
+        this.loanRequests.remove(key,loanApplication);
     }
-    public String viewLoanApplication(String loanApplicationID){
-        return loanApplications.get(loanApplicationID).toString();
+
+    public LoanRequest getSpecificLoanRequest(String loanRequestID){
+        return loanRequests.get(loanRequestID);
+
+    }
+    public Loan getSpecificLoan(String loanID){
+        return loans.get(loanID);
     }
 
     public void removeUser(User user) {
@@ -90,24 +134,59 @@ public class Bank {
     public void addBankAccount(String bankAccount, Customer customer) {
         this.bankAccounts.put(customer.getAccountNo(), customer);
     }
-
+// do we need this? the account is connected to the user but should it be a possibility to delete a bank account ?
     public void removeBankAccount(Customer customer) {
         this.bankAccounts.remove(customer.getAccountNo(), customer);
     }
 
-    /*
-    the mortgage depends on the size of the loan, the house worth and the income of the household.
- House loan over 70 % of the value of the house worth will mortgage at least 2 % per year.
-House loan between 50-70% of the house worth will mortgage 1 % per year. This is apart of the interest of the loan.
-at least 15% of the hole loan.
-     */
-
+// for the total Equity of the bank
     public double getEquity() {
         return equity;
     }
-
-    public void setEquity(double equity) {
-        this.equity = equity;
+// to insert money to the banks equity
+    public void addEquity(double equity) {
+        this.equity += equity;
     }
+
+    public EmployeeInbox getEmployeeInbox() {
+        return employeeInbox;
+    }
+
+    public ManagerInbox getManagerInbox() {
+        return managerInbox;
+    }
+
+    public HashMap<String, CardRequest> getCardRequests() {
+        HashMap<String, CardRequest> clone = cardRequests;
+        return clone;
+    }
+
+
+    public double getVariableInterestRate() {
+        return variableInterestRate;
+    }
+
+    public void setVariableInterestRate(double variableInterestRate) {
+        this.variableInterestRate = variableInterestRate;
+    }
+    public void addVacationRequest(String personalNr, VacationRequest vacationRequest){
+        String key = "V" + personalNr;
+        this.vacationRequest.put(personalNr,vacationRequest);
+    }
+    public void removeVacationRequest(String personalNr, VacationRequest vacationRequest){
+        String key = "V" + personalNr;
+        this.vacationRequest.remove(personalNr,vacationRequest);
+    }
+
+    public HashMap<String, VacationRequest> getVacationRequest() {
+        HashMap<String, VacationRequest> clone = vacationRequest;
+        return clone;
+    }
+
+    public void setVacationRequest(HashMap<String, VacationRequest> vacationRequest) {
+        this.vacationRequest = vacationRequest;
+    }
+
+
 }
 

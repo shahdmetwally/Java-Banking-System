@@ -2,13 +2,15 @@ package Menu;
 
 import Bank.Bank;
 import Classes.Role;
+import Loans.TypeOfInterest;
 import MainController.Controller;
 import MainController.StartProgram;
 import Utilities.UserInput;
 import Utilities.Utilities;
-import Bank.TypesOfLoan;
+import Loans.TypesOfLoan;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.print.DocFlavor;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -23,7 +25,10 @@ public class MainMenu {
     private final MenuOptions employee;
     private final MenuOptions manager;
     private Bank bank;
-    private final MenuOptions inbox;
+    private final MenuOptions customerInbox;
+    private final MenuOptions employeeInbox;
+    private final MenuOptions updateLoanRequest;
+
 
 
 
@@ -35,7 +40,10 @@ public class MainMenu {
         this.manager = new MenuOptions();
         this.employee = new MenuOptions();
         this.bank = bank;
-        this.inbox = new MenuOptions();
+        this.customerInbox = new MenuOptions();
+        this.employeeInbox = new MenuOptions();
+        this.updateLoanRequest = new MenuOptions();
+
     }
 
     public void setUpMainMenu() {
@@ -77,34 +85,69 @@ public class MainMenu {
 
         // should be the last option, if you want to add something, add it above!
         customer.addOptions(11,"Log out.");
+        //Customer Inbox
+
+        customerInbox.setMenuName("Customer Inbox Menu " + Utilities.EOL +
+                "--------------------" + Utilities.EOL +
+                " Choose one of the options below.");
+        customerInbox.addOptions(0, "View messages from employees.");
+        customerInbox.addOptions(1, "Send message to employees.");
+        customerInbox.addOptions(2, "View old messages.");
+        customerInbox.addOptions(3, "Remove oldest message.");
+        customerInbox.addOptions(4, "Go back to Customer menu.");
+
+//COPY PASTE THIS UNDER EMPLOYEE MENU
+        //Employee Inbox
+        employeeInbox.setMenuName("Employee Inbox Menu " + Utilities.EOL +
+                "--------------------" + Utilities.EOL +
+                " Choose one of the options below.");
+        employeeInbox.addOptions(0, "View messages from customer.");
+        employeeInbox.addOptions(1, "Send message to customer.");
+        employeeInbox.addOptions(2, "View message history."); // maybe history
+        employeeInbox.addOptions(3, "Remove oldest message.");
+        employeeInbox.addOptions(4, "Go back to Employee menu.");
+
+
 
         otherService.setMenuName("Other services Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         otherService.addOptions(0,"Update name.");
-        otherService.addOptions(1,"Update Salary");
+        otherService.addOptions(1,"Update salary");
         otherService.addOptions(2,"Apply for new card.");
         otherService.addOptions(3,"Block payment card.");
         otherService.addOptions(4,"Loan request with Co-signer");
         otherService.addOptions(5, "Loan request without Co-signer");
-        otherService.addOptions(6,"Loan status"); //? should we?
+        otherService.addOptions(6,"Update Loan request");
         otherService.addOptions(7,"Return to Customer menu.");
+
+        updateLoanRequest.setMenuName("Update loan request"+ Utilities.EOL +
+                "--------------------" + Utilities.EOL +
+                " Choose one of the options below.");
+        updateLoanRequest.addOptions(0,"Update amount");
+        updateLoanRequest.addOptions(1,"Update type of loan");
+        updateLoanRequest.addOptions(2,"Update the time period of the loan");
+        updateLoanRequest.addOptions(3,"Update other equities");
+        updateLoanRequest.addOptions(4,"Update cash contribution");
+        updateLoanRequest.addOptions(5,"Update Co-Signer name");
+        updateLoanRequest.addOptions(6,"Update Co-Signer personal number");
+        updateLoanRequest.addOptions(7,"Update Co-Signers salary");
 
         employee.setMenuName("Employee Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         employee.addOptions(0, "Create Customer.");
-        employee.addOptions(1, "Create a bank account for customer.");
-        employee.addOptions(2, "Show customer accounts.");
-        employee.addOptions(3, "Approve loans and mortgages.");
-        // we can maybe give access to the employee to enter the customer menu, getting
-        // the user personal number and a personal code (4 digit).
-        employee.addOptions(4, "Update customer password.");
-        employee.addOptions(5, "View salary.");
-        employee.addOptions(6, "Apply for vacation.");
-        employee.addOptions(7, "Request inbox.");
-        employee.addOptions(8, "Manager options.");
-        employee.addOptions(9, "Log out.");
+        employee.addOptions(1, "Show customer accounts.");
+        employee.addOptions(2, "Approve loans.");
+        employee.addOptions(3,"Calculate Debt-to-income (DTI) ratio.");
+        employee.addOptions(4,"Calculate monthly mortgage.");
+        employee.addOptions(5,"Calculate the annual mortgage of a house loan");
+        employee.addOptions(6, "Update customer password.");
+        employee.addOptions(7, "View salary.");
+        employee.addOptions(8, "Apply for vacation.");
+        employee.addOptions(9, "Request inbox.");
+        employee.addOptions(10, "Manager options.");
+        employee.addOptions(11, "Log out.");
 
         manager.setMenuName("Manager Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -115,7 +158,8 @@ public class MainMenu {
         manager.addOptions(3, "Remove employee.");
         manager.addOptions(4, "Update employee salary.");
         manager.addOptions(5, "Update employee password.");
-        manager.addOptions(6,"Return to employee menu.");
+        manager.addOptions(6,"Set variable interest rate");
+        manager.addOptions(7,"Return to employee menu.");
     }
 
     public String enterPersonalNr(){
@@ -124,11 +168,76 @@ public class MainMenu {
     }
 
     public Controller login() throws Exception{
-
+        /*
+            If we separe the menu we can add the controller as an attribute and
+            create it with this method.
+         */
             String userName = UserInput.readLine("Enter username: ");
             String password = UserInput.readLine("Enter password: ");
             Controller controller = new Controller(userName, password,bank);
             return controller;
+    }
+
+    public void handleCustomerInbox(Controller controller){
+        this.customerInbox.printOptions();
+        int userChoice = UserInput.readInt("Type in the option: ");
+        switch (userChoice){
+            case 0:
+                controller.viewEmployeeCustomerMessageInbox();
+                handleCustomerInbox(controller);
+                break;
+            case 1:
+                 String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
+                controller.sendMessageToEmployees();
+                handleCustomerInbox(controller);
+                break;
+            case 2:
+                controller.viewEmployeeCustomerMessageHistory();
+                handleCustomerInbox(controller);
+                break;
+            case 3:
+                controller.removeMessageFromEmployee();
+                handleCustomerInbox(controller);
+                break;
+            case 4:
+                handleCustomerMenu(controller);
+                break;
+            default:
+                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                handleCustomerInbox(controller);
+        }
+    }
+
+    // Handle For Employee Inbox
+    public void handleEmployeeInbox(Controller controller){
+        this.employeeInbox.printOptions();
+        int userChoice = UserInput.readInt("Type in the option: ");
+        switch (userChoice){
+            case 0:
+                controller.viewEmployeeCustomerMessageInbox();
+                handleEmployeeInbox(controller);
+                break;
+            case 1:
+                String tittle = UserInput.readLine("Enter the title: ");
+                String message = UserInput.readLine("Enter message: ");
+                controller.sendMessageToCustomers(tittle,message);
+                handleEmployeeInbox(controller);
+                break;
+            case 2:
+                controller.viewEmployeeCustomerMessageHistory();
+                handleEmployeeInbox(controller);
+                break;
+            case 3:
+                controller.removeMessageFromCustomer();
+                handleEmployeeInbox(controller);
+                break;
+            case 4:
+                handleEmployeeMenu(controller);
+                break;
+            default:
+                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                handleCustomerInbox(controller);
+        }
     }
 
     public void handleMainMenu(){
@@ -304,7 +413,6 @@ public class MainMenu {
         }
     }
 
-
     public void handleOtherService(Controller controller){
         this.otherService.printOptions();
         int userChoice = UserInput.readInt("Type in the option: ");
@@ -324,8 +432,10 @@ public class MainMenu {
                 System.out.println(message);
                 handleOtherService(controller);
                 break;
-            case 2: //"Apply for new card."
-
+            case 2:
+                message = controller.applyForCard();
+                System.out.println(message);
+                handleOtherService(controller);
                 break;
             case 3:
                 String option = UserInput.readLine("Are you sure that you want to block your debit card? "+ Utilities.EOL + " Please answer: yes or no");
@@ -345,11 +455,13 @@ public class MainMenu {
                         "3. Car loan"+ Utilities.EOL +
                         "4. Unsecured loan");
                 TypesOfLoan typesOfLoan = null;
+                double houseWorth = 0;
                 int newOption = UserInput.readInt("Enter loan option: ");
                 do {
                     switch (newOption) {
                         case 1:
                             typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
+                            houseWorth = UserInput.readDouble("Enter the house value: ");
                             break;
                         case 2:
                             typesOfLoan = TypesOfLoan.HOUSE_LOAN;
@@ -365,53 +477,40 @@ public class MainMenu {
                     }
                 }while (newOption>4 ||newOption < 1);
 
+                double loanAmount = UserInput.readDouble("Enter the loan amount: ");
 
-                double loanAmount=0;
-                while(true){
-                    try{
-                        loanAmount = Double.parseDouble(UserInput.readLine("Enter the loan amount: "));
-                        break;
-                    }catch (NumberFormatException ignore){
-                        System.out.println("Invalid input");
-                    }
+                String  typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
+                TypeOfInterest interestType = null;
+
+                if(typeOfInterest.equalsIgnoreCase("Fix")){
+                    interestType = TypeOfInterest.FIX_RATE;
+                }
+                if(typeOfInterest.equalsIgnoreCase("variable")){
+                    interestType = TypeOfInterest.VARIABLE_RATE;
                 }
 
-
                 double time = UserInput.readDouble("Enter loan time (years): ");
-
                 String addEquities;
-                HashMap<String,Double> temp = controller.tempHashmap();
+                HashMap<String,Double> temp = controller.temporaryHashMap();
                 do{
                     String otherEquity = UserInput.readLine("Enter other equity name" + Utilities.EOL + "The name of the equity cannot be repeated");
                     double otherEquitiesValue = UserInput.readDouble("Enter other equities value: ");
                     System.out.println(controller.addEquities(otherEquity,otherEquitiesValue,temp));
-                    addEquities = UserInput.readLine("Do you want to add another equity?");
+                    addEquities = UserInput.readLine(" Do you want to add another equity?");
                 }while(addEquities.equalsIgnoreCase("Yes"));
 
-                double cashContribution;
-                do{
-                    cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Should be at least 15% of the total loan amount");
-                }while(!controller.isCashContributionCorrect(cashContribution,loanAmount));
 
+                double cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Show be at least 15% of the total loan amount");
                 String coSigner_name = UserInput.readLine("Enter Co-signer name: ");
-
-                String coSigner_personalNr;
-                do{
-                    coSigner_personalNr = UserInput.readLine("Enter Co-signer personal number: ");
-                    if(!controller.isPersonNrCorrect(coSigner_personalNr)){
-                        System.out.println("Invalid personalNo");
-                    }
-                }while(!controller.isPersonNrCorrect(coSigner_personalNr));
-
-
+                String coSigner_personalNr = UserInput.readLine("Enter Co-signer personal number: ");
                 double coSigner_salary =UserInput.readDouble("Enter Co-signer salary: ");
 
-                message =  controller.loanRequestWithCoSigner(loanAmount,typesOfLoan,time,temp,cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
+                message =  controller.loanRequestWithCoSigner(loanAmount,typesOfLoan,interestType,houseWorth,time,temp,cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
                 System.out.println(message);
                 // controller:
 
                 String loanAppID= UserInput.readLine("Enter Loan request ID");
-                String testMess = bank.getLoanApplications().get(loanAppID).toString();
+                String testMess = bank.getLoanRequests().get(loanAppID).toString();
                 System.out.println(testMess);
 
                 handleCustomerMenu(controller);
@@ -423,10 +522,12 @@ public class MainMenu {
                     "4. Unsecured loan");
                  typesOfLoan = null;
                  newOption = UserInput.readInt("Enter loan option: ");
+                 houseWorth = 0;
                 do {
                     switch (newOption) {
                         case 1:
                             typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
+                            houseWorth = UserInput.readDouble("Enter the house value: ");
 
                         case 2:
                             typesOfLoan = TypesOfLoan.HOUSE_LOAN;
@@ -442,9 +543,9 @@ public class MainMenu {
                     }
                 }while (newOption>4 ||newOption < 1);
 
-                 loanAmount = UserInput.readInt("Enter the loan amount: ");
+                 loanAmount = UserInput.readDouble("Enter the loan amount: ");
                  time = UserInput.readDouble("Enter loan time (years): ");
-                HashMap<String,Double> tempHash = controller.tempHashmap();
+                HashMap<String,Double> tempHash = controller.temporaryHashMap();
 
                 do{
                     String otherEquity = UserInput.readLine("Enter other equity");
@@ -453,11 +554,18 @@ public class MainMenu {
                     addEquities = UserInput.readLine(" Do you want to add another equity?");
                 }while(addEquities.equalsIgnoreCase("Yes"));
 
-                do{
-                    cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Should be at least 15% of the total loan amount");
-                }while(!controller.isCashContributionCorrect(cashContribution,loanAmount));
+                  typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
+                 interestType = null;
 
-                message =  controller.loanRequestWithOutCoSigner(loanAmount,typesOfLoan,time,tempHash,cashContribution);
+                if(typeOfInterest.equalsIgnoreCase("Fix")){
+                   interestType = TypeOfInterest.FIX_RATE;
+                }
+                if(typeOfInterest.equalsIgnoreCase("variable")){
+                    interestType = TypeOfInterest.VARIABLE_RATE;
+                }
+
+                 cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Show be at least 15% of the total loan amount");
+                message =  controller.loanRequestWithOutCoSigner(loanAmount,typesOfLoan,interestType,houseWorth,time,tempHash,cashContribution);
                 System.out.println(message);
             break;
             case 6://  otherService.addOptions(5,"Loan status"); //? should we?
@@ -471,8 +579,58 @@ public class MainMenu {
 
     }
 
-    public void handleEmployeeMenu(Controller controller) {
+    /*
+    updateLoanRequest.addOptions(0,"Update amount");
+        updateLoanRequest.addOptions(1,"Update type of loan");
+        updateLoanRequest.addOptions(2,"Update the time period of the loan");
+        updateLoanRequest.addOptions(3,"Update other equities");
+        updateLoanRequest.addOptions(4,"Update cash contribution");
+        updateLoanRequest.addOptions(5,"Update Co-Signer name");
+        updateLoanRequest.addOptions(6,"Update Co-Signer personal number");
+        updateLoanRequest.addOptions(7,"Update Co-Signers salary");
+     */
+    public void handleUpdateLoanRequest(){
+        this.updateLoanRequest.printOptions();
+        int userChoice = UserInput.readInt("Type in the option: ");
+        switch (userChoice) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2: //"Apply for new card."
 
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6://  otherService.addOptions(5,"Loan status"); //? should we?
+                break;
+            case 7:
+                break;
+            default:
+                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                handleUpdateLoanRequest();
+        }
+
+    }
+
+    /*
+       employee.addOptions(0, "Create Customer.");
+        employee.addOptions(1, "Show customer accounts.");
+        employee.addOptions(2, "Approve loans.");
+        employee.addOptions(3,"Calculate Debt-to-income (DTI) ratio.");
+        employee.addOptions(4,"Calculate monthly mortgage.");
+        employee.addOptions(5, "Update customer password.");
+        employee.addOptions(6, "View salary.");
+        employee.addOptions(7, "Apply for vacation.");
+        employee.addOptions(8, "Request inbox.");
+        employee.addOptions(9, "Manager options.");
+        employee.addOptions(10, "Log out.");
+     */
+    public void handleEmployeeMenu(Controller controller) {
         if(controller.getUser().getRole() == Role.EMPLOYEE) {
             this.employee.printOptions();
             int userChoice = UserInput.readInt("Type in the option");
@@ -480,15 +638,11 @@ public class MainMenu {
             switch (userChoice) {
                 case 0:
                     System.out.println("Registering a new Customer: ");
-                    String option;
                     String personalNo ="";
                     try {
                         String fullName = UserInput.readLine("Enter your full name:");
                         do{
                             personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
-                            if(!controller.isPersonNrCorrect(personalNo)){
-                                System.out.println("Invalid personalNo");
-                            }
                         }while(!controller.isPersonNrCorrect(personalNo));
                         String password;
                         String repeatedPassword;
@@ -499,6 +653,7 @@ public class MainMenu {
                             repeatedPassword = UserInput.readLine("Confirm password");
 
                         } while (!password.equals(repeatedPassword));
+
                         String cardNr = UserInput.readLine("Enter card number: ");
                         int cvc = UserInput.readInt("Enter cvc number: ");
                         String expirationDate = UserInput.readLine("Enter expiration date: ");
@@ -509,47 +664,161 @@ public class MainMenu {
                         handleEmployeeMenu(controller);
                     } catch (IllegalAccessException scannerError) {
                         System.out.println("Invalid input.");
-                        handleEmployeeMenu(controller);
+
                     } catch (InputMismatchException exception){
                         System.out.println("Invalid input. Please enter numbers.");
-                        handleEmployeeMenu(controller);
+
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
-                        handleEmployeeMenu(controller);
+
                     }
-                    break;
-                case 1://create a bank account for customer
-                    // creating a customer already creates a bank account and need to fix the account no. so it saves.
                     handleEmployeeMenu(controller);
                     break;
-                case 2:
-                    String message = controller.getCustomerInfo(enterPersonalNr());
+                case 1:String message = controller.getCustomerInfo(enterPersonalNr());
                     System.out.println(message);
                     handleEmployeeMenu(controller);
                     break;
-                case 3://Approve loans and mortgages
-                    handleEmployeeMenu(controller);
+                case 2:
+                    int option;
+                    do {
+                        String loanRequestID;
+                         option = UserInput.readInt("Choice between: " + Utilities.EOL +
+                                 "1. Approve 2.Decline  3.Modify 4. Interest rate");
+                        switch (option) {
+                            case 1: // CHECK NOTES ON THE METHOD
+                                try {
+
+                                do {
+                                loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
+                                }while(controller.checkLoanRequest(loanRequestID));
+                                    String typeOfInterest;
+                                    do {
+                                 typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
+                                }while (typeOfInterest.equalsIgnoreCase("Fix")|| typeOfInterest.equalsIgnoreCase("variable"));
+
+                                    double interestRate = 0;
+                                    if(typeOfInterest.equalsIgnoreCase("Fix")){
+                                      interestRate = UserInput.readDouble("Enter interest rate for the loan: ");
+                                    }
+                                    if(typeOfInterest.equalsIgnoreCase("variable")){
+                                        interestRate = bank.getVariableInterestRate();
+                                    }
+                                   String  textMessage = UserInput.readLine("Enter message: ");
+                                   message =controller.approveLoan(loanRequestID,textMessage,interestRate,typeOfInterest);
+                                    System.out.println(message);
+                                } catch (IllegalAccessException scannerError) {
+                                    System.out.println("Invalid input.");
+                                } catch (InputMismatchException exception){
+                                    System.out.println("Invalid input. Please enter numbers.");
+                                } catch (Exception exception) {
+                                    System.out.println(exception.getMessage());
+                                }
+                                handleEmployeeMenu(controller);
+                                break;
+                            case 2: try {
+
+                                do {
+                                    loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
+                                }while (controller.checkLoanRequest(loanRequestID));
+
+                                String textMessage = UserInput.readLine("Enter message: ");
+                                message = controller.declineLoanRequest(loanRequestID, textMessage);
+                                System.out.println(message);
+                            } catch (IllegalAccessException scannerError) {
+                                System.out.println("Invalid input.");}
+                            catch (Exception exception){
+                                System.out.println(exception.getMessage());
+                            }
+                            handleEmployeeMenu(controller);
+
+                                break;
+                            case 3: try {
+
+                                do {
+                                    loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
+                                }while (controller.checkLoanRequest(loanRequestID));
+
+                                String textMessage = UserInput.readLine("Enter message: ");
+
+                                // ADD SEND MESSEGE TO CUSTOMER HERE!!
+
+
+                            } catch (IllegalAccessException scannerError) {
+                                System.out.println("Invalid input.");}
+                            catch (Exception exception){
+                                System.out.println(exception.getMessage());
+                            }
+                                handleEmployeeMenu(controller);
+
+                                break;
+                            case 4:
+                                try {
+                                    do {
+                                        loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
+                                    }while(controller.checkLoanRequest(loanRequestID));
+                                    double interestRate = UserInput.readDouble("Enter interest rate offer for the loan: ");
+                                    String  textMessage = UserInput.readLine("Enter message: ");
+
+                                    controller.interestOffer(loanRequestID,interestRate,textMessage);
+                                } catch (IllegalAccessException scannerError) {
+                                    System.out.println("Invalid input.");
+                                } catch (InputMismatchException exception){
+                                    System.out.println("Invalid input. Please enter numbers.");
+                                } catch (Exception exception) {
+                                    System.out.println(exception.getMessage());
+                                }
+                                        handleEmployeeMenu(controller);
+                            default:
+                                System.out.println("Invalid choice. Please select between option 1 to 3. ");
+                        }
+                    }while( option < 1 || option > 4);
+
                     break;
-                case 4:
+                case 3:
+                    double monthlyDebt = UserInput.readDouble("Enter the monthly debt: ");
+                    double grossIncome = UserInput.readDouble("Enter the monthly gross income: ");
+                    message = controller.calculateDTI(monthlyDebt,grossIncome);
+                    System.out.println(message);
+
+                case 4://employee.addOptions(4,"Calculate mortgage.");
+                    double loan = UserInput.readDouble("Enter the loan amount: ");
+                    double interestRate = UserInput.readDouble("Enter interest rate: ");
+                    int loanPeriod = UserInput.readInt("Enter loan time (in years): ");
+                    message = controller.calculateMonthlyMortgage(loan,interestRate,loanPeriod);
+                    System.out.println(message);
+                case 5:
                     personalNo = UserInput.readLine("Please type the personal number for the customer:");
                     String newPassword = UserInput.readLine("Please type the new password:");
                     System.out.println(controller.updateCustomerPassword(personalNo, newPassword));
                     handleEmployeeMenu(controller);
                     break;
-                case 5:
+                case 6: String loanID = UserInput.readLine("Enter the loan ID: ");
+                    message =controller.getMortgagePercentage_HouseLoan(loanID);
+                    System.out.println(message);
+                    break;
+                case 7:
                     System.out.println(controller.viewSalary());
                     handleEmployeeMenu(controller);
                     break;
-                case 6: // We dont have the method
+                case 8: // connect to inbox, see the controller
+                    try {
+                        int days = UserInput.readInt("Enter number of days:");
+                        controller.applyForVacation(days);
+                    } catch (InputMismatchException exception){
+                        System.out.println("Invalid input. Please enter numbers.");
+
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
                     handleEmployeeMenu(controller);
                     break;
-                case 7: // we dont hav the method
+                case 9: // we dont hav the method
                     handleEmployeeMenu(controller);
                     break;
-                case 8:
+                case 10:
                     handleManagerMenu(controller);
                     break;
-                case 9:
+                case 11:
                     handleMainMenu();
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
@@ -559,10 +828,7 @@ public class MainMenu {
             System.out.println("Access denied. This menu is only for employees.");
             handleMainMenu();
         }
-
-
-        }
-
+    }
 
     public void handleManagerMenu(Controller controller) {
         manager.printOptions();
@@ -622,6 +888,19 @@ public class MainMenu {
                 handleManagerMenu(controller);
                 break;
             case 6:
+                try {
+                    double interestRate = UserInput.readDouble("Enter the variable interest rate: ");
+                    controller.setVariableInterestRate(interestRate);
+                } catch (InputMismatchException exception){
+                    System.out.println("Invalid input. Please enter numbers.");
+
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
+
+                }
+                handleManagerMenu(controller);
+                break;
+            case 7:
                 handleEmployeeMenu(controller);
                 break;
             default:

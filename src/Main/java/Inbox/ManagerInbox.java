@@ -1,17 +1,19 @@
-package Classes;
+package Inbox;
+
+import Request.VacationRequest;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class ManagerInbox extends EmployeeInbox {
-    Queue<String> vacationApplications;
+    Queue<VacationRequest> vacationApplications;
 
     public ManagerInbox(){
         super();
-        this.vacationApplications= new LinkedList<String>();
+        this.vacationApplications= new LinkedList<VacationRequest>();
     }
-    public void addVacationApllication(String message){
-        vacationApplications.add(message);
+    public void addVacationApllication(VacationRequest vacationRequest){
+        vacationApplications.add(vacationRequest);
     }
     public void seeVacationApplications(){
         System.out.println(vacationApplications);
@@ -19,7 +21,8 @@ public class ManagerInbox extends EmployeeInbox {
     public String approveVacationApplication(){
         vacationApplications.poll();
         return "The vacation application has been approved.";
-
     }
+
+    public String
 
 }

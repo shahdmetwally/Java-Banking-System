@@ -3,6 +3,7 @@ package MainController;
 
 import Bank.Bank;
 import Classes.*;
+import Inbox.EmployeeInbox;
 import Menu.MainMenu;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +23,7 @@ public class StartProgram {
     public static void main(String[] args) throws Exception {
 
         Bank bank = new Bank();
+
         jsonBank.put("employees", jsonEmployees);
         jsonBank.put("customers", jsonCustomers);
         jsonBank.put("managers", jsonManagers);

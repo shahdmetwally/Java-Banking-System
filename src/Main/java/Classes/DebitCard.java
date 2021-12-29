@@ -37,7 +37,9 @@ public class DebitCard {
     // 6 bank identification
     // 6 bank account
     // 4 unique
-
+    public boolean getStatus(){
+        return this.status;
+    }
     public void setActive() {
         this.status = true;
     }

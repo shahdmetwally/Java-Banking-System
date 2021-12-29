@@ -1,0 +1,187 @@
+package Loans;
+
+import Classes.Customer;
+import Utilities.Utilities;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Loan {
+
+    private final String loanID;
+    private final String name;
+    private final double loanAmount;
+    private final TypesOfLoan typesOfLoan;
+    private final double loanPeriod;
+    private final HashMap<String,Double> equities;
+    private final double cashContribution;
+    private  String coSigner_name;
+    private  String coSigner_personalNr;
+    private  double coSigner_salary;
+    private double interestRate;
+    private TypeOfInterest interestType;
+    private String date;
+    private double houseWorth;
+
+
+
+    public Loan(Customer customer, double loanAmount, TypesOfLoan typesOfLoan, double houseWorth, double interestRate, TypeOfInterest interestType,
+                double loanPeriod, HashMap<String,Double> hashMap, double cashContribution,
+                String coSigner_name, String coSigner_personalNr, double coSigner_salary){
+
+        this.loanID = "L"+ customer.getPersonalNo();
+        this.name = customer.getFullName();
+        this.typesOfLoan = typesOfLoan;
+        if(typesOfLoan == TypesOfLoan.HOUSE_LOAN){
+            this.houseWorth = houseWorth;
+        }else{
+            this.houseWorth = 0;
+        }
+        this.date = Utilities.date();
+        this.interestRate = interestRate;
+        this.interestType = interestType;
+        this.loanAmount = loanAmount;
+        this.loanPeriod = loanPeriod;
+        this.equities = hashMap;
+        this.cashContribution = cashContribution;
+        this.coSigner_name = coSigner_name;
+        this.coSigner_personalNr = coSigner_personalNr;
+        this.coSigner_salary = coSigner_salary;
+
+    }
+    public Loan(Customer customer, double loanAmount, TypesOfLoan typesOfLoan, double houseWorth, double interestRate, TypeOfInterest interestType,
+                double loanPeriod, HashMap<String,Double> hashMap, double cashContribution){
+
+        this.loanID = "L"+ customer.getPersonalNo();
+        this.name = customer.getFullName();
+        this.typesOfLoan = typesOfLoan;
+        if(typesOfLoan == TypesOfLoan.HOUSE_LOAN){
+            this.houseWorth = houseWorth;
+        }else{
+            this.houseWorth = 0;
+        }
+        this.date = Utilities.date();
+        this.interestRate = interestRate;
+        this.interestType = interestType;
+        this.loanAmount = loanAmount;
+        this.loanPeriod = loanPeriod;
+        this.equities = hashMap;
+        this.cashContribution = cashContribution;
+        this.coSigner_name = "";
+        this.coSigner_personalNr = "";
+        this.coSigner_salary = 0;
+    }
+
+
+    public String toString() {
+        return "ID: "+  loanID + " Date:" + date;
+    }
+
+    public String printRequest() {
+        String tittle =  "Application details: " + Utilities.EOL +
+                "-----------------------"+ Utilities.EOL +
+                "Date: " + date + Utilities.EOL +
+                " Customer name: " + name + Utilities.EOL+
+                "Loan application ID: " + loanID+ Utilities.EOL +
+                "Type of loan: " + typesOfLoan+ Utilities.EOL ;
+
+        String message2  =  "Loan amount: " + loanAmount + Utilities.EOL +
+                "Loan time: " + loanPeriod + Utilities.EOL +
+                "OtherEquity: "+Utilities.EOL + printEquities() +
+                "Cash contribution: " + cashContribution + Utilities.EOL +
+                "Co-Signer name: " + coSigner_name + Utilities.EOL +
+                "Co-Signer personal number: " + coSigner_personalNr + Utilities.EOL +
+                "Co-Signer salary: " + coSigner_salary;
+
+        if(typesOfLoan == TypesOfLoan.HOUSE_LOAN) {
+            String houseValue = "House value:  " + this.houseWorth + Utilities.EOL;
+            return tittle + houseValue + message2;
+        }else{
+            return tittle + message2;
+        }
+    }
+
+    public double getLoanAmount() {
+        return loanAmount;
+    }
+    public String printEquities(){
+        StringBuilder print = new StringBuilder();
+        for (Map.Entry<String, Double> entry : equities.entrySet()) {
+            print.append(entry.getKey()).append(" : ").append(entry.getValue()).append(Utilities.EOL);
+        }
+        return print.toString();
+    }
+
+    public String getId() {
+        return loanID;
+    }
+
+    public double getAmount() {
+        return loanAmount;
+    }
+
+    public TypesOfLoan getTypesOfLoan() {
+        return typesOfLoan;
+    }
+
+    public double getLoanPeriod() {
+        return loanPeriod;
+    }
+
+    public String getTypeOfInterest(){
+        return interestType.toString();
+    }
+    public double getInterestRate() {
+           return interestRate;
+    }
+
+
+
+    public double getCashContribution() {
+        return cashContribution;
+    }
+
+    public String getCoSigner_name() {
+        return coSigner_name;
+    }
+
+    public void setCoSigner_name(String coSigner_name) {
+        this.coSigner_name = coSigner_name;
+    }
+
+    public String getCoSigner_personalNr() {
+        return coSigner_personalNr;
+    }
+    public void setCoSigner_personalNr(String personalNr){
+        coSigner_personalNr = personalNr;
+    }
+
+    public void setInterestRate(double interestRate) {
+        if(interestType == TypeOfInterest.VARIABLE_RATE){
+                this.interestRate = interestRate;
+        }
+    }
+
+    public double getCoSigner_salary() {
+        return coSigner_salary;
+    }
+
+    public void setCoSigner_salary(double coSigner_salary) {
+        this.coSigner_salary = coSigner_salary;
+    }
+    public double getMortgagePercentage(){
+        double loanSizePercentage = loanAmount / houseWorth;
+        if(loanSizePercentage > 0.7){
+            return 0.2;
+        }else if(0.5 < loanSizePercentage|| loanSizePercentage < 0.7){
+            return 0.1;
+        }else{
+            return 0;
+        }
+    }
+
+
+
+
+
+}

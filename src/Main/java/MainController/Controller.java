@@ -1,24 +1,32 @@
 package MainController;
 import Bank.Bank;
-import Bank.LoanApplication;
-import Bank.TypesOfLoan;
+import Inbox.EmployeeInbox;
+import Inbox.Inbox;
+import Inbox.ManagerInbox;
+import Loans.Loan;
+import Loans.TypeOfInterest;
+import Request.LoanRequest;
+import Loans.TypesOfLoan;
+import Request.CardRequest;
 import Classes.*;
+import Request.VacationRequest;
 import Utilities.Utilities;
-import Utilities.UserInput;
+
 import java.util.*;
-import Classes.Inbox;
 
 public class Controller {
     private final Bank bank;
     private final HashMap<String, User> users;
     private final HashMap<String, User> bankAccounts;
     private final User user;
-    private Inbox inbox;
+    private EmployeeInbox employeeInbox;
+    private ManagerInbox managerInbox;
+
+
 
     public Controller(String userName, String password, Bank bank) throws Exception {
             this.bank = bank;
             this.users = bank.getUsers();
-            this.bankAccounts = bank.getBankAccounts();
 
             if (users.containsKey(userName)) {
                 User user = users.get(userName);
@@ -28,36 +36,36 @@ public class Controller {
                     throw new Exception("Wrong password.");
                 }
             } else {
-                throw new Exception("Username not found. Im in the controller");
+                throw new Exception("Username not found.");
             }
-            this.inbox = new Inbox();
-        }
+            this.bankAccounts = bank.getBankAccounts();
+            this.employeeInbox = bank.getEmployeeInbox();
+            this.managerInbox = bank.getManagerInbox();
 
+    }
         // CUSTOMER CONTROLLER
         //----------------------------------------
-
-
-    public User getUser() {
+    public User getUser(){
         return user;
     }
 
     public String viewAccountNo () {
             return "Account Number: " + ((Customer) user).getAccountNo();
-        }
+    }
 
-        public String viewAccountBalance () {
+    public String viewAccountBalance () {
             return "Your balance is " + Utilities.truncateForPrint(((Customer) user).getBalance());
-        }
+    }
 
-        public String depositMoney ( double amount) throws Exception {
+    public String depositMoney (double amount) throws Exception {
             return ((Customer) user).depositMoney(amount);
-        }
+    }
 
-        public String withdrawMoney ( double amount) throws Exception {
+    public String withdrawMoney (double amount) throws Exception {
             return ((Customer) user).withdrawMoney(amount);
-        }
+    }
 
-        public String transferMoney ( double amount, String anotherBankAccountNo) throws Exception {
+    public String transferMoney (double amount, String anotherBankAccountNo) throws Exception {
             String message="";
 
             if (bankAccounts.containsKey(anotherBankAccountNo)) {
@@ -79,42 +87,41 @@ public class Controller {
                 }
             }
             return message;
-        }
+    }
 
 
-        public String FiveLatestTransaction () throws Exception {
+    public String FiveLatestTransaction () throws Exception {
             String message = "Five latest transaction: " + Utilities.EOL;
             StringBuilder message1 = new StringBuilder();
             if(((Customer) user).getTransactions().size() < 5){
                 throw new Exception(" You have less than 5 transaction");
             }
             for (int i = 0; i < ((Customer) user).getTransactions().size(); i++) {
-                message1.append(((Customer) user).getTransactions().get(i).toString()).append(Utilities.EOL);
+                message1.append(((Customer) user).getTransactions().get(i)).append(Utilities.EOL);
             }
             return message + message1;
-        }
+    }
 
-        public String transactionHistory(){
+    public String transactionHistory(){
             String message = " Transaction history: " + Utilities.EOL;
             String message1 = "";
             for (int i=0; i< ((Customer) user).getTransactions().size();i++) {
                 message1 += ((Customer) user).getTransactions().get(i) + Utilities.EOL;
             }
             return message + message1;
-        }
+    }
 
-        public void updateBudget ( double budget) throws Exception {
+    public void updateBudget ( double budget) throws Exception {
             ((Customer) user).getBankAccount().setBudget(budget);
-        }
+    }
 
-            // METHODS TO CHECK IF THE USER IS PUTTING THE CORRECT INPUT
-        public boolean isBlank(String name) throws Exception {
 
+    public boolean isBlank(String name) throws Exception {
         if(name.isBlank()){
             return true;
         }
         return false;
-        }
+    }
 
         public boolean isPersonNrCorrect(String personalNo) {
             if (personalNo.length() == 12) {
@@ -152,6 +159,7 @@ public class Controller {
 
 
 
+
     /*
       otherService.addOptions(0," Update name.");
         otherService.addOptions(1,"Update Salary");
@@ -168,54 +176,72 @@ public class Controller {
 
         public String updateSalary(double salary) {
             ((Customer)user).setSalary(salary);
-            return "Salary has been updated to " + salary;
+            return "Salary has been updated to " + Utilities.truncateForPrint(salary);
         }
 
-        public String ApplyForCard () {
-
-            return "Card request has been send.";
+        public String applyForCard () {
+            // If the card status is true, that means that the card is still active.
+            if(((Customer)user).getCardStatus()){
+                return "This card has not been blocked.";
+            }else{
+                CardRequest cardRequest = new CardRequest(user);
+                bank.addCardRequest(user.getPersonalNo(),cardRequest);
+                employeeInbox.addCardRequest(cardRequest);
+                // should we add this to the customer as well? so they can see the sended request? // Shahd
+                return "Card request with ID "+ cardRequest.getId()+ " has been send. ";
+            }
         }
 
         public String blockCard () {
+            // This method changes the status of the debit card to false, which means is not active
             ((Customer) user).deactivateCard();
             return "Payment card has been blocked";
         }
 
-        public TypesOfLoan selectTypeOfLoan(int option){
-            TypesOfLoan typesOfLoan = null;
-            switch (option) {
-                case 1:
-                    typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
-                    break;
-                case 2:
-                    typesOfLoan = TypesOfLoan.HOUSE_LOAN;
-                    break;
-                case 3:
-                    typesOfLoan = TypesOfLoan.CAR_LOAN;
-                    break;
-                case 4:
-                    typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please select between option 1 to 4. ");
-            }
-            return typesOfLoan;
+    //Update loanRequest
+    /*
+     updateLoanRequest.addOptions(0,"Update amount");
+        updateLoanRequest.addOptions(1,"Update type of loan");// DONE
+        updateLoanRequest.addOptions(2,"Update the time period of the loan");
+        updateLoanRequest.addOptions(3,"Update other equities");
+        updateLoanRequest.addOptions(4,"Update cash contribution");
+        updateLoanRequest.addOptions(5,"Update Co-Signer name");
+        updateLoanRequest.addOptions(6,"Update Co-Signer personal number");
+        updateLoanRequest.addOptions(7,"Update Co-Signers salary");
+          updateLoanRequest.addOptions(8,"Update Interest type");
+     */
 
+
+    public String updateTypeOfLoan(String loanRequestID, TypesOfLoan typesOfLoan) {
+        if(bank.getLoanRequests().containsKey(loanRequestID)) {
+            LoanRequest loanRequest =  bank.getSpecificLoanRequest(loanRequestID);
+            loanRequest.setTypesOfLoan(typesOfLoan); // here is the setter.
+            return "Type of loan has been updated.";
+        }else {
+        return "This LoanRequest has not been found.";
         }
-    public String loanRequestWithOutCoSigner (double amount, TypesOfLoan typesOfLoan, double time,HashMap<String, Double> hashMap ,double cashContribution) {
-
-        String message = "Loan Application from : " + user.getFullName() + " with personal nr: " + user.getPersonalNo() + Utilities.EOL;
-        String inboxMessage;
-        LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time, hashMap, cashContribution);
-        bank.addLoanApplication(user.getPersonalNo(),loanApplication);
-        String loanMessage = loanApplication.toString();
-        inboxMessage = message + loanMessage;
-        System.out.println(inboxMessage);
-        inbox.addLoanApplicationMessage(inboxMessage);
-
-        return "Loan request has been send. The loan application ID is: LA"+user.getPersonalNo();
     }
-    public HashMap<String,Double> tempHashmap(){
+
+    public String updateTimePeriod() {
+        return"";
+    }
+
+    // INBOX
+    //Customer methods
+
+
+
+    public String loanRequestWithOutCoSigner (double amount, TypesOfLoan typesOfLoan, TypeOfInterest typeOfInterest, double houseWorth, double time,HashMap<String, Double> hashMap ,double cashContribution) {
+        // A loan request without Co-Signer is created and added to the bank back up and the inbox in to the customers and employee inbox
+        LoanRequest loanRequest = new LoanRequest(((Customer) user), amount, typesOfLoan,houseWorth, typeOfInterest, time, hashMap, cashContribution);
+        bank.addLoanApplication(user.getPersonalNo(),loanRequest);
+        ((Customer)user).addLoanRequest(loanRequest);
+        employeeInbox.addLoanRequest(loanRequest);
+
+        return "Loan request has been send. The loan application ID is: LA" +user.getPersonalNo();
+    }
+    public HashMap<String,Double> temporaryHashMap(){
+            // a temporary hashmap is created to store the inputs from the user
             HashMap<String , Double> tempHashmap = new HashMap<>();
             return tempHashmap;
     }
@@ -227,58 +253,159 @@ public class Controller {
             return "Successfully added";
     }
 
-        public String loanRequestWithCoSigner (double amount, TypesOfLoan typesOfLoan, double time, HashMap<String,Double> hashMap,double cashContribution , String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
+    public String loanRequestWithCoSigner (double amount, TypesOfLoan typesOfLoan, TypeOfInterest typeOfInterest, double houseWorth, double time,HashMap<String, Double> hashMap ,double cashContribution, String coSigner_name, String coSigner_personalNr, double coSigner_salary) {
 
-            String message = "Loan Application from : " + user.getFullName() + " with personal nr: " + user.getPersonalNo() + Utilities.EOL;
-            String inboxMessage;
-            LoanApplication loanApplication = new LoanApplication(user.getPersonalNo(), amount, typesOfLoan, time,hashMap, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
-            bank.addLoanApplication(user.getPersonalNo(),loanApplication);
-            String loanMessage = loanApplication.toString();
-            inboxMessage = message + loanMessage;
-            System.out.println(inboxMessage);
-            inbox.addLoanApplicationMessage(inboxMessage);
+            LoanRequest loanRequest = new LoanRequest(((Customer) user), amount, typesOfLoan,houseWorth, typeOfInterest, time, hashMap, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
+            bank.addLoanApplication(user.getPersonalNo(),loanRequest);
+            ((Customer)user).addLoanRequest(loanRequest);
 
             return "Loan request has been send. The loan application ID is: LA"+ user.getPersonalNo();
-        }
-        // To Dimitrios:
-    /*
-        - The Employee has two choices to approve the loan or to decline.
-        If the loan is aprrove, Create a loan and add it to the Loan Hashmap
-        and send a message with the details of the loan and the loan ID
-        to the user and insert the loan amount in the user account.
+    }
 
-        If the loan is decline, delete the request and send message to the user.
-     */
-
-
-        // INBOX
-
-    //Methods For Customers--------
-    public void sendMessageToEmployees(Customer customer){
-        String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
-        if (message == null){
+    public void sendMessageToEmployees(){
+        String message = ""; //is this right?
+        if (message == null) {
             System.out.println("Your message cannot be empty.");
-        }else{
-          //  messageInbox.add(message);
+        } else {
+            Inbox.messagesToEmployees.add("Customer" + message);
             System.out.println("Your message has been sent successfully.");
         }
     }
 
-    //QUEUE FOR CUSTOMER LOAN APPLICATIONS-------------- "if" statements need to be applied based on customer budget
-
-    public void sendApplicationForLoan(Customer customer){
-        int loanAmount = UserInput.readInt("Please type the amount you would like to borrow from the bank: ");
-
-        String message = "Customer with name: " + customer.getFullName() + " and account balance: "
-                + customer.getBalance() + " Would like to apply for a loan of amount: " + loanAmount + ".";
-      //  loanApplications.add(message);
-        System.out.println("Your loan application has been sent successfully.");
+    public String viewEmployeeCustomerMessageInbox() {
+        String message = "Message Inbox: " + Utilities.EOL;
+        String message1 ="";
+        for (int i=0; i < Inbox.getAllMessageInbox().get(i); i++){
+            message1 += String.format(message) + Utilities.EOL;
+        }
+        return message + message1;
+    }
+    public void removeMessageFromEmployee() {
+        Inbox.messageHistory.add(Inbox.messageInbox.poll());
+        System.out.print("The message has been removed.");
+    }
+    public String viewEmployeeCustomerMessageHistory(){
+        String message = "Message History: " + Utilities.EOL;
+        String message1 = "";
+        for (int i = 0; i < Inbox.getMessageHistory().size(); i++) {
+            message1 += Inbox.getMessageHistory().get(i) + Utilities.EOL;
+        }
+        return message + message1;
     }
 
-    public void applyForVacation(){
-    //    String message = "Employee with name: " + employee.getFullName() + " Would like to apply for vacation.";
-     //   vacationApplications.add(message);
-        System.out.println("Your vacation application has been sent successfully.");
+    // Employee methods
+
+    public String applyForVacation(int days){
+        VacationRequest vacRequest = new VacationRequest(user,days);
+        managerInbox.addVacationApllication(vacRequest);
+        return "Vacation request has been send.";
+    }
+
+
+    public void sendMessageToCustomers(String message, String tittle) {
+        if (message == null){
+            System.out.println("Your message cannot be empty.");
+        }else{
+            EmployeeInbox.messagesToCustomers.add("Employee:" + message);
+            System.out.println("Your message has been sent successfully.");
+        }
+    }
+
+    public void removeMessageFromCustomer() {
+    }
+
+    public void takeDaysOff (String personalNo,int amountOfDays){
+        Employee employee = getEmployee(personalNo);
+        int vacationDays = employee.getVacationDays();
+        vacationDays -= amountOfDays;
+    }
+
+    public boolean checkLoanRequest(String loanRequestID) throws Exception{
+        if(bank.getLoanRequests().containsKey(loanRequestID)){
+            return true;
+        }
+        throw  new Exception("The loan Request was not found");
+    }
+
+    // check the decline loan request.
+    // if it is inside in side the user remember that you are log in as an employee so you need to get the user.
+
+    public String declineLoanRequest(String loanRequestID,String message) throws Exception {
+        if (checkLoanRequest(loanRequestID)) {
+            LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);
+            Customer customer = (Customer) users.get(loanRequest.getPersonalNr());
+
+            String totalMessage = message + Utilities.EOL + loanRequest.printRequest();
+            bank.removeLoanRequest(loanRequest.getPersonalNr(), loanRequest);
+            customer.removeLoanRequest(loanRequest);
+            // remove from employee request?
+            String tittle = "Decline loan request. ID: " + loanRequestID;
+            sendMessageToCustomers(tittle, totalMessage);
+        }
+        return " Loan decline message has been send";
+    }
+        // add the connection to the inbox. remove from queue in the employee.
+
+    public String approveLoan(String loanRequestID, String message, double interestRate, String typeOfInterest)throws Exception {
+
+            if (checkLoanRequest(loanRequestID)) {
+                LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);
+                Customer customer = (Customer) users.get(loanRequest.getPersonalNr());
+
+
+                double amount = loanRequest.getAmount();
+                TypesOfLoan typesOfLoan = loanRequest.getTypesOfLoan();
+                double houseWorth = loanRequest.getHouseWorth();
+                double loanPeriod = loanRequest.getLoanPeriod();
+                HashMap<String,Double> hashMap = loanRequest.getEquities();
+                double cashContribution = loanRequest.getCashContribution();
+                String coSigner_name = loanRequest.getCoSigner_name();
+                String coSigner_personalNr = loanRequest.getCoSigner_personalNr();
+                double coSigner_Salary = loanRequest.getCoSigner_salary();
+                double houseValue = loanRequest.getHouseWorth();
+
+                TypeOfInterest interestType = null;
+                if(typeOfInterest.equalsIgnoreCase("Fix")){
+                    interestType = TypeOfInterest.FIX_RATE;
+                }
+                if(typeOfInterest.equalsIgnoreCase("variable")){
+                    interestType = TypeOfInterest.VARIABLE_RATE;
+                }
+                Loan loan = new Loan(customer,typesOfLoan,houseValue,interestRate,interestType, amount,loanPeriod,hashMap,cashContribution,coSigner_name,coSigner_personalNr,coSigner_Salary);
+                bank.addLoan(customer.getPersonalNo(),loan);
+                bank.removeLoanRequest(loanRequest.getPersonalNr(),loanRequest);
+                (customer).removeLoanRequest(loanRequest);
+                // Remove from eployees request queue.
+
+                String totalMessage = message + Utilities.EOL + loan.printRequest();
+                String tittle = "Decline loan request. ID: " + loanRequestID;
+                sendMessageToCustomers(tittle, totalMessage);
+            }    return "Approve loan  has been send.";
+    }
+
+    // connect to  inbox
+    public String interestOffer(String loanRequestID, double interestRate, String message ) throws Exception{
+
+     String totalMessage = "";
+     if(checkLoanRequest(loanRequestID)) {
+          LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);
+          Customer customer = (Customer) users.get(loanRequest.getPersonalNr());
+          String title = "Interest offert " +Utilities.EOL+ "Loan request ID: " + loanRequestID;
+          String textMessage =  " Interest offer: " + interestRate+  Utilities.EOL +
+                  "Type of interest: " + loanRequest.getInterestType() + Utilities.EOL;
+          // ADD MESSAGE TO CUSTOMER INBOX
+          totalMessage= title +textMessage + message;
+      }
+     return totalMessage;
+    }
+
+    //Manager
+    public void seeVacationApplications(String VacationID){
+
+    }
+
+    public void approveVacationApplication(){
+
     }
 
     // ADMINISTRATION CONTROLLER
@@ -338,7 +465,7 @@ public class Controller {
             customer.setPassword(newPassword);
             return "The password was updated.";
         }
-
+// DO we need to remove the account? Method is not been used.
         public String removeCustomerAccount (String personalNo) throws Exception {
             String removeResult = "";
             Customer customer = getCustomer(personalNo);
@@ -361,19 +488,48 @@ public class Controller {
                             "Loans: " + customer.getBankAccount().getLoan();
         }
 
+        public String calculateDTI(double monthlyDebt, double grossIncome) {
+        double dti = monthlyDebt/grossIncome;
+        return Utilities.truncateForPrint(dti);
+        }
 
-        public Employee getEmployee (String inputPersonNumber){
+
+    public String calculateMonthlyMortgage(double loan, double yearlyInterestRate, double loanPeriod){
+            /* Montly mortgage formula:
+                 m= p * r (1+r)^n
+                   ----------------
+                   ((1+r)^n ) - 1
+
+                   this method calculates the monthly mortgage of a loan.
+                   The mortgage of a house loan is different see the code below, it depeneds of the value of the property
+             */
+        double monthlyRate = yearlyInterestRate/ 12;
+        double loanXInterest = loan* monthlyRate;
+        double interestToThePower = Math.pow((1+monthlyRate),loanPeriod);
+        double numerator = loanXInterest * interestToThePower;
+        double denominator = interestToThePower -1;
+        double monthlyMortgage = numerator/denominator;
+        return "The monthly mortgage for this loan is: " + Utilities.truncateForPrint(monthlyMortgage);
+    }
+// this method gives then annual rate for the mortgage of a house loan.
+    public String getMortgagePercentage_HouseLoan(String loanID) {
+       Loan loan = bank.getSpecificLoan(loanID);
+        double houseMortgage = 0;
+        if (loan.getTypesOfLoan() == TypesOfLoan.HOUSE_LOAN) {
+           houseMortgage = loan.getMortgagePercentage();
+        }
+        return "The annual mortage of this loan is: " + Utilities.truncateForPrint(houseMortgage) + Utilities.EOL+
+                "This rate is apart from the interest rate";
+    }
+
+    public Employee getEmployee (String inputPersonNumber){
             if (users.containsKey(inputPersonNumber)) {
                 return (Employee) users.get(inputPersonNumber);
             }
             return null;
         }
 
-        public void takeDaysOff (String personalNo,int amountOfDays){
-            Employee employee = getEmployee(personalNo);
-            int vacationDays = employee.getVacationDays();
-            vacationDays -= amountOfDays;
-        }
+
 
         public String createCustomer (String fullName, String personalNo, double salary ,String password,String cardNr, int cvc, String
         expirationDate,int code) throws Exception {
@@ -409,7 +565,11 @@ public class Controller {
 
              // MANAGER CONTROLLER
 
-
+    public String setVariableInterestRate(double interestRate){
+        bank.setVariableInterestRate(interestRate);
+        bank.setAllVariableInterest(interestRate);
+        return " The variable interest rate has been changed to " + Utilities.truncateForPrint(interestRate);
+    }
     /*2
      manager.addOptions(0,"Show Bank Balace");
 */
@@ -427,7 +587,7 @@ public class Controller {
 
             for (Map.Entry<String, User> entry : users.entrySet()) {
                 if(entry.getValue() instanceof Customer){
-                    totalLoan += ((Customer) entry.getValue()).getBankAccount().getLoan();
+                    totalLoan += ((Customer) entry.getValue()).getBankAccount().getLoan().getLoanAmount();
                 }
             }
             return message + totalLoan;
@@ -522,5 +682,6 @@ public class Controller {
         }
 
 
-    }
+
+}
 
