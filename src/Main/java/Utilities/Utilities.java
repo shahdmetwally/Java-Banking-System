@@ -4,10 +4,12 @@ package Utilities;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Utilities {
 
     public static final String EOL = System.lineSeparator();
+    private Pattern pattern = Pattern.compile("(\\.\\d+)?");
 
     public static double truncateDouble( double number){
         int truncInt = (int)(number * 100);
@@ -57,8 +59,15 @@ public class Utilities {
     //This was added
     public static boolean isNumber(String s) {
         for (int i = 0; i < s.length(); i++)
-            if (!Character.isDigit(s.charAt(i)))
+            if (!Character.isDigit(s.charAt(i)) == false)
                 return false;
+
+        return true;
+    }
+    public static boolean isLetter(String s) {
+        for (int i = 0; i < s.length(); i++)
+            if (!Character.isDigit(s.charAt(i)) == true)
+                return true;
 
         return true;
     }
@@ -75,5 +84,9 @@ public class Utilities {
             }
         }
         return userInput;
+    }
+
+    public static boolean isNumeric(String str) {
+        return str.matches("\\d+(\\.\\d+)?");
     }
 }

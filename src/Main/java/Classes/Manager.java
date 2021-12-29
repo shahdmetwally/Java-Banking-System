@@ -20,6 +20,7 @@ public class Manager extends Employee{
         super.setRole(Role.MANAGER);
     }
 
+
     public double getBonus(){
        return this.bonus;
     }
