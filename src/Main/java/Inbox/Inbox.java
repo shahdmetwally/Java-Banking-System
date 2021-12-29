@@ -85,7 +85,7 @@ public class Inbox {
 // do we want to return the hole array? are we using it? or we just want to print all? in that case change this method.
     public String getMessageHistory(){
        ArrayList<String> clone = new ArrayList<>();
-        return clone;
+       return clone;
     }
 
 

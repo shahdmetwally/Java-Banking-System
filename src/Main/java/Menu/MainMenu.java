@@ -589,14 +589,49 @@ public class MainMenu {
         updateLoanRequest.addOptions(6,"Update Co-Signer personal number");
         updateLoanRequest.addOptions(7,"Update Co-Signers salary");
      */
-    public void handleUpdateLoanRequest(){
+    public void handleUpdateLoanRequest(Controller controller){
         this.updateLoanRequest.printOptions();
         int userChoice = UserInput.readInt("Type in the option: ");
         switch (userChoice) {
             case 0:
+                String ID= UserInput.readLine("Please type in the loanID: ");
+                System.out.println(" Loan options: " + Utilities.EOL +
+                        "1. Personal loan " + Utilities.EOL +
+                        "2. House loan "+ Utilities.EOL +
+                        "3. Car loan"+ Utilities.EOL +
+                        "4. Unsecured loan");
+                TypesOfLoan typesOfLoan = null;
+                int newOption = UserInput.readInt("Enter loan option: ");
+                double houseWorth = 0;
+                do {
+                    switch (newOption) {
+                        case 1:
+                            typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
+                            houseWorth = UserInput.readDouble("Enter the house value: ");
+                            break;
+                        case 2:
+                            typesOfLoan = TypesOfLoan.HOUSE_LOAN;
+                            break;
+                        case 3:
+                            typesOfLoan = TypesOfLoan.CAR_LOAN;
+                            break;
+                        case 4:
+                            typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please select between option 1 to 4. ");
+                    }
+                }while (newOption>4 ||newOption < 1);
+
+                controller.updateTypeOfLoan(ID,typesOfLoan);
                 break;
             case 1:
+                ID= UserInput.readLine("Please type in the loanID: ");
+                String otherEquity = UserInput.readLine("Please type in the equity you want to change: ");
+                double newEquityValue = UserInput.readDouble("Please type the new equity value: ");
+                controller.updateEquities(ID,otherEquity, newEquityValue);
                 break;
+
             case 2:
                 ID= UserInput.readLine("Please type in the loanID: ");
                 int loanPeriod = UserInput.readInt("Please type in the loan period: ");
@@ -636,7 +671,7 @@ public class MainMenu {
                 break;
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                handleUpdateLoanRequest();
+                handleUpdateLoanRequest(controller);
         }
 
     }
