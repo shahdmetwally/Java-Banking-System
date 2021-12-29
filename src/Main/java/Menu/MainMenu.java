@@ -358,7 +358,7 @@ public class MainMenu {
                     do {
                         account = UserInput.readLine("Please enter the account No of the recievient:");
                         if (!bank.getBankAccounts().containsKey(account) || account.isEmpty()) {
-                            System.out.println("Please make sure to enter a valid number.");
+                            System.out.println("Please make sure to enter an existing account number. ");
                         }
                     } while (!bank.getBankAccounts().containsKey(account) || account.isEmpty());
                     message =controller.transferMoney(actualAmount, account);
@@ -384,17 +384,32 @@ public class MainMenu {
                 break;
             case 7:// inbox
                 try{
-                    controller.updateBudget(UserInput.readDouble("Please enter the budget: "));
+                    String budget = "";
+                    do{
+                        budget = UserInput.readLine("Please enter the budget you wish to set for each month: ");
+                        if(!Utilities.isNumeric(budget) || budget.isEmpty()){
+                            System.out.println("Invalid input.");
+                        }
+                    }while(!Utilities.isNumeric(budget) || budget.isEmpty());
+                    double actualBudget = Double.parseDouble(budget);
+                    controller.updateBudget(actualBudget);
                     System.out.println("Your budget was set successfully");
                 } catch (Exception exception){
                     System.out.println(exception.getMessage());
                 }
-
                     handleCustomerMenu(controller);
                     break;
                 case 8:
                     try {
-                        controller.updateBudget(UserInput.readDouble("Please enter the budget you want to set: "));
+                        String budget = "";
+                        do{
+                            budget = UserInput.readLine("Please type the updated budget: ");
+                            if (!Utilities.isNumeric(budget) || budget.isEmpty()){
+                                System.out.println("Invalid input. ");
+                            }
+                        }while(!Utilities.isNumeric(budget) || budget.isEmpty());
+                        double actualBudget = Double.parseDouble(budget);
+                        controller.updateBudget(actualBudget);
                         System.out.println("You have updated your budget successfully");
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
