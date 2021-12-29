@@ -12,7 +12,7 @@ public class Utilities {
     public static double truncateDouble( double number){
         int truncInt = (int)(number * 100);
         double newDouble = (double)(truncInt)/ 100.00;
-        return newDouble;
+        return newDouble;//0,0
     }
 
     public static String truncateForPrint(double number){

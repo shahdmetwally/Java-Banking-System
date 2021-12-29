@@ -25,6 +25,7 @@ public class Loan {
 
 
 
+
     public Loan(Customer customer, double loanAmount, TypesOfLoan typesOfLoan, double houseWorth, double interestRate, TypeOfInterest interestType,
                 double loanPeriod, HashMap<String,Double> hashMap, double cashContribution,
                 String coSigner_name, String coSigner_personalNr, double coSigner_salary){
@@ -76,6 +77,8 @@ public class Loan {
     public String toString() {
         return "ID: "+  loanID + " Date:" + date;
     }
+
+
 
     public String printRequest() {
         String tittle =  "Application details: " + Utilities.EOL +

@@ -20,9 +20,9 @@ public class ManagerInbox extends EmployeeInbox {
     }
     public String approveVacationApplication(){
         vacationApplications.poll();
-        return "The vacation application has been approved.";
+       return "The vacation application has been approved.";
     }
 
-    public String
+
 
 }

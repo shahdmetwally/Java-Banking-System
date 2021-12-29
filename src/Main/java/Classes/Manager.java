@@ -15,8 +15,7 @@ public class Manager extends Employee{
     public Role getRole() {
         return super.getRole();
     }
-
-    @Override
+    
     public void setRole() {
         super.setRole(Role.MANAGER);
     }

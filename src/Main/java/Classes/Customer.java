@@ -3,6 +3,7 @@ package Classes;
 import Request.LoanRequest;
 import Inbox.Inbox;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import Inbox.MessageFormat;
 
 import java.util.ArrayList;
 
@@ -107,5 +108,14 @@ public class Customer extends User {
 
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+
+    //inbox methods.
+
+    public String getAllMessageInbox(){
+        return inbox.getAllMessageInbox();
+    }
+    public void addMessageToEmployee(MessageFormat message) {
+        inbox.addMessageToEmployee(message);
     }
 }

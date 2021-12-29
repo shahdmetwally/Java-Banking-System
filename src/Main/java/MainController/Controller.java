@@ -11,6 +11,7 @@ import Request.CardRequest;
 import Classes.*;
 import Request.VacationRequest;
 import Utilities.Utilities;
+import Inbox.MessageFormat;
 
 import java.util.*;
 
@@ -21,7 +22,6 @@ public class Controller {
     private final User user;
     private EmployeeInbox employeeInbox;
     private ManagerInbox managerInbox;
-
 
 
     public Controller(String userName, String password, Bank bank) throws Exception {
@@ -41,6 +41,7 @@ public class Controller {
             this.bankAccounts = bank.getBankAccounts();
             this.employeeInbox = bank.getEmployeeInbox();
             this.managerInbox = bank.getManagerInbox();
+
 
     }
         // CUSTOMER CONTROLLER
@@ -325,34 +326,37 @@ public class Controller {
             return "Loan request has been send. The loan application ID is: LA"+ user.getPersonalNo();
     }
 
-    public void sendMessageToEmployees(){
-        String message = ""; //is this right?
-        if (message == null) {
-            System.out.println("Your message cannot be empty.");
+    public String sendMessageToEmployees(String title, String message){
+        if(title.isBlank()){
+            return "The title cannot be empty.";
+        }
+        if (message.isBlank()) {
+            return "Your message cannot be empty.";
         } else {
-            Inbox.messagesToEmployees.add("Customer" + message);
-            System.out.println("Your message has been sent successfully.");
+            MessageFormat textMessage = new MessageFormat(title,message);
+            ((Customer)user).addMessageToEmployee(textMessage);
+           return "Your message has been sent successfully.";
         }
     }
 
     public String viewEmployeeCustomerMessageInbox() {
+       // ? how?
         String message = "Message Inbox: " + Utilities.EOL;
-        String message1 ="";
-        for (int i=0; i < Inbox.getAllMessageInbox().get(i); i++){
-            message1 += String.format(message) + Utilities.EOL;
-        }
-        return message + message1;
+      String allMessage = ((Customer)user).getAllMessageInbox();
+
+        return message + allMessage;
     }
     public void removeMessageFromEmployee() {
-        Inbox.messageHistory.add(Inbox.messageInbox.poll());
-        System.out.print("The message has been removed.");
+
+        //Inbox.messageHistory.add(Inbox.messageInbox.poll());
+        //System.out.print("The message has been removed.");
     }
     public String viewEmployeeCustomerMessageHistory(){
         String message = "Message History: " + Utilities.EOL;
         String message1 = "";
-        for (int i = 0; i < Inbox.getMessageHistory().size(); i++) {
-            message1 += String.format(message) + Utilities.EOL;
-        }
+       // for (int i = 0; i < Inbox.getMessageHistory().size(); i++) {
+         //   message1 += Inbox.getMessageHistory().get(i) + Utilities.EOL;
+       // }
         return message + message1;
     }
 
@@ -434,7 +438,7 @@ public class Controller {
                 if(typeOfInterest.equalsIgnoreCase("variable")){
                     interestType = TypeOfInterest.VARIABLE_RATE;
                 }
-                Loan loan = new Loan(customer,typesOfLoan,houseValue,interestRate,interestType, amount,loanPeriod,hashMap,cashContribution,coSigner_name,coSigner_personalNr,coSigner_Salary);
+                Loan loan = new Loan(customer,amount, typesOfLoan,houseValue,interestRate,interestType,loanPeriod,hashMap,cashContribution,coSigner_name,coSigner_personalNr,coSigner_Salary);
                 bank.addLoan(customer.getPersonalNo(),loan);
                 bank.removeLoanRequest(loanRequest.getPersonalNr(),loanRequest);
                 (customer).removeLoanRequest(loanRequest);

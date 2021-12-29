@@ -187,8 +187,10 @@ public class MainMenu {
                 handleCustomerInbox(controller);
                 break;
             case 1:
-                 String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
-                controller.sendMessageToEmployees();
+                 String title = UserInput.readLine("Enter message title: ");
+                String textMessage = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
+                String message = controller.sendMessageToEmployees(title,textMessage);
+                System.out.println(message);
                 handleCustomerInbox(controller);
                 break;
             case 2:
