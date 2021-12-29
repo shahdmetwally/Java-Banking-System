@@ -118,12 +118,11 @@ public class LoanRequest extends Request{
     public double getLoanPeriod() {
         return loanPeriod;
     }
-
+    public void setLoanPeriod(int loanPeriod){this.loanPeriod = loanPeriod;}
 
     public double getCashContribution() {
         return cashContribution;
     }
-
     public void setCashContribution(double cashContribution) {
         this.cashContribution = cashContribution;
     }
@@ -132,7 +131,6 @@ public class LoanRequest extends Request{
     public String getCoSigner_name() {
         return coSigner_name;
     }
-
     public void setCoSigner_name(String coSigner_name) {
         this.coSigner_name = coSigner_name;
     }
@@ -147,7 +145,6 @@ public class LoanRequest extends Request{
     public double getCoSigner_salary() {
         return coSigner_salary;
     }
-
     public void setCoSigner_salary(double coSigner_salary) {
         this.coSigner_salary = coSigner_salary;
     }
@@ -163,7 +160,6 @@ public class LoanRequest extends Request{
     public String getInterestType() {
         return interestType.toString();
     }
-
     public void setInterestType(TypeOfInterest interestType) {
         this.interestType = interestType;
     }

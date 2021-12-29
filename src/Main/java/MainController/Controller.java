@@ -193,13 +193,13 @@ public class Controller {
     /*
      updateLoanRequest.addOptions(0,"Update amount");
         updateLoanRequest.addOptions(1,"Update type of loan");// DONE
-        updateLoanRequest.addOptions(2,"Update the time period of the loan");
-        updateLoanRequest.addOptions(3,"Update other equities");
-        updateLoanRequest.addOptions(4,"Update cash contribution");
-        updateLoanRequest.addOptions(5,"Update Co-Signer name");
-        updateLoanRequest.addOptions(6,"Update Co-Signer personal number");
-        updateLoanRequest.addOptions(7,"Update Co-Signers salary");
-          updateLoanRequest.addOptions(8,"Update Interest type");
+        updateLoanRequest.addOptions(2,"Update the time period of the loan"); //done
+        updateLoanRequest.addOptions(3,"Update other equities"); // TO DO
+        updateLoanRequest.addOptions(4,"Update cash contribution"); //done
+        updateLoanRequest.addOptions(5,"Update Co-Signer name"); //done
+        updateLoanRequest.addOptions(6,"Update Co-Signer personal number"); //done
+        updateLoanRequest.addOptions(7,"Update Co-Signers salary"); //done
+          updateLoanRequest.addOptions(8,"Update Interest type"); //done
      */
 
 
@@ -213,9 +213,62 @@ public class Controller {
         }
     }
 
-    public String updateTimePeriod() {
-        return"";
+
+    public String updateTimePeriod(String loanRequestID, int loanPeriod ) {
+        if(bank.getLoanRequests().containsKey(loanRequestID)) {
+            LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);
+            loanRequest.setLoanPeriod(loanPeriod);
+            return "The time period has been updated.";
+        }else {
+        return "This LoanRequest has not been found";
+        }
     }
+    public String updateCashContribution(String loanRequestID, double cashContribution){
+        if(bank.getLoanRequests().containsKey(loanRequestID)) {
+            LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);
+            loanRequest.setCashContribution(cashContribution);
+            return "Cash contribution has been updated";
+        } else {
+            return "This LoanRequest has not been found";
+        }
+    }
+    public String updateCoSigner_name(String loanRequestID, String coSigner_name){
+        if(bank.getLoanRequests().containsKey(loanRequestID)) {
+            LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);
+            loanRequest.setCoSigner_name(coSigner_name);
+            return "Co-Signer name has been updated";
+    } else {
+        return "This LoanRequest has not been found";
+        }
+    }
+    public String updateCoSigner_personalNr(String loanRequestID, String personalNr){
+        if(bank.getLoanRequests().containsKey(loanRequestID)) {
+            LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);
+            loanRequest.setCoSigner_personalNr(personalNr);
+            return "Co-Signer personal number has been updated";
+    } else {
+        return "This LoanRequest has not been found";
+        }
+    }
+    public String updateCoSigner_salary(String loanRequestID,double coSigner_salary){
+        if(bank.getLoanRequests().containsKey(loanRequestID)) {
+            LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);
+            loanRequest.setCoSigner_salary(coSigner_salary);
+            return "Co-Signer salary has been updated";
+    } else{
+        return "This LoanRequest has not been found";
+        }
+    }
+    public String updateInterestType(String loanRequestID, TypeOfInterest interestType){
+        if(bank.getLoanRequests().containsKey(loanRequestID)) {
+            LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);
+            loanRequest.setInterestType(interestType);
+            return "The interest type has been updated";
+    } else {
+        return "This LoanRequest has not be found";
+        }
+    }
+
 
     // INBOX
     //Customer methods
@@ -403,6 +456,26 @@ public class Controller {
             }
             return removeResult;
         }
+
+    public String applyForVacation(String personalNo, int amountOfDays) throws Exception{
+      Employee employee = getEmployee(personalNo);
+      String message = "I would like to take " + amountOfDays + " days off.";
+ if(employee.getVacationDays() <= amountOfDays) {
+       }
+       return  null;
+    } //   String message = "Vacation approved";
+        //} else{
+          //  throw new Exception("Vacation is not approved");
+        //}
+        //return  "";
+    //}
+
+        //so we should have a message saying that we want a vacation
+        //before sending the request we need to specify how many days we wanna take
+        //then it should be sent to the inbox
+ //customer.addOption(option number, h, optionname "message"
+        //connect controller to the menu
+
 
 
         public void setManagerSalary ( double newSalary, String personalNo){
