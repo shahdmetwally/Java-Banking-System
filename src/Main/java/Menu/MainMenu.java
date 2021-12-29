@@ -2,6 +2,7 @@ package Menu;
 
 import Bank.Bank;
 import Classes.Role;
+import Classes.User;
 import Loans.TypeOfInterest;
 import MainController.Controller;
 import MainController.StartProgram;
@@ -187,8 +188,10 @@ public class MainMenu {
                 handleCustomerInbox(controller);
                 break;
             case 1:
-                 String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
-                controller.sendMessageToEmployees();
+                 String title = UserInput.readLine("Enter message title: ");
+                String textMessage = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
+                String message = controller.sendMessageToEmployees(title,textMessage);
+                System.out.println(message);
                 handleCustomerInbox(controller);
                 break;
             case 2:
@@ -305,26 +308,35 @@ public class MainMenu {
                     handleCustomerMenu(controller);
                     break;
                 case 2:
-                    double value = UserInput.readDouble("Please enter the amount you want to deposit: ");
+                    String value = "";
                     try {
-                        message = controller.depositMoney(value);
+                        do {
+                            value = UserInput.readLine("Please enter the amount you want to deposit: ");
+                            if (!Utilities.isNumeric(value) || value.isEmpty()) {
+                                System.out.println("Invalid input");
+                            }
+                        } while (!Utilities.isNumeric(value) || value.isEmpty());
+                        double actualValue = Double.parseDouble(value);
+                        message = controller.depositMoney(actualValue);
                         System.out.println(message);
-                    } catch (Exception exception) {
+                    }catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
+
 
                 handleCustomerMenu(controller);
                 break;
             case 3:
+                String amount = "";
                 try {
-                    String amount = UserInput.readLine("Please enter the amount you want to withdraw: ");
-                    double amount1 = 0;
-                    if (Utilities.isNumber(amount)) {
-                         amount1 = Double.parseDouble(amount);
-                    } else {
-                        System.out.println("Please enter a valid number.");
-                    }
-                    message = controller.withdrawMoney(amount1);
+                    do{
+                        amount = UserInput.readLine("Please enter the amount you want to withdraw: ");
+                        if(!Utilities.isNumeric(amount) || amount.isEmpty()){
+                            System.out.println("Invalid input");
+                        }
+                    }while(!Utilities.isNumeric(amount) || amount.isEmpty());
+                    double actualAmount = Double.parseDouble(amount);
+                    message = controller.withdrawMoney(actualAmount);
                     System.out.println(message);
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
@@ -333,18 +345,23 @@ public class MainMenu {
                 handleCustomerMenu(controller);
                 break;
             case 4:
+                 amount = "";
                 try {
-                    String amount =UserInput.readLine("Please enter the amount you want to transfer: ");
-                    double amount2 = 0;
+                    do {
+                        amount = UserInput.readLine("Please enter the amount you want to transfer: ");
+                        if (!Utilities.isNumeric(amount) || amount.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumeric(amount) || amount.isEmpty());
+                    double actualAmount = Double.parseDouble(amount);
                     String account = "";
-                    if (Utilities.isNumber(amount)){
-                        amount2 = Double.parseDouble(amount);
-                        account =UserInput.readLine("Please enter the account No of the recievient:");
-                    } else{
-                        System.out.println("Please make sure to enter a valid number.");
-                        //Can we call the method here istead of going back to the menu
-                    }
-                    message =controller.transferMoney(amount2, account);
+                    do {
+                        account = UserInput.readLine("Please enter the account No of the recievient:");
+                        if (!bank.getBankAccounts().containsKey(account) || account.isEmpty()) {
+                            System.out.println("Please make sure to enter an existing account number. ");
+                        }
+                    } while (!bank.getBankAccounts().containsKey(account) || account.isEmpty());
+                    message =controller.transferMoney(actualAmount, account);
                     System.out.println(message);
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
@@ -367,17 +384,32 @@ public class MainMenu {
                 break;
             case 7:// inbox
                 try{
-                    controller.updateBudget(UserInput.readDouble("Please enter the budget: "));
+                    String budget = "";
+                    do{
+                        budget = UserInput.readLine("Please enter the budget you wish to set for each month: ");
+                        if(!Utilities.isNumeric(budget) || budget.isEmpty()){
+                            System.out.println("Invalid input.");
+                        }
+                    }while(!Utilities.isNumeric(budget) || budget.isEmpty());
+                    double actualBudget = Double.parseDouble(budget);
+                    controller.updateBudget(actualBudget);
                     System.out.println("Your budget was set successfully");
                 } catch (Exception exception){
                     System.out.println(exception.getMessage());
                 }
-
                     handleCustomerMenu(controller);
                     break;
                 case 8:
                     try {
-                        controller.updateBudget(UserInput.readDouble("Please enter the budget you want to set: "));
+                        String budget = "";
+                        do{
+                            budget = UserInput.readLine("Please type the updated budget: ");
+                            if (!Utilities.isNumeric(budget) || budget.isEmpty()){
+                                System.out.println("Invalid input. ");
+                            }
+                        }while(!Utilities.isNumeric(budget) || budget.isEmpty());
+                        double actualBudget = Double.parseDouble(budget);
+                        controller.updateBudget(actualBudget);
                         System.out.println("You have updated your budget successfully");
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
@@ -427,8 +459,16 @@ public class MainMenu {
                 }
                 handleOtherService(controller);
                 break;
-            case 1: double salary = UserInput.readDouble("Enter salary: ");
-                String message = controller.updateSalary(salary);
+            case 1:
+                String salary;
+                do{
+                    salary = UserInput.readLine("Enter salary: ");
+                    if(!Utilities.isNumeric(salary)|| salary.isEmpty()) {
+                        System.out.println("Invalid input");
+                    }
+                }while(!Utilities.isNumeric(salary)|| salary.isEmpty());
+                double actualAmount = Double.parseDouble(salary);
+                String message = controller.updateSalary(actualAmount);
                 System.out.println(message);
                 handleOtherService(controller);
                 break;
@@ -976,15 +1016,19 @@ public class MainMenu {
             switch (userChoice) {
                 case 0:
                     try {
-                        String password;
+                        String password = UserInput.readLine("Create a password: " + Utilities.EOL +
+                                "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                "and contain at least: lowercase letter, uppercase letter, digit.");
                         String repeatedPassword;
-                        do {
-                            password = UserInput.readLine("Create a password: " + Utilities.EOL +
-                                    "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                    "and contain at least: lowercase letter, uppercase letter, digit.");
-                            repeatedPassword = UserInput.readLine("Confirm password");
+                        if(!User.isStrongPassword(password)) {
+                            do {
+                                password = UserInput.readLine("Create a password: " + Utilities.EOL +
+                                        "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                        "and contain at least: lowercase letter, uppercase letter, digit.");
+                                repeatedPassword = UserInput.readLine("Confirm password");
 
-                        } while (!password.equals(repeatedPassword));
+                            } while (!password.equals(repeatedPassword) && !password.equals(User.isStrongPassword(password)));
+                        }
                         controller.setAdminPassword(password);
 
                     } catch (Exception exception) {
@@ -1000,6 +1044,11 @@ public class MainMenu {
                             System.out.println(" " + "Registering a manager user: ");
                             String fullName = UserInput.readLine("Type your full name:");
                             String personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
+                            if(!controller.isPersonNrCorrect(personalNo)) {
+                                do {
+                                    personalNo = UserInput.readLine("Your personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                                } while (!controller.isPersonNrCorrect(personalNo));
+                            }
                             String password;
                             String repeatedPassword;
                             do {
@@ -1008,9 +1057,19 @@ public class MainMenu {
                                         "and contain at least  contain: lowercase letter, uppercase letter, digit.");
                                 repeatedPassword = UserInput.readLine("Confirm password");
 
-                            } while (!password.equals(repeatedPassword));
+                            } while (!password.equals(repeatedPassword) && !User.isStrongPassword(password));
+                            //Enter onesammas or my code to check in the input is a valid double number
 
-                            double salary = UserInput.readDouble("Enter manager gross-salary: ");
+                            double salary = 0;
+                            while(true){
+                                try{
+                                    salary = Double.parseDouble(UserInput.readLine("Enter manager gross-salary: "));
+                                    break;
+                                }catch (NumberFormatException ignore){
+                                    System.out.println("Invalid input");
+                                }
+                            }
+
                             double bonus = UserInput.readDouble("Enter manager bonus:");
 
                             controller.createManager(fullName, personalNo, password, salary, bonus);
@@ -1028,6 +1087,11 @@ public class MainMenu {
                 case 2:
                     try {
                         String personNr = UserInput.readLine("Enter managers personal number: ");
+                        if(!bank.getUsers().containsKey(personNr)) {
+                            do {
+                                personNr = UserInput.readLine("Enter an existing managers personal number: ");
+                            } while (!bank.getUsers().containsKey(personNr));
+                        }
                         controller.removeManager(personNr);
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
@@ -1056,7 +1120,7 @@ public class MainMenu {
                                     "and contain at least  contain: lowercase letter, uppercase letter, digit.");
                             repeatedPassword = UserInput.readLine("Confirm password");
 
-                        } while (!password.equals(repeatedPassword));
+                        } while (!password.equals(repeatedPassword) && !User.isStrongPassword(password));
                         controller.setManagerPassword(personNr, password);
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());

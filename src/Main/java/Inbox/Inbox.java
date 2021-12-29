@@ -12,12 +12,12 @@ import java.util.Queue;
 // So if the message has been read maybe we should take it out of the queue and store it in the messageHistory;
 
 public class Inbox {
-    Queue<LoanRequest> loanRequests; // we store the send loanRequest? Every Customer should only be alow to have one request
-    Queue<CardRequest> cardRequests;
-    public static ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
-    public static Queue<MessageFormat> messageInbox;
+    private Queue<LoanRequest> loanRequests; // we store the send loanRequest? Every Customer should only be alow to have one request
+    private Queue<CardRequest> cardRequests;
+    private ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
+    private Queue<MessageFormat> messageInbox;
     //Customer -> send message -> employee
-    public static Queue<String> messagesToEmployees; // send messages?
+    private Queue<MessageFormat> messagesToEmployees; // send messages?
 
     /*
             controller:
@@ -30,9 +30,9 @@ public class Inbox {
 
     public Inbox(){
         this.loanRequests = new LinkedList<LoanRequest>();
-        this.messageHistory = new ArrayList<>();
+        this.messageHistory = new ArrayList<MessageFormat>();
         this.messageInbox  = new LinkedList<MessageFormat>();
-        this.messagesToEmployees = new LinkedList<String>();
+        this.messagesToEmployees = new LinkedList<MessageFormat>();
         this.cardRequests = new LinkedList<>();
     }
 
@@ -43,12 +43,14 @@ public class Inbox {
     public void removeLoanRequest(LoanRequest loanRequest){
         loanRequests.remove(loanRequest);
     }
-
+    public void addMessageToEmployee(MessageFormat messageFormat){
+        messagesToEmployees.add(messageFormat);
+    }
     public void addToMessageHistory(MessageFormat message){
         messageHistory.add(message);
     }
 
-    public void sendMessageToEmployee(String message){
+    public void sendMessageToEmployee(MessageFormat message){
         messagesToEmployees.add(message);
     }
 
@@ -65,7 +67,7 @@ public class Inbox {
     public String getAllMessageInbox() {
         String message = "";
         for( MessageFormat  inbox: this.messageInbox){
-            message += inbox + Utilities.EOL;
+            message += inbox.toString() + Utilities.EOL;
         }
         return message;
     }
@@ -83,8 +85,9 @@ public class Inbox {
         return "";
     }
 // do we want to return the hole array? are we using it? or we just want to print all? in that case change this method.
-    public String getMessageHistory(){
-       return messageHistory.toString();
+    public ArrayList<MessageFormat> getMessageHistoryClone(){
+       ArrayList<MessageFormat> clone = messageHistory;
+        return clone;
     }
 
 

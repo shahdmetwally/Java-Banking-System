@@ -15,14 +15,14 @@ public class Manager extends Employee{
     public Role getRole() {
         return super.getRole();
     }
-
+    
     public void setRole() {
         super.setRole(Role.MANAGER);
     }
 
 
     public double getBonus(){
-        return this.bonus;
+       return this.bonus;
     }
     public void setBonus(double newBonus){this.bonus = newBonus;
     }

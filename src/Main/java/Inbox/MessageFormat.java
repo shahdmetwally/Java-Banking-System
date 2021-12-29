@@ -27,6 +27,6 @@ public class MessageFormat {
     }
 
     public String toString() {
-        return title + " Date: " + date;
+        return "Title: " + title + " Date: " + date;
     }
 }

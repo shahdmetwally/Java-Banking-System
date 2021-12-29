@@ -13,3 +13,13 @@
 
 -Show all manager-
 1. This options does not even work, its says that is an invalid menu option
+
+
+changes made to line 86 in inbox, changed String to Arraylist<String> / done
+changes made line 20 in manager done
+changes made line 270 in the controller
+changes made to line 374 in the controller, played around with the parameters of the constructor
+
+
+changes made to line 929, added isPasswordStrong
+
