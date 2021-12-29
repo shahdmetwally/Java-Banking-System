@@ -365,21 +365,45 @@ public class MainMenu {
                     }
                 }while (newOption>4 ||newOption < 1);
 
-                int loanAmount = UserInput.readInt("Enter the loan amount: ");
+
+                double loanAmount=0;
+                while(true){
+                    try{
+                        loanAmount = Double.parseDouble(UserInput.readLine("Enter the loan amount: "));
+                        break;
+                    }catch (NumberFormatException ignore){
+                        System.out.println("Invalid input");
+                    }
+                }
+
+
                 double time = UserInput.readDouble("Enter loan time (years): ");
+
                 String addEquities;
                 HashMap<String,Double> temp = controller.tempHashmap();
                 do{
                     String otherEquity = UserInput.readLine("Enter other equity name" + Utilities.EOL + "The name of the equity cannot be repeated");
                     double otherEquitiesValue = UserInput.readDouble("Enter other equities value: ");
                     System.out.println(controller.addEquities(otherEquity,otherEquitiesValue,temp));
-                    addEquities = UserInput.readLine(" Do you want to add another equity?");
+                    addEquities = UserInput.readLine("Do you want to add another equity?");
                 }while(addEquities.equalsIgnoreCase("Yes"));
 
+                double cashContribution;
+                do{
+                    cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Should be at least 15% of the total loan amount");
+                }while(!controller.isCashContributionCorrect(cashContribution,loanAmount));
 
-                double cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Show be at least 15% of the total loan amount");
                 String coSigner_name = UserInput.readLine("Enter Co-signer name: ");
-                String coSigner_personalNr = UserInput.readLine("Enter Co-signer personal number: ");
+
+                String coSigner_personalNr;
+                do{
+                    coSigner_personalNr = UserInput.readLine("Enter Co-signer personal number: ");
+                    if(!controller.isPersonNrCorrect(coSigner_personalNr)){
+                        System.out.println("Invalid personalNo");
+                    }
+                }while(!controller.isPersonNrCorrect(coSigner_personalNr));
+
+
                 double coSigner_salary =UserInput.readDouble("Enter Co-signer salary: ");
 
                 message =  controller.loanRequestWithCoSigner(loanAmount,typesOfLoan,time,temp,cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
@@ -429,7 +453,10 @@ public class MainMenu {
                     addEquities = UserInput.readLine(" Do you want to add another equity?");
                 }while(addEquities.equalsIgnoreCase("Yes"));
 
-                 cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Show be at least 15% of the total loan amount");
+                do{
+                    cashContribution = UserInput.readDouble("Enter cash contribution: " + Utilities.EOL + "Should be at least 15% of the total loan amount");
+                }while(!controller.isCashContributionCorrect(cashContribution,loanAmount));
+
                 message =  controller.loanRequestWithOutCoSigner(loanAmount,typesOfLoan,time,tempHash,cashContribution);
                 System.out.println(message);
             break;
@@ -459,6 +486,9 @@ public class MainMenu {
                         String fullName = UserInput.readLine("Enter your full name:");
                         do{
                             personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
+                            if(!controller.isPersonNrCorrect(personalNo)){
+                                System.out.println("Invalid personalNo");
+                            }
                         }while(!controller.isPersonNrCorrect(personalNo));
                         String password;
                         String repeatedPassword;

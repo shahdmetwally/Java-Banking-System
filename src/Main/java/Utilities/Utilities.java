@@ -3,6 +3,7 @@ package Utilities;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Utilities {
 
@@ -40,13 +41,39 @@ public class Utilities {
 
     public static void main(String[] args) {
         System.out.println(dateAndTime());
+
+        Scanner sc = new Scanner(System.in);
+        double userInput = 0;
+        while (true) {
+            System.out.println("Type a double-type number:");
+            try {
+                userInput = Double.parseDouble(sc.next());
+                break; // will only get to here if input was a double
+            } catch (NumberFormatException ignore) {
+                System.out.println("Invalid input");
+            }
+        }
     }
     //This was added
     public static boolean isNumber(String s) {
         for (int i = 0; i < s.length(); i++)
-            if (Character.isDigit(s.charAt(i)) == false)
+            if (!Character.isDigit(s.charAt(i)))
                 return false;
 
         return true;
+    }
+
+    public static double invalidInputString(String message){
+        double userInput = 0;
+        String message1="";
+        while(true){
+            try{
+                userInput= Double.parseDouble(UserInput.readLine(message));
+                break;
+            }catch(NumberFormatException ignore) {
+                message1 = "Invalid input";
+            }
+        }
+        return userInput;
     }
 }

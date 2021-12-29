@@ -107,7 +107,7 @@ public class Controller {
             ((Customer) user).getBankAccount().setBudget(budget);
         }
 
-
+            // METHODS TO CHECK IF THE USER IS PUTTING THE CORRECT INPUT
         public boolean isBlank(String name) throws Exception {
 
         if(name.isBlank()){
@@ -139,6 +139,11 @@ public class Controller {
             } else {
                 return false;
             }
+        }
+
+        public boolean isCashContributionCorrect(double amount,double loanAmount){
+        float percentage = (float) (loanAmount*(15.0/100));
+            return !(amount < percentage || amount>loanAmount);
         }
 
         public String toString(){
