@@ -21,7 +21,7 @@ public class UserInput {
 
     public static String readLine(String message) {
         System.out.println(message);
-        String value = input.nextLine();
+        String value = input.next();
         return value;
     }
 

@@ -14,10 +14,10 @@ import java.util.Queue;
 public class Inbox {
     Queue<LoanRequest> loanRequests; // we store the send loanRequest? Every Customer should only be alow to have one request
     Queue<CardRequest> cardRequests;
-    ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
-    Queue<MessageFormat> messageInbox;
+    public static ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
+    public static Queue<MessageFormat> messageInbox;
     //Customer -> send message -> employee
-    Queue<MessageFormat> messagesToEmployees; // send messages?
+    public static Queue<String> messagesToEmployees; // send messages?
 
     /*
             controller:
@@ -32,7 +32,7 @@ public class Inbox {
         this.loanRequests = new LinkedList<LoanRequest>();
         this.messageHistory = new ArrayList<>();
         this.messageInbox  = new LinkedList<MessageFormat>();
-        this.messagesToEmployees = new LinkedList<MessageFormat>();
+        this.messagesToEmployees = new LinkedList<String>();
         this.cardRequests = new LinkedList<>();
     }
 
@@ -48,7 +48,7 @@ public class Inbox {
         messageHistory.add(message);
     }
 
-    public void sendMessageToEmployee(MessageFormat message){
+    public void sendMessageToEmployee(String message){
         messagesToEmployees.add(message);
     }
 
