@@ -597,18 +597,42 @@ public class MainMenu {
                 break;
             case 1:
                 break;
-            case 2: //"Apply for new card."
-
+            case 2:
+                ID= UserInput.readLine("Please type in the loanID: ");
+                int loanPeriod = UserInput.readInt("Please type in the loan period: ");
+                controller.updateTimePeriod(ID, loanPeriod);
                 break;
             case 3:
+                ID= UserInput.readLine("Please type in the loanID: ");
+                double cashContribution = UserInput.readDouble("Please type in the cash contribution");
+                controller.updateCashContribution(ID, cashContribution);
                 break;
             case 4:
+                ID= UserInput.readLine("Please type in the loanID: ");
+                String coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
+                controller.updateCoSigner_name(ID,coSigner_name);
                 break;
             case 5:
+                ID= UserInput.readLine("Please type in the loanID: ");
+                String personalNr = UserInput.readLine("Please type in the new personal number: ");
+                controller.updateCoSigner_personalNr(ID, personalNr);
                 break;
             case 6://  otherService.addOptions(5,"Loan status"); //? should we?
+                ID= UserInput.readLine("Please type in the loanID: ");
+                double coSigner_salary = UserInput.readDouble("Please type in the new Co-Signer salary");
+                controller.updateCoSigner_salary(ID, coSigner_salary);
                 break;
             case 7:
+                ID= UserInput.readLine("Please type in the loanID: ");
+                String typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
+                TypeOfInterest interestType = null;
+                if(typeOfInterest.equalsIgnoreCase("Fix")){
+                    interestType = TypeOfInterest.FIX_RATE;
+                }
+                if(typeOfInterest.equalsIgnoreCase("variable")){
+                    interestType = TypeOfInterest.VARIABLE_RATE;
+                }
+                controller.updateInterestType(ID, interestType);
                 break;
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);

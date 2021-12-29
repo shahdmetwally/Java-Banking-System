@@ -222,6 +222,16 @@ public class Controller {
         }
     }
 
+    public String updateEquities(String loanRequestID, String otherEquity,double equityNewValue){
+        if(bank.getLoanRequests().containsKey(loanRequestID)) {
+            LoanRequest loanRequest =  bank.getSpecificLoanRequest(loanRequestID);
+            loanRequest.getEquities().remove(otherEquity);
+            loanRequest.getEquities().put(otherEquity,equityNewValue);
+            return loanRequest.printEquities();
+        }else {
+            return "This LoanRequest has not been found.";
+        }
+    }
 
     public String updateTimePeriod(String loanRequestID, int loanPeriod ) {
         if(bank.getLoanRequests().containsKey(loanRequestID)) {
