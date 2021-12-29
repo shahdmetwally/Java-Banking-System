@@ -459,8 +459,16 @@ public class MainMenu {
                 }
                 handleOtherService(controller);
                 break;
-            case 1: double salary = UserInput.readDouble("Enter salary: ");
-                String message = controller.updateSalary(salary);
+            case 1:
+                String salary;
+                do{
+                    salary = UserInput.readLine("Enter salary: ");
+                    if(!Utilities.isNumeric(salary)|| salary.isEmpty()) {
+                        System.out.println("Invalid input");
+                    }
+                }while(!Utilities.isNumeric(salary)|| salary.isEmpty());
+                double actualAmount = Double.parseDouble(salary);
+                String message = controller.updateSalary(actualAmount);
                 System.out.println(message);
                 handleOtherService(controller);
                 break;
