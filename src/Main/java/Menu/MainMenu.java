@@ -357,11 +357,10 @@ public class MainMenu {
                     String account = "";
                     do {
                         account = UserInput.readLine("Please enter the account No of the recievient:");
-                        if (!bank.getBankAccounts().containsKey(account)) {
+                        if (!bank.getBankAccounts().containsKey(account) || account.isEmpty()) {
                             System.out.println("Please make sure to enter a valid number.");
                         }
-                    } while (!bank.getBankAccounts().containsKey(account));
-
+                    } while (!bank.getBankAccounts().containsKey(account) || account.isEmpty());
                     message =controller.transferMoney(actualAmount, account);
                     System.out.println(message);
                 } catch (Exception exception) {
