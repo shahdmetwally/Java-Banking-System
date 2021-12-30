@@ -746,19 +746,50 @@ public class MainMenu {
                         String password;
                         String repeatedPassword;
                         do {
-                            password = UserInput.readLine("Create a password: " + Utilities.EOL +
-                                    "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                    "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                            do {
+                                password = UserInput.readLine("Create a password for the employee: " + Utilities.EOL +
+                                        "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                        "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                if (!controller.isStrongPassword(password)) {
+                                    System.out.println("The password is weak.");
+                                }
+                            } while (!controller.isStrongPassword(password));
                             repeatedPassword = UserInput.readLine("Confirm password");
-
-                        } while (!password.equals(repeatedPassword));
+                        }while(!password.equals(repeatedPassword));
 
                         String cardNr = UserInput.readLine("Enter card number: ");
-                        int cvc = UserInput.readInt("Enter cvc number: ");
+                        if(cardNr.length() != 16 || !Utilities.isNumber(cardNr)){
+                            do{
+                                cardNr= UserInput.readLine("The number must be 16 digits");
+                            }while(cardNr.length() != 16 || !Utilities.isNumber(cardNr));
+                        }
+                        String cvcStr = UserInput.readLine("Enter cvc number: ");
+                        if(cvcStr.length() != 3 || !Utilities.isNumber(cvcStr)){
+                            do{
+                                cvcStr = UserInput.readLine("Please enter a 3 digit number. ");
+                            }while(cvcStr.length() !=3 || !Utilities.isNumber(cvcStr));
+                        }
+                        int cvc = Integer.parseInt(cvcStr);
+                        //This needs a methode to check, expirationDate
                         String expirationDate = UserInput.readLine("Enter expiration date: ");
-                        int code = UserInput.readInt("Enter code: ");
-                        double salary = UserInput.readDouble("Enter customer salary: ");
-                        controller.createCustomer(fullName, personalNo, salary, password, cardNr, cvc, expirationDate, code);
+
+                        String codeStr = UserInput.readLine("Enter code: ");
+                        if(codeStr.length() != 4 || !Utilities.isNumber(codeStr)){
+                            do{
+                                System.out.println("The code must be a 4 digit number");
+                            }while(cardNr.length() != 4 || Utilities.isNumber(cardNr));
+                        }
+                        int code = Integer.parseInt(codeStr);
+                        String salary = "";
+                        do{
+                            salary = UserInput.readLine("Enter customer salary: ");
+                            if (!Utilities.isNumeric(salary) || salary.isEmpty()){
+                                System.out.println("Invalid input. ");
+                            }
+                        }while(!Utilities.isNumeric(salary) || salary.isEmpty());
+
+                        double newSalary = Double.parseDouble(salary);
+                        controller.createCustomer(fullName, personalNo, newSalary, password, cardNr, cvc, expirationDate, code);
                         System.out.println("Customer was successfully registered.");
                         handleEmployeeMenu(controller);
                     } catch (IllegalAccessException scannerError) {
@@ -773,7 +804,14 @@ public class MainMenu {
                     }
                     handleEmployeeMenu(controller);
                     break;
-                case 1:String message = controller.getCustomerInfo(enterPersonalNr());
+                case 1:
+                    do {
+                        personalNo = UserInput.readLine("Type the personal number of the customer: ");
+                        if (!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo)){
+                            System.out.println("Please enter an existing costumer personal number in this format (YYYYMMDDXXXX) and within valid times");
+                        }
+                    }while (!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo));
+                    String message = controller.getCustomerInfo(personalNo);
                     System.out.println(message);
                     handleEmployeeMenu(controller);
                     break;
@@ -943,16 +981,38 @@ public class MainMenu {
                 handleManagerMenu(controller);
                 break;
             case 2:// create employee
-                String name="";
-                String personalNo="";
-                String password="";
-                double salary=0;
-                try{
-                name=UserInput.readLine("Please enter the name of the employee: ");
-                personalNo = UserInput.readLine("The Personal number of the employee: ");
-                password =UserInput.readLine("Please type the employees password: ");
-                salary = UserInput.readDouble("Please type the salary of the employee: ");
-                    System.out.println(controller.createEmployee(name, personalNo,password, salary));
+                String name = "";
+                String personalNo = "";
+                String password = "";
+                try {
+                    name = UserInput.readLine("Please enter the name of the employee: ");
+                    personalNo = UserInput.readLine("The Personal number of the employee: ");
+                    if (!controller.isPersonNrCorrect(personalNo)) {
+                        do {
+                            personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                        } while (!controller.isPersonNrCorrect(personalNo));
+                    }
+                    String repeatedPassword;
+                    do {
+                        do {
+                            password = UserInput.readLine("Create a password for the employee: " + Utilities.EOL +
+                                    "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                    "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                            if (!controller.isStrongPassword(password)) {
+                                System.out.println("The password is weak.");
+                            }
+                        } while (!controller.isStrongPassword(password));
+                        repeatedPassword = UserInput.readLine("Confirm password");
+                    } while (!password.equals(repeatedPassword));
+                    String salary;
+                    do {
+                        salary = UserInput.readLine("Please enter the salary of the employee: ");
+                        if (!Utilities.isNumeric(salary) || salary.isEmpty()) {
+                            System.out.println("Enter a valid number");
+                        }
+                    } while (!Utilities.isNumeric(salary) || salary.isEmpty());
+                    double actualSalary = Double.parseDouble(salary);
+                    System.out.println(controller.createEmployee(name, personalNo, password, actualSalary));
                     handleManagerMenu(controller);
                 } catch (InputMismatchException exception){
                     System.out.println("Invalid input");
@@ -972,7 +1032,7 @@ public class MainMenu {
                     System.out.println(exception.getMessage());
                 }
 
-                handleManagerMenu(controller); //thisjoihasdhisfsdsd
+                handleManagerMenu(controller);
                 break;
             case 4://update employee salary
                 personalNo = UserInput.readLine("Type the personal number of the employee you wish to change the salary of: ");
@@ -981,8 +1041,25 @@ public class MainMenu {
                 handleManagerMenu(controller);
                 break;
             case 5:// update employee password
-                personalNo=UserInput.readLine("Type the personalNo of the employee you wish to change the password of: ");
-                password=UserInput.readLine("Please type the new password of the employee: " );
+                personalNo = UserInput.readLine("Type the personalNo of the employee you wish to change the password of: ");
+                if (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo)) {
+                    do {
+                        personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                    } while (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo));
+                }
+
+                String repeatedPassword;
+                do {
+                    do {
+                        password = UserInput.readLine("Please type the new password of the employee: " + Utilities.EOL +
+                                "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                        if (!controller.isStrongPassword(password)) {
+                            System.out.println("The password is weak.");
+                        }
+                    } while (!controller.isStrongPassword(password));
+                    repeatedPassword = UserInput.readLine("Confirm password");
+                } while (!password.equals(repeatedPassword));
                 System.out.println(controller.setEmployeePassword(password, personalNo));
                 handleManagerMenu(controller);
                 break;
@@ -1016,21 +1093,22 @@ public class MainMenu {
             switch (userChoice) {
                 case 0:
                     try {
-                        String password = UserInput.readLine("Create a password: " + Utilities.EOL +
-                                "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                "and contain at least: lowercase letter, uppercase letter, digit.");
+                        String password;
                         String repeatedPassword;
-                        if(!User.isStrongPassword(password)) {
+                        do {
                             do {
                                 password = UserInput.readLine("Create a password: " + Utilities.EOL +
                                         "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                        "and contain at least: lowercase letter, uppercase letter, digit.");
-                                repeatedPassword = UserInput.readLine("Confirm password");
+                                        "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                if (!controller.isStrongPassword(password)) {
+                                    System.out.println("The password is weak.");
+                                }
+                            } while (!controller.isStrongPassword(password));
+                            repeatedPassword = UserInput.readLine("Confirm password");
+                        }while(!password.equals(repeatedPassword));
 
-                            } while (!password.equals(repeatedPassword) && !password.equals(User.isStrongPassword(password)));
-                        }
-                        controller.setAdminPassword(password);
-
+                        String message = controller.setAdminPassword(password);
+                        System.out.println(message);
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
@@ -1052,27 +1130,36 @@ public class MainMenu {
                             String password;
                             String repeatedPassword;
                             do {
-                                password = UserInput.readLine("Create a password: " + Utilities.EOL +
-                                        "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                        "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                do {
+                                    password = UserInput.readLine("Create a password: " + Utilities.EOL +
+                                            "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                            "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                    if (!controller.isStrongPassword(password)) {
+                                        System.out.println("The password is weak.");
+                                    }
+                                } while (!controller.isStrongPassword(password));
                                 repeatedPassword = UserInput.readLine("Confirm password");
+                            }while(!password.equals(repeatedPassword));
 
-                            } while (!password.equals(repeatedPassword) && !User.isStrongPassword(password));
-                            //Enter onesammas or my code to check in the input is a valid double number
-
-                            double salary = 0;
-                            while(true){
-                                try{
-                                    salary = Double.parseDouble(UserInput.readLine("Enter manager gross-salary: "));
-                                    break;
-                                }catch (NumberFormatException ignore){
-                                    System.out.println("Invalid input");
+                            String salaryStr;
+                            do{
+                                salaryStr = UserInput.readLine("Enter salary: ");
+                                if(!Utilities.isNumeric(salaryStr)|| salaryStr.isEmpty()) {
+                                    System.out.println("Enter a valid number");
                                 }
-                            }
+                            }while(!Utilities.isNumeric(salaryStr)|| salaryStr.isEmpty());
+                            double salary = Double.parseDouble(salaryStr);
 
-                            double bonus = UserInput.readDouble("Enter manager bonus:");
-
-                            controller.createManager(fullName, personalNo, password, salary, bonus);
+                            String bonus;
+                            do{
+                                bonus = UserInput.readLine("Enter manager bonus: ");
+                                if (!Utilities.isNumeric(bonus) || bonus.isEmpty()){
+                                    System.out.println("Enter a valid number: ");
+                                }
+                            }while(!Utilities.isNumeric(bonus) || bonus.isEmpty());
+                            double actualBonus = Double.parseDouble(bonus);
+                           String message = controller.createManager(fullName, personalNo, password, salary, actualBonus);
+                            System.out.println(message);
                         } catch (IllegalAccessException scannerError) {
                             System.out.println("Invalid input.");
                         } catch (Exception exception) {
@@ -1087,23 +1174,38 @@ public class MainMenu {
                 case 2:
                     try {
                         String personNr = UserInput.readLine("Enter managers personal number: ");
-                        if(!bank.getUsers().containsKey(personNr)) {
+                        if(!bank.getUsers().containsKey(personNr) || !controller.isManager(personNr)) {
                             do {
                                 personNr = UserInput.readLine("Enter an existing managers personal number: ");
-                            } while (!bank.getUsers().containsKey(personNr));
+                            } while (!bank.getUsers().containsKey(personNr) || !controller.isManager(personNr));
                         }
-                        controller.removeManager(personNr);
+                        String message = controller.removeManager(personNr);
+                        System.out.println(message);
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
+
                     handleAdministration(controller);
                     break;
 
                 case 3:
                     try {
                         String personNr = UserInput.readLine("Enter manger personal number: ");
-                        double newSalary = UserInput.readDouble("Enter Manager salary: ");
-                        controller.setManagerSalary(newSalary, personNr);
+                        if(!bank.getUsers().containsKey(personNr) || !controller.isManager(personNr)) {
+                            do {
+                                personNr = UserInput.readLine("Enter an existing managers personal number: ");
+                            } while (!bank.getUsers().containsKey(personNr) || !controller.isManager(personNr));
+                        }
+                        String newSalary = "";
+                        do{
+                            newSalary = UserInput.readLine("Enter Manager salary: ");
+                            if (!Utilities.isNumeric(newSalary) || newSalary.isEmpty()){
+                                System.out.println("Invalid input. ");
+                            }
+                        }while(!Utilities.isNumeric(newSalary) || newSalary.isEmpty());
+                        double actualNewSalary = Double.parseDouble(newSalary);
+                        String message = controller.setManagerSalary(actualNewSalary, personNr);
+                        System.out.println(message);
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
@@ -1112,16 +1214,26 @@ public class MainMenu {
                 case 4:
                     try {
                         String personNr = UserInput.readLine("Enter manger personal number: ");
-                        String password;
+                        if(!bank.getUsers().containsKey(personNr) || !controller.isManager(personNr)) {
+                            do {
+                                personNr = UserInput.readLine("Enter an existing managers personal number: ");
+                            } while (!bank.getUsers().containsKey(personNr) || !controller.isManager(personNr));
+                        }
+                        String password = "";
                         String repeatedPassword;
                         do {
-                            password = UserInput.readLine("Create a password: " + Utilities.EOL +
-                                    "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                    "and contain at least  contain: lowercase letter, uppercase letter, digit.");
-                            repeatedPassword = UserInput.readLine("Confirm password");
-
-                        } while (!password.equals(repeatedPassword) && !User.isStrongPassword(password));
-                        controller.setManagerPassword(personNr, password);
+                            do {
+                                password = UserInput.readLine("Create a password: " + Utilities.EOL +
+                                        "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                        "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                if (!controller.isStrongPassword(password)) {
+                                    System.out.println("The password is weak.");
+                                }
+                            } while (!controller.isStrongPassword(password));
+                             repeatedPassword = UserInput.readLine("Confirm password");
+                        }while(!password.equals(repeatedPassword));
+                       String message = controller.setManagerPassword(personNr, password);
+                        System.out.println(message);
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
@@ -1129,10 +1241,30 @@ public class MainMenu {
                     break;
                 case 5:
                     String personNr = UserInput.readLine("Enter employee's personal number : ");
-                    double salary = UserInput.readDouble("Enter new salary: ");
-                    double bonus = UserInput.readDouble("Enter salary bonus: ");
+                    if(!bank.getUsers().containsKey(personNr) || !controller.isEmployee(personNr)) {
+                        do {
+                            personNr = UserInput.readLine("Enter an existing employees personal number: ");
+                        } while (!bank.getUsers().containsKey(personNr) || !controller.isEmployee(personNr));
+                    }
+                   String salary = "";
+                    do{
+                         salary = UserInput.readLine("Enter new salary: ");
+                        if (!Utilities.isNumeric(salary) || salary.isEmpty()){
+                            System.out.println("Invalid input. ");
+                        }
+                    }while(!Utilities.isNumeric(salary) || salary.isEmpty());
+                    double newSalary = Double.parseDouble(salary);
+                    String bonus = "";
+                    do{
+                        bonus = UserInput.readLine("Enter salary bonus: ");
+                        if (!Utilities.isNumeric(bonus) || bonus.isEmpty()){
+                            System.out.println("Invalid input. ");
+                        }
+                    }while(!Utilities.isNumeric(bonus) || bonus.isEmpty());
+                    double actualBonus = Double.parseDouble(bonus);
                     try {
-                        controller.promoteEmployee(personNr, salary, bonus);
+                        String message = controller.promoteEmployee(personNr, newSalary, actualBonus);
+                        System.out.println(message);
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }

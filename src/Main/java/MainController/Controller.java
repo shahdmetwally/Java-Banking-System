@@ -148,6 +148,13 @@ public class Controller {
                 return false;
             }
         }
+    public boolean isStrongPassword(String password){
+        boolean hasDigits = password.matches(".*\\d+.*");
+        boolean hasUpperCase = password.matches(".*[A-Z]+.*");
+        boolean hasLowerCase = password.matches(".*[a-z]+.*");
+        boolean isLong = password.length() > 7;
+        return hasDigits && hasLowerCase && hasUpperCase && isLong;
+    }
 
         public boolean isCashContributionCorrect(double amount,double loanAmount){
         float percentage = (float) (loanAmount*(15.0/100));
@@ -571,7 +578,7 @@ public class Controller {
             return "--------------------" + Utilities.EOL +
                     "Account information for " + customer.getFullName() + Utilities.EOL +
                     "Transactions: " + Utilities.EOL +
-                            customer.getBankAccount().getTransactions() + Utilities.EOL + Utilities.EOL +
+                            customer.getBankAccount().getTransaction() + Utilities.EOL +
                             "Loans: " + customer.getBankAccount().getLoan();
         }
 
@@ -671,7 +678,6 @@ public class Controller {
         public String getTotalLoan () {
             String message = "Total amount of loan giving out: ";
             double totalLoan = 0;
-
             for (Map.Entry<String, User> entry : users.entrySet()) {
                 if(entry.getValue() instanceof Customer){
                     totalLoan += ((Customer) entry.getValue()).getBankAccount().getLoan().getLoanAmount();
@@ -750,14 +756,24 @@ public class Controller {
 
         public Manager getManager (String personalNo){
             if (users.containsKey(personalNo)) {
-                return ((Manager) user);
-            } else {
-                return null;
-            }
+                if (users.get(personalNo) instanceof Manager) {
+                    manager = ((Manager) users.get(personalNo));
+                }
+            } return manager;
         }
 
+        public boolean isManager (String personalNo){
+            User user = users.get(personalNo);
+            if(user instanceof Manager){
+                return true;
+            }
+            return false;
+        }
+
+
         // show the manager or the admin do this?
-        public void promoteEmployee (String personalNo,double newSalary, double bonus) throws Exception {
+        public String promoteEmployee (String personalNo,double newSalary, double bonus) throws Exception {
+            String message="";
             Employee employee = getEmployee(personalNo);
             if (employee.getPersonalNo().equals(personalNo)) {
                 String name = employee.getFullName();
@@ -766,6 +782,7 @@ public class Controller {
                 bank.removeUser(employee);
                 bank.addUser(newEmployee);// Example on how to find specific attribute, also need to give it more access
             }
+            return message;
         }
 
 
