@@ -21,12 +21,7 @@ public class Customer extends User {
         this.salary = salary;
         this.inbox = new Inbox();
     }
-    public void addLoanRequest(LoanRequest loanRequest){
-        EmployeeInbox.addLoanRequest(loanRequest);
-    }
-    public void removeLoanRequest(LoanRequest loanRequest){
-        EmployeeInbox.removeLoanRequest(loanRequest);
-    }
+
 
     public BankAccount getBankAccount() {
         return bankAccount;
@@ -118,7 +113,9 @@ public class Customer extends User {
         inbox.addToSentMessage(message);
     }
 
-    public void removeFromMessageInbox(){
-
+    public String removeMessage(){
+        return inbox.removeMessage();
     }
+
+    public ArrayList<MessageFormat> getMessageHistory(){return inbox.getMessageHistory();}
 }

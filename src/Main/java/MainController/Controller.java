@@ -17,7 +17,6 @@ public class Controller {
     private ManagerInbox managerInbox;
 
 
-
     public Controller(String userName, String password, Bank bank) throws Exception {
         this.bank = bank;
         this.users = bank.getUsers();
@@ -292,7 +291,7 @@ public class Controller {
         // A loan request without Co-Signer is created and added to the bank back up and the inbox in to the customers and employee inbox
         LoanRequest loanRequest = new LoanRequest(((Customer) user), amount, typesOfLoan,houseWorth, typeOfInterest, time, hashMap, cashContribution);
         bank.addLoanApplication(user.getPersonalNo(),loanRequest);
-        ((Customer)user).addLoanRequest(loanRequest);
+        bank.addLoanRequest(loanRequest);
         employeeInbox.addLoanRequest(loanRequest);
 
         return "Loan request has been send. The loan application ID is: LA" +user.getPersonalNo();
@@ -314,7 +313,7 @@ public class Controller {
 
         LoanRequest loanRequest = new LoanRequest(((Customer) user), amount, typesOfLoan,houseWorth, typeOfInterest, time, hashMap, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
         bank.addLoanApplication(user.getPersonalNo(),loanRequest);
-        ((Customer)user).addLoanRequest(loanRequest);
+        bank.addLoanRequest(loanRequest);
 
         return "Loan request has been sent. The loan application ID is: LA"+ user.getPersonalNo();
     }
@@ -332,7 +331,7 @@ public class Controller {
 
     public String viewCustomerMessageInbox() {
         String message = "Message Inbox: " + Utilities.EOL;
-        return Inbox.getAllMessageInbox();
+        return message + ((Customer)user).getAllMessageInbox();
     }
     public String removeMessageFromCustomer() {
         employeeInbox.removeMessage();
@@ -341,7 +340,7 @@ public class Controller {
     public String viewCustomerMessageHistory(){
         String message = "Message History: " + Utilities.EOL;
         String message1 = "";
-        for (int i = 0; i < Inbox.getMessageHistory().size(); i++) {
+        for (int i = 0; i < ((Customer)user).getMessageHistory().size(); i++) {
             message1 += String.format(message) + Utilities.EOL;
         }
         return message + message1;
@@ -361,8 +360,8 @@ public class Controller {
             return "Your message cannot be empty.";
         } else {
             MessageFormat textMessage = new MessageFormat(title, message);
-            EmployeeInbox.addMessageToCustomer(textMessage);
-            EmployeeInbox.addSentMessage(textMessage);
+            employeeInbox.addMessageToCustomer(textMessage);
+            bank.addSentMessage(textMessage);
             return "Your message has been sent successfully.";
         }
     }
@@ -373,7 +372,7 @@ public class Controller {
     }
 
     public String removeMessageFromEmployee(){
-        Inbox.removeMessage();
+        ((Customer)user).removeMessage();
         return "The message has been removed.";
     }
 
@@ -406,7 +405,7 @@ public class Controller {
 
             String totalMessage = message + Utilities.EOL + loanRequest.printRequest();
             bank.removeLoanRequest(loanRequest.getPersonalNr(), loanRequest);
-            customer.removeLoanRequest(loanRequest);
+            bank.removeLoanRequest(loanRequest);
             // remove from employee request?
             String tittle = "Decline loan request. ID: " + loanRequestID;
             sendMessageToCustomers(tittle, totalMessage);
@@ -443,7 +442,7 @@ public class Controller {
             Loan loan = new Loan(customer,typesOfLoan,houseValue,interestRate,interestType, amount,loanPeriod,hashMap,cashContribution,coSigner_name,coSigner_personalNr,coSigner_Salary);
             bank.addLoan(customer.getPersonalNo(),loan);
             bank.removeLoanRequest(loanRequest.getPersonalNr(),loanRequest);
-            (customer).removeLoanRequest(loanRequest);
+            bank.removeLoanRequest(loanRequest);
             // Remove from eployees request queue.
 
             String totalMessage = message + Utilities.EOL + loan.printRequest();

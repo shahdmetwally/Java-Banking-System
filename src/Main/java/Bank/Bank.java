@@ -157,6 +157,17 @@ public class Bank {
         return managerInbox;
     }
 
+    public void addSentMessage(MessageFormat message) {
+        employeeInbox.addToSentMessage(message);
+    }
+
+    public void addLoanRequest(LoanRequest loanRequest){
+        employeeInbox.addLoanRequest(loanRequest);
+    }
+    public void removeLoanRequest(LoanRequest loanRequest){
+        employeeInbox.removeLoanRequest(loanRequest);
+    }
+
     public HashMap<String, CardRequest> getCardRequests() {
         HashMap<String, CardRequest> clone = cardRequests;
         return clone;
