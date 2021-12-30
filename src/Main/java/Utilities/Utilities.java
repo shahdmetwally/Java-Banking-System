@@ -47,7 +47,7 @@ public class Utilities {
         Scanner sc = new Scanner(System.in);
         double userInput = 0;
         while (true) {
-            System.out.println("Type a double-type number:");
+            userInput =Double.parseDouble(UserInput.readLine("Please enter a number"));
             try {
                 userInput = Double.parseDouble(sc.next());
                 break; // will only get to here if input was a double
@@ -55,6 +55,7 @@ public class Utilities {
                 System.out.println("Invalid input");
             }
         }
+        System.out.println(userInput);
     }
     //This was added
     public static boolean isNumber(String s) {
@@ -72,7 +73,7 @@ public class Utilities {
         return true;
     }
 
-    public static double invalidInputString(String message){
+   /* public static double invalidInputString(String message){
         double userInput = 0;
         String message1="";
         while(true){
@@ -84,7 +85,7 @@ public class Utilities {
             }
         }
         return userInput;
-    }
+    }*/
 
     public static boolean isNumeric(String str) {
         return str.matches("\\d+(\\.\\d+)?");
