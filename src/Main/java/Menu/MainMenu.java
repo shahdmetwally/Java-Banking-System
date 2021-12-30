@@ -11,7 +11,6 @@ import Utilities.Utilities;
 import Loans.TypesOfLoan;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.print.DocFlavor;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -184,7 +183,7 @@ public class MainMenu {
         int userChoice = UserInput.readInt("Type in the option: ");
         switch (userChoice){
             case 0:
-                controller.viewEmployeeCustomerMessageInbox();
+                controller.viewCustomerMessageInbox();
                 handleCustomerInbox(controller);
                 break;
             case 1:
@@ -195,11 +194,11 @@ public class MainMenu {
                 handleCustomerInbox(controller);
                 break;
             case 2:
-                controller.viewEmployeeCustomerMessageHistory();
+                controller.viewCustomerMessageHistory();
                 handleCustomerInbox(controller);
                 break;
             case 3:
-                controller.removeMessageFromEmployeeCustomer();
+                controller.removeMessageFromCustomer();
                 handleCustomerInbox(controller);
                 break;
             case 4:
@@ -217,7 +216,7 @@ public class MainMenu {
         int userChoice = UserInput.readInt("Type in the option: ");
         switch (userChoice){
             case 0:
-                controller.viewEmployeeCustomerMessageInbox();
+                controller.viewEmployeeMessageInbox();
                 handleEmployeeInbox(controller);
                 break;
             case 1:
@@ -227,11 +226,11 @@ public class MainMenu {
                 handleEmployeeInbox(controller);
                 break;
             case 2:
-                controller.viewEmployeeCustomerMessageHistory();
+                controller.viewEmployeeMessageHistory();
                 handleEmployeeInbox(controller);
                 break;
             case 3:
-                controller.removeMessageFromEmployeeCustomer();
+                controller.removeMessageFromEmployee();
                 handleEmployeeInbox(controller);
                 break;
             case 4:

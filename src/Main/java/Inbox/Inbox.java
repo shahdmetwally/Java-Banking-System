@@ -1,9 +1,7 @@
 package Inbox;
 
-import Request.CardRequest;
 import Request.LoanRequest;
 import Utilities.Utilities;
-import jdk.internal.jimage.ImageStrings;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -13,82 +11,71 @@ import java.util.Queue;
 // So if the message has been read maybe we should take it out of the queue and store it in the messageHistory;
 
 public class Inbox {
-    private Queue<LoanRequest> loanRequests; // we store the send loanRequest? Every Customer should only be alow to have one request
-    private Queue<CardRequest> cardRequests;
-    private ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
-    private Queue<MessageFormat> messageInbox;
-    //Customer -> send message -> employee
-    private Queue<String> messagesToEmployees; // send messages?
 
-    /*
-            controller:
-            method is send message to employee:
+    protected ArrayList<MessageFormat> messageHistory;
+    protected Queue<MessageFormat> unreadMessageInbox;
+    protected Queue<MessageFormat> sentMessages;
 
-            - add in messagesToEmployee // the customer can see the message that have been send.
-            - add it to employeeInbox.  // the employee can see the new message.
+    public Inbox() {
 
-     */
-
-    public Inbox(){
-        this.loanRequests = new LinkedList<LoanRequest>();
         this.messageHistory = new ArrayList<MessageFormat>();
-        this.messageInbox  = new LinkedList<MessageFormat>();
-        this.messagesToEmployees = new LinkedList<String>();
-        this.cardRequests = new LinkedList<>();
+        this.unreadMessageInbox = new LinkedList<MessageFormat>();
+        this.sentMessages = new LinkedList<MessageFormat>();
     }
 
     //Methods For Employees----------------------------------------
-    public void addLoanRequest(LoanRequest loanRequest){
-        loanRequests.add(loanRequest);
+
+    public void addMessageToEmployee(MessageFormat messageFormat) {
+        sentMessages.add(messageFormat);
     }
-    public void removeLoanRequest(LoanRequest loanRequest){
-        loanRequests.remove(loanRequest);
-    }
-    public void addMessageToEmployee(String messageFormat){
-        messagesToEmployees.add(messageFormat);
-    }
-    public void addToMessageHistory(MessageFormat message){
+
+    public void addToMessageHistory(MessageFormat message) {
         messageHistory.add(message);
     }
 
-    public void sendMessageToEmployee(String message){
-        messagesToEmployees.add(message);
+    public void sendMessageToEmployee(MessageFormat message) {
+        sentMessages.add(message);
     }
 
-    public void addMessageInbox(MessageFormat message){
-        messageInbox.add(message);
+    public void addMessageInbox(MessageFormat message) {
+        unreadMessageInbox.add(message);
     }
-// remove 4 methods
+
     public String removeMessage() {
-        messageHistory.add(messageInbox.poll());
+        messageHistory.add(unreadMessageInbox.poll());
         return "The message has been removed.";
     }
 
+    public void addToSentMessage(MessageFormat messageFormat) {
+        sentMessages.add(messageFormat);
+    }
 
     public String getAllMessageInbox() {
         String message = "";
-        for( MessageFormat  inbox: this.messageInbox){
+        for (MessageFormat inbox : this.unreadMessageInbox) {
             message += inbox.toString() + Utilities.EOL;
         }
         return message;
     }
 
-    public String getAllLoanRequests() {
-       String message = "";
-       for( LoanRequest  loanRequest: this.loanRequests){
-           message += loanRequest.toString() + Utilities.EOL;
-       }
-       return message;
-    }
 
     public String sendMessagesToEmployees() {
         String message = "";
         return "";
     }
-// do we want to return the hole array? are we using it? or we just want to print all? in that case change this method.
-    public String getMessageHistory(){
-        return messageHistory.toString();
+
+
+
+    // do we want to return the hole array? are we using it? or we just want to print all? in that case change this method.
+    public ArrayList<MessageFormat> getMessageHistory() {
+        ArrayList<MessageFormat> clone = new ArrayList<>();
+        return clone;
     }
+
+
+}
+
+
 
 
 

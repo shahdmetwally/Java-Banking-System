@@ -1,7 +1,7 @@
 package Classes;
 
 import Request.LoanRequest;
-import Inbox.Inbox;
+import Inbox.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
@@ -22,10 +22,10 @@ public class Customer extends User {
         this.inbox = new Inbox();
     }
     public void addLoanRequest(LoanRequest loanRequest){
-        inbox.addLoanRequest(loanRequest);
+        EmployeeInbox.addLoanRequest(loanRequest);
     }
     public void removeLoanRequest(LoanRequest loanRequest){
-        inbox.removeLoanRequest(loanRequest);
+        EmployeeInbox.removeLoanRequest(loanRequest);
     }
 
     public BankAccount getBankAccount() {
@@ -114,7 +114,11 @@ public class Customer extends User {
     public String getAllMessageInbox(){
         return inbox.getAllMessageInbox();
     }
-    public void addMessageToEmployee(String message) {
-        inbox.addMessageToEmployee(message);
+    public void addSentMessage(MessageFormat message) {
+        inbox.addToSentMessage(message);
+    }
+
+    public void removeFromMessageInbox(){
+
     }
 }

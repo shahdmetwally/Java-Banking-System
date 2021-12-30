@@ -4,6 +4,7 @@ import Classes.Customer;
 import Classes.User;
 import Inbox.EmployeeInbox;
 import Inbox.ManagerInbox;
+import Inbox.MessageFormat;
 import Loans.Loan;
 import Request.CardRequest;
 import Request.LoanRequest;
