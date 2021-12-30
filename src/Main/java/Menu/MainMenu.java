@@ -27,6 +27,7 @@ public class MainMenu {
     private Bank bank;
     private final MenuOptions customerInbox;
     private final MenuOptions employeeInbox;
+    private final MenuOptions managerInbox;
     private final MenuOptions updateLoanRequest;
 
 
@@ -42,6 +43,7 @@ public class MainMenu {
         this.bank = bank;
         this.customerInbox = new MenuOptions();
         this.employeeInbox = new MenuOptions();
+        this.managerInbox = new MenuOptions();
         this.updateLoanRequest = new MenuOptions();
 
     }
@@ -96,18 +98,6 @@ public class MainMenu {
         customerInbox.addOptions(3, "Remove oldest message.");
         customerInbox.addOptions(4, "Go back to Customer menu.");
 
-//COPY PASTE THIS UNDER EMPLOYEE MENU
-        //Employee Inbox
-        employeeInbox.setMenuName("Employee Inbox Menu " + Utilities.EOL +
-                "--------------------" + Utilities.EOL +
-                " Choose one of the options below.");
-        employeeInbox.addOptions(0, "View messages from customer.");
-        employeeInbox.addOptions(1, "Send message to customer.");
-        employeeInbox.addOptions(2, "View message history."); // maybe history
-        employeeInbox.addOptions(3, "Remove oldest message.");
-        employeeInbox.addOptions(4, "Go back to Employee menu.");
-
-
 
         otherService.setMenuName("Other services Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -149,6 +139,16 @@ public class MainMenu {
         employee.addOptions(10, "Manager options.");
         employee.addOptions(11, "Log out.");
 
+        employeeInbox.setMenuName("Employee Inbox Menu " + Utilities.EOL +
+                "--------------------" + Utilities.EOL +
+                " Choose one of the options below.");
+        employeeInbox.addOptions(0, "View messages from customer.");
+        employeeInbox.addOptions(1, "Send message to customer.");
+        employeeInbox.addOptions(2, "View message history."); // maybe history
+        employeeInbox.addOptions(3, "Remove oldest message.");
+        employeeInbox.addOptions(4, "Go back to Employee menu.");
+
+
         manager.setMenuName("Manager Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
@@ -160,6 +160,9 @@ public class MainMenu {
         manager.addOptions(5, "Update employee password.");
         manager.addOptions(6,"Set variable interest rate");
         manager.addOptions(7,"Return to employee menu.");
+
+        managerInbox.addOptions(0, "View all employees' vacation applications.");
+        managerInbox.addOptions(1, "Approve an employee's vacation application.");
     }
 
     public String enterPersonalNr(){
@@ -178,69 +181,6 @@ public class MainMenu {
             return controller;
     }
 
-    public void handleCustomerInbox(Controller controller){
-        this.customerInbox.printOptions();
-        int userChoice = UserInput.readInt("Type in the option: ");
-        switch (userChoice){
-            case 0:
-                controller.viewCustomerMessageInbox();
-                handleCustomerInbox(controller);
-                break;
-            case 1:
-                String title = UserInput.readLine("Enter message title: ");
-                String textMessage = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
-                String message = controller.sendMessageToEmployees(title,textMessage);
-                System.out.println(message);
-                handleCustomerInbox(controller);
-                break;
-            case 2:
-                controller.viewCustomerMessageHistory();
-                handleCustomerInbox(controller);
-                break;
-            case 3:
-                controller.removeMessageFromCustomer();
-                handleCustomerInbox(controller);
-                break;
-            case 4:
-                handleCustomerMenu(controller);
-                break;
-            default:
-                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                handleCustomerInbox(controller);
-        }
-    }
-
-    // Handle For Employee Inbox
-    public void handleEmployeeInbox(Controller controller){
-        this.employeeInbox.printOptions();
-        int userChoice = UserInput.readInt("Type in the option: ");
-        switch (userChoice){
-            case 0:
-                controller.viewEmployeeMessageInbox();
-                handleEmployeeInbox(controller);
-                break;
-            case 1:
-                String tittle = UserInput.readLine("Enter the title: ");
-                String message = UserInput.readLine("Enter message: ");
-                controller.sendMessageToCustomers(tittle,message);
-                handleEmployeeInbox(controller);
-                break;
-            case 2:
-                controller.viewEmployeeMessageHistory();
-                handleEmployeeInbox(controller);
-                break;
-            case 3:
-                controller.removeMessageFromEmployee();
-                handleEmployeeInbox(controller);
-                break;
-            case 4:
-                handleEmployeeMenu(controller);
-                break;
-            default:
-                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                handleCustomerInbox(controller);
-        }
-    }
 
     public void handleMainMenu(){
         setUpMainMenu();
@@ -738,19 +678,39 @@ public class MainMenu {
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                 handleOtherService(controller);
         }
-
+    }
+    public void handleCustomerInbox(Controller controller){
+        this.customerInbox.printOptions();
+        int userChoice = UserInput.readInt("Type in the option: ");
+        switch (userChoice){
+            case 0:
+                controller.viewCustomerMessageInbox();
+                handleCustomerInbox(controller);
+                break;
+            case 1:
+                String title = UserInput.readLine("Enter message title: ");
+                String textMessage = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
+                String message = controller.sendMessageToEmployees(title,textMessage);
+                System.out.println(message);
+                handleCustomerInbox(controller);
+                break;
+            case 2:
+                controller.viewCustomerMessageHistory();
+                handleCustomerInbox(controller);
+                break;
+            case 3:
+                controller.removeMessageFromCustomer();
+                handleCustomerInbox(controller);
+                break;
+            case 4:
+                handleCustomerMenu(controller);
+                break;
+            default:
+                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                handleCustomerInbox(controller);
+        }
     }
 
-    /*
-    updateLoanRequest.addOptions(0,"Update amount");
-        updateLoanRequest.addOptions(1,"Update type of loan");
-        updateLoanRequest.addOptions(2,"Update the time period of the loan");
-        updateLoanRequest.addOptions(3,"Update other equities");
-        updateLoanRequest.addOptions(4,"Update cash contribution");
-        updateLoanRequest.addOptions(5,"Update Co-Signer name");
-        updateLoanRequest.addOptions(6,"Update Co-Signer personal number");
-        updateLoanRequest.addOptions(7,"Update Co-Signers salary");
-     */
     public void handleUpdateLoanRequest(Controller controller){
         this.updateLoanRequest.printOptions();
         int userChoice = UserInput.readInt("Type in the option: ");
@@ -838,19 +798,6 @@ public class MainMenu {
 
     }
 
-    /*
-       employee.addOptions(0, "Create Customer.");
-        employee.addOptions(1, "Show customer accounts.");
-        employee.addOptions(2, "Approve loans.");
-        employee.addOptions(3,"Calculate Debt-to-income (DTI) ratio.");
-        employee.addOptions(4,"Calculate monthly mortgage.");
-        employee.addOptions(5, "Update customer password.");
-        employee.addOptions(6, "View salary.");
-        employee.addOptions(7, "Apply for vacation.");
-        employee.addOptions(8, "Request inbox.");
-        employee.addOptions(9, "Manager options.");
-        employee.addOptions(10, "Log out.");
-     */
     public void handleEmployeeMenu(Controller controller) {
         if(controller.getUser().getRole() == Role.EMPLOYEE) {
             this.employee.printOptions();
@@ -1053,6 +1000,36 @@ public class MainMenu {
             handleMainMenu();
         }
     }
+    public void handleEmployeeInbox(Controller controller){
+        this.employeeInbox.printOptions();
+        int userChoice = UserInput.readInt("Type in the option: ");
+        switch (userChoice){
+            case 0:
+                controller.viewEmployeeMessageInbox();
+                handleEmployeeInbox(controller);
+                break;
+            case 1:
+                String tittle = UserInput.readLine("Enter the title: ");
+                String message = UserInput.readLine("Enter message: ");
+                controller.sendMessageToCustomers(tittle,message);
+                handleEmployeeInbox(controller);
+                break;
+            case 2:
+                controller.viewEmployeeMessageHistory();
+                handleEmployeeInbox(controller);
+                break;
+            case 3:
+                controller.removeMessageFromEmployee();
+                handleEmployeeInbox(controller);
+                break;
+            case 4:
+                handleEmployeeMenu(controller);
+                break;
+            default:
+                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                handleCustomerInbox(controller);
+        }
+    }
 
     public void handleManagerMenu(Controller controller) {
         manager.printOptions();
@@ -1131,6 +1108,21 @@ public class MainMenu {
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                 handleManagerMenu(controller);
 
+        }
+    }
+
+    public void handleManagerInbox(Controller controller){
+        this.managerInbox.printOptions();
+        int userChoice = UserInput.readInt("Type in the option: ");
+        switch (userChoice){
+            case 0:
+                controller.seeVacationApplications();
+                handleManagerInbox(controller);
+                break;
+            case 1:
+                controller.approveVacationApplication();
+                handleManagerInbox(controller);
+                break;
         }
     }
 

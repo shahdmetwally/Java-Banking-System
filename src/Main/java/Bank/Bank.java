@@ -9,6 +9,7 @@ import Loans.Loan;
 import Request.CardRequest;
 import Request.LoanRequest;
 import Request.VacationRequest;
+import Utilities.Utilities;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -197,6 +198,18 @@ public class Bank {
 
     public void setVacationRequest(HashMap<String, VacationRequest> vacationRequest) {
         this.vacationRequest = vacationRequest;
+    }
+
+    public String viewVacationApps(){
+        String message = "Vacation Applications: " + Utilities.EOL;;
+        managerInbox.seeVacationApplications();
+        return message;
+    }
+
+    public String approveVacationApps(){
+        String message = "Approved vacation application";
+        managerInbox.approveVacationApplication();
+        return message;
     }
 
 

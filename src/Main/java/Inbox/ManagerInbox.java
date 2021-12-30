@@ -12,7 +12,7 @@ public class ManagerInbox extends EmployeeInbox {
         super();
         this.vacationApplications= new LinkedList<VacationRequest>();
     }
-    public void addVacationApllication(VacationRequest vacationRequest){
+    public void addVacationApplication(VacationRequest vacationRequest){
         vacationApplications.add(vacationRequest);
     }
     public void seeVacationApplications(){

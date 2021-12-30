@@ -350,7 +350,7 @@ public class Controller {
 
     public String applyForVacation(int days){
         VacationRequest vacRequest = new VacationRequest(user,days);
-        managerInbox.addVacationApllication(vacRequest);
+        managerInbox.addVacationApplication(vacRequest);
         return "Vacation request has been send.";
     }
 
@@ -368,7 +368,7 @@ public class Controller {
 
     public String viewEmployeeMessageInbox(){
         String message = "Message Inbox: " + Utilities.EOL;
-        return employeeInbox.getAllMessageInbox();
+        return message + employeeInbox.getAllMessageInbox();
     }
 
     public String removeMessageFromEmployee(){
@@ -467,13 +467,13 @@ public class Controller {
         return totalMessage;
     }
 
-    //Manager
-    public void seeVacationApplications(String VacationID){
-
+    //Manager Inbox
+    public String seeVacationApplications(){
+        return bank.viewVacationApps();
     }
 
-    public void approveVacationApplication(){
-
+    public String approveVacationApplication(){
+        return bank.approveVacationApps();
     }
 
     // ADMINISTRATION CONTROLLER
