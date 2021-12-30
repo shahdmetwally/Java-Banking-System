@@ -10,8 +10,8 @@ public class InboxCodeRaw {
 
     //Methods For Customers--------
 //QUEUE FOR CUSTOMER MESSAGES-------------------------------------
-   public static Queue<String> messagesToCustomers = new LinkedList<String>(); // Inbox of messages the customers receive
-   public static Queue<String> messagesToEmployees = new LinkedList<String>(); // Inbox of messages the employees receive
+    Queue<String> messagesToCustomers = new LinkedList<String>(); // Inbox of messages the customers receive
+    Queue<String> messagesToEmployees = new LinkedList<String>(); // Inbox of messages the employees receive
 
     public void sendMessageToEmployees(){
         String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");

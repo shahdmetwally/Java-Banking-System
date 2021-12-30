@@ -188,14 +188,14 @@ public class MainMenu {
                 handleCustomerInbox(controller);
                 break;
             case 1:
-                 String title = UserInput.readLine("Enter message title: ");
+                String title = UserInput.readLine("Enter message title: ");
                 String textMessage = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
                 String message = controller.sendMessageToEmployees(title,textMessage);
                 System.out.println(message);
                 handleCustomerInbox(controller);
                 break;
             case 2:
-                //controller.viewEmployeeCustomerMessageHistory();
+                controller.viewEmployeeCustomerMessageHistory();
                 handleCustomerInbox(controller);
                 break;
             case 3:
@@ -227,7 +227,7 @@ public class MainMenu {
                 handleEmployeeInbox(controller);
                 break;
             case 2:
-                //controller.viewEmployeeCustomerMessageHistory();
+                controller.viewEmployeeCustomerMessageHistory();
                 handleEmployeeInbox(controller);
                 break;
             case 3:

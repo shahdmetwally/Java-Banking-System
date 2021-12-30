@@ -322,17 +322,17 @@ public class Controller {
             bank.addLoanApplication(user.getPersonalNo(),loanRequest);
             ((Customer)user).addLoanRequest(loanRequest);
 
-            return "Loan request has been send. The loan application ID is: LA"+ user.getPersonalNo();
+            return "Loan request has been sent. The loan application ID is: LA"+ user.getPersonalNo();
     }
 
-    public void sendMessageToEmployees(){
-        String message = ""; //is this right?
+    public String sendMessageToEmployees(String title, String message){
         if (message == null) {
-            System.out.println("Your message cannot be empty.");
+            return "Your message cannot be empty.";
         } else {
-            Inbox.messagesToEmployees.add("Customer" + message);
-            System.out.println("Your message has been sent successfully.");
+            Inbox.messagesToEmployees.add("Customer: " + title + Utilities.EOL + message);
+            return "Your message has been sent successfully.";
         }
+        return title + message;
     }
 
     public String viewEmployeeCustomerMessageInbox() {
@@ -450,7 +450,7 @@ public class Controller {
           String textMessage =  " Interest offer: " + interestRate+  Utilities.EOL +
                   "Type of interest: " + loanRequest.getInterestType() + Utilities.EOL;
           // ADD MESSAGE TO CUSTOMER INBOX
-          totalMessage= title +textMessage + message;
+          totalMessage= title + textMessage + message;
       }
      return totalMessage;
     }

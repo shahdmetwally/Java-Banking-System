@@ -3,6 +3,7 @@ package Inbox;
 import Request.CardRequest;
 import Request.LoanRequest;
 import Utilities.Utilities;
+import jdk.internal.jimage.ImageStrings;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -14,10 +15,10 @@ import java.util.Queue;
 public class Inbox {
     private Queue<LoanRequest> loanRequests; // we store the send loanRequest? Every Customer should only be alow to have one request
     private Queue<CardRequest> cardRequests;
-    public static ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
-    public static Queue<MessageFormat> messageInbox;
+    private ArrayList<MessageFormat> messageHistory; // maybe ArrayList instead.
+    private Queue<MessageFormat> messageInbox;
     //Customer -> send message -> employee
-    public static Queue<String> messagesToEmployees; // send messages?
+    private Queue<String> messagesToEmployees; // send messages?
 
     /*
             controller:
