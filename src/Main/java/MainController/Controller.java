@@ -332,7 +332,7 @@ public class Controller {
 
     public String viewCustomerMessageInbox() {
         String message = "Message Inbox: " + Utilities.EOL;
-        return employeeInbox.getAllMessageInbox();
+        return Inbox.getAllMessageInbox();
     }
     public String removeMessageFromCustomer() {
         employeeInbox.removeMessage();
@@ -367,15 +367,19 @@ public class Controller {
         }
     }
 
-    public void viewEmployeeMessageInbox(){
-
+    public String viewEmployeeMessageInbox(){
+        String message = "Message Inbox: " + Utilities.EOL;
+        return employeeInbox.getAllMessageInbox();
     }
 
-    public void removeMessageFromEmployee(){
-
+    public String removeMessageFromEmployee(){
+        Inbox.removeMessage();
+        return "The message has been removed.";
     }
 
     public void viewEmployeeMessageHistory(){
+        //wouldn't the employee message history be the same as the customer message history because it is the same queue being shared?
+        //do we really need two methods? or do i create two queues, one for employee and one for customer?
 
     }
 

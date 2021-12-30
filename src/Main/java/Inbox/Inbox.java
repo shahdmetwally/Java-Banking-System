@@ -58,15 +58,6 @@ public class Inbox {
         return message;
     }
 
-
-    public String sendMessagesToEmployees() {
-        String message = "";
-        return "";
-    }
-
-
-
-    // do we want to return the hole array? are we using it? or we just want to print all? in that case change this method.
     public ArrayList<MessageFormat> getMessageHistory() {
         ArrayList<MessageFormat> clone = new ArrayList<>();
         return clone;
