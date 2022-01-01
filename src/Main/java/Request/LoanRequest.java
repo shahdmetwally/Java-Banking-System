@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class LoanRequest extends Request{
 
-    private  final String id;
+    private  String id;
     private  double amount;
     private  TypesOfLoan typesOfLoan;
     private  double loanPeriod;
@@ -21,6 +21,8 @@ public class LoanRequest extends Request{
     private double coSigner_salary;
     private double houseWorth;
     private TypeOfInterest interestType;
+
+    public LoanRequest(){}
 
 
    public LoanRequest(Customer customer, double loanAmount, TypesOfLoan typesOfLoan, double houseWorth, TypeOfInterest interestType, double loanPeriod, HashMap<String,Double> hashMap, double cashContribution, String coSigner_name, String coSigner_personalNr, double coSigner_salary){

@@ -174,7 +174,7 @@ public class Controller {
 
     public String applyForCard () {
         // If the card status is true, that means that the card is still active.
-        if(((Customer)user).getCardStatus()){
+        if(((Customer)user).getStatus()){
             return "This card has not been blocked.";
         }else{
             CardRequest cardRequest = new CardRequest(user);
@@ -292,9 +292,10 @@ public class Controller {
         LoanRequest loanRequest = new LoanRequest(((Customer) user), amount, typesOfLoan,houseWorth, typeOfInterest, time, hashMap, cashContribution);
         bank.addLoanApplication(user.getPersonalNo(),loanRequest);
         bank.addLoanRequest(loanRequest);
+        StartProgram.jsonBank.get("Loan requests").add(loanRequest);
         employeeInbox.addLoanRequest(loanRequest);
 
-        return "Loan request has been send. The loan application ID is: LA" +user.getPersonalNo();
+        return "Loan request has been sent. The loan application ID is: LA" + user.getPersonalNo();
     }
     public HashMap<String,Double> temporaryHashMap(){
         // a temporary hashmap is created to store the inputs from the user
@@ -314,7 +315,7 @@ public class Controller {
         LoanRequest loanRequest = new LoanRequest(((Customer) user), amount, typesOfLoan,houseWorth, typeOfInterest, time, hashMap, cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
         bank.addLoanApplication(user.getPersonalNo(),loanRequest);
         bank.addLoanRequest(loanRequest);
-
+        StartProgram.jsonLoanRequests.add(loanRequest);
         return "Loan request has been sent. The loan application ID is: LA"+ user.getPersonalNo();
     }
 
@@ -392,7 +393,7 @@ public class Controller {
         if(bank.getLoanRequests().containsKey(loanRequestID)){
             return true;
         }
-        throw  new Exception("The loan Request was not found");
+        throw  new Exception("The loan request was not found");
     }
 
     // check the decline loan request.
@@ -439,7 +440,7 @@ public class Controller {
             if(typeOfInterest.equalsIgnoreCase("variable")){
                 interestType = TypeOfInterest.VARIABLE_RATE;
             }
-            Loan loan = new Loan(customer,typesOfLoan,houseValue,interestRate,interestType, amount,loanPeriod,hashMap,cashContribution,coSigner_name,coSigner_personalNr,coSigner_Salary);
+            Loan loan = new Loan(customer,amount,typesOfLoan,houseValue,interestRate,interestType,loanPeriod,hashMap,cashContribution,coSigner_name,coSigner_personalNr,coSigner_Salary);
             bank.addLoan(customer.getPersonalNo(),loan);
             bank.removeLoanRequest(loanRequest.getPersonalNr(),loanRequest);
             bank.removeLoanRequest(loanRequest);

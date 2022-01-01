@@ -81,9 +81,9 @@ public class Customer extends User {
 
     // Debitcard methods - below
 
-    public boolean getCardStatus(){
+    /*public boolean getCardStatus(){
        return debitCard.getStatus();
-    }
+    }*/
     public void  deactivateCard(){
         debitCard.setDeactivate();
     }
@@ -106,9 +106,12 @@ public class Customer extends User {
 
     //inbox methods.
 
+    @JsonIgnore
     public String getAllMessageInbox(){
         return inbox.getAllMessageInbox();
     }
+
+    @JsonIgnore
     public void addSentMessage(MessageFormat message) {
         inbox.addToSentMessage(message);
     }
@@ -117,5 +120,15 @@ public class Customer extends User {
         return inbox.removeMessage();
     }
 
+    @JsonIgnore
     public ArrayList<MessageFormat> getMessageHistory(){return inbox.getMessageHistory();}
+
+
+    public boolean getStatus(){
+        return debitCard.getStatus();
+    }
+
+    public void setStatus(boolean status){
+        debitCard.setStatus(status);
+    }
 }

@@ -10,7 +10,6 @@ import Utilities.UserInput;
 import Utilities.Utilities;
 import Loans.TypesOfLoan;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -29,9 +28,6 @@ public class MainMenu {
     private final MenuOptions employeeInbox;
     private final MenuOptions managerInbox;
     private final MenuOptions updateLoanRequest;
-
-
-
 
     public MainMenu(Bank bank) {
         this.mainMenu = new MenuOptions();
@@ -158,7 +154,7 @@ public class MainMenu {
         manager.addOptions(3, "Remove employee.");
         manager.addOptions(4, "Update employee salary.");
         manager.addOptions(5, "Update employee password.");
-        manager.addOptions(6,"Set variable interest rate");
+        manager.addOptions(6,"Set variable interest rate.");
         manager.addOptions(7,"Return to employee menu.");
 
         managerInbox.addOptions(0, "View all employees' vacation applications.");
@@ -166,7 +162,7 @@ public class MainMenu {
     }
 
     public String enterPersonalNr(){
-        String personNr = UserInput.readLine(" Enter customer personal number: ");
+        String personNr = UserInput.readLine("Enter the customer's personal number: ");
         return personNr;
     }
 
@@ -510,7 +506,7 @@ public class MainMenu {
                 String addEquities;
                 HashMap<String,Double> temp = controller.temporaryHashMap();
                 do{
-                    String otherEquity = UserInput.readLine("Enter other equity name" + Utilities.EOL + "The name of the equity cannot be repeated");
+                    String otherEquity = UserInput.readLine("Enter other equity name." + Utilities.EOL + "The name of the equity cannot be repeated");
                     String otherEquitiesValueStr;
                     do{
                         otherEquitiesValueStr = UserInput.readLine("Enter other equities value: ");
@@ -521,7 +517,7 @@ public class MainMenu {
                     double otherEquitiesValue= Double.parseDouble(otherEquitiesValueStr);
 
                     System.out.println(controller.addEquities(otherEquity,otherEquitiesValue,temp));
-                    addEquities = UserInput.readLine(" Do you want to add another equity?");
+                    addEquities = UserInput.readLine("Do you want to add another equity?");
                 }while(addEquities.equalsIgnoreCase("Yes"));
 
                 String cashContributionStr;
@@ -558,11 +554,6 @@ public class MainMenu {
                 message =  controller.loanRequestWithCoSigner(loanAmount,typesOfLoan,interestType,houseWorth,time,temp,cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
                 System.out.println(message);
                 // controller:
-
-                String loanAppID= UserInput.readLine("Enter Loan request ID");
-                String testMess = bank.getLoanRequests().get(loanAppID).toString();
-                System.out.println(testMess);
-
                 handleCustomerMenu(controller);
                 break;
             case 5:  System.out.println(" Loan options: " + Utilities.EOL +
@@ -669,6 +660,7 @@ public class MainMenu {
 
                 message =  controller.loanRequestWithOutCoSigner(loanAmount,typesOfLoan,interestType,houseWorth,time,tempHash,cashContribution);
                 System.out.println(message);
+                handleCustomerMenu(controller);
             break;
             case 6://  otherService.addOptions(5,"Loan status"); //? should we?
                     break;
@@ -845,28 +837,41 @@ public class MainMenu {
                     }
                     handleEmployeeMenu(controller);
                     break;
-                case 1:String message = controller.getCustomerInfo(enterPersonalNr());
+                case 1:
+                    String message;
+                    try{
+                    message = controller.getCustomerInfo(enterPersonalNr());
                     System.out.println(message);
+                    } catch (InputMismatchException exception){
+                        System.out.println("Invalid input. Please enter numbers.");
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
                     handleEmployeeMenu(controller);
                     break;
                 case 2:
                     int option;
                     do {
                         String loanRequestID;
-                         option = UserInput.readInt("Choice between: " + Utilities.EOL +
-                                 "1. Approve 2.Decline  3.Modify 4. Interest rate");
+                         option = UserInput.readInt("Choose between: " + Utilities.EOL +
+                                 "1. Approve 2. Decline 3. Modify 4. Interest rate");
                         switch (option) {
                             case 1: // CHECK NOTES ON THE METHOD
+                                String typeOfInterest1="";
                                 try {
 
                                 do {
                                 loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
-                                }while(controller.checkLoanRequest(loanRequestID));
+                                }while(!controller.checkLoanRequest(loanRequestID));
                                     String typeOfInterest;
-                                    do {
-                                 typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
-                                }while (typeOfInterest.equalsIgnoreCase("Fix")|| typeOfInterest.equalsIgnoreCase("variable"));
 
+                                    //The do-while doesnt work
+                                    do {
+                                        typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
+                                        if(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable"))){
+                                            System.out.println("Type in fix or variable");
+                                        }
+                                    }while(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable")));
                                     double interestRate = 0;
                                     if(typeOfInterest.equalsIgnoreCase("Fix")){
                                       interestRate = UserInput.readDouble("Enter interest rate for the loan: ");
@@ -874,8 +879,8 @@ public class MainMenu {
                                     if(typeOfInterest.equalsIgnoreCase("variable")){
                                         interestRate = bank.getVariableInterestRate();
                                     }
-                                   String  textMessage = UserInput.readLine("Enter message: ");
-                                   message =controller.approveLoan(loanRequestID,textMessage,interestRate,typeOfInterest);
+                                   String textMessage = UserInput.readLine("Enter message: ");
+                                   message = controller.approveLoan(loanRequestID,textMessage,interestRate,typeOfInterest);
                                     System.out.println(message);
                                 } catch (IllegalAccessException scannerError) {
                                     System.out.println("Invalid input.");

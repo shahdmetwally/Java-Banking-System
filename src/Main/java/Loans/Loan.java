@@ -8,22 +8,23 @@ import java.util.Map;
 
 public class Loan {
 
-    private final String loanID;
-    private final String name;
-    private final double loanAmount;
-    private final TypesOfLoan typesOfLoan;
-    private final double loanPeriod;
-    private final HashMap<String,Double> equities;
-    private final double cashContribution;
-    private  String coSigner_name;
-    private  String coSigner_personalNr;
-    private  double coSigner_salary;
+    private String loanID;
+    private String name;
+    private double loanAmount;
+    private TypesOfLoan typesOfLoan;
+    private double loanPeriod;
+    private HashMap<String,Double> equities;
+    private double cashContribution;
+    private String coSigner_name;
+    private String coSigner_personalNr;
+    private double coSigner_salary;
     private double interestRate;
     private TypeOfInterest interestType;
     private String date;
     private double houseWorth;
 
 
+    public Loan(){}
 
 
     public Loan(Customer customer, double loanAmount, TypesOfLoan typesOfLoan, double houseWorth, double interestRate, TypeOfInterest interestType,
@@ -78,8 +79,6 @@ public class Loan {
         return "ID: "+  loanID + " Date:" + date;
     }
 
-
-
     public String printRequest() {
         String tittle =  "Application details: " + Utilities.EOL +
                 "-----------------------"+ Utilities.EOL +
@@ -131,8 +130,8 @@ public class Loan {
         return loanPeriod;
     }
 
-    public String getTypeOfInterest(){
-        return interestType.toString();
+    public TypeOfInterest getTypeOfInterest(){
+        return interestType;
     }
     public double getInterestRate() {
            return interestRate;

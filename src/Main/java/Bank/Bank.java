@@ -65,6 +65,10 @@ public class Bank {
     }
 
     // we don't allow the original HashMap to increase the encapsulation of the list.
+    public void showAllLoanRequests(){
+        loanRequests.forEach((personNo, loan)-> System.out.println(loan.toString()));
+    }
+
     public HashMap<String, Loan > getLoans(){
         HashMap<String,Loan> loanClone = loans;
         return loanClone;
