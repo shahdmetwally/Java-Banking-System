@@ -951,15 +951,55 @@ public class MainMenu {
 
                     break;
                 case 3:
-                    double monthlyDebt = UserInput.readDouble("Enter the monthly debt: ");
-                    double grossIncome = UserInput.readDouble("Enter the monthly gross income: ");
+                    String monthlyDebtStr;
+                    do {
+                        monthlyDebtStr = UserInput.readLine("Enter the monthly debt: ");
+                        if (!Utilities.isNumeric(monthlyDebtStr) || monthlyDebtStr.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumeric(monthlyDebtStr) || monthlyDebtStr.isEmpty());
+                    double monthlyDebt = Double.parseDouble(monthlyDebtStr);
+
+                    String grossIncomeStr;
+                    do{
+                        grossIncomeStr = UserInput.readLine("Enter the monthly gross income: ");
+                        if (!Utilities.isNumeric(grossIncomeStr) || grossIncomeStr.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumeric(grossIncomeStr) || grossIncomeStr.isEmpty());
+                    double grossIncome = Double.parseDouble(grossIncomeStr);
+
                     message = controller.calculateDTI(monthlyDebt,grossIncome);
                     System.out.println(message);
 
                 case 4://employee.addOptions(4,"Calculate mortgage.");
-                    double loan = UserInput.readDouble("Enter the loan amount: ");
-                    double interestRate = UserInput.readDouble("Enter interest rate: ");
-                    int loanPeriod = UserInput.readInt("Enter loan time (in years): ");
+                    String loanStr;
+                    do {
+                        loanStr = UserInput.readLine("Enter the loan amount: ");
+                        if (!Utilities.isNumeric(loanStr) || loanStr.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumeric(loanStr) || loanStr.isEmpty());
+                    double loan = Double.parseDouble(loanStr);
+
+                    String interestRateStr;
+                    do {
+                        interestRateStr = UserInput.readLine("Enter interest rate: ");
+                        if (!Utilities.isNumeric(interestRateStr) || interestRateStr.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumeric(interestRateStr) || interestRateStr.isEmpty());
+                    double interestRate = Double.parseDouble(interestRateStr);
+
+                    String loanPeriodStr;
+                    do {
+                        loanPeriodStr = UserInput.readLine("Enter loan time (in years): ");
+                        if (!Utilities.isNumeric(loanPeriodStr) || loanPeriodStr.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumeric(loanPeriodStr) || loanPeriodStr.isEmpty());
+                    double loanPeriod = Double.parseDouble(loanPeriodStr);
+
                     message = controller.calculateMonthlyMortgage(loan,interestRate,loanPeriod);
                     System.out.println(message);
                 case 5:
