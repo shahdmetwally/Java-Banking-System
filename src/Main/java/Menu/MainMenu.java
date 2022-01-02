@@ -172,7 +172,10 @@ public class MainMenu {
             If we separe the menu we can add the controller as an attribute and
             create it with this method.
          */
-            String userName = UserInput.readLine("Enter username: ");
+        String userName = "";
+        do {
+            userName = UserInput.readLine("Enter username: ");
+        }while(!bank.getUsers().containsKey(userName));
             String password = UserInput.readLine("Enter password: ");
             Controller controller = new Controller(userName, password,bank);
             return controller;
@@ -951,8 +954,8 @@ public class MainMenu {
                         String codeStr = UserInput.readLine("Enter code: ");
                         if(codeStr.length() != 4 || !Utilities.isNumber(codeStr)){
                             do{
-                                System.out.println("The code must be a 4 digit number");
-                            }while(cardNr.length() != 4 || Utilities.isNumber(cardNr));
+                                codeStr = UserInput.readLine("The code must be a 4 digit number");
+                            }while(codeStr.length() != 4 || !Utilities.isNumber(codeStr));
                         }
                         int code = Integer.parseInt(codeStr);
                         String salary = "";
@@ -1000,7 +1003,6 @@ public class MainMenu {
                             case 1: // CHECK NOTES ON THE METHOD
                                 String typeOfInterest1="";
                                 try {
-
                                 do {
                                 loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
                                 }while(!controller.checkLoanRequest(loanRequestID));
