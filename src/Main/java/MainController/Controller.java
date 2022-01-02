@@ -355,7 +355,7 @@ public class Controller {
         if(bank.getLoanRequests().containsKey(loanRequestID)){
             return true;
         }
-        throw  new Exception("The loan request was not found");
+        throw new Exception("The loan request was not found");
     }
 
     // check the decline loan request.
