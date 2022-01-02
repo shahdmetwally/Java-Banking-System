@@ -444,11 +444,12 @@ public class Controller {
 
     // change administration password is already in the menu
 
-    public void createManager (String name, String personalNo, String password, double salary, double bonus) throws
+    public String createManager (String name, String personalNo, String password, double salary, double bonus) throws
             Exception {
         User manager = new Manager(name, personalNo, password,  salary, bonus);
         bank.addUser(manager);
         StartProgram.jsonManagers.add((Manager) manager);
+        return "The manager was created succesfully";
     }
 
 
