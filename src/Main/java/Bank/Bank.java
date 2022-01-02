@@ -51,7 +51,7 @@ public class Bank {
 
     }
 
-            public double getTotalCustomerBalance(){
+    public double getTotalCustomerBalance(){
         double balance = 0;
         String message = "Banks total balance: ";
         for (Map.Entry<String, User> entry : users.entrySet()) {
