@@ -1072,7 +1072,6 @@ public class MainMenu {
                                 loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
                                 }while(!controller.checkLoanRequest(loanRequestID));
                                     String typeOfInterest;
-
                                     //The do-while doesnt work
                                     do {
                                         typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
@@ -1105,11 +1104,10 @@ public class MainMenu {
                                 handleEmployeeMenu(controller);
                                 break;
                             case 2: try {
-
+                                //What is this supposed to do
                                 do {
                                     loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
                                 }while (!controller.checkLoanRequest(loanRequestID));
-
                                 String textMessage = UserInput.readLine("Enter message: ");
                                 message = controller.declineLoanRequest(loanRequestID, textMessage);
                                 System.out.println(message);
@@ -1489,8 +1487,12 @@ public class MainMenu {
                     handleManagerMenu(controller);
 
             }
+        } else {
+            System.out.println("Access denied. This menu is only for managers.");
+            handleEmployeeMenu(controller);
         }
     }
+
 
     public void handleManagerInbox(Controller controller){
         this.managerInbox.printOptions();
