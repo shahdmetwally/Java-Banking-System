@@ -172,7 +172,10 @@ public class MainMenu {
             If we separe the menu we can add the controller as an attribute and
             create it with this method.
          */
-            String userName = UserInput.readLine("Enter username: ");
+        String userName = "";
+        do {
+            userName = UserInput.readLine("Enter username: ");
+        }while(!bank.getUsers().containsKey(userName));
             String password = UserInput.readLine("Enter password: ");
             Controller controller = new Controller(userName, password,bank);
             return controller;
@@ -182,7 +185,15 @@ public class MainMenu {
     public void handleMainMenu(){
         setUpMainMenu();
         this.mainMenu.printOptions();
-            int userChoice = UserInput.readInt("Type in the option: ");
+        String userChoiceStr ;
+        do{
+            userChoiceStr  = UserInput.readLine("Type in the option: ");
+            if(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty()) {
+                System.out.println("Invalid input");
+            }
+        }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
+        int userChoice = Integer.parseInt(userChoiceStr);
+
             switch (userChoice) {
 
                 case 0:
@@ -231,7 +242,14 @@ public class MainMenu {
         if(controller.getUser().getRole() == Role.CUSTOMER) {
 
             this.customer.printOptions();
-            int userChoice = UserInput.readInt("Type in the option: ");
+            String userChoiceStr ;
+            do{
+                userChoiceStr  = UserInput.readLine("Type in the option: ");
+                if(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty()) {
+                    System.out.println("Invalid input");
+                }
+            }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
+            int userChoice = Integer.parseInt(userChoiceStr);
             switch (userChoice) {
                 case 0:
                     String message = controller.viewAccountNo();
@@ -677,7 +695,14 @@ public class MainMenu {
     }
     public void handleCustomerInbox(Controller controller){
         this.customerInbox.printOptions();
-        int userChoice = UserInput.readInt("Type in the option: ");
+        String userChoiceStr ;
+        do{
+            userChoiceStr  = UserInput.readLine("Type in the option: ");
+            if(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty()) {
+                System.out.println("Invalid input");
+            }
+        }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
+        int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice){
             case 0:
                 controller.viewCustomerMessageInbox();
@@ -903,7 +928,14 @@ public class MainMenu {
     public void handleEmployeeMenu(Controller controller) {
         if(controller.getUser().getRole() == Role.EMPLOYEE || controller.getUser().getRole() == Role.MANAGER)  {
             this.employee.printOptions();
-            int userChoice = UserInput.readInt("Type in the option");
+            String userChoiceStr ;
+            do{
+                userChoiceStr  = UserInput.readLine("Type in the option: ");
+                if(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty()) {
+                    System.out.println("Invalid input");
+                }
+            }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
+            int userChoice = Integer.parseInt(userChoiceStr);
 
             switch (userChoice) {
                 case 0:
@@ -951,8 +983,8 @@ public class MainMenu {
                         String codeStr = UserInput.readLine("Enter code: ");
                         if(codeStr.length() != 4 || !Utilities.isNumber(codeStr)){
                             do{
-                                System.out.println("The code must be a 4 digit number");
-                            }while(cardNr.length() != 4 || Utilities.isNumber(cardNr));
+                                codeStr = UserInput.readLine("The code must be a 4 digit number");
+                            }while(codeStr.length() != 4 || !Utilities.isNumber(codeStr));
                         }
                         int code = Integer.parseInt(codeStr);
                         String salary = "";
@@ -1000,7 +1032,6 @@ public class MainMenu {
                             case 1: // CHECK NOTES ON THE METHOD
                                 String typeOfInterest1="";
                                 try {
-
                                 do {
                                 loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
                                 }while(!controller.checkLoanRequest(loanRequestID));
@@ -1213,7 +1244,14 @@ public class MainMenu {
     }
     public void handleEmployeeInbox(Controller controller){
         this.employeeInbox.printOptions();
-        int userChoice = UserInput.readInt("Type in the option: ");
+        String userChoiceStr ;
+        do{
+            userChoiceStr  = UserInput.readLine("Type in the option: ");
+            if(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty()) {
+                System.out.println("Invalid input");
+            }
+        }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
+        int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice){
             case 0:
                 controller.viewEmployeeMessageInbox();
@@ -1245,7 +1283,14 @@ public class MainMenu {
     public void handleManagerMenu(Controller controller) {
         if (controller.getUser().getRole() == Role.MANAGER) {
             manager.printOptions();
-            int userChoice = UserInput.readInt("Type in the option");
+            String userChoiceStr ;
+            do{
+                userChoiceStr  = UserInput.readLine("Type in the option: ");
+                if(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty()) {
+                    System.out.println("Invalid input");
+                }
+            }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
+            int userChoice = Integer.parseInt(userChoiceStr);
 
             switch (userChoice) {
                 case 0: // show bank balance
@@ -1385,7 +1430,14 @@ public class MainMenu {
 
     public void handleManagerInbox(Controller controller){
         this.managerInbox.printOptions();
-        int userChoice = UserInput.readInt("Type in the option: ");
+        String userChoiceStr ;
+        do{
+            userChoiceStr  = UserInput.readLine("Type in the option: ");
+            if(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty()) {
+                System.out.println("Invalid input");
+            }
+        }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
+        int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice){
             case 0:
                 controller.seeVacationApplications();
@@ -1401,7 +1453,14 @@ public class MainMenu {
     public void handleAdministration(Controller controller){
         if(controller.getUser().getRole() == Role.ADMIN) {
             administration.printOptions();
-            int userChoice = UserInput.readInt("Type in the option:");
+            String userChoiceStr ;
+            do{
+                userChoiceStr  = UserInput.readLine("Type in the option: ");
+                if(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty()) {
+                    System.out.println("Invalid input");
+                }
+            }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
+            int userChoice = Integer.parseInt(userChoiceStr);
             switch (userChoice) {
                 case 0:
                     try {
