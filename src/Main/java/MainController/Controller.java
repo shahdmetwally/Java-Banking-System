@@ -126,7 +126,7 @@ public class Controller {
      */
     public String updateCustomerName (String newName) throws Exception {
         ((Customer) user).setName(newName);
-        return "Customer " + ((Customer) user).getPersonalNo() + "name has successfully update to " + newName;
+        return "Customer " + ((Customer) user).getPersonalNo() + " name has successfully update to " + newName;
     }
 
     public String updateSalary(double salary) {
@@ -257,7 +257,7 @@ public class Controller {
         StartProgram.jsonLoanRequests.add(loanRequest);
         employeeInbox.addLoanRequest(loanRequest);
 
-        return "Loan request has been sent. The loan application ID is: LA" + user.getPersonalNo();
+        return "Loan request has been sent. The loan application ID is: LR" + user.getPersonalNo();
     }
     public HashMap<String,Double> temporaryHashMap(){
         // a temporary hashmap is created to store the inputs from the user
