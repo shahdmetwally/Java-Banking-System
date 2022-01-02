@@ -4,13 +4,13 @@ public enum TypeOfInterest {
     FIX_RATE{
         @Override
         public String toString() {
-            return "Fix rate";
+            return "Fix";
         }
     },
     VARIABLE_RATE{
         @Override
         public String toString() {
-            return "Varible ";
+            return "Variable ";
         }
     }
 

@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class LoanRequest extends Request{
 
-    private  final String id;
+    private  String id;
     private  double amount;
     private  TypesOfLoan typesOfLoan;
     private  double loanPeriod;
@@ -22,10 +22,12 @@ public class LoanRequest extends Request{
     private double houseWorth;
     private TypeOfInterest interestType;
 
+    public LoanRequest(){}
+
 
    public LoanRequest(Customer customer, double loanAmount, TypesOfLoan typesOfLoan, double houseWorth, TypeOfInterest interestType, double loanPeriod, HashMap<String,Double> hashMap, double cashContribution, String coSigner_name, String coSigner_personalNr, double coSigner_salary){
         super(customer);
-        this.id = "L"+ customer.getPersonalNo();
+        this.id = "LR"+ customer.getPersonalNo();
         this.typesOfLoan = typesOfLoan;
         if(typesOfLoan == TypesOfLoan.HOUSE_LOAN){
             this.houseWorth = houseWorth;
@@ -45,7 +47,7 @@ public class LoanRequest extends Request{
     public LoanRequest(Customer customer, double loanAmount, TypesOfLoan typesOfLoan, double houseWorth, TypeOfInterest interestType,
                        double loanPeriod, HashMap<String,Double> hashMap, double cashContribution){
         super(customer);
-        this.id = "L"+ customer.getPersonalNo();
+        this.id = "LR"+ customer.getPersonalNo();
         this.amount = loanAmount;
         this.typesOfLoan = typesOfLoan;
         if(typesOfLoan == TypesOfLoan.HOUSE_LOAN){
@@ -157,8 +159,8 @@ public class LoanRequest extends Request{
         return equities;
     }
 
-    public String getInterestType() {
-        return interestType.toString();
+    public TypeOfInterest getInterestType() {
+        return interestType;
     }
     public void setInterestType(TypeOfInterest interestType) {
         this.interestType = interestType;

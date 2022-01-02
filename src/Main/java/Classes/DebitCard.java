@@ -40,6 +40,11 @@ public class DebitCard {
     public boolean getStatus(){
         return this.status;
     }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     public void setActive() {
         this.status = true;
     }

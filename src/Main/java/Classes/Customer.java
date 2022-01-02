@@ -1,7 +1,7 @@
 package Classes;
 
 import Request.LoanRequest;
-import Inbox.Inbox;
+import Inbox.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
@@ -14,18 +14,16 @@ public class Customer extends User {
 
     public Customer(){}
 
-    public Customer(String fullName, String personalNo, double salary, String password, String bankAccount,String cardNr, int cvc, String expirationDate,int code)throws Exception{
+    public Customer(String fullName, String personalNo, double salary, String password, String bankAccount)throws Exception{
         super(fullName, personalNo, password, Role.CUSTOMER);
         this.bankAccount = new BankAccount(bankAccount);
-        this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
         this.salary = salary;
         this.inbox = new Inbox();
+        this.debitCard = null;
     }
-    public void addLoanRequest(LoanRequest loanRequest){
-        inbox.addLoanRequest(loanRequest);
-    }
-    public void removeLoanRequest(LoanRequest loanRequest){
-        inbox.removeLoanRequest(loanRequest);
+
+    public void createDebitCard(String cardNr, int cvc, String expirationDate,int code) throws Exception {
+        this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
     }
 
     public BankAccount getBankAccount() {
@@ -86,9 +84,9 @@ public class Customer extends User {
 
     // Debitcard methods - below
 
-    public boolean getCardStatus(){
+    /*public boolean getCardStatus(){
        return debitCard.getStatus();
-    }
+    }*/
     public void  deactivateCard(){
         debitCard.setDeactivate();
     }
@@ -111,10 +109,38 @@ public class Customer extends User {
 
     //inbox methods.
 
+@JsonIgnore
     public String getAllMessageInbox(){
         return inbox.getAllMessageInbox();
     }
-    public void addMessageToEmployee(String message) {
-        inbox.addMessageToEmployee(message);
+
+@JsonIgnore
+    public void addSentMessage(MessageFormat message) {
+        inbox.addToSentMessage(message);
+    }
+
+    @JsonIgnore
+    public String removeMessage(){
+        return inbox.removeMessage();
+    }
+
+
+    @JsonIgnore
+    public ArrayList<MessageFormat> getMessageHistory(){return inbox.getMessageHistory();}
+
+
+    public boolean getStatus(){
+        if(debitCard == null){
+            return false;
+        }
+
+        return debitCard.getStatus();
+    }
+
+    public void setStatus(boolean status){
+        if(!(debitCard == null)){
+            debitCard.setStatus(status);
+        }
+
     }
 }

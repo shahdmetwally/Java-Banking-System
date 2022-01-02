@@ -4,7 +4,11 @@ package MainController;
 import Bank.Bank;
 import Classes.*;
 import Inbox.EmployeeInbox;
+import Inbox.Inbox;
+import Loans.Loan;
 import Menu.MainMenu;
+import Request.CardRequest;
+import Request.LoanRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -18,7 +22,13 @@ public class StartProgram {
     public static ArrayList<Customer> jsonCustomers = new ArrayList<>();
     public static ArrayList<Employee> jsonEmployees = new ArrayList<>();
     public static ArrayList<Manager> jsonManagers = new ArrayList<>();
-
+    public static ArrayList<User> jsonAdmin = new ArrayList<>();
+    public static ArrayList<LoanRequest> jsonLoanRequests = new ArrayList<>();
+    public static ArrayList<Loan> jsonLoans = new ArrayList<>();
+    public static ArrayList<CardRequest> jsonCardRequests = new ArrayList<>();
+    public static ArrayList<ArrayList> jsonEmployeeInbox = new ArrayList<>();
+    public static ArrayList<Inbox> jsonCustomerInbox = new ArrayList<>();
+    public static ArrayList<Manager> jsonManagerInbox = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
 
@@ -27,9 +37,15 @@ public class StartProgram {
         jsonBank.put("employees", jsonEmployees);
         jsonBank.put("customers", jsonCustomers);
         jsonBank.put("managers", jsonManagers);
+        jsonBank.put("admin", jsonAdmin);
+        jsonBank.put("Loan requests", jsonLoanRequests);
+        jsonBank.put("Loans", jsonLoans);
+        jsonBank.put("Card requests", jsonCardRequests);
+        jsonBank.put("EmployeeInbox", jsonEmployeeInbox);
+        jsonBank.put("ManagerInbox", jsonManagerInbox);
 
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(new File("users.json"));
+        JsonNode root = mapper.readTree(new File("bank.json"));
         JsonNode employeeNode = root.path("employees");
         for (int i = 0; i < employeeNode.size(); i++) {
             Employee employee = mapper.treeToValue(employeeNode.get(i), Employee.class);
@@ -52,7 +68,41 @@ public class StartProgram {
             bank.addUser(manager);
         }
 
+        JsonNode adminNode = root.path("admin");
+        User admin = mapper.treeToValue(adminNode.get(0), User.class);
+        jsonAdmin.add(admin);
+        bank.addUser(admin);
+
+
+        JsonNode loanRequestNode = root.path("Loan requests");
+        for (int i = 0; i < loanRequestNode.size(); i++) {
+            LoanRequest loanRequest = mapper.treeToValue(loanRequestNode.get(i), LoanRequest.class);
+            jsonLoanRequests.add(loanRequest);
+            bank.addLoanRequest(loanRequest);
+            bank.addLoanApplication(loanRequest.getPersonalNr(), loanRequest);
+        }
+
+        JsonNode loansNode = root.path("Loans");
+        for (int i = 0; i < loansNode.size(); i++) {
+            Loan loan = mapper.treeToValue(loansNode.get(i), Loan.class);
+            jsonLoans.add(loan);
+            bank.addLoan(loan.getPersonalNr(),loan);
+        }
+
+        JsonNode cardRequestsNode = root.path("Card requests");
+        for (int i = 0; i < cardRequestsNode.size(); i++) {
+            CardRequest cardRequest = mapper.treeToValue(cardRequestsNode.get(i), CardRequest.class);
+            jsonCardRequests.add(cardRequest);
+            bank.addCardRequest(cardRequest.getPersonalNr(), cardRequest);
+        }
+
+
+
         bank.showAllUser();
+        System.out.println(bank.getLoans());
+        System.out.println(bank.getLoanRequests());
+        System.out.println(bank.getEmployeeInbox().toString());
+
 
       String option;
         do{
@@ -61,7 +111,8 @@ public class StartProgram {
               System.out.println("Banking System");
               MainMenu bankMenu = new MainMenu(bank);
               bankMenu.handleMainMenu();
-              mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
+              System.out.println(jsonBank);
+              mapper.writeValue(Paths.get("bank.json").toFile(), jsonBank);
           }catch (Exception exception){
               System.out.println(exception.getMessage());
           }

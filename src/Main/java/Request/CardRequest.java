@@ -6,7 +6,9 @@ import Utilities.Utilities;
 
 public class CardRequest extends Request  {
 
-   private final String id;
+   private String id;
+
+   public CardRequest(){}
 
     public CardRequest(User user){
         super(user);

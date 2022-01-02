@@ -5,9 +5,11 @@ import Utilities.Utilities;
 
 public class Request {
 
-    private final String personalNr;
-    private final String date;
-    private final String name;
+    private String personalNr;
+    private String date;
+    private String name;
+
+    public Request(){}
 
 
     public Request(User user){

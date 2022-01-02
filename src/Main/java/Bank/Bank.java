@@ -4,10 +4,13 @@ import Classes.Customer;
 import Classes.User;
 import Inbox.EmployeeInbox;
 import Inbox.ManagerInbox;
+import Inbox.MessageFormat;
 import Loans.Loan;
+import MainController.StartProgram;
 import Request.CardRequest;
 import Request.LoanRequest;
 import Request.VacationRequest;
+import Utilities.Utilities;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,6 +69,10 @@ public class Bank {
     }
 
     // we don't allow the original HashMap to increase the encapsulation of the list.
+    public void showAllLoanRequests(){
+        loanRequests.forEach((personNo, loan)-> System.out.println(loan.toString()));
+    }
+
     public HashMap<String, Loan > getLoans(){
         HashMap<String,Loan> loanClone = loans;
         return loanClone;
@@ -104,6 +111,7 @@ public class Bank {
     public void addCardRequest(String personalNr,CardRequest inputCardRequest){
         String key = "C" + personalNr;
         cardRequests.put(key,inputCardRequest);
+        employeeInbox.addCardRequest(inputCardRequest);
     }
     public void removeCardRequest(String personalNr, CardRequest inputCardRequest){
         String key = "C" + personalNr;
@@ -159,6 +167,18 @@ public class Bank {
         return managerInbox;
     }
 
+    public void addSentMessage(MessageFormat message) {
+        employeeInbox.addToSentMessage(message);
+    }
+
+    public void addLoanRequest(LoanRequest loanRequest){
+        employeeInbox.addLoanRequest(loanRequest);
+
+    }
+    public void removeLoanRequest(LoanRequest loanRequest){
+        employeeInbox.removeLoanRequest(loanRequest);
+    }
+
     public HashMap<String, CardRequest> getCardRequests() {
         HashMap<String, CardRequest> clone = cardRequests;
         return clone;
@@ -188,6 +208,18 @@ public class Bank {
 
     public void setVacationRequest(HashMap<String, VacationRequest> vacationRequest) {
         this.vacationRequest = vacationRequest;
+    }
+
+    public String viewVacationApps(){
+        String message = "Vacation Applications: " + Utilities.EOL;;
+        managerInbox.seeVacationApplications();
+        return message;
+    }
+
+    public String approveVacationApps(){
+        String message = "Approved vacation application";
+        managerInbox.approveVacationApplication();
+        return message;
     }
 
 
