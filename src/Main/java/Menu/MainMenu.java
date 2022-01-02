@@ -127,8 +127,8 @@ public class MainMenu {
         employee.addOptions(2, "Approve loans.");
         employee.addOptions(3,"Calculate Debt-to-income (DTI) ratio.");
         employee.addOptions(4,"Calculate monthly mortgage.");
-        employee.addOptions(5,"Calculate the annual mortgage of a house loan");
-        employee.addOptions(6, "Update customer password.");
+        employee.addOptions(5,"Update customer password.");
+        employee.addOptions(6, "Calculate the annual mortgage of a house loan");
         employee.addOptions(7, "View salary.");
         employee.addOptions(8, "Apply for vacation.");
         employee.addOptions(9, "Request inbox.");
