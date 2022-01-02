@@ -13,3 +13,5 @@ The Employee Menu
 The other services
 - Case 4 and 5, after completing the loan forms a exception is thrown showing null
 
+The UpdateLoan Menu
+- There is no case to update the amount of the loan

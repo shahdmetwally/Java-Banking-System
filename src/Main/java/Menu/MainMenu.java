@@ -110,14 +110,15 @@ public class MainMenu {
         updateLoanRequest.setMenuName("Update loan request"+ Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
-        updateLoanRequest.addOptions(0,"Update amount");
-        updateLoanRequest.addOptions(1,"Update type of loan");
+        //Update Amount is not coded or connected "Update amount"
+        updateLoanRequest.addOptions(0,"Update type of loan");
+        updateLoanRequest.addOptions(1,"Update other equities");
         updateLoanRequest.addOptions(2,"Update the time period of the loan");
-        updateLoanRequest.addOptions(3,"Update other equities");
-        updateLoanRequest.addOptions(4,"Update cash contribution");
-        updateLoanRequest.addOptions(5,"Update Co-Signer name");
-        updateLoanRequest.addOptions(6,"Update Co-Signer personal number");
-        updateLoanRequest.addOptions(7,"Update Co-Signers salary");
+        updateLoanRequest.addOptions(3,"Update cash contribution");
+        updateLoanRequest.addOptions(4,"Update Co-Signer name");
+        updateLoanRequest.addOptions(5,"Update Co-Signer personal number");
+        updateLoanRequest.addOptions(6,"Update Co-Signers salary");
+        updateLoanRequest.addOptions(7,"Update type of interest rate");
 
         employee.setMenuName("Employee Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -662,7 +663,7 @@ public class MainMenu {
                 System.out.println(message);
                 handleCustomerMenu(controller);
             break;
-            case 6://  otherService.addOptions(5,"Loan status"); //? should we?
+            case 6: handleUpdateLoanRequest(controller);//  otherService.addOptions(5,"Loan status"); //? should we?
                     break;
             case 7: handleCustomerMenu(controller);
                 break;
