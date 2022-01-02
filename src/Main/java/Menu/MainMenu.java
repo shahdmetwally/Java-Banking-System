@@ -812,8 +812,15 @@ public class MainMenu {
                             typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
                             break;
                         default:
-                            newOption=newOption;
                             System.out.println("Invalid choice. Please select between option 1 to 4. ");
+                            do{
+                                newOptionStr  = UserInput.readLine("Enter loan option: ");
+                                if(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty()) {
+                                    System.out.println("Invalid input");
+                                }
+                            }while(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty());
+                                newOption = Integer.parseInt(newOptionStr);
+
                     }
                 }while (newOption>4 ||newOption < 1);
 
