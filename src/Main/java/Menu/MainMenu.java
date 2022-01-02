@@ -376,6 +376,7 @@ public class MainMenu {
                     handleCustomerMenu(controller);
                     break;
                 case 9:// inbox
+                    handleCustomerInbox(controller);
                     break;
                 case 10:
                     handleOtherService(controller);
@@ -1096,7 +1097,6 @@ public class MainMenu {
                                 loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
                                 }while(!controller.checkLoanRequest(loanRequestID));
                                     String typeOfInterest;
-
                                     //The do-while doesnt work
                                     do {
                                         typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
@@ -1104,10 +1104,15 @@ public class MainMenu {
                                             System.out.println("Type in fix or variable");
                                         }
                                     }while(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable")));
-                                    double interestRate = 0;
+                                    String interestRateSrt = "";
                                     if(typeOfInterest.equalsIgnoreCase("Fix")){
-                                      interestRate = UserInput.readDouble("Enter interest rate for the loan: ");
+                                        if(!Utilities.isNumeric(interestRateSrt)) {
+                                            do {
+                                                interestRateSrt = UserInput.readLine("Enter interest rate for the loan: ");
+                                            } while (!Utilities.isNumeric(interestRateSrt));
+                                        }
                                     }
+                                    double interestRate = Double.parseDouble(interestRateSrt);
                                     if(typeOfInterest.equalsIgnoreCase("variable")){
                                         interestRate = bank.getVariableInterestRate();
                                     }
@@ -1124,11 +1129,10 @@ public class MainMenu {
                                 handleEmployeeMenu(controller);
                                 break;
                             case 2: try {
-
+                                //What is this supposed to do
                                 do {
                                     loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
-                                }while (controller.checkLoanRequest(loanRequestID));
-
+                                }while (!controller.checkLoanRequest(loanRequestID));
                                 String textMessage = UserInput.readLine("Enter message: ");
                                 message = controller.declineLoanRequest(loanRequestID, textMessage);
                                 System.out.println(message);
@@ -1144,7 +1148,7 @@ public class MainMenu {
 
                                 do {
                                     loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
-                                }while (controller.checkLoanRequest(loanRequestID));
+                                }while (!controller.checkLoanRequest(loanRequestID));
 
                                 String textMessage = UserInput.readLine("Enter message: ");
 
@@ -1163,11 +1167,17 @@ public class MainMenu {
                                 try {
                                     do {
                                         loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
-                                    }while(controller.checkLoanRequest(loanRequestID));
-                                    double interestRate = UserInput.readDouble("Enter interest rate offer for the loan: ");
+                                    }while(!controller.checkLoanRequest(loanRequestID));
+                                    String interestRateStr = UserInput.readLine("Enter interest rate offer for the loan: ");
+                                    do{
+                                        if (!Utilities.isNumeric(interestRateStr)){
+                                            interestRateStr = UserInput.readLine("Please use only digits. ");
+                                        }
+                                    }while(!Utilities.isNumeric(interestRateStr));
+                                    double interestRate = Double.parseDouble(interestRateStr);
                                     String  textMessage = UserInput.readLine("Enter message: ");
-
-                                    controller.interestOffer(loanRequestID,interestRate,textMessage);
+                                    message = controller.interestOffer(loanRequestID,interestRate,textMessage);
+                                    System.out.println(message);
                                 } catch (IllegalAccessException scannerError) {
                                     System.out.println("Invalid input.");
                                 } catch (InputMismatchException exception){
@@ -1175,7 +1185,7 @@ public class MainMenu {
                                 } catch (Exception exception) {
                                     System.out.println(exception.getMessage());
                                 }
-                                        handleEmployeeMenu(controller);
+                                handleEmployeeMenu(controller);
                             default:
                                 System.out.println("Invalid choice. Please select between option 1 to 3. ");
                         }
@@ -1183,8 +1193,18 @@ public class MainMenu {
 
                     break;
                 case 3:
-
-
+                    String loanRequestID = "";
+                    try {
+                        do {
+                            loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
+                        }while (controller.checkLoanRequest(loanRequestID));
+                        String textMessage = UserInput.readLine("Enter message: ");
+                        // ADD SEND MESSEGE TO CUSTOMER HERE!!
+                    } catch (IllegalAccessException scannerError) {
+                        System.out.println("Invalid input.");}
+                    catch (Exception exception){
+                        System.out.println(exception.getMessage());
+                    }
                     handleCustomerMenu(controller);
                     break;
                 case 4:
@@ -1275,13 +1295,13 @@ public class MainMenu {
                     try {
                         String daysStr = UserInput.readLine("Enter number of days:");
                         do {
-                            if(!Utilities.isNumber(daysStr)){
+                            if(!Utilities.isNumber(daysStr) || daysStr.isEmpty() || Double.parseDouble(daysStr) > 31 ){
                                 daysStr = UserInput.readLine("Please only enter digits. ");
                             }
-                        }while(!Utilities.isNumber(daysStr));
+                        }while(!Utilities.isNumber(daysStr) || daysStr.isEmpty() || Double.parseDouble(daysStr) > 31 );
                         int days = Integer.parseInt(daysStr);
-                        controller.applyForVacation(days);
-                        //SHould we add some text here
+                        message = controller.applyForVacation(days);
+                        System.out.println(message);
                     } catch (InputMismatchException exception){
                         System.out.println("Invalid input. Please enter numbers.");
 
@@ -1290,10 +1310,12 @@ public class MainMenu {
                     }
                     handleEmployeeMenu(controller);
                     break;
-                case 10: // we dont hav the method
-                    System.out.println(controller.getEmployeeInbox());
+                case 10:
+                    handleEmployeeInbox(controller);
+                    // we dont hav the method
+                    //System.out.println(controller.getEmployeeInbox());
 
-                    handleEmployeeMenu(controller);
+                    //handleEmployeeMenu(controller);
                     break;
                 case 11:
                     handleManagerMenu(controller);
@@ -1492,8 +1514,12 @@ public class MainMenu {
                     handleManagerMenu(controller);
 
             }
+        } else {
+            System.out.println("Access denied. This menu is only for managers.");
+            handleEmployeeMenu(controller);
         }
     }
+
 
     public void handleManagerInbox(Controller controller){
         this.managerInbox.printOptions();
@@ -1708,9 +1734,11 @@ public class MainMenu {
                     }
                     handleAdministration(controller);
                     break;
-                case 6:// apply for vacation
+                case 6:
                     handleMainMenu();
                     break;
+                case 7:
+                    break; //Show all managers, method is missing
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                     handleAdministration(controller);
