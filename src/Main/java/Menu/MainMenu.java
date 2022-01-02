@@ -1025,29 +1025,6 @@ public class MainMenu {
                             repeatedPassword = UserInput.readLine("Confirm password");
                         }while(!password.equals(repeatedPassword));
 
-                        String cardNr = UserInput.readLine("Enter card number: ");
-                        if(cardNr.length() != 16 || !Utilities.isNumber(cardNr)){
-                            do{
-                                cardNr= UserInput.readLine("The number must be 16 digits");
-                            }while(cardNr.length() != 16 || !Utilities.isNumber(cardNr));
-                        }
-                        String cvcStr = UserInput.readLine("Enter cvc number: ");
-                        if(cvcStr.length() != 3 || !Utilities.isNumber(cvcStr)){
-                            do{
-                                cvcStr = UserInput.readLine("Please enter a 3 digit number. ");
-                            }while(cvcStr.length() !=3 || !Utilities.isNumber(cvcStr));
-                        }
-                        int cvc = Integer.parseInt(cvcStr);
-                        //This needs a methode to check, expirationDate
-                        String expirationDate = UserInput.readLine("Enter expiration date: ");
-
-                        String codeStr = UserInput.readLine("Enter code: ");
-                        if(codeStr.length() != 4 || !Utilities.isNumber(codeStr)){
-                            do{
-                                codeStr = UserInput.readLine("The code must be a 4 digit number");
-                            }while(codeStr.length() != 4 || !Utilities.isNumber(codeStr));
-                        }
-                        int code = Integer.parseInt(codeStr);
                         String salary = "";
                         do{
                             salary = UserInput.readLine("Enter customer salary: ");
@@ -1194,10 +1171,30 @@ public class MainMenu {
                     break;
                 case 3:
                     String cardRequestID = UserInput.readLine("Enter the card request ID: ");
-                    String cardNr = UserInput.readLine("Enter the card number: ");
-                    int cvc = UserInput.readInt("Enter the cvc number: ");
-                    String expirationDate = UserInput.readLine("Enter the card's expiration date: ");
-                    int code = UserInput.readInt("Enter a code for the card: ");
+                    String cardNr = UserInput.readLine("Enter card number: ");
+                    if(cardNr.length() != 16 || !Utilities.isNumber(cardNr)){
+                        do{
+                            cardNr= UserInput.readLine("The number must be 16 digits");
+                        }while(cardNr.length() != 16 || !Utilities.isNumber(cardNr));
+                    }
+                    String cvcStr = UserInput.readLine("Enter cvc number: ");
+                    if(cvcStr.length() != 3 || !Utilities.isNumber(cvcStr)){
+                        do{
+                            cvcStr = UserInput.readLine("Please enter a 3 digit number. ");
+                        }while(cvcStr.length() !=3 || !Utilities.isNumber(cvcStr));
+                    }
+                    int cvc = Integer.parseInt(cvcStr);
+                    //This needs a methode to check, expirationDate
+                    String expirationDate = UserInput.readLine("Enter expiration date: ");
+
+                    String codeStr = UserInput.readLine("Enter code: ");
+                    if(codeStr.length() != 4 || !Utilities.isNumber(codeStr)){
+                        do{
+                            codeStr = UserInput.readLine("The code must be a 4 digit number");
+                        }while(codeStr.length() != 4 || !Utilities.isNumber(codeStr));
+                    }
+                    int code = Integer.parseInt(codeStr);
+
                     try{
                         message = controller.approveCardRequest(cardRequestID, cardNr, cvc, expirationDate, code);
                         System.out.println(message);

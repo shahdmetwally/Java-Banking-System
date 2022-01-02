@@ -642,6 +642,8 @@ public class Controller {
             Customer customer = (Customer) bank.getUsers().get(cardRequest.getPersonalNr());
             customer.createDebitCard(cardNr, cvc, expirationDate, code);
             bank.removeCardRequest(cardRequest.getPersonalNr(), cardRequest);
+            StartProgram.jsonCardRequests.remove(cardRequest);
+
             message = "The card request has been approved.";
         } else {
             message = "There are no pending card requests with ID " + cardRequestID + ".";
