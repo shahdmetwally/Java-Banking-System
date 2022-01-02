@@ -106,12 +106,12 @@ public class Customer extends User {
 
     //inbox methods.
 
-    @JsonIgnore
+
     public String getAllMessageInbox(){
         return inbox.getAllMessageInbox();
     }
 
-    @JsonIgnore
+
     public void addSentMessage(MessageFormat message) {
         inbox.addToSentMessage(message);
     }
@@ -120,7 +120,7 @@ public class Customer extends User {
         return inbox.removeMessage();
     }
 
-    @JsonIgnore
+
     public ArrayList<MessageFormat> getMessageHistory(){return inbox.getMessageHistory();}
 
 

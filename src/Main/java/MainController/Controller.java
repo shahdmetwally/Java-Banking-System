@@ -278,7 +278,7 @@ public class Controller {
         bank.addLoanApplication(user.getPersonalNo(),loanRequest);
         bank.addLoanRequest(loanRequest);
         StartProgram.jsonLoanRequests.add(loanRequest);
-        return "Loan request has been sent. The loan application ID is: LA"+ user.getPersonalNo();
+        return "Loan request has been sent. The loan application ID is: LR"+ user.getPersonalNo();
     }
 
     public String sendMessageToEmployees(String title, String message){
@@ -546,7 +546,7 @@ public class Controller {
 
     public String calculateDTI(double monthlyDebt, double grossIncome) {
         double dti = monthlyDebt/grossIncome;
-        return Utilities.truncateForPrint(dti);
+        return "The DTI ratio is: " + Utilities.truncateForPrint(dti);
     }
 
 
