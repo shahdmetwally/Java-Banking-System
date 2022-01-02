@@ -771,23 +771,64 @@ public class MainMenu {
                 controller.updateCashContribution(ID, cashContribution);
                 break;
             case 4:
-                ID= UserInput.readLine("Please type in the loanID: ");
+                String loanID = UserInput.readLine("Enter the loan ID: ");
+                do {
+                    if(!bank.getLoans().containsKey(loanID)){
+                        loanID = UserInput.readLine("Enter an existing loan ID. ");
+                    }
+                }while(!bank.getLoans().containsKey(loanID));
                 String coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
-                controller.updateCoSigner_name(ID,coSigner_name);
+                controller.updateCoSigner_name(loanID,coSigner_name);
                 break;
             case 5:
-                ID= UserInput.readLine("Please type in the loanID: ");
+                loanID = UserInput.readLine("Enter the loan ID: ");
+                do {
+                    if(!bank.getLoans().containsKey(loanID)){
+                        loanID = UserInput.readLine("Enter an existing loan ID. ");
+                    }
+                }while(!bank.getLoans().containsKey(loanID));
                 String personalNr = UserInput.readLine("Please type in the new personal number: ");
-                controller.updateCoSigner_personalNr(ID, personalNr);
+                if(!controller.isPersonNrCorrect(personalNr)) {
+                    do {
+                        personalNr = UserInput.readLine("The personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                    } while (!controller.isPersonNrCorrect(personalNr));
+                }
+                controller.updateCoSigner_personalNr(loanID, personalNr);
                 break;
             case 6://  otherService.addOptions(5,"Loan status"); //? should we?
-                ID= UserInput.readLine("Please type in the loanID: ");
-                double coSigner_salary = UserInput.readDouble("Please type in the new Co-Signer salary");
-                controller.updateCoSigner_salary(ID, coSigner_salary);
+                loanID = UserInput.readLine("Enter the loan ID: ");
+                do {
+                    if(!bank.getLoans().containsKey(loanID)){
+                        loanID = UserInput.readLine("Enter an existing loan ID. ");
+                    }
+                }while(!bank.getLoans().containsKey(loanID));
+
+                String coSigner_salaryStr;
+                do {
+                    coSigner_salaryStr = UserInput.readLine("Please type in the new Co-Signer salary");
+                    if (!Utilities.isNumeric(coSigner_salaryStr) || coSigner_salaryStr.isEmpty()) {
+                        System.out.println("Invalid input");
+                    }
+                } while (!Utilities.isNumeric(coSigner_salaryStr) || coSigner_salaryStr.isEmpty());
+                double coSigner_salary = Double.parseDouble(coSigner_salaryStr);
+
+                controller.updateCoSigner_salary(loanID, coSigner_salary);
                 break;
             case 7:
-                ID= UserInput.readLine("Please type in the loanID: ");
-                String typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
+                loanID = UserInput.readLine("Enter the loan ID: ");
+                do {
+                    if(!bank.getLoans().containsKey(loanID)){
+                        loanID = UserInput.readLine("Enter an existing loan ID. ");
+                    }
+                }while(!bank.getLoans().containsKey(loanID));
+                String typeOfInterest;
+                do {
+                    typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
+                    if(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable"))){
+                        System.out.println("Type in fix or variable");
+                    }
+                }while(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable")));
+
                 TypeOfInterest interestType = null;
                 if(typeOfInterest.equalsIgnoreCase("Fix")){
                     interestType = TypeOfInterest.FIX_RATE;
@@ -795,7 +836,7 @@ public class MainMenu {
                 if(typeOfInterest.equalsIgnoreCase("variable")){
                     interestType = TypeOfInterest.VARIABLE_RATE;
                 }
-                controller.updateInterestType(ID, interestType);
+                controller.updateInterestType(loanID, interestType);
                 break;
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
