@@ -1065,7 +1065,14 @@ public class MainMenu {
                     System.out.println(controller.updateCustomerPassword(personalNo, newPassword));
                     handleEmployeeMenu(controller);
                     break;
-                case 6: String loanID = UserInput.readLine("Enter the loan ID: ");
+                case 6:
+                    String loanID = UserInput.readLine("Enter the loan ID: ");
+                    do {
+                        if(!bank.getLoans().containsKey(loanID)){
+                            loanID = UserInput.readLine("Enter an existing loan ID. ");
+                        }
+
+                    }while(!bank.getLoans().containsKey(loanID));
                     message =controller.getMortgagePercentage_HouseLoan(loanID);
                     System.out.println(message);
                     break;
@@ -1075,8 +1082,15 @@ public class MainMenu {
                     break;
                 case 8: // connect to inbox, see the controller
                     try {
-                        int days = UserInput.readInt("Enter number of days:");
+                        String daysStr = UserInput.readLine("Enter number of days:");
+                        do {
+                            if(!Utilities.isNumber(daysStr)){
+                                daysStr = UserInput.readLine("Please only enter digits. ");
+                            }
+                        }while(!Utilities.isNumber(daysStr));
+                        int days = Integer.parseInt(daysStr);
                         controller.applyForVacation(days);
+                        //SHould we add some text here
                     } catch (InputMismatchException exception){
                         System.out.println("Invalid input. Please enter numbers.");
 
