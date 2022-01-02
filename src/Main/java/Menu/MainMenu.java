@@ -870,15 +870,14 @@ public class MainMenu {
                     handleEmployeeMenu(controller);
                     break;
                 case 1:
-                    String message;
-                    try{
-                    message = controller.getCustomerInfo(enterPersonalNr());
+                    do {
+                        personalNo = UserInput.readLine("Type the personal number of the customer: ");
+                        if (!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo)){
+                            System.out.println("Please enter an existing costumer personal number in this format (YYYYMMDDXXXX) and within valid times");
+                        }
+                    }while (!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo));
+                    String message = controller.getCustomerInfo(personalNo);
                     System.out.println(message);
-                    } catch (InputMismatchException exception){
-                        System.out.println("Invalid input. Please enter numbers.");
-                    } catch (Exception exception) {
-                        System.out.println(exception.getMessage());
-                    }
                     handleEmployeeMenu(controller);
                     break;
                 case 2:
