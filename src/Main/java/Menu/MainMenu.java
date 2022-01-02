@@ -797,7 +797,7 @@ public class MainMenu {
                 String cashContributionStr = UserInput.readLine("Please type in the cash contribution");
                 do{
                     if(!Utilities.isNumeric(cashContributionStr)){
-                        newEquityValueStr = UserInput.readLine("Please only use digits for the value. ");
+                        cashContributionStr = UserInput.readLine("Please only use digits for the value. ");
                     }
                 }while(!Utilities.isNumeric(cashContributionStr));
                 double cashContribution = Double.parseDouble(cashContributionStr);
