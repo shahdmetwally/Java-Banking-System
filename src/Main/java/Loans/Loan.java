@@ -128,6 +128,14 @@ public class Loan {
         return loanID;
     }
 
+    public void setLoanID(String loanID) {
+        this.loanID = loanID;
+    }
+
+    public String getLoanID() {
+        return loanID;
+    }
+
     @JsonIgnore
     public double getAmount() {
         return loanAmount;

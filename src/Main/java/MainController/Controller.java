@@ -141,9 +141,10 @@ public class Controller {
         }else{
             CardRequest cardRequest = new CardRequest(user);
             bank.addCardRequest(user.getPersonalNo(),cardRequest);
+            StartProgram.jsonCardRequests.add(cardRequest);
             employeeInbox.addCardRequest(cardRequest);
             // should we add this to the customer as well? so they can see the sended request? // Shahd
-            return "Card request with ID "+ cardRequest.getId()+ " has been send. ";
+            return "Card request with ID "+ cardRequest.getId()+ " has been sent. ";
         }
     }
 
@@ -173,7 +174,7 @@ public class Controller {
             loanRequest.setTypesOfLoan(typesOfLoan); // here is the setter.
             return "Type of loan has been updated.";
         }else {
-            return "This LoanRequest has not been found.";
+            return "The loan request was not found.";
         }
     }
 
@@ -257,7 +258,8 @@ public class Controller {
         StartProgram.jsonLoanRequests.add(loanRequest);
         employeeInbox.addLoanRequest(loanRequest);
 
-        return "Loan request has been sent. The loan application ID is: LA" + user.getPersonalNo();
+
+        return "Loan request has been sent. The loan application ID is: LR" + user.getPersonalNo();
     }
     public HashMap<String,Double> temporaryHashMap(){
         // a temporary hashmap is created to store the inputs from the user
@@ -589,10 +591,9 @@ public class Controller {
 
 
 
-    public String createCustomer (String fullName, String personalNo, double salary ,String password,String cardNr, int cvc, String
-            expirationDate,int code) throws Exception {
+    public String createCustomer (String fullName, String personalNo, double salary ,String password) throws Exception {
         String bankAccount = accountNoGenerator();
-        Customer customer = new Customer(fullName, personalNo, salary, password, bankAccount, cardNr, cvc, expirationDate, code);
+        Customer customer = new Customer(fullName, personalNo, salary, password, bankAccount);
         bank.addUser(customer);
         bank.addBankAccount(bankAccount, customer);
         StartProgram.jsonCustomers.add(customer);
@@ -600,9 +601,7 @@ public class Controller {
                 "--------------------" + Utilities.EOL +
                 "Name: " + fullName + Utilities.EOL +
                 "Personal nr: " + personalNo + Utilities.EOL +
-                "Bank number: " + bankAccount + Utilities.EOL +
-                "Card number: " + cardNr + Utilities.EOL +
-                "Expiration date: " + expirationDate + Utilities.EOL;
+                "Bank number: " + bankAccount + Utilities.EOL;
     }
 
     public String accountNoGenerator () {
@@ -627,6 +626,19 @@ public class Controller {
         bank.setVariableInterestRate(interestRate);
         bank.setAllVariableInterest(interestRate);
         return "The variable interest rate has been changed to " + Utilities.truncateForPrint(interestRate);
+    }
+
+    public String approveCardRequest(String personalNr, String cardNr, int cvc, String expirationDate, int code) throws Exception {
+        String message="There are no pending card requests for personal number " + personalNr + ".";
+        if(bank.getCardRequests().containsKey(personalNr)){
+            CardRequest cardRequest = bank.getCardRequests().get(personalNr);
+
+            Customer customer = (Customer) bank.getUsers().get(personalNr);
+            customer.createDebitCard(cardNr, cvc, expirationDate, code);
+            bank.removeCardRequest(personalNr, cardRequest);
+            message = "The card request has been approved.";
+        }
+        return message;
     }
     /*2
      manager.addOptions(0,"Show Bank Balace");
@@ -741,6 +753,10 @@ public class Controller {
             message = "Employee was successfully promoted. ";
         }
         return message;
+    }
+
+    public EmployeeInbox getEmployeeInbox(){
+        return employeeInbox;
     }
 
         // METHODS TO CHECK IN THE MAIN MENU

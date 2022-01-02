@@ -6,6 +6,7 @@ import Inbox.EmployeeInbox;
 import Inbox.ManagerInbox;
 import Inbox.MessageFormat;
 import Loans.Loan;
+import MainController.StartProgram;
 import Request.CardRequest;
 import Request.LoanRequest;
 import Request.VacationRequest;
@@ -107,6 +108,7 @@ public class Bank {
     public void addCardRequest(String personalNr,CardRequest inputCardRequest){
         String key = "C" + personalNr;
         cardRequests.put(key,inputCardRequest);
+        employeeInbox.addCardRequest(inputCardRequest);
     }
     public void removeCardRequest(String personalNr, CardRequest inputCardRequest){
         String key = "C" + personalNr;
@@ -168,6 +170,7 @@ public class Bank {
 
     public void addLoanRequest(LoanRequest loanRequest){
         employeeInbox.addLoanRequest(loanRequest);
+
     }
     public void removeLoanRequest(LoanRequest loanRequest){
         employeeInbox.removeLoanRequest(loanRequest);

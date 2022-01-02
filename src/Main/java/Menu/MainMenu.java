@@ -126,15 +126,16 @@ public class MainMenu {
         employee.addOptions(0, "Create Customer.");
         employee.addOptions(1, "Show customer accounts.");
         employee.addOptions(2, "Approve loans.");
-        employee.addOptions(3,"Calculate Debt-to-income (DTI) ratio.");
-        employee.addOptions(4,"Calculate monthly mortgage.");
-        employee.addOptions(5,"Update customer password.");
-        employee.addOptions(6, "Calculate the annual mortgage of a house loan");
-        employee.addOptions(7, "View salary.");
-        employee.addOptions(8, "Apply for vacation.");
-        employee.addOptions(9, "Request inbox.");
-        employee.addOptions(10, "Manager options.");
-        employee.addOptions(11, "Log out.");
+        employee.addOptions(3,"Approve card requests.");
+        employee.addOptions(4,"Calculate Debt-to-income (DTI) ratio.");
+        employee.addOptions(5,"Calculate monthly mortgage.");
+        employee.addOptions(6,"Update customer password.");
+        employee.addOptions(7, "Calculate the annual mortgage of a house loan");
+        employee.addOptions(8, "View salary.");
+        employee.addOptions(9, "Apply for vacation.");
+        employee.addOptions(10, "Request inbox.");
+        employee.addOptions(11, "Manager options.");
+        employee.addOptions(12, "Log out.");
 
         employeeInbox.setMenuName("Employee Inbox Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -996,7 +997,7 @@ public class MainMenu {
                         }while(!Utilities.isNumeric(salary) || salary.isEmpty());
 
                         double newSalary = Double.parseDouble(salary);
-                        controller.createCustomer(fullName, personalNo, newSalary, password, cardNr, cvc, expirationDate, code);
+                        controller.createCustomer(fullName, personalNo, newSalary, password);
                         System.out.println("Customer was successfully registered.");
                         handleEmployeeMenu(controller);
                     } catch (IllegalAccessException scannerError) {
@@ -1123,6 +1124,11 @@ public class MainMenu {
 
                     break;
                 case 3:
+
+
+                    handleCustomerMenu(controller);
+                    break;
+                case 4:
                     String monthlyDebtStr;
                     do {
                         monthlyDebtStr = UserInput.readLine("Enter the monthly debt: ");
@@ -1144,7 +1150,7 @@ public class MainMenu {
                     message = controller.calculateDTI(monthlyDebt,grossIncome);
                     System.out.println(message);
                     break;
-                case 4://employee.addOptions(4,"Calculate mortgage.");
+                case 5://employee.addOptions(4,"Calculate mortgage.");
                     String loanStr;
                     do {
                         loanStr = UserInput.readLine("Enter the loan amount: ");
@@ -1175,7 +1181,7 @@ public class MainMenu {
                     message = controller.calculateMonthlyMortgage(loan,interestRate,loanPeriod);
                     System.out.println(message);
                     break;
-                case 5:
+                case 6:
                     personalNo = UserInput.readLine("Please type the personal number for the customer:");
                     do {
                         if(!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo)){
@@ -1192,7 +1198,7 @@ public class MainMenu {
                     System.out.println(controller.updateCustomerPassword(personalNo, newPassword));
                     handleEmployeeMenu(controller);
                     break;
-                case 6:
+                case 7:
                     String loanID = UserInput.readLine("Enter the loan ID: ");
                     do {
                         if(!bank.getLoans().containsKey(loanID)){
@@ -1202,11 +1208,11 @@ public class MainMenu {
                     message =controller.getMortgagePercentage_HouseLoan(loanID);
                     System.out.println(message);
                     break;
-                case 7:
+                case 8:
                     System.out.println(controller.viewSalary());
                     handleEmployeeMenu(controller);
                     break;
-                case 8: // connect to inbox, see the controller
+                case 9: // connect to inbox, see the controller
                     try {
                         String daysStr = UserInput.readLine("Enter number of days:");
                         do {
@@ -1225,13 +1231,15 @@ public class MainMenu {
                     }
                     handleEmployeeMenu(controller);
                     break;
-                case 9: // we dont hav the method
+                case 10: // we dont hav the method
+                    System.out.println(controller.getEmployeeInbox());
+
                     handleEmployeeMenu(controller);
                     break;
-                case 10:
+                case 11:
                     handleManagerMenu(controller);
                     break;
-                case 11:
+                case 12:
                     handleMainMenu();
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);

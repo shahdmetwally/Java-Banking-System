@@ -27,7 +27,7 @@ public class LoanRequest extends Request{
 
    public LoanRequest(Customer customer, double loanAmount, TypesOfLoan typesOfLoan, double houseWorth, TypeOfInterest interestType, double loanPeriod, HashMap<String,Double> hashMap, double cashContribution, String coSigner_name, String coSigner_personalNr, double coSigner_salary){
         super(customer);
-        this.id = "L"+ customer.getPersonalNo();
+        this.id = "LR"+ customer.getPersonalNo();
         this.typesOfLoan = typesOfLoan;
         if(typesOfLoan == TypesOfLoan.HOUSE_LOAN){
             this.houseWorth = houseWorth;
@@ -47,7 +47,7 @@ public class LoanRequest extends Request{
     public LoanRequest(Customer customer, double loanAmount, TypesOfLoan typesOfLoan, double houseWorth, TypeOfInterest interestType,
                        double loanPeriod, HashMap<String,Double> hashMap, double cashContribution){
         super(customer);
-        this.id = "L"+ customer.getPersonalNo();
+        this.id = "LR"+ customer.getPersonalNo();
         this.amount = loanAmount;
         this.typesOfLoan = typesOfLoan;
         if(typesOfLoan == TypesOfLoan.HOUSE_LOAN){

@@ -4,8 +4,10 @@ package MainController;
 import Bank.Bank;
 import Classes.*;
 import Inbox.EmployeeInbox;
+import Inbox.Inbox;
 import Loans.Loan;
 import Menu.MainMenu;
+import Request.CardRequest;
 import Request.LoanRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +25,10 @@ public class StartProgram {
     public static ArrayList<User> jsonAdmin = new ArrayList<>();
     public static ArrayList<LoanRequest> jsonLoanRequests = new ArrayList<>();
     public static ArrayList<Loan> jsonLoans = new ArrayList<>();
+    public static ArrayList<CardRequest> jsonCardRequests = new ArrayList<>();
+    public static ArrayList<ArrayList> jsonEmployeeInbox = new ArrayList<>();
+    public static ArrayList<Inbox> jsonCustomerInbox = new ArrayList<>();
+    public static ArrayList<Manager> jsonManagerInbox = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
 
@@ -34,6 +40,9 @@ public class StartProgram {
         jsonBank.put("admin", jsonAdmin);
         jsonBank.put("Loan requests", jsonLoanRequests);
         jsonBank.put("Loans", jsonLoans);
+        jsonBank.put("Card requests", jsonCardRequests);
+        jsonBank.put("EmployeeInbox", jsonEmployeeInbox);
+        jsonBank.put("ManagerInbox", jsonManagerInbox);
 
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(new File("bank.json"));
@@ -80,13 +89,19 @@ public class StartProgram {
             bank.addLoan(loan.getPersonalNr(),loan);
         }
 
+        JsonNode cardRequestsNode = root.path("Card requests");
+        for (int i = 0; i < cardRequestsNode.size(); i++) {
+            CardRequest cardRequest = mapper.treeToValue(cardRequestsNode.get(i), CardRequest.class);
+            jsonCardRequests.add(cardRequest);
+            bank.addCardRequest(cardRequest.getPersonalNr(), cardRequest);
+        }
+
 
 
         bank.showAllUser();
-        bank.showAllLoanRequests();
-        bank.getLoans().toString();
+        System.out.println(bank.getLoans());
         System.out.println(bank.getLoanRequests());
-
+        System.out.println(bank.getEmployeeInbox().toString());
 
 
       String option;

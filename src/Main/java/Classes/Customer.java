@@ -14,14 +14,17 @@ public class Customer extends User {
 
     public Customer(){}
 
-    public Customer(String fullName, String personalNo, double salary, String password, String bankAccount,String cardNr, int cvc, String expirationDate,int code)throws Exception{
+    public Customer(String fullName, String personalNo, double salary, String password, String bankAccount)throws Exception{
         super(fullName, personalNo, password, Role.CUSTOMER);
         this.bankAccount = new BankAccount(bankAccount);
-        this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
         this.salary = salary;
         this.inbox = new Inbox();
+        this.debitCard = null;
     }
 
+    public void createDebitCard(String cardNr, int cvc, String expirationDate,int code) throws Exception {
+        this.debitCard = new DebitCard(cardNr, cvc, expirationDate, code);
+    }
 
     public BankAccount getBankAccount() {
         return bankAccount;
@@ -106,29 +109,38 @@ public class Customer extends User {
 
     //inbox methods.
 
-
+@JsonIgnore
     public String getAllMessageInbox(){
         return inbox.getAllMessageInbox();
     }
 
-
+@JsonIgnore
     public void addSentMessage(MessageFormat message) {
         inbox.addToSentMessage(message);
     }
 
+    @JsonIgnore
     public String removeMessage(){
         return inbox.removeMessage();
     }
 
 
+    @JsonIgnore
     public ArrayList<MessageFormat> getMessageHistory(){return inbox.getMessageHistory();}
 
 
     public boolean getStatus(){
+        if(debitCard == null){
+            return false;
+        }
+
         return debitCard.getStatus();
     }
 
     public void setStatus(boolean status){
-        debitCard.setStatus(status);
+        if(!(debitCard == null)){
+            debitCard.setStatus(status);
+        }
+
     }
 }

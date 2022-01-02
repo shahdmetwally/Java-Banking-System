@@ -38,12 +38,30 @@ public class EmployeeInbox extends Inbox{
     }
 
     public String getAllLoanRequests() {
-        String message = "";
-        for( LoanRequest  loanRequest: this.loanRequests){
-            message += loanRequest.toString() + Utilities.EOL;
+        String message="";
+        if(!this.loanRequests.isEmpty()){
+            for(LoanRequest loanRequest: this.loanRequests){
+                message += loanRequest.toString() + Utilities.EOL;
+            }
+        } else {
+            message = "No loan requests have been made.";
         }
         return message;
     }
+
+    public String getAllCardRequests() {
+        String message = "";
+        if(!this.cardRequests.isEmpty()){
+            for(CardRequest cardRequest: this.cardRequests){
+                message += cardRequest.toString() + Utilities.EOL;
+            }
+        } else {
+            message = "No card requests have been made.";
+        }
+
+        return message;
+    }
+
     public void sendMessageToCustomers(MessageFormat messageFormat){
         super.sentMessages.add(messageFormat);
     }
@@ -52,8 +70,24 @@ public class EmployeeInbox extends Inbox{
         addToSentMessage(textMessage);
     }
 
+    public Queue<LoanRequest> getLoanRequests() {
+        return loanRequests;
+    }
 
-/*
+    public Queue<CardRequest> getCardRequests() {
+        return cardRequests;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "Loan Requests: " + Utilities.EOL + getAllLoanRequests() +
+                        Utilities.EOL + Utilities.EOL +
+                "Card Requests: " + Utilities.EOL + getAllCardRequests();
+
+    }
+
+    /*
 customer
 
 - queue inbox  ( unread message)
