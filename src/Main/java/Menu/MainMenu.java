@@ -709,7 +709,12 @@ public class MainMenu {
         int userChoice = UserInput.readInt("Type in the option: ");
         switch (userChoice) {
             case 0:
-                String ID= UserInput.readLine("Please type in the loanID: ");
+                String ID = UserInput.readLine("Please type in the loanID: ");
+                do {
+                    if (!bank.getLoans().containsKey(ID)) {
+                        ID = UserInput.readLine("Please enter an existing loanID: ");
+                    }
+                }while(!bank.getLoans().containsKey(ID));
                 System.out.println(" Loan options: " + Utilities.EOL +
                         "1. Personal loan " + Utilities.EOL +
                         "2. House loan "+ Utilities.EOL +
@@ -752,10 +757,16 @@ public class MainMenu {
                     }
                 }while (newOption>4 ||newOption < 1);
 
-                controller.updateTypeOfLoan(ID,typesOfLoan);
+                System.out.println(controller.updateTypeOfLoan(ID,typesOfLoan));
+                handleCustomerMenu(controller);
                 break;
             case 1:
                 ID = UserInput.readLine("Please type in the loanID: ");
+                do {
+                    if (!bank.getLoans().containsKey(ID)) {
+                        ID = UserInput.readLine("Please enter an existing loanID: ");
+                    }
+                }while(!bank.getLoans().containsKey(ID));
                 do {
                     if (!bank.getLoans().containsKey(ID)) {
                         ID = UserInput.readLine("Please enter an existing loanID: ");
@@ -769,7 +780,8 @@ public class MainMenu {
                     }
                 }while(!Utilities.isNumeric(newEquityValueStr));
                 double newEquityValue = Double.parseDouble(newEquityValueStr);
-                controller.updateEquities(ID,otherEquity, newEquityValue);
+                System.out.println(controller.updateEquities(ID,otherEquity, newEquityValue));
+                handleUpdateLoanRequest(controller);
                 break;
 
             case 2:
@@ -786,7 +798,8 @@ public class MainMenu {
                     }
                 }while(!Utilities.isNumber(loanPeriodStr));
                 int loanPeriod = Integer.parseInt(loanPeriodStr);
-                controller.updateTimePeriod(ID, loanPeriod);
+                System.out.println(controller.updateTimePeriod(ID, loanPeriod));
+                handleUpdateLoanRequest(controller);
                 break;
             case 3:
                 ID = UserInput.readLine("Please type in the loanID: ");
@@ -802,7 +815,8 @@ public class MainMenu {
                     }
                 }while(!Utilities.isNumeric(cashContributionStr));
                 double cashContribution = Double.parseDouble(cashContributionStr);
-                controller.updateCashContribution(ID, cashContribution);
+                System.out.println(controller.updateCashContribution(ID, cashContribution));
+                handleUpdateLoanRequest(controller);
                 break;
             case 4:
                 String loanID = UserInput.readLine("Enter the loan ID: ");
@@ -812,7 +826,8 @@ public class MainMenu {
                     }
                 }while(!bank.getLoans().containsKey(loanID));
                 String coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
-                controller.updateCoSigner_name(loanID,coSigner_name);
+                System.out.println(controller.updateCoSigner_name(loanID,coSigner_name));
+                handleUpdateLoanRequest(controller);
                 break;
             case 5:
                 loanID = UserInput.readLine("Enter the loan ID: ");
@@ -827,7 +842,8 @@ public class MainMenu {
                         personalNr = UserInput.readLine("The personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
                     } while (!controller.isPersonNrCorrect(personalNr));
                 }
-                controller.updateCoSigner_personalNr(loanID, personalNr);
+                System.out.println(controller.updateCoSigner_personalNr(loanID, personalNr));
+                handleUpdateLoanRequest(controller);
                 break;
             case 6://  otherService.addOptions(5,"Loan status"); //? should we?
                 loanID = UserInput.readLine("Enter the loan ID: ");
@@ -846,7 +862,8 @@ public class MainMenu {
                 } while (!Utilities.isNumeric(coSigner_salaryStr) || coSigner_salaryStr.isEmpty());
                 double coSigner_salary = Double.parseDouble(coSigner_salaryStr);
 
-                controller.updateCoSigner_salary(loanID, coSigner_salary);
+                System.out.println(controller.updateCoSigner_salary(loanID, coSigner_salary));
+                handleUpdateLoanRequest(controller);
                 break;
             case 7:
                 loanID = UserInput.readLine("Enter the loan ID: ");
@@ -870,7 +887,8 @@ public class MainMenu {
                 if(typeOfInterest.equalsIgnoreCase("variable")){
                     interestType = TypeOfInterest.VARIABLE_RATE;
                 }
-                controller.updateInterestType(loanID, interestType);
+                System.out.println(controller.updateInterestType(loanID, interestType));
+                handleUpdateLoanRequest(controller);
                 break;
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
