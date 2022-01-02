@@ -791,7 +791,7 @@ public class MainMenu {
     }
 
     public void handleEmployeeMenu(Controller controller) {
-        if(controller.getUser().getRole() == Role.EMPLOYEE) {
+        if(controller.getUser().getRole() == Role.EMPLOYEE || controller.getUser().getRole() == Role.MANAGER)  {
             this.employee.printOptions();
             int userChoice = UserInput.readInt("Type in the option");
 
@@ -801,28 +801,60 @@ public class MainMenu {
                     String personalNo ="";
                     try {
                         String fullName = UserInput.readLine("Enter your full name:");
-                        do{
-                            personalNo = UserInput.readLine("Enter your personal number (YYYYMMDDXXXX): ");
-                            if(!controller.isPersonNrCorrect(personalNo)){
-                                System.out.println("Invalid Input");
-                            }
-                        }while(!controller.isPersonNrCorrect(personalNo));
+
+                        personalNo = UserInput.readLine("Please type the personal number of the employee. ");
+                        if(!controller.isPersonNrCorrect(personalNo)) {
+                            do {
+                                personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                            } while (!controller.isPersonNrCorrect(personalNo));
+                        }
                         String password;
                         String repeatedPassword;
                         do {
-                            password = UserInput.readLine("Create a password: " + Utilities.EOL +
-                                    "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                    "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                            do {
+                                password = UserInput.readLine("Create a password for the employee: " + Utilities.EOL +
+                                        "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                        "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                if (!controller.isStrongPassword(password)) {
+                                    System.out.println("The password is weak.");
+                                }
+                            } while (!controller.isStrongPassword(password));
                             repeatedPassword = UserInput.readLine("Confirm password");
-
-                        } while (!password.equals(repeatedPassword));
+                        }while(!password.equals(repeatedPassword));
 
                         String cardNr = UserInput.readLine("Enter card number: ");
-                        int cvc = UserInput.readInt("Enter cvc number: ");
+                        if(cardNr.length() != 16 || !Utilities.isNumber(cardNr)){
+                            do{
+                                cardNr= UserInput.readLine("The number must be 16 digits");
+                            }while(cardNr.length() != 16 || !Utilities.isNumber(cardNr));
+                        }
+                        String cvcStr = UserInput.readLine("Enter cvc number: ");
+                        if(cvcStr.length() != 3 || !Utilities.isNumber(cvcStr)){
+                            do{
+                                cvcStr = UserInput.readLine("Please enter a 3 digit number. ");
+                            }while(cvcStr.length() !=3 || !Utilities.isNumber(cvcStr));
+                        }
+                        int cvc = Integer.parseInt(cvcStr);
+                        //This needs a methode to check, expirationDate
                         String expirationDate = UserInput.readLine("Enter expiration date: ");
-                        int code = UserInput.readInt("Enter code: ");
-                        double salary = UserInput.readDouble("Enter customer salary: ");
-                        controller.createCustomer(fullName, personalNo, salary, password, cardNr, cvc, expirationDate, code);
+
+                        String codeStr = UserInput.readLine("Enter code: ");
+                        if(codeStr.length() != 4 || !Utilities.isNumber(codeStr)){
+                            do{
+                                System.out.println("The code must be a 4 digit number");
+                            }while(cardNr.length() != 4 || Utilities.isNumber(cardNr));
+                        }
+                        int code = Integer.parseInt(codeStr);
+                        String salary = "";
+                        do{
+                            salary = UserInput.readLine("Enter customer salary: ");
+                            if (!Utilities.isNumeric(salary) || salary.isEmpty()){
+                                System.out.println("Invalid input. ");
+                            }
+                        }while(!Utilities.isNumeric(salary) || salary.isEmpty());
+
+                        double newSalary = Double.parseDouble(salary);
+                        controller.createCustomer(fullName, personalNo, newSalary, password, cardNr, cvc, expirationDate, code);
                         System.out.println("Customer was successfully registered.");
                         handleEmployeeMenu(controller);
                     } catch (IllegalAccessException scannerError) {
@@ -1077,82 +1109,143 @@ public class MainMenu {
     }
 
     public void handleManagerMenu(Controller controller) {
-        manager.printOptions();
-        int userChoice = UserInput.readInt("Type in the option");
+        if (controller.getUser().getRole() == Role.MANAGER) {
+            manager.printOptions();
+            int userChoice = UserInput.readInt("Type in the option");
 
-        switch (userChoice) {
-            case 0: // show bank balance
-                System.out.println(controller.getTotalBalance());
-                handleManagerMenu(controller);
-                break;
-            case 1: // show total loaned amount
-                System.out.println(controller.getTotalLoan());
-                handleManagerMenu(controller);
-                break;
-            case 2:// create employee
-                String name="";
-                String personalNo="";
-                String password="";
-                double salary=0;
-                try{
-                name=UserInput.readLine("Please enter the name of the employee: ");
-                personalNo = UserInput.readLine("The Personal number of the employee: ");
-                password =UserInput.readLine("Please type the employees password: ");
-                salary = UserInput.readDouble("Please type the salary of the employee: ");
-                    System.out.println(controller.createEmployee(name, personalNo,password, salary));
+            switch (userChoice) {
+                case 0: // show bank balance
+                    System.out.println(controller.getTotalBalance());
                     handleManagerMenu(controller);
-                } catch (InputMismatchException exception){
-                    System.out.println("Invalid input");
+                    break;
+                case 1: // show total loaned amount
+                    System.out.println(controller.getTotalLoan());
                     handleManagerMenu(controller);
-                }catch (Exception exception) {
-                    System.out.println(exception.getMessage());
+                    break;
+                case 2:// create employee
+                    String name = "";
+                    String personalNo = "";
+                    String password = "";
+
+                    try {
+                        name = UserInput.readLine("Please enter the name of the employee: ");
+                        personalNo = UserInput.readLine("The Personal number of the employee: ");
+                        if (!controller.isPersonNrCorrect(personalNo)) {
+                            do {
+                                personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                            } while (!controller.isPersonNrCorrect(personalNo));
+                        }
+                        String repeatedPassword;
+                        do {
+                            do {
+                                password = UserInput.readLine("Create a password for the employee: " + Utilities.EOL +
+                                        "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                        "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                if (!controller.isStrongPassword(password)) {
+                                    System.out.println("The password is weak.");
+                                }
+                            } while (!controller.isStrongPassword(password));
+                            repeatedPassword = UserInput.readLine("Confirm password");
+                        } while (!password.equals(repeatedPassword));
+                        String salary;
+                        do {
+                            salary = UserInput.readLine("Please enter the salary of the employee: ");
+                            if (!Utilities.isNumeric(salary) || salary.isEmpty()) {
+                                System.out.println("Enter a valid number");
+                            }
+                        } while (!Utilities.isNumeric(salary) || salary.isEmpty());
+                        double actualSalary = Double.parseDouble(salary);
+                        System.out.println(controller.createEmployee(name, personalNo, password, actualSalary));
+                        handleManagerMenu(controller);
+                    } catch (InputMismatchException exception) {
+                        System.out.println("Invalid input");
+                        handleManagerMenu(controller);
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                        handleManagerMenu(controller);
+                    }
+
+
                     handleManagerMenu(controller);
-                }
+                    break;
+                case 3:// remove employee
+                    personalNo = UserInput.readLine("Please type the personalNo of the employee you wish to remove: ");
+                    if (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo)) {
+                        do {
+                            personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                        } while (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo));
+                    }
+                    try {
+                        System.out.println(controller.removeEmployee(personalNo));
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
 
-                handleManagerMenu(controller);
-                break;
-            case 3:// remove employee
-                personalNo = UserInput.readLine("Please type the personalNo of the employee you wish to remove: ");
-                try {
-                    System.out.println(controller.removeEmployee(personalNo));
-                } catch (Exception exception) {
-                    System.out.println(exception.getMessage());
-                }
+                    handleManagerMenu(controller); //thisjoihasdhisfsdsd
+                    break;
+                case 4://update employee salary
+                    personalNo = UserInput.readLine("Type the personal number of the employee you wish to change the salary of: ");
+                    if (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo)) {
+                        do { //should we have it like this
+                            personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times or the employee does not exist: ");
+                        } while (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo));
+                    }
 
-                handleManagerMenu(controller); //thisjoihasdhisfsdsd
-                break;
-            case 4://update employee salary
-                personalNo = UserInput.readLine("Type the personal number of the employee you wish to change the salary of: ");
-                double newSalary = UserInput.readDouble("Write the new salary of the employee: ");
-                System.out.println(controller.setEmployeeSalary(personalNo,newSalary));
-                handleManagerMenu(controller);
-                break;
-            case 5:// update employee password
-                personalNo=UserInput.readLine("Type the personalNo of the employee you wish to change the password of: ");
-                password=UserInput.readLine("Please type the new password of the employee: " );
-                System.out.println(controller.setEmployeePassword(password, personalNo));
-                handleManagerMenu(controller);
-                break;
-            case 6:
-                try {
-                    double interestRate = UserInput.readDouble("Enter the variable interest rate: ");
-                    controller.setVariableInterestRate(interestRate);
-                } catch (InputMismatchException exception){
-                    System.out.println("Invalid input. Please enter numbers.");
+                    String salary;
+                    do {
+                        salary = UserInput.readLine("Write the new salary of the employee: ");
+                        if (!Utilities.isNumeric(salary) || salary.isEmpty()) {
+                            System.out.println("Enter a valid number");
+                        }
+                    } while (!Utilities.isNumeric(salary) || salary.isEmpty());
+                    double newSalary = Double.parseDouble(salary);
+                    System.out.println(controller.setEmployeeSalary(personalNo, newSalary));
+                    handleManagerMenu(controller);
+                    break;
+                case 5:// update employee password
+                    personalNo = UserInput.readLine("Type the personalNo of the employee you wish to change the password of: ");
+                    if (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo)) {
+                        do {
+                            personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                        } while (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo));
+                    }
 
-                } catch (Exception exception) {
-                    System.out.println(exception.getMessage());
+                    String repeatedPassword;
+                    do {
+                        do {
+                            password = UserInput.readLine("Please type the new password of the employee: " + Utilities.EOL +
+                                    "The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                    "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                            if (!controller.isStrongPassword(password)) {
+                                System.out.println("The password is weak.");
+                            }
+                        } while (!controller.isStrongPassword(password));
+                        repeatedPassword = UserInput.readLine("Confirm password");
+                    } while (!password.equals(repeatedPassword));
+                    System.out.println(controller.setEmployeePassword(password, personalNo));
+                    handleManagerMenu(controller);
+                    break;
+                case 6:
+                    try {
+                        double interestRate = UserInput.readDouble("Enter the variable interest rate: ");
+                        controller.setVariableInterestRate(interestRate);
+                    } catch (InputMismatchException exception) {
+                        System.out.println("Invalid input. Please enter numbers.");
 
-                }
-                handleManagerMenu(controller);
-                break;
-            case 7:
-                handleEmployeeMenu(controller);
-                break;
-            default:
-                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                handleManagerMenu(controller);
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
 
+                    }
+                    handleManagerMenu(controller);
+                    break;
+                case 7:
+                    handleEmployeeMenu(controller);
+                    break;
+                default:
+                    System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                    handleManagerMenu(controller);
+
+            }
         }
     }
 
