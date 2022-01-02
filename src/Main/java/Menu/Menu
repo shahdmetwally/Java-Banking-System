@@ -11,10 +11,13 @@ The Employee Menu
 - The whole Employee Menu needs to be tested and finished.
 
 The other services
-- Case 4 and 5, after completing the loan forms a exception is thrown showing null
+- Case 4 and 5, after completing the loan forms a exception is thrown showing null- fixed
+- For case 4 and 5 , there should be a code so that only one loan request could be made ## important
 
 The UpdateLoan Menu
 - There is no case to update the amount of the loan
 
 ".2w#ä'¨¨es' breaks the code for some reason
-- I can't test as there is no loan request
+
+
+

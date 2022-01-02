@@ -119,6 +119,7 @@ public class MainMenu {
         updateLoanRequest.addOptions(5,"Update Co-Signer personal number");
         updateLoanRequest.addOptions(6,"Update Co-Signers salary");
         updateLoanRequest.addOptions(7,"Update type of interest rate");
+        updateLoanRequest.addOptions(8,"Return to Customer menu");
 
         employee.setMenuName("Employee Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -415,8 +416,8 @@ public class MainMenu {
         int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice) {
             case 0:
-                try{
-                    String newName= UserInput.readLine("Enter new name: ");
+                try {
+                    String newName = UserInput.readLine("Enter new name: ");
                     System.out.println(controller.updateCustomerName(newName));
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
@@ -425,12 +426,12 @@ public class MainMenu {
                 break;
             case 1:
                 String salary;
-                do{
+                do {
                     salary = UserInput.readLine("Enter salary: ");
-                    if(!Utilities.isNumeric(salary)|| salary.isEmpty()) {
+                    if (!Utilities.isNumeric(salary) || salary.isEmpty()) {
                         System.out.println("Invalid input");
                     }
-                }while(!Utilities.isNumeric(salary)|| salary.isEmpty());
+                } while (!Utilities.isNumeric(salary) || salary.isEmpty());
                 double actualAmount = Double.parseDouble(salary);
                 String message = controller.updateSalary(actualAmount);
                 System.out.println(message);
@@ -442,8 +443,8 @@ public class MainMenu {
                 handleOtherService(controller);
                 break;
             case 3:
-                String option = UserInput.readLine("Are you sure that you want to block your debit card? "+ Utilities.EOL + " Please answer: yes or no");
-                if(option.equalsIgnoreCase("yes")){
+                String option = UserInput.readLine("Are you sure that you want to block your debit card? " + Utilities.EOL + " Please answer: yes or no");
+                if (option.equalsIgnoreCase("yes")) {
                     String cardBlocked = controller.blockCard();
                     System.out.println(cardBlocked);
                     handleOtherService(controller);
@@ -452,76 +453,82 @@ public class MainMenu {
                 }
                 break;
             case 4:  //otherService.addOptions(4,"Loan request");
-               //    PERSONAL_LOAN,HOME_LOAN,CAR_LOAN,UNSECURED_LOAN;
-                System.out.println(" Loan options: " + Utilities.EOL +
-                        "1. Personal loan " + Utilities.EOL +
-                        "2. House loan "+ Utilities.EOL +
-                        "3. Car loan"+ Utilities.EOL +
-                        "4. Unsecured loan");
-                TypesOfLoan typesOfLoan = null;
-                double houseWorth = 0;
-                String newOptionStr;
-                do{
-                    newOptionStr  = UserInput.readLine("Enter loan option: ");
-                    if(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty()) {
-                        System.out.println("Invalid input");
-                    }
-                }while(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty());
-                int newOption = Integer.parseInt(newOptionStr);
+                //    PERSONAL_LOAN,HOME_LOAN,CAR_LOAN,UNSECURED_LOAN;
+
+                // if statement so that only one request could be made
+                // if statement doesn't work
+                if (!(controller.getCustomer(controller.getUser().getPersonalNo()).getBankAccount().getLoan() == null)) {
+                    System.out.println("You have already applied for a lone");
+                } else {
+                    System.out.println(" Loan options: " + Utilities.EOL +
+                            "1. Personal loan " + Utilities.EOL +
+                            "2. House loan " + Utilities.EOL +
+                            "3. Car loan" + Utilities.EOL +
+                            "4. Unsecured loan");
+                    TypesOfLoan typesOfLoan = null;
+                    double houseWorth = 0;
+                    String newOptionStr;
+                    do {
+                        newOptionStr = UserInput.readLine("Enter loan option: ");
+                        if (!Utilities.isNumber(newOptionStr) || newOptionStr.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumber(newOptionStr) || newOptionStr.isEmpty());
+                    int newOption = Integer.parseInt(newOptionStr);
 
 
-                do {
-                    switch (newOption) {
-                        case 1:
-                            typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
+                    do {
+                        switch (newOption) {
+                            case 1:
+                                typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
 
-                            String houseWorthStr;
-                            do{
-                                houseWorthStr   = UserInput.readLine("Enter the house value: ");
-                                if(!Utilities.isNumeric(houseWorthStr)|| houseWorthStr.isEmpty()) {
-                                    System.out.println("Invalid input");
-                                }
-                            }while(!Utilities.isNumeric(houseWorthStr)|| houseWorthStr.isEmpty());
-                            houseWorth= Double.parseDouble(houseWorthStr);
-                            break;
-                        case 2:
-                            typesOfLoan = TypesOfLoan.HOUSE_LOAN;
-                            break;
-                        case 3:
-                            typesOfLoan = TypesOfLoan.CAR_LOAN;
-                            break;
-                        case 4:
-                            typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
-                            break;
-                        default:
-                            System.out.println("Invalid choice. Please select between option 1 to 4. ");
-                            do{
-                                newOptionStr  = UserInput.readLine("Enter loan option: ");
-                                if(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty()) {
-                                    System.out.println("Invalid input");
-                                }
-                            }while(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty());
-                            newOption = Integer.parseInt(newOptionStr);
-                    }
-                }while (newOption>4 ||newOption < 1);
+                                String houseWorthStr;
+                                do {
+                                    houseWorthStr = UserInput.readLine("Enter the house value: ");
+                                    if (!Utilities.isNumeric(houseWorthStr) || houseWorthStr.isEmpty()) {
+                                        System.out.println("Invalid input");
+                                    }
+                                } while (!Utilities.isNumeric(houseWorthStr) || houseWorthStr.isEmpty());
+                                houseWorth = Double.parseDouble(houseWorthStr);
+                                break;
+                            case 2:
+                                typesOfLoan = TypesOfLoan.HOUSE_LOAN;
+                                break;
+                            case 3:
+                                typesOfLoan = TypesOfLoan.CAR_LOAN;
+                                break;
+                            case 4:
+                                typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Please select between option 1 to 4. ");
+                                do {
+                                    newOptionStr = UserInput.readLine("Enter loan option: ");
+                                    if (!Utilities.isNumber(newOptionStr) || newOptionStr.isEmpty()) {
+                                        System.out.println("Invalid input");
+                                    }
+                                } while (!Utilities.isNumber(newOptionStr) || newOptionStr.isEmpty());
+                                newOption = Integer.parseInt(newOptionStr);
+                        }
+                    } while (newOption > 4 || newOption < 1);
 
-                String loanAmountStr = "";
-                do{
-                    loanAmountStr = UserInput.readLine("Enter the amount of loan: ");
-                    if(!Utilities.isNumeric(loanAmountStr)|| loanAmountStr.isEmpty()) {
-                        System.out.println("Invalid input");
-                    }
-                }while(!Utilities.isNumeric(loanAmountStr)|| loanAmountStr.isEmpty());
-                double loanAmount = Double.parseDouble(loanAmountStr);
+                    String loanAmountStr = "";
+                    do {
+                        loanAmountStr = UserInput.readLine("Enter the amount of loan: ");
+                        if (!Utilities.isNumeric(loanAmountStr) || loanAmountStr.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumeric(loanAmountStr) || loanAmountStr.isEmpty());
+                    double loanAmount = Double.parseDouble(loanAmountStr);
 
-                TypeOfInterest interestType = null;
-                String typeOfInterest;
-                do {
-                    typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
-                    if(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable"))){
-                        System.out.println("Type in fix or variable");
-                    }
-                }while(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable")));
+                    TypeOfInterest interestType = null;
+                    String typeOfInterest;
+                    do {
+                        typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
+                        if (!(typeOfInterest.equalsIgnoreCase("fix") || typeOfInterest.equalsIgnoreCase("variable"))) {
+                            System.out.println("Type in fix or variable");
+                        }
+                    } while (!(typeOfInterest.equalsIgnoreCase("fix") || typeOfInterest.equalsIgnoreCase("variable")));
 
                     if (typeOfInterest.equalsIgnoreCase("Fix")) {
                         interestType = TypeOfInterest.FIX_RATE;
@@ -530,183 +537,198 @@ public class MainMenu {
                         interestType = TypeOfInterest.VARIABLE_RATE;
                     }
 
-                String timeStr = "";
-                do{
-                    timeStr = UserInput.readLine("Enter loan time (years):  ");
-                    if(!Utilities.isNumeric(timeStr)|| timeStr.isEmpty()) {
-                        System.out.println("Invalid input");
-                    }
-                }while(!Utilities.isNumeric(timeStr)|| timeStr.isEmpty());
-                double time = Double.parseDouble(timeStr);
-
-                String addEquities;
-                HashMap<String,Double> temp = controller.temporaryHashMap();
-                do{
-                    String otherEquity = UserInput.readLine("Enter other equity name." + Utilities.EOL + "The name of the equity cannot be repeated");
-                    String otherEquitiesValueStr;
-                    do{
-                        otherEquitiesValueStr = UserInput.readLine("Enter other equities value: ");
-                        if(!Utilities.isNumeric(otherEquitiesValueStr)|| otherEquitiesValueStr.isEmpty()) {
-                            System.out.println("Invalid input");
-                        }
-                    }while(!Utilities.isNumeric(otherEquitiesValueStr)|| otherEquitiesValueStr.isEmpty());
-                    double otherEquitiesValue= Double.parseDouble(otherEquitiesValueStr);
-
-                    System.out.println(controller.addEquities(otherEquity,otherEquitiesValue,temp));
-                    addEquities = UserInput.readLine("Do you want to add another equity?");
-                }while(addEquities.equalsIgnoreCase("Yes"));
-
-                String cashContributionStr;
-                double cashContribution=0;
-                double fifteenPercent = loanAmount * 0.15;
-                do {
+                    String timeStr = "";
                     do {
-                        cashContributionStr = UserInput.readLine("Enter cash contribution:" + Utilities.EOL + "Should be at least 15% of the total loan amount (" + fifteenPercent + ").");
-
-
-                        if (!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty()) {
+                        timeStr = UserInput.readLine("Enter loan time (years):  ");
+                        if (!Utilities.isNumeric(timeStr) || timeStr.isEmpty()) {
                             System.out.println("Invalid input");
                         }
-                    } while (!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty());
-                    cashContribution = Double.parseDouble(cashContributionStr);
-                }while(!controller.isCashContributionCorrect(cashContribution,loanAmount));
+                    } while (!Utilities.isNumeric(timeStr) || timeStr.isEmpty());
+                    double time = Double.parseDouble(timeStr);
 
-                String coSigner_name = UserInput.readLine("Enter Co-signer name: ");
+                    String addEquities;
+                    HashMap<String, Double> temp = controller.temporaryHashMap();
+                    do {
+                        String otherEquity = UserInput.readLine("Enter other equity name." + Utilities.EOL + "The name of the equity cannot be repeated");
+                        String otherEquitiesValueStr;
+                        do {
+                            otherEquitiesValueStr = UserInput.readLine("Enter other equities value: ");
+                            if (!Utilities.isNumeric(otherEquitiesValueStr) || otherEquitiesValueStr.isEmpty()) {
+                                System.out.println("Invalid input");
+                            }
+                        } while (!Utilities.isNumeric(otherEquitiesValueStr) || otherEquitiesValueStr.isEmpty());
+                        double otherEquitiesValue = Double.parseDouble(otherEquitiesValueStr);
 
-                String coSigner_personalNr;
-                do{
-                    coSigner_personalNr = UserInput.readLine("Enter Co-signer personal number: ");
-                    if(!controller.isPersonNrCorrect(coSigner_personalNr)||coSigner_personalNr.isEmpty()){
-                        System.out.println("Invalid personalNo");
-                    }
-                }while(!controller.isPersonNrCorrect(coSigner_personalNr)||coSigner_personalNr.isEmpty());
+                        System.out.println(controller.addEquities(otherEquity, otherEquitiesValue, temp));
+                        addEquities = UserInput.readLine("Do you want to add another equity?");
+                    } while (addEquities.equalsIgnoreCase("Yes"));
 
-                String coSigner_salaryStr="";
-                do{
-                    coSigner_salaryStr  = UserInput.readLine("Enter Co-signer salary: ");
-                    if(!Utilities.isNumeric(coSigner_salaryStr )|| coSigner_salaryStr.isEmpty()) {
-                        System.out.println("Invalid input");
-                    }
-                }while(!Utilities.isNumeric(coSigner_salaryStr )|| coSigner_salaryStr.isEmpty());
-                double coSigner_salary  = Double.parseDouble(coSigner_salaryStr );
+                    String cashContributionStr;
+                    double cashContribution = 0;
+                    double fifteenPercent = loanAmount * 0.15;
+                    do {
+                        do {
+                            cashContributionStr = UserInput.readLine("Enter cash contribution:" + Utilities.EOL + "Should be at least 15% of the total loan amount (" + fifteenPercent + ").");
 
-                message =  controller.loanRequestWithCoSigner(loanAmount,typesOfLoan,interestType,houseWorth,time,temp,cashContribution,coSigner_name,coSigner_personalNr,coSigner_salary);
-                System.out.println(message);
+
+                            if (!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty()) {
+                                System.out.println("Invalid input");
+                            }
+                        } while (!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty());
+                        cashContribution = Double.parseDouble(cashContributionStr);
+                    } while (!controller.isCashContributionCorrect(cashContribution, loanAmount));
+
+                    String coSigner_name = UserInput.readLine("Enter Co-signer name: ");
+
+                    String coSigner_personalNr;
+                    do {
+                        coSigner_personalNr = UserInput.readLine("Enter Co-signer personal number: ");
+                        if (!controller.isPersonNrCorrect(coSigner_personalNr) || coSigner_personalNr.isEmpty()) {
+                            System.out.println("Invalid personalNo");
+                        }
+                    } while (!controller.isPersonNrCorrect(coSigner_personalNr) || coSigner_personalNr.isEmpty());
+
+                    String coSigner_salaryStr = "";
+                    do {
+                        coSigner_salaryStr = UserInput.readLine("Enter Co-signer salary: ");
+                        if (!Utilities.isNumeric(coSigner_salaryStr) || coSigner_salaryStr.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumeric(coSigner_salaryStr) || coSigner_salaryStr.isEmpty());
+                    double coSigner_salary = Double.parseDouble(coSigner_salaryStr);
+
+                    message = controller.loanRequestWithCoSigner(loanAmount, typesOfLoan, interestType, houseWorth, time, temp, cashContribution, coSigner_name, coSigner_personalNr, coSigner_salary);
+                    System.out.println(message);
+                }
+
                 // controller:
                 handleCustomerMenu(controller);
                 break;
-            case 5:  System.out.println(" Loan options: " + Utilities.EOL +
-                    "1. Personal loan " + Utilities.EOL +
-                    "2. House loan "+ Utilities.EOL +
-                    "3. Car loan"+ Utilities.EOL +
-                    "4. Unsecured loan");
-                 typesOfLoan = null;
-                do{
-                    newOptionStr  = UserInput.readLine("Enter loan option: ");
-                    if(!Utilities.isNumeric(newOptionStr)|| newOptionStr.isEmpty()) {
-                        System.out.println("Invalid input");
-                    }
-                }while(!Utilities.isNumeric(newOptionStr)|| newOptionStr.isEmpty());
-                newOption = Integer.parseInt(newOptionStr);
-                 houseWorth = 0;
-                do {
-                    switch (newOption) {
-                        case 1:
-                            typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
-                            String houseWorthStr;
-                            do{
-                                houseWorthStr   = UserInput.readLine("Enter the house value: ");
-                                if(!Utilities.isNumeric(houseWorthStr)|| houseWorthStr.isEmpty()) {
-                                    System.out.println("Invalid input");
-                                }
-                            }while(!Utilities.isNumeric(houseWorthStr)|| houseWorthStr.isEmpty());
-                            houseWorth= Double.parseDouble(houseWorthStr);
+            case 5:
+                if(!(controller.getCustomer(controller.getUser().getPersonalNo()).getBankAccount().getLoan()==null)){
+                    System.out.println("You have already applied for a lone");
+                }else {
 
-                        case 2:
-                            typesOfLoan = TypesOfLoan.HOUSE_LOAN;
-
-                        case 3:
-                            typesOfLoan = TypesOfLoan.CAR_LOAN;
-                            break;
-                        case 4:
-                            typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
-                            break;
-                        default:
-                            do{
-                                System.out.println("Invalid choice. Please select between option 1 to 4. ");
-                                newOptionStr  = UserInput.readLine("Enter loan option: ");
-                                if(!Utilities.isNumeric(newOptionStr)|| newOptionStr.isEmpty()) {
-                                    System.out.println("Invalid input");
-                                }
-                            }while(!Utilities.isNumeric(newOptionStr)|| newOptionStr.isEmpty());
-                            newOption = Integer.parseInt(newOptionStr);
-
-                    }
-                }while (newOption>4 ||newOption < 1);
-
-
-                do{
-                    loanAmountStr = UserInput.readLine("Enter the amount of loan: ");
-                    if(!Utilities.isNumeric(loanAmountStr)|| loanAmountStr.isEmpty()) {
-                        System.out.println("Invalid input");
-                    }
-                }while(!Utilities.isNumeric(loanAmountStr)|| loanAmountStr.isEmpty());
-                loanAmount = Double.parseDouble(loanAmountStr);
-
-                interestType = null;
-
-                do {
-                    typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
-                    if(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable"))){
-                        System.out.println("Type in fix or variable");
-                    }
-                }while(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable")));
-
-                if (typeOfInterest.equalsIgnoreCase("Fix")) {
-                    interestType = TypeOfInterest.FIX_RATE;
-                }
-                if (typeOfInterest.equalsIgnoreCase("variable")) {
-                    interestType = TypeOfInterest.VARIABLE_RATE;
-                }
-
-
-                do{
-                    timeStr = UserInput.readLine("Enter loan time (years):  ");
-                    if(!Utilities.isNumeric(timeStr)|| timeStr.isEmpty()) {
-                        System.out.println("Invalid input");
-                    }
-                }while(!Utilities.isNumeric(timeStr)|| timeStr.isEmpty());
-                time = Double.parseDouble(timeStr);
-
-
-                HashMap<String,Double> tempHash = controller.temporaryHashMap();
-                do{
-                    String otherEquity = UserInput.readLine("Enter other equity name" + Utilities.EOL + "The name of the equity cannot be repeated");
-                    String otherEquitiesValueStr;
-                    do{
-                        otherEquitiesValueStr = UserInput.readLine("Enter other equities value: ");
-                        if(!Utilities.isNumeric(otherEquitiesValueStr)|| otherEquitiesValueStr.isEmpty()) {
-                            System.out.println("Invalid input");
-                        }
-                    }while(!Utilities.isNumeric(otherEquitiesValueStr)|| otherEquitiesValueStr.isEmpty());
-                    double otherEquitiesValue= Double.parseDouble(otherEquitiesValueStr);
-
-                    System.out.println(controller.addEquities(otherEquity,otherEquitiesValue,tempHash));
-                    addEquities = UserInput.readLine("Do you want to add another equity?");
-                }while(addEquities.equalsIgnoreCase("Yes"));
-
-                do {
+                    System.out.println(" Loan options: " + Utilities.EOL +
+                            "1. Personal loan " + Utilities.EOL +
+                            "2. House loan " + Utilities.EOL +
+                            "3. Car loan" + Utilities.EOL +
+                            "4. Unsecured loan");
+                    TypesOfLoan typesOfLoan = null;
+                    String newOptionStr;
                     do {
-                        cashContributionStr = UserInput.readLine("Enter cash contribution:" + Utilities.EOL + "Should be at least 15% of the total loan amount");
-                        if (!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty()) {
+                       newOptionStr = UserInput.readLine("Enter loan option: ");
+                        if (!Utilities.isNumeric(newOptionStr) || newOptionStr.isEmpty()) {
                             System.out.println("Invalid input");
                         }
-                    } while (!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty());
-                    cashContribution = Double.parseDouble(cashContributionStr);
-                }while(!controller.isCashContributionCorrect(cashContribution,loanAmount));
+                    } while (!Utilities.isNumeric(newOptionStr) || newOptionStr.isEmpty());
+                    int newOption = Integer.parseInt(newOptionStr);
+                    double houseWorth=0;
 
-                message =  controller.loanRequestWithOutCoSigner(loanAmount,typesOfLoan,interestType,houseWorth,time,tempHash,cashContribution);
-                System.out.println(message);
+                    do {
+                        switch (newOption) {
+                            case 1:
+                                typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
+                                String houseWorthStr;
+                                do {
+                                    houseWorthStr = UserInput.readLine("Enter the house value: ");
+                                    if (!Utilities.isNumeric(houseWorthStr) || houseWorthStr.isEmpty()) {
+                                        System.out.println("Invalid input");
+                                    }
+                                } while (!Utilities.isNumeric(houseWorthStr) || houseWorthStr.isEmpty());
+                                houseWorth = Double.parseDouble(houseWorthStr);
+                                break;
+                            case 2:
+                                typesOfLoan = TypesOfLoan.HOUSE_LOAN;
+                                break;
+                            case 3:
+                                typesOfLoan = TypesOfLoan.CAR_LOAN;
+                                break;
+                            case 4:
+                                typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
+                                break;
+                            default:
+                                do {
+                                    System.out.println("Invalid choice. Please select between option 1 to 4. ");
+                                    newOptionStr = UserInput.readLine("Enter loan option: ");
+                                    if (!Utilities.isNumeric(newOptionStr) || newOptionStr.isEmpty()) {
+                                        System.out.println("Invalid input");
+                                    }
+                                } while (!Utilities.isNumeric(newOptionStr) || newOptionStr.isEmpty());
+                                newOption = Integer.parseInt(newOptionStr);
+
+                        }
+                    } while (newOption > 4 || newOption < 1);
+                    String loanAmountStr;
+                    do {
+                        loanAmountStr = UserInput.readLine("Enter the amount of loan: ");
+                        if (!Utilities.isNumeric(loanAmountStr) || loanAmountStr.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumeric(loanAmountStr) || loanAmountStr.isEmpty());
+                    double loanAmount = Double.parseDouble(loanAmountStr);
+
+                    TypeOfInterest interestType = null;
+                    String typeOfInterest;
+                    do {
+                        typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
+                        if (!(typeOfInterest.equalsIgnoreCase("fix") || typeOfInterest.equalsIgnoreCase("variable"))) {
+                            System.out.println("Type in fix or variable");
+                        }
+                    } while (!(typeOfInterest.equalsIgnoreCase("fix") || typeOfInterest.equalsIgnoreCase("variable")));
+
+                    if (typeOfInterest.equalsIgnoreCase("Fix")) {
+                        interestType = TypeOfInterest.FIX_RATE;
+                    }
+                    if (typeOfInterest.equalsIgnoreCase("variable")) {
+                        interestType = TypeOfInterest.VARIABLE_RATE;
+                    }
+
+                    String timeStr;
+                    do {
+                        timeStr = UserInput.readLine("Enter loan time (years):  ");
+                        if (!Utilities.isNumeric(timeStr) || timeStr.isEmpty()) {
+                            System.out.println("Invalid input");
+                        }
+                    } while (!Utilities.isNumeric(timeStr) || timeStr.isEmpty());
+                    double time = Double.parseDouble(timeStr);
+
+
+                    HashMap<String, Double> tempHash = controller.temporaryHashMap();
+                    String addEquities;
+                    double fifteenPercent= loanAmount*0.15;
+                    do {
+                        String otherEquity = UserInput.readLine("Enter other equity name" + Utilities.EOL + "The name of the equity cannot be repeated(" + fifteenPercent + ").");
+                        String otherEquitiesValueStr;
+
+                        do {
+                            otherEquitiesValueStr = UserInput.readLine("Enter other equities value: ");
+                            if (!Utilities.isNumeric(otherEquitiesValueStr) || otherEquitiesValueStr.isEmpty()) {
+                                System.out.println("Invalid input");
+                            }
+                        } while (!Utilities.isNumeric(otherEquitiesValueStr) || otherEquitiesValueStr.isEmpty());
+                        double otherEquitiesValue = Double.parseDouble(otherEquitiesValueStr);
+
+                        System.out.println(controller.addEquities(otherEquity, otherEquitiesValue, tempHash));
+                        addEquities = UserInput.readLine("Do you want to add another equity?");
+                    } while (addEquities.equalsIgnoreCase("Yes"));
+
+                    String cashContributionStr;
+                    double cashContribution;
+
+                    do {
+                        do {
+                            cashContributionStr = UserInput.readLine("Enter cash contribution:" + Utilities.EOL + "Should be at least 15% of the total loan amount");
+                            if (!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty()) {
+                                System.out.println("Invalid input");
+                            }
+                        } while (!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty());
+                         cashContribution = Double.parseDouble(cashContributionStr);
+                    } while (!controller.isCashContributionCorrect(cashContribution, loanAmount));
+
+                    message = controller.loanRequestWithOutCoSigner(loanAmount, typesOfLoan, interestType, houseWorth, time, tempHash, cashContribution);
+                    System.out.println(message);
+                }
                 handleCustomerMenu(controller);
             break;
             case 6: handleUpdateLoanRequest(controller);//  otherService.addOptions(5,"Loan status"); //? should we?
@@ -954,6 +976,8 @@ public class MainMenu {
                 System.out.println(controller.updateInterestType(loanID, interestType));
                 handleUpdateLoanRequest(controller);
                 break;
+            case 8:
+                handleCustomerMenu(controller);
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                 handleUpdateLoanRequest(controller);
