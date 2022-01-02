@@ -1036,7 +1036,18 @@ public class MainMenu {
                     break;
                 case 5:
                     personalNo = UserInput.readLine("Please type the personal number for the customer:");
-                    String newPassword = UserInput.readLine("Please type the new password:");
+                    do {
+                        if(!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo)){
+                            System.out.println("pLeaase enter the personal number of an existing customer.");
+                        }
+                    }while(!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo));String newPassword = UserInput.readLine("Please type the new password:");
+                    do {
+                        newPassword = UserInput.readLine("Please type the new password:");
+                        if(!controller.isStrongPassword(newPassword)){
+                            System.out.println("The password must have a minimum of 8 characters in length" + Utilities.EOL +
+                                    "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                        }
+                    }while(!controller.isStrongPassword(newPassword));
                     System.out.println(controller.updateCustomerPassword(personalNo, newPassword));
                     handleEmployeeMenu(controller);
                     break;
