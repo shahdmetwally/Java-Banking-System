@@ -126,7 +126,7 @@ public class Controller {
      */
     public String updateCustomerName (String newName) throws Exception {
         ((Customer) user).setName(newName);
-        return "Customer " + ((Customer) user).getPersonalNo() + "name has successfully update to " + newName;
+        return "Customer " + ((Customer) user).getPersonalNo() + " name has successfully update to " + newName;
     }
 
     public String updateSalary(double salary) {
@@ -181,12 +181,19 @@ public class Controller {
     public String updateEquities(String loanRequestID, String otherEquity,double equityNewValue){
         if(bank.getLoanRequests().containsKey(loanRequestID)) {
             LoanRequest loanRequest =  bank.getSpecificLoanRequest(loanRequestID);
-            loanRequest.getEquities().remove(otherEquity);
-            loanRequest.getEquities().put(otherEquity,equityNewValue);
-            return loanRequest.printEquities();
+            for(Map.Entry<String,Double> equity : loanRequest.getEquities().entrySet())
+                if(equity.getKey().equals(otherEquity)){
+                    loanRequest.getEquities().remove(otherEquity);
+                    loanRequest.getEquities().put(otherEquity,equityNewValue);
+                    return loanRequest.printEquities();
+                }else{
+                    return "This equity doesn't exist";
+                }
+
         }else {
             return "This LoanRequest has not been found.";
         }
+        return "";
     }
 
     public String updateTimePeriod(String loanRequestID, int loanPeriod ) {
@@ -258,7 +265,6 @@ public class Controller {
         StartProgram.jsonLoanRequests.add(loanRequest);
         employeeInbox.addLoanRequest(loanRequest);
 
-
         return "Loan request has been sent. The loan application ID is: LR" + user.getPersonalNo();
     }
     public HashMap<String,Double> temporaryHashMap(){
@@ -268,7 +274,7 @@ public class Controller {
     }
     public String addEquities(String equityName, double equityValue,HashMap<String,Double> tempHashmap){
         if(tempHashmap.containsKey(equityName)){
-            return "The equity name cannot be the same";
+            return "The equity name cannot be the same, therefore not added";
         }
         tempHashmap.put(equityName,equityValue);
         return "Successfully added";

@@ -176,6 +176,9 @@ public class MainMenu {
         String userName = "";
         do {
             userName = UserInput.readLine("Enter username: ");
+            if(!bank.getUsers().containsKey(userName)){
+                System.out.println("Invalid input or user doesn't exists");
+            }
         }while(!bank.getUsers().containsKey(userName));
             String password = UserInput.readLine("Enter password: ");
             Controller controller = new Controller(userName, password,bank);
@@ -402,13 +405,19 @@ public class MainMenu {
 
     public void handleOtherService(Controller controller){
         this.otherService.printOptions();
-        int userChoice = UserInput.readInt("Type in the option: ");
+        String userChoiceStr ;
+        do{
+            userChoiceStr  = UserInput.readLine("Type in the option: ");
+            if(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty()) {
+                System.out.println("Invalid input");
+            }
+        }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
+        int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice) {
             case 0:
                 try{
                     String newName= UserInput.readLine("Enter new name: ");
-                    controller.updateCustomerName(newName);
-                    System.out.println(controller);
+                    System.out.println(controller.updateCustomerName(newName));
                 } catch (Exception exception) {
                     System.out.println(exception.getMessage());
                 }
@@ -486,6 +495,13 @@ public class MainMenu {
                             break;
                         default:
                             System.out.println("Invalid choice. Please select between option 1 to 4. ");
+                            do{
+                                newOptionStr  = UserInput.readLine("Enter loan option: ");
+                                if(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty()) {
+                                    System.out.println("Invalid input");
+                                }
+                            }while(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty());
+                            newOption = Integer.parseInt(newOptionStr);
                     }
                 }while (newOption>4 ||newOption < 1);
 
@@ -616,7 +632,15 @@ public class MainMenu {
                             typesOfLoan = TypesOfLoan.UNSECURED_LOAN;
                             break;
                         default:
-                            System.out.println("Invalid choice. Please select between option 1 to 4. ");
+                            do{
+                                System.out.println("Invalid choice. Please select between option 1 to 4. ");
+                                newOptionStr  = UserInput.readLine("Enter loan option: ");
+                                if(!Utilities.isNumeric(newOptionStr)|| newOptionStr.isEmpty()) {
+                                    System.out.println("Invalid input");
+                                }
+                            }while(!Utilities.isNumeric(newOptionStr)|| newOptionStr.isEmpty());
+                            newOption = Integer.parseInt(newOptionStr);
+
                     }
                 }while (newOption>4 ||newOption < 1);
 
@@ -735,15 +759,22 @@ public class MainMenu {
 
     public void handleUpdateLoanRequest(Controller controller){
         this.updateLoanRequest.printOptions();
-        int userChoice = UserInput.readInt("Type in the option: ");
+        String userChoiceStr ;
+        do{
+            userChoiceStr  = UserInput.readLine("Type in the option: ");
+            if(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty()) {
+                System.out.println("Invalid input");
+            }
+        }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
+        int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice) {
             case 0:
                 String ID = UserInput.readLine("Please type in the loanID: ");
                 do {
-                    if (!bank.getLoans().containsKey(ID)) {
+                    if (!bank.getLoanRequests().containsKey(ID)) {
                         ID = UserInput.readLine("Please enter an existing loanID: ");
                     }
-                }while(!bank.getLoans().containsKey(ID));
+                }while(!bank.getLoanRequests().containsKey(ID));
                 System.out.println(" Loan options: " + Utilities.EOL +
                         "1. Personal loan " + Utilities.EOL +
                         "2. House loan "+ Utilities.EOL +
@@ -783,6 +814,14 @@ public class MainMenu {
                             break;
                         default:
                             System.out.println("Invalid choice. Please select between option 1 to 4. ");
+                            do{
+                                newOptionStr  = UserInput.readLine("Enter loan option: ");
+                                if(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty()) {
+                                    System.out.println("Invalid input");
+                                }
+                            }while(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty());
+                                newOption = Integer.parseInt(newOptionStr);
+
                     }
                 }while (newOption>4 ||newOption < 1);
 
@@ -792,15 +831,11 @@ public class MainMenu {
             case 1:
                 ID = UserInput.readLine("Please type in the loanID: ");
                 do {
-                    if (!bank.getLoans().containsKey(ID)) {
+                    if (!bank.getLoanRequests().containsKey(ID)) {
                         ID = UserInput.readLine("Please enter an existing loanID: ");
                     }
-                }while(!bank.getLoans().containsKey(ID));
-                do {
-                    if (!bank.getLoans().containsKey(ID)) {
-                        ID = UserInput.readLine("Please enter an existing loanID: ");
-                    }
-                }while(!bank.getLoans().containsKey(ID));
+                }while(!bank.getLoanRequests().containsKey(ID));
+
                 String otherEquity = UserInput.readLine("Please type in the equity you want to change: ");
                 String newEquityValueStr = UserInput.readLine("Please type the new equity value: ");
                 do{
@@ -816,10 +851,10 @@ public class MainMenu {
             case 2:
                 ID = UserInput.readLine("Please type in the loanID: ");
                 do {
-                    if (!bank.getLoans().containsKey(ID)) {
+                    if (!bank.getLoanRequests().containsKey(ID)) {
                         ID = UserInput.readLine("Please enter an existing loanID: ");
                     }
-                }while(!bank.getLoans().containsKey(ID));
+                }while(!bank.getLoanRequests().containsKey(ID));
                 String loanPeriodStr = UserInput.readLine("Please type in the loan period: ");
                 do {
                     if (!Utilities.isNumber(loanPeriodStr)) {
@@ -833,10 +868,10 @@ public class MainMenu {
             case 3:
                 ID = UserInput.readLine("Please type in the loanID: ");
                 do {
-                    if (!bank.getLoans().containsKey(ID)) {
+                    if (!bank.getLoanRequests().containsKey(ID)) {
                         ID = UserInput.readLine("Please enter an existing loanID: ");
                     }
-                }while(!bank.getLoans().containsKey(ID));
+                }while(!bank.getLoanRequests().containsKey(ID));
                 String cashContributionStr = UserInput.readLine("Please type in the cash contribution");
                 do{
                     if(!Utilities.isNumeric(cashContributionStr)){
@@ -850,10 +885,10 @@ public class MainMenu {
             case 4:
                 String loanID = UserInput.readLine("Enter the loan ID: ");
                 do {
-                    if(!bank.getLoans().containsKey(loanID)){
+                    if(!bank.getLoanRequests().containsKey(loanID)){
                         loanID = UserInput.readLine("Enter an existing loan ID. ");
                     }
-                }while(!bank.getLoans().containsKey(loanID));
+                }while(!bank.getLoanRequests().containsKey(loanID));
                 String coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
                 System.out.println(controller.updateCoSigner_name(loanID,coSigner_name));
                 handleUpdateLoanRequest(controller);
@@ -861,10 +896,10 @@ public class MainMenu {
             case 5:
                 loanID = UserInput.readLine("Enter the loan ID: ");
                 do {
-                    if(!bank.getLoans().containsKey(loanID)){
+                    if(!bank.getLoanRequests().containsKey(loanID)){
                         loanID = UserInput.readLine("Enter an existing loan ID. ");
                     }
-                }while(!bank.getLoans().containsKey(loanID));
+                }while(!bank.getLoanRequests().containsKey(loanID));
                 String personalNr = UserInput.readLine("Please type in the new personal number: ");
                 if(!controller.isPersonNrCorrect(personalNr)) {
                     do {
@@ -877,10 +912,10 @@ public class MainMenu {
             case 6://  otherService.addOptions(5,"Loan status"); //? should we?
                 loanID = UserInput.readLine("Enter the loan ID: ");
                 do {
-                    if(!bank.getLoans().containsKey(loanID)){
+                    if(!bank.getLoanRequests().containsKey(loanID)){
                         loanID = UserInput.readLine("Enter an existing loan ID. ");
                     }
-                }while(!bank.getLoans().containsKey(loanID));
+                }while(!bank.getLoanRequests().containsKey(loanID));
 
                 String coSigner_salaryStr;
                 do {
@@ -897,10 +932,10 @@ public class MainMenu {
             case 7:
                 loanID = UserInput.readLine("Enter the loan ID: ");
                 do {
-                    if(!bank.getLoans().containsKey(loanID)){
+                    if(!bank.getLoanRequests().containsKey(loanID)){
                         loanID = UserInput.readLine("Enter an existing loan ID. ");
                     }
-                }while(!bank.getLoans().containsKey(loanID));
+                }while(!bank.getLoanRequests().containsKey(loanID));
                 String typeOfInterest;
                 do {
                     typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
