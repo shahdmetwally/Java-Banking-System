@@ -159,8 +159,8 @@ public class LoanRequest extends Request{
         return equities;
     }
 
-    public String getInterestType() {
-        return interestType.toString();
+    public TypeOfInterest getInterestType() {
+        return interestType;
     }
     public void setInterestType(TypeOfInterest interestType) {
         this.interestType = interestType;

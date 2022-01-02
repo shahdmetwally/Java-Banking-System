@@ -2,6 +2,7 @@ package Loans;
 
 import Classes.Customer;
 import Utilities.Utilities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +11,7 @@ public class Loan {
 
     private String loanID;
     private String name;
+    private String personalNr;
     private double loanAmount;
     private TypesOfLoan typesOfLoan;
     private double loanPeriod;
@@ -32,6 +34,7 @@ public class Loan {
                 String coSigner_name, String coSigner_personalNr, double coSigner_salary){
 
         this.loanID = "L"+ customer.getPersonalNo();
+        this.personalNr = customer.getPersonalNo();
         this.name = customer.getFullName();
         this.typesOfLoan = typesOfLoan;
         if(typesOfLoan == TypesOfLoan.HOUSE_LOAN){
@@ -55,6 +58,7 @@ public class Loan {
                 double loanPeriod, HashMap<String,Double> hashMap, double cashContribution){
 
         this.loanID = "L"+ customer.getPersonalNo();
+        this.personalNr = customer.getPersonalNo();
         this.name = customer.getFullName();
         this.typesOfLoan = typesOfLoan;
         if(typesOfLoan == TypesOfLoan.HOUSE_LOAN){
@@ -106,6 +110,11 @@ public class Loan {
     public double getLoanAmount() {
         return loanAmount;
     }
+
+    public String getPersonalNr() {
+        return personalNr;
+    }
+
     public String printEquities(){
         StringBuilder print = new StringBuilder();
         for (Map.Entry<String, Double> entry : equities.entrySet()) {
@@ -114,10 +123,12 @@ public class Loan {
         return print.toString();
     }
 
+    @JsonIgnore
     public String getId() {
         return loanID;
     }
 
+    @JsonIgnore
     public double getAmount() {
         return loanAmount;
     }
@@ -130,6 +141,7 @@ public class Loan {
         return loanPeriod;
     }
 
+    @JsonIgnore
     public TypeOfInterest getTypeOfInterest(){
         return interestType;
     }
@@ -164,6 +176,10 @@ public class Loan {
         }
     }
 
+    public void setInterestType(TypeOfInterest interestType) {
+        this.interestType = interestType;
+    }
+
     public double getCoSigner_salary() {
         return coSigner_salary;
     }
@@ -171,6 +187,8 @@ public class Loan {
     public void setCoSigner_salary(double coSigner_salary) {
         this.coSigner_salary = coSigner_salary;
     }
+
+    @JsonIgnore
     public double getMortgagePercentage(){
         double loanSizePercentage = loanAmount / houseWorth;
         if(loanSizePercentage > 0.7){

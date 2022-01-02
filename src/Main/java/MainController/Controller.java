@@ -292,7 +292,7 @@ public class Controller {
         LoanRequest loanRequest = new LoanRequest(((Customer) user), amount, typesOfLoan,houseWorth, typeOfInterest, time, hashMap, cashContribution);
         bank.addLoanApplication(user.getPersonalNo(),loanRequest);
         bank.addLoanRequest(loanRequest);
-        StartProgram.jsonBank.get("Loan requests").add(loanRequest);
+        StartProgram.jsonLoanRequests.add(loanRequest);
         employeeInbox.addLoanRequest(loanRequest);
 
         return "Loan request has been sent. The loan application ID is: LA" + user.getPersonalNo();
@@ -442,14 +442,16 @@ public class Controller {
             }
             Loan loan = new Loan(customer,amount,typesOfLoan,houseValue,interestRate,interestType,loanPeriod,hashMap,cashContribution,coSigner_name,coSigner_personalNr,coSigner_Salary);
             bank.addLoan(customer.getPersonalNo(),loan);
+            StartProgram.jsonLoans.add(loan);
             bank.removeLoanRequest(loanRequest.getPersonalNr(),loanRequest);
             bank.removeLoanRequest(loanRequest);
+            StartProgram.jsonLoanRequests.remove(loanRequest);
             // Remove from eployees request queue.
 
             String totalMessage = message + Utilities.EOL + loan.printRequest();
             String tittle = "Decline loan request. ID: " + loanRequestID;
             sendMessageToCustomers(tittle, totalMessage);
-        }    return "Approve loan  has been send.";
+        }    return "The loan has been approved.";
     }
 
     // connect to  inbox
@@ -657,7 +659,7 @@ public class Controller {
     public String setVariableInterestRate(double interestRate){
         bank.setVariableInterestRate(interestRate);
         bank.setAllVariableInterest(interestRate);
-        return " The variable interest rate has been changed to " + Utilities.truncateForPrint(interestRate);
+        return "The variable interest rate has been changed to " + Utilities.truncateForPrint(interestRate);
     }
     /*2
      manager.addOptions(0,"Show Bank Balace");
@@ -752,7 +754,7 @@ public class Controller {
 
     public Manager getManager (String personalNo){
         if (users.containsKey(personalNo)) {
-            return ((Manager) user);
+            return ((Manager) users.get(personalNo));
         } else {
             return null;
         }

@@ -212,7 +212,7 @@ public class MainMenu {
                     UserInput.input.close();
                     ObjectMapper mapper = new ObjectMapper();
                     try {
-                        mapper.writeValue(Paths.get("users.json").toFile(), StartProgram.jsonBank);
+                        mapper.writeValue(Paths.get("bank.json").toFile(), StartProgram.jsonBank);
 
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
@@ -521,10 +521,13 @@ public class MainMenu {
                 }while(addEquities.equalsIgnoreCase("Yes"));
 
                 String cashContributionStr;
-                double cashContribution;
+                double cashContribution=0;
+                double fifteenPercent = loanAmount * 0.15;
                 do {
                     do {
-                        cashContributionStr = UserInput.readLine("Enter cash contribution:" + Utilities.EOL + "Should be at least 15% of the total loan amount");
+                        cashContributionStr = UserInput.readLine("Enter cash contribution:" + Utilities.EOL + "Should be at least 15% of the total loan amount (" + fifteenPercent + ").");
+
+
                         if (!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty()) {
                             System.out.println("Invalid input");
                         }
@@ -791,7 +794,7 @@ public class MainMenu {
     }
 
     public void handleEmployeeMenu(Controller controller) {
-        if(controller.getUser().getRole() == Role.EMPLOYEE) {
+        if(controller.getUser().getRole() == Role.EMPLOYEE ||controller.getUser().getRole() == Role.MANAGER ) {
             this.employee.printOptions();
             int userChoice = UserInput.readInt("Type in the option");
 

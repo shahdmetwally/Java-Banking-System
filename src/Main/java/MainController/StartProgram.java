@@ -22,6 +22,7 @@ public class StartProgram {
     public static ArrayList<Manager> jsonManagers = new ArrayList<>();
     public static ArrayList<User> jsonAdmin = new ArrayList<>();
     public static ArrayList<LoanRequest> jsonLoanRequests = new ArrayList<>();
+    public static ArrayList<Loan> jsonLoans = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
 
@@ -32,9 +33,10 @@ public class StartProgram {
         jsonBank.put("managers", jsonManagers);
         jsonBank.put("admin", jsonAdmin);
         jsonBank.put("Loan requests", jsonLoanRequests);
+        jsonBank.put("Loans", jsonLoans);
 
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(new File("users.json"));
+        JsonNode root = mapper.readTree(new File("bank.json"));
         JsonNode employeeNode = root.path("employees");
         for (int i = 0; i < employeeNode.size(); i++) {
             Employee employee = mapper.treeToValue(employeeNode.get(i), Employee.class);
@@ -65,17 +67,24 @@ public class StartProgram {
 
         JsonNode loanRequestNode = root.path("Loan requests");
         for (int i = 0; i < loanRequestNode.size(); i++) {
-            LoanRequest loan = mapper.treeToValue(loanRequestNode.get(i), LoanRequest.class);
-            jsonLoanRequests.add(loan);
-            bank.addLoanRequest(loan);
-            bank.addLoanApplication(loan.getPersonalNr(), loan);
+            LoanRequest loanRequest = mapper.treeToValue(loanRequestNode.get(i), LoanRequest.class);
+            jsonLoanRequests.add(loanRequest);
+            bank.addLoanRequest(loanRequest);
+            bank.addLoanApplication(loanRequest.getPersonalNr(), loanRequest);
+        }
 
+        JsonNode loansNode = root.path("Loans");
+        for (int i = 0; i < loansNode.size(); i++) {
+            Loan loan = mapper.treeToValue(loansNode.get(i), Loan.class);
+            jsonLoans.add(loan);
+            bank.addLoan(loan.getPersonalNr(),loan);
         }
 
 
 
         bank.showAllUser();
         bank.showAllLoanRequests();
+        bank.getLoans().toString();
         System.out.println(bank.getLoanRequests());
 
 
@@ -88,7 +97,7 @@ public class StartProgram {
               MainMenu bankMenu = new MainMenu(bank);
               bankMenu.handleMainMenu();
               System.out.println(jsonBank);
-              mapper.writeValue(Paths.get("users.json").toFile(), jsonBank);
+              mapper.writeValue(Paths.get("bank.json").toFile(), jsonBank);
           }catch (Exception exception){
               System.out.println(exception.getMessage());
           }
