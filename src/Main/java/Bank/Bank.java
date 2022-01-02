@@ -55,11 +55,8 @@ public class Bank {
     public double getTotalCustomerBalance(){
         double balance = 0;
         String message = "Banks total balance: ";
-
-        for (Map.Entry<String, User> user : users.entrySet()) {
-            if(user.getValue() instanceof Customer){
-                 balance += ((Customer) user.getValue()).getBalance();
-            }
+        for (Map.Entry<String, User> entry : users.entrySet()) {
+            balance += ((Customer) entry.getValue()).getBalance();
         }
         return balance;
     }
@@ -224,4 +221,3 @@ public class Bank {
 
 
 }
-
