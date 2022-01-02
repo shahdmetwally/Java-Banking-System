@@ -1002,7 +1002,7 @@ public class MainMenu {
 
                     message = controller.calculateDTI(monthlyDebt,grossIncome);
                     System.out.println(message);
-
+                    break;
                 case 4://employee.addOptions(4,"Calculate mortgage.");
                     String loanStr;
                     do {
@@ -1033,6 +1033,7 @@ public class MainMenu {
 
                     message = controller.calculateMonthlyMortgage(loan,interestRate,loanPeriod);
                     System.out.println(message);
+                    break;
                 case 5:
                     personalNo = UserInput.readLine("Please type the personal number for the customer:");
                     do {
