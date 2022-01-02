@@ -434,11 +434,11 @@ public class MainMenu {
                 String newOptionStr;
                 do{
                     newOptionStr  = UserInput.readLine("Enter loan option: ");
-                    if(!Utilities.isNumeric(newOptionStr)|| newOptionStr.isEmpty()) {
+                    if(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty()) {
                         System.out.println("Invalid input");
                     }
-                }while(!Utilities.isNumeric(newOptionStr)|| newOptionStr.isEmpty());
-                int newOption = Integer.parseInt(newOptionStr);// MIGHT NEED ONE FOR INT
+                }while(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty());
+                int newOption = Integer.parseInt(newOptionStr);
 
 
                 do {
@@ -715,13 +715,27 @@ public class MainMenu {
                         "3. Car loan"+ Utilities.EOL +
                         "4. Unsecured loan");
                 TypesOfLoan typesOfLoan = null;
-                int newOption = UserInput.readInt("Enter loan option: ");
+                String newOptionStr;
+                do{
+                    newOptionStr  = UserInput.readLine("Enter loan option: ");
+                    if(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty()) {
+                        System.out.println("Invalid input");
+                    }
+                }while(!Utilities.isNumber(newOptionStr)|| newOptionStr.isEmpty());
+                int newOption = Integer.parseInt(newOptionStr);
                 double houseWorth = 0;
                 do {
                     switch (newOption) {
                         case 1:
                             typesOfLoan = TypesOfLoan.PERSONAL_LOAN;
-                            houseWorth = UserInput.readDouble("Enter the house value: ");
+                            String houseWorthStr;
+                            do{
+                                houseWorthStr   = UserInput.readLine("Enter the house value: ");
+                                if(!Utilities.isNumeric(houseWorthStr)|| houseWorthStr.isEmpty()) {
+                                    System.out.println("Invalid input");
+                                }
+                            }while(!Utilities.isNumeric(houseWorthStr)|| houseWorthStr.isEmpty());
+                            houseWorth= Double.parseDouble(houseWorthStr);
                             break;
                         case 2:
                             typesOfLoan = TypesOfLoan.HOUSE_LOAN;
