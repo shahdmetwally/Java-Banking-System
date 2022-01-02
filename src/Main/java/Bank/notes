@@ -10,3 +10,8 @@ and send a message with the details of the loan and the loan ID
  to the user and insert the loan amount in the user account.
 
 If the loan is decline, delete the request and send message to the user.
+
+
+
+-------------------------- MISSING METHODS
+Missing method for case 7 in handleAdministration

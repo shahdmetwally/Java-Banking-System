@@ -802,8 +802,11 @@ public class Controller {
     }
 
     public boolean isCashContributionCorrect(double amount,double loanAmount){
-        float percentage = (float) (loanAmount*(15.0/100));
-        return !(amount < percentage || amount>loanAmount);
+        float percentage = (float) (loanAmount*0.15);
+        if(amount<percentage){
+            return false;
+        }
+        return true;
     }
 
     public boolean isStrongPassword(String password){
