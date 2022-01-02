@@ -375,6 +375,7 @@ public class MainMenu {
                     handleCustomerMenu(controller);
                     break;
                 case 9:// inbox
+                    handleCustomerInbox(controller);
                     break;
                 case 10:
                     handleOtherService(controller);
@@ -1285,10 +1286,12 @@ public class MainMenu {
                     }
                     handleEmployeeMenu(controller);
                     break;
-                case 10: // we dont hav the method
-                    System.out.println(controller.getEmployeeInbox());
+                case 10:
+                    handleEmployeeInbox(controller);
+                    // we dont hav the method
+                    //System.out.println(controller.getEmployeeInbox());
 
-                    handleEmployeeMenu(controller);
+                    //handleEmployeeMenu(controller);
                     break;
                 case 11:
                     handleManagerMenu(controller);
@@ -1707,9 +1710,11 @@ public class MainMenu {
                     }
                     handleAdministration(controller);
                     break;
-                case 6:// apply for vacation
+                case 6:
                     handleMainMenu();
                     break;
+                case 7:
+                    break; //Show all managers, method is missing
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                     handleAdministration(controller);
