@@ -378,10 +378,10 @@ public class Controller {
             bank.removeLoanRequest(loanRequest.getPersonalNr(), loanRequest);
             bank.removeLoanRequest(loanRequest);
             // remove from employee request?
-            String tittle = "Decline loan request. ID: " + loanRequestID;
-            sendMessageToCustomers(tittle, totalMessage);
+            String title = "Decline loan request. ID: " + loanRequestID;
+            sendMessageToCustomers(title, totalMessage);
         }
-        return " Loan decline message has been send";
+        return "Loan decline message has been send";
     }
     // add the connection to the inbox. remove from queue in the employee.
 
@@ -634,17 +634,17 @@ public class Controller {
         return "The variable interest rate has been changed to " + Utilities.truncateForPrint(interestRate);
     }
 
-    public String approveCardRequest(String personalNr, String cardNr, int cvc, String expirationDate, int code) throws Exception {
+    public String approveCardRequest(String cardRequestID, String cardNr, int cvc, String expirationDate, int code) throws Exception {
         String message="";
-        if(bank.getCardRequests().containsKey(personalNr)){
-            CardRequest cardRequest = bank.getCardRequests().get(personalNr);
+        if(bank.getCardRequests().containsKey(cardRequestID)){
+            CardRequest cardRequest = bank.getCardRequests().get(cardRequestID);
 
-            Customer customer = (Customer) bank.getUsers().get(personalNr);
+            Customer customer = (Customer) bank.getUsers().get(cardRequest.getPersonalNr());
             customer.createDebitCard(cardNr, cvc, expirationDate, code);
-            bank.removeCardRequest(personalNr, cardRequest);
+            bank.removeCardRequest(cardRequest.getPersonalNr(), cardRequest);
             message = "The card request has been approved.";
         } else {
-            message = "There are no pending card requests for personal number " + personalNr + ".";
+            message = "There are no pending card requests with ID " + cardRequestID + ".";
         }
         return message;
     }

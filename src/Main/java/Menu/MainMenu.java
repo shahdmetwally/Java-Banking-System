@@ -730,7 +730,7 @@ public class MainMenu {
         int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice){
             case 0:
-                controller.viewCustomerMessageInbox();
+                System.out.println(controller.viewCustomerMessageInbox());
                 handleCustomerInbox(controller);
                 break;
             case 1:
@@ -1159,13 +1159,13 @@ public class MainMenu {
 
                     break;
                 case 3:
-                    String personalNr = UserInput.readLine("Enter the customer's personal number: ");
+                    String cardRequestID = UserInput.readLine("Enter the card request ID: ");
                     String cardNr = UserInput.readLine("Enter the card number: ");
                     int cvc = UserInput.readInt("Enter the cvc number: ");
                     String expirationDate = UserInput.readLine("Enter the card's expiration date: ");
                     int code = UserInput.readInt("Enter a code for the card: ");
                     try{
-                        message = controller.approveCardRequest(personalNr, cardNr, cvc, expirationDate, code);
+                        message = controller.approveCardRequest(cardRequestID, cardNr, cvc, expirationDate, code);
                         System.out.println(message);
                     }
                     catch (IllegalAccessException scannerError) {

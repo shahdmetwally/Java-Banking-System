@@ -103,6 +103,7 @@ public class StartProgram {
         System.out.println(bank.getLoans());
         System.out.println(bank.getLoanRequests());
         System.out.println(bank.getEmployeeInbox().toString());
+        System.out.println(bank.getLoanRequests());
         System.out.println(bank.getCardRequests());
 
 

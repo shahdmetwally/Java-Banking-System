@@ -28,7 +28,7 @@ public class EmployeeInbox extends Inbox{
         cardRequests.add(request);
     }
     public void removeCardRequest(CardRequest cardRequest){
-        cardRequests.remove(cardRequest);
+        this.cardRequests.remove(cardRequest);
     }
     public void addLoanRequest(LoanRequest loanRequest){
         loanRequests.add(loanRequest);

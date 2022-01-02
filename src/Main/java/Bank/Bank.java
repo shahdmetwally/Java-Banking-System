@@ -113,6 +113,7 @@ public class Bank {
     public void removeCardRequest(String personalNr, CardRequest inputCardRequest){
         String key = "C" + personalNr;
         this.cardRequests.remove(key,inputCardRequest);
+        employeeInbox.removeCardRequest(inputCardRequest);
     }
     public void removeLoan(Loan loan, String personalNr ){
         String key = "L" + personalNr;
