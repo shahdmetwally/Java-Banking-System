@@ -754,20 +754,53 @@ public class MainMenu {
                 controller.updateTypeOfLoan(ID,typesOfLoan);
                 break;
             case 1:
-                ID= UserInput.readLine("Please type in the loanID: ");
+                ID = UserInput.readLine("Please type in the loanID: ");
+                do {
+                    if (!bank.getLoans().containsKey(ID)) {
+                        ID = UserInput.readLine("Please enter an existing loanID: ");
+                    }
+                }while(!bank.getLoans().containsKey(ID));
                 String otherEquity = UserInput.readLine("Please type in the equity you want to change: ");
-                double newEquityValue = UserInput.readDouble("Please type the new equity value: ");
+                String newEquityValueStr = UserInput.readLine("Please type the new equity value: ");
+                do{
+                    if(!Utilities.isNumeric(newEquityValueStr)){
+                        newEquityValueStr = UserInput.readLine("Please only use digits for the value. ");
+                    }
+                }while(!Utilities.isNumeric(newEquityValueStr));
+                double newEquityValue = Double.parseDouble(newEquityValueStr);
                 controller.updateEquities(ID,otherEquity, newEquityValue);
                 break;
 
             case 2:
-                ID= UserInput.readLine("Please type in the loanID: ");
-                int loanPeriod = UserInput.readInt("Please type in the loan period: ");
+                ID = UserInput.readLine("Please type in the loanID: ");
+                do {
+                    if (!bank.getLoans().containsKey(ID)) {
+                        ID = UserInput.readLine("Please enter an existing loanID: ");
+                    }
+                }while(!bank.getLoans().containsKey(ID));
+                String loanPeriodStr = UserInput.readLine("Please type in the loan period: ");
+                do {
+                    if (!Utilities.isNumber(loanPeriodStr)) {
+                        loanPeriodStr = UserInput.readLine("Plese only use digits for the value. ");
+                    }
+                }while(!Utilities.isNumber(loanPeriodStr));
+                int loanPeriod = Integer.parseInt(loanPeriodStr);
                 controller.updateTimePeriod(ID, loanPeriod);
                 break;
             case 3:
-                ID= UserInput.readLine("Please type in the loanID: ");
-                double cashContribution = UserInput.readDouble("Please type in the cash contribution");
+                ID = UserInput.readLine("Please type in the loanID: ");
+                do {
+                    if (!bank.getLoans().containsKey(ID)) {
+                        ID = UserInput.readLine("Please enter an existing loanID: ");
+                    }
+                }while(!bank.getLoans().containsKey(ID));
+                String cashContributionStr = UserInput.readLine("Please type in the cash contribution");
+                do{
+                    if(!Utilities.isNumeric(cashContributionStr)){
+                        newEquityValueStr = UserInput.readLine("Please only use digits for the value. ");
+                    }
+                }while(!Utilities.isNumeric(cashContributionStr));
+                double cashContribution = Double.parseDouble(cashContributionStr);
                 controller.updateCashContribution(ID, cashContribution);
                 break;
             case 4:
@@ -1112,7 +1145,6 @@ public class MainMenu {
                         if(!bank.getLoans().containsKey(loanID)){
                             loanID = UserInput.readLine("Enter an existing loan ID. ");
                         }
-
                     }while(!bank.getLoans().containsKey(loanID));
                     message =controller.getMortgagePercentage_HouseLoan(loanID);
                     System.out.println(message);
