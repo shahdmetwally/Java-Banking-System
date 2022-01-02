@@ -94,6 +94,7 @@ public class StartProgram {
             CardRequest cardRequest = mapper.treeToValue(cardRequestsNode.get(i), CardRequest.class);
             jsonCardRequests.add(cardRequest);
             bank.addCardRequest(cardRequest.getPersonalNr(), cardRequest);
+            System.out.println(cardRequest.getPersonalNr());
         }
 
 
@@ -102,6 +103,7 @@ public class StartProgram {
         System.out.println(bank.getLoans());
         System.out.println(bank.getLoanRequests());
         System.out.println(bank.getEmployeeInbox().toString());
+        System.out.println(bank.getCardRequests());
 
 
       String option;

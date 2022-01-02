@@ -635,7 +635,7 @@ public class Controller {
     }
 
     public String approveCardRequest(String personalNr, String cardNr, int cvc, String expirationDate, int code) throws Exception {
-        String message="There are no pending card requests for personal number " + personalNr + ".";
+        String message="";
         if(bank.getCardRequests().containsKey(personalNr)){
             CardRequest cardRequest = bank.getCardRequests().get(personalNr);
 
@@ -643,6 +643,8 @@ public class Controller {
             customer.createDebitCard(cardNr, cvc, expirationDate, code);
             bank.removeCardRequest(personalNr, cardRequest);
             message = "The card request has been approved.";
+        } else {
+            message = "There are no pending card requests for personal number " + personalNr + ".";
         }
         return message;
     }

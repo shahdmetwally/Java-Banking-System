@@ -1159,9 +1159,24 @@ public class MainMenu {
 
                     break;
                 case 3:
+                    String personalNr = UserInput.readLine("Enter the customer's personal number: ");
+                    String cardNr = UserInput.readLine("Enter the card number: ");
+                    int cvc = UserInput.readInt("Enter the cvc number: ");
+                    String expirationDate = UserInput.readLine("Enter the card's expiration date: ");
+                    int code = UserInput.readInt("Enter a code for the card: ");
+                    try{
+                        message = controller.approveCardRequest(personalNr, cardNr, cvc, expirationDate, code);
+                        System.out.println(message);
+                    }
+                    catch (IllegalAccessException scannerError) {
+                System.out.println("Invalid input.");
+                    } catch (InputMismatchException exception){
+                System.out.println("Invalid input. Please enter numbers.");
+                    } catch (Exception exception) {
+                System.out.println(exception.getMessage());
+                    }
 
-
-                    handleCustomerMenu(controller);
+                    handleEmployeeMenu(controller);
                     break;
                 case 4:
                     String monthlyDebtStr;
