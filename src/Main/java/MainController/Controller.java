@@ -108,44 +108,6 @@ public class Controller {
         ((Customer) user).getBankAccount().setBudget(budget);
     }
 
-
-    public boolean isBlank(String name) throws Exception {
-        if(name.isBlank()){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isPersonNrCorrect(String personalNo) {
-        if (personalNo.length() == 12) {
-            String yearStr = personalNo.substring(0, 4);
-            int year = Integer.parseInt(yearStr);
-            String monthStr = personalNo.substring(4, 6);
-            int month = Integer.parseInt(monthStr);
-            String dayStr = personalNo.substring(6, 8);
-            int day = Integer.parseInt(dayStr);
-
-            if (year > 2003 || year < 1900) {
-                return false;
-            }
-            if (month > 12 || month < 1) {
-                return false;
-            }
-            if (day > 31 || day < 1) {
-                return false;
-            }
-            return true;
-
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isCashContributionCorrect(double amount,double loanAmount){
-        float percentage = (float) (loanAmount*(15.0/100));
-        return !(amount < percentage || amount>loanAmount);
-    }
-
     public String toString(){
         return getUser().toString();
     }
@@ -393,7 +355,7 @@ public class Controller {
         if(bank.getLoanRequests().containsKey(loanRequestID)){
             return true;
         }
-        throw  new Exception("The loan request was not found");
+        throw new Exception("The loan request was not found");
     }
 
     // check the decline loan request.
@@ -484,11 +446,12 @@ public class Controller {
 
     // change administration password is already in the menu
 
-    public void createManager (String name, String personalNo, String password, double salary, double bonus) throws
+    public String createManager (String name, String personalNo, String password, double salary, double bonus) throws
             Exception {
         User manager = new Manager(name, personalNo, password,  salary, bonus);
         bank.addUser(manager);
         StartProgram.jsonManagers.add((Manager) manager);
+        return "The manager was created succesfully";
     }
 
 
@@ -525,10 +488,10 @@ public class Controller {
 
 
 
-    public void setManagerSalary ( double newSalary, String personalNo){
+    public String setManagerSalary (double newSalary, String personalNo){
         getManager(personalNo).setSalary(newSalary);
+        return "Salary was successfully updated";
     }
-
     public String setManagerPassword (String personalNo, String newPassword){
         getManager(personalNo).setPassword(newPassword);
         return "The password was updated ";
@@ -540,11 +503,13 @@ public class Controller {
 
     // EMPLOYEE CONTROLLER
     //--------------------------------------
-    public Customer getCustomer (String inputPersonNumber){
-        if (users.containsKey(inputPersonNumber)) {
-            return (Customer) users.get(inputPersonNumber);
-        }
-        return null;
+    public Customer getCustomer (String personalNo) {
+        Customer customer=null;
+        if (users.containsKey(personalNo)) {
+            if (users.get(personalNo) instanceof Customer) {
+                customer = ((Customer) users.get(personalNo));
+            }
+        } return customer;
     }
 
     public String viewSalary () {
@@ -614,10 +579,12 @@ public class Controller {
     }
 
     public Employee getEmployee (String inputPersonNumber){
+        Employee employee=null;
         if (users.containsKey(inputPersonNumber)) {
-            return (Employee) users.get(inputPersonNumber);
-        }
-        return null;
+            if (users.get(inputPersonNumber) instanceof Employee) {
+                employee = ((Employee) users.get(inputPersonNumber));
+            }
+        } return employee;
     }
 
 
@@ -752,7 +719,8 @@ public class Controller {
     }
 
 
-    public Manager getManager (String personalNo){
+    public Manager getManager (String personalNo) {
+        Manager manager=null;
         if (users.containsKey(personalNo)) {
             return ((Manager) users.get(personalNo));
         } else {
@@ -761,7 +729,8 @@ public class Controller {
     }
 
     // show the manager or the admin do this?
-    public void promoteEmployee (String personalNo,double newSalary, double bonus) throws Exception {
+    public String promoteEmployee (String personalNo,double newSalary, double bonus) throws Exception {
+        String message="";
         Employee employee = getEmployee(personalNo);
         if (employee.getPersonalNo().equals(personalNo)) {
             String name = employee.getFullName();
@@ -769,10 +738,81 @@ public class Controller {
             Manager newEmployee = new Manager(name, personalNo, password, newSalary, bonus);
             bank.removeUser(employee);
             bank.addUser(newEmployee);// Example on how to find specific attribute, also need to give it more access
+            message = "Employee was successfully promoted. ";
+        }
+        return message;
+    }
+
+        // METHODS TO CHECK IN THE MAIN MENU
+
+    public boolean isBlank(String name) throws Exception {
+        if(name.isBlank()){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isPersonNrCorrect(String personalNo) {
+        if (personalNo.length() == 12) {
+            String yearStr = personalNo.substring(0, 4);
+            int year = Integer.parseInt(yearStr);
+            String monthStr = personalNo.substring(4, 6);
+            int month = Integer.parseInt(monthStr);
+            String dayStr = personalNo.substring(6, 8);
+            int day = Integer.parseInt(dayStr);
+
+            if (year > 2003 || year < 1900) {
+                return false;
+            }
+            if (month > 12 || month < 1) {
+                return false;
+            }
+            if (day > 31 || day < 1) {
+                return false;
+            }
+            return true;
+
+        } else {
+            return false;
         }
     }
 
+    public boolean isCashContributionCorrect(double amount,double loanAmount){
+        float percentage = (float) (loanAmount*(15.0/100));
+        return !(amount < percentage || amount>loanAmount);
+    }
 
+    public boolean isStrongPassword(String password){
+        boolean hasDigits = password.matches(".*\\d+.*");
+        boolean hasUpperCase = password.matches(".*[A-Z]+.*");
+        boolean hasLowerCase = password.matches(".*[a-z]+.*");
+        boolean isLong = password.length() > 7;
+        return hasDigits && hasLowerCase && hasUpperCase && isLong;
+    }
+
+    public boolean isCustomer (String personalNo){
+        User user = users.get(personalNo);
+        if(user instanceof Customer){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isEmployee (String personalNo){
+        User user = users.get(personalNo);
+        if(user instanceof Employee){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isManager (String personalNo){
+        User user = users.get(personalNo);
+        if(user instanceof Manager){
+            return true;
+        }
+        return false;
+    }
 
 }
 
