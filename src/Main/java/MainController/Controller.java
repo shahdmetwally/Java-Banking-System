@@ -348,10 +348,15 @@ public class Controller {
     }
 
 
-    public void sendMessageToCustomers(String message, String title) {
+    public String sendMessageToCustomers(String message, String title) {
         MessageFormat textMessage = new MessageFormat(title, message);
-        employeeInbox.addMessageToCustomer(textMessage);
-        bank.addSentMessage(textMessage);
+        if (textMessage == null){
+            return "Your message cannot be empty.";
+        } else {
+            employeeInbox.addMessageToCustomer(textMessage);
+            bank.addSentMessage(textMessage);
+            return "Your message has been sent successfully.";
+        }
     }
 
     public String viewEmployeeMessageInbox(){
