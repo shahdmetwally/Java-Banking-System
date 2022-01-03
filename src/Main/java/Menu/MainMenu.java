@@ -3,6 +3,7 @@ package Menu;
 import Bank.Bank;
 import Classes.Role;
 import Classes.User;
+import Inbox.ManagerInbox;
 import Inbox.MessageFormat;
 import Loans.TypeOfInterest;
 import MainController.Controller;
@@ -125,7 +126,7 @@ public class MainMenu {
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         employee.addOptions(0, "Create Customer.");
-        employee.addOptions(1, "Show customer accounts.");
+        employee.addOptions(1, "View a customer's account.");
         employee.addOptions(2, "Approve loans.");
         employee.addOptions(3,"Approve card requests.");
         employee.addOptions(4,"Calculate Debt-to-income (DTI) ratio.");
@@ -158,8 +159,12 @@ public class MainMenu {
         manager.addOptions(4, "Update employee salary.");
         manager.addOptions(5, "Update employee password.");
         manager.addOptions(6,"Set variable interest rate.");
-        manager.addOptions(7,"Return to employee menu.");
+        manager.addOptions(7,"View manager inbox.");
+        manager.addOptions(8,"Return to employee menu.");
 
+        managerInbox.setMenuName("Manager Inbox Menu " + Utilities.EOL +
+                "--------------------" + Utilities.EOL +
+                " Choose one of the options below.");
         managerInbox.addOptions(0, "View all employees' vacation applications.");
         managerInbox.addOptions(1, "Approve an employee's vacation application.");
     }
@@ -1007,21 +1012,21 @@ public class MainMenu {
                     System.out.println("Registering a new Customer: ");
                     String personalNo ="";
                     try {
-                        String fullName = UserInput.readLine("Enter your full name:");
+                        String fullName = UserInput.readLine("Enter the customer's full name: ");
 
-                        personalNo = UserInput.readLine("Please type the personal number of the employee. ");
+                        personalNo = UserInput.readLine("Enter the customer's personal number:  ");
                         if(!controller.isPersonNrCorrect(personalNo)) {
                             do {
-                                personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                                personalNo = UserInput.readLine("Customer's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
                             } while (!controller.isPersonNrCorrect(personalNo));
                         }
                         String password;
                         String repeatedPassword;
                         do {
                             do {
-                                password = UserInput.readLine("Create a password for the employee: " + Utilities.EOL +
+                                password = UserInput.readLine("Create a password for the customer: " + Utilities.EOL +
                                         "The password must have a minimum of 8 characters in length" + Utilities.EOL +
-                                        "and contain at least  contain: lowercase letter, uppercase letter, digit.");
+                                        "and contain: a lowercase letter, an uppercase letter, a digit.");
                                 if (!controller.isStrongPassword(password)) {
                                     System.out.println("The password is weak.");
                                 }
@@ -1057,7 +1062,8 @@ public class MainMenu {
                     do {
                         personalNo = UserInput.readLine("Type the personal number of the customer: ");
                         if (!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo)){
-                            System.out.println("Please enter an existing costumer personal number in this format (YYYYMMDDXXXX) and within valid times");
+                            System.out.println("There is no registered customer with this personal number." + Utilities.EOL +
+                                    "Please enter an existing customer's personal number: ");
                         }
                     }while (!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo));
                     String message = controller.getCustomerInfo(personalNo);
@@ -1068,6 +1074,7 @@ public class MainMenu {
                     int option;
                     do {
                         String loanRequestID;
+
                          option = UserInput.readInt("Choose between: " + Utilities.EOL +
                                  "1. Approve 2. Decline 3. Modify 4. Interest rate");
                         switch (option) {
@@ -1174,17 +1181,25 @@ public class MainMenu {
 
                     break;
                 case 3:
+
+
                     String cardRequestID = UserInput.readLine("Enter the card request ID: ");
+                    if(!controller.cardRequestIsPending(cardRequestID)){
+                        do{
+                            cardRequestID = UserInput.readLine("There are no pending card requests with this ID." + Utilities.EOL + "Enter the card request ID: ");
+                        } while (!controller.cardRequestIsPending(cardRequestID));
+                    }
+
                     String cardNr = UserInput.readLine("Enter card number: ");
                     if(cardNr.length() != 16 || !Utilities.isNumber(cardNr)){
                         do{
-                            cardNr= UserInput.readLine("The number must be 16 digits");
+                            cardNr= UserInput.readLine("The number must be 16 digits." + Utilities.EOL + "Enter card number: ");
                         }while(cardNr.length() != 16 || !Utilities.isNumber(cardNr));
                     }
                     String cvcStr = UserInput.readLine("Enter cvc number: ");
                     if(cvcStr.length() != 3 || !Utilities.isNumber(cvcStr)){
                         do{
-                            cvcStr = UserInput.readLine("Please enter a 3 digit number. ");
+                            cvcStr = UserInput.readLine("The cvc number must be 3 digits." + Utilities.EOL + "Enter cvc number: ");
                         }while(cvcStr.length() !=3 || !Utilities.isNumber(cvcStr));
                     }
                     int cvc = Integer.parseInt(cvcStr);
@@ -1194,7 +1209,7 @@ public class MainMenu {
                     String codeStr = UserInput.readLine("Enter code: ");
                     if(codeStr.length() != 4 || !Utilities.isNumber(codeStr)){
                         do{
-                            codeStr = UserInput.readLine("The code must be a 4 digit number");
+                            codeStr = UserInput.readLine("The code must be a 4 digit number." + Utilities.EOL + "Enter code: ");
                         }while(codeStr.length() != 4 || !Utilities.isNumber(codeStr));
                     }
                     int code = Integer.parseInt(codeStr);
@@ -1266,6 +1281,7 @@ public class MainMenu {
 
                     message = controller.calculateMonthlyMortgage(loan,interestRate,loanPeriod);
                     System.out.println(message);
+                    handleEmployeeMenu(controller);
                     break;
                 case 6:
                     personalNo = UserInput.readLine("Please type the personal number for the customer:");
@@ -1295,6 +1311,7 @@ public class MainMenu {
                     }while(!bank.getLoans().containsKey(loanID));
                     message =controller.getMortgagePercentage_HouseLoan(loanID);
                     System.out.println(message);
+                    handleEmployeeMenu(controller);
                     break;
                 case 8:
                     System.out.println(controller.viewSalary());
@@ -1446,10 +1463,10 @@ public class MainMenu {
                     handleManagerMenu(controller);
                     break;
                 case 3:// remove employee
-                    personalNo = UserInput.readLine("Please type the personalNo of the employee you wish to remove: ");
+                    personalNo = UserInput.readLine("Please enter the personal number of the employee you want to remove: ");
                     if (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo)) {
                         do {
-                            personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                            personalNo = UserInput.readLine("Please enter an existing employee's personal number in the format (YYYYMMDDXXXX): ");
                         } while (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo));
                     }
                     try {
@@ -1464,7 +1481,7 @@ public class MainMenu {
                     personalNo = UserInput.readLine("Type the personal number of the employee you wish to change the salary of: ");
                     if (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo)) {
                         do { //should we have it like this
-                            personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times or the employee does not exist: ");
+                            personalNo = UserInput.readLine("Please enter an existing employee's personal number in the format (YYYYMMDDXXXX): ");
                         } while (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo));
                     }
 
@@ -1516,6 +1533,9 @@ public class MainMenu {
                     handleManagerMenu(controller);
                     break;
                 case 7:
+                    handleManagerInbox(controller);
+                    break;
+                case 8:
                     handleEmployeeMenu(controller);
                     break;
                 default:
@@ -1542,11 +1562,11 @@ public class MainMenu {
         int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice){
             case 0:
-                controller.seeVacationApplications();
+                System.out.println(controller.seeVacationApplications());
                 handleManagerInbox(controller);
                 break;
             case 1:
-                controller.approveVacationApplication();
+                System.out.println(controller.approveVacationApplication());
                 handleManagerInbox(controller);
                 break;
         }

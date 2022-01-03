@@ -1,5 +1,6 @@
 package Inbox;
 
+import MainController.StartProgram;
 import Request.VacationRequest;
 
 import java.util.LinkedList;
@@ -15,11 +16,12 @@ public class ManagerInbox extends EmployeeInbox {
     public void addVacationApplication(VacationRequest vacationRequest){
         vacationApplications.add(vacationRequest);
     }
-    public void seeVacationApplications(){
-        System.out.println(vacationApplications);
+    public Queue<VacationRequest> getVacationApplications(){
+        return this.vacationApplications;
     }
     public String approveVacationApplication(){
         vacationApplications.poll();
+        StartProgram.jsonVacationApplication.poll();
        return "The vacation application has been approved.";
     }
 

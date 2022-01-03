@@ -1,5 +1,6 @@
 package Inbox;
 
+import Classes.Customer;
 import Request.CardRequest;
 import Request.LoanRequest;
 import Utilities.Utilities;
@@ -126,7 +127,6 @@ queue  inbox message ( unreaded message)
 
 
  */
-
 
 
 

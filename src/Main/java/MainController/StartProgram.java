@@ -4,21 +4,25 @@ package MainController;
 import Bank.Bank;
 import Classes.*;
 import Inbox.EmployeeInbox;
+import Inbox.ManagerInbox;
 import Inbox.Inbox;
 import Loans.Loan;
 import Menu.MainMenu;
 import Request.CardRequest;
 import Request.LoanRequest;
+import Request.VacationRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class StartProgram {
 
-    public static HashMap<String, ArrayList> jsonBank = new HashMap<>();
+    public static HashMap jsonBank = new HashMap<>();
     public static ArrayList<Customer> jsonCustomers = new ArrayList<>();
     public static ArrayList<Employee> jsonEmployees = new ArrayList<>();
     public static ArrayList<Manager> jsonManagers = new ArrayList<>();
@@ -26,9 +30,11 @@ public class StartProgram {
     public static ArrayList<LoanRequest> jsonLoanRequests = new ArrayList<>();
     public static ArrayList<Loan> jsonLoans = new ArrayList<>();
     public static ArrayList<CardRequest> jsonCardRequests = new ArrayList<>();
-    public static ArrayList<ArrayList> jsonEmployeeInbox = new ArrayList<>();
+    public static HashMap jsonEmployeeInbox = new HashMap<>();
     public static ArrayList<Inbox> jsonCustomerInbox = new ArrayList<>();
-    public static ArrayList<Manager> jsonManagerInbox = new ArrayList<>();
+    public static HashMap jsonManagerInbox = new HashMap<>();
+
+    public static Queue<VacationRequest> jsonVacationApplication = new LinkedList<>();
 
     public static void main(String[] args) throws Exception {
 
@@ -44,8 +50,14 @@ public class StartProgram {
         jsonBank.put("EmployeeInbox", jsonEmployeeInbox);
         jsonBank.put("ManagerInbox", jsonManagerInbox);
 
+        jsonManagerInbox.put("Vacation applications", jsonVacationApplication);
+
+
+
+
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(new File("bank.json"));
+
         JsonNode employeeNode = root.path("employees");
         for (int i = 0; i < employeeNode.size(); i++) {
             Employee employee = mapper.treeToValue(employeeNode.get(i), Employee.class);
@@ -97,6 +109,18 @@ public class StartProgram {
             System.out.println(cardRequest.getPersonalNr());
         }
 
+        ManagerInbox managerInbox = new ManagerInbox();
+        JsonNode managerInboxNode = root.path("Manager Inbox");
+        JsonNode vacationApplicationNode = managerInboxNode.path("Vacation applications");
+        for (int i = 0; i<vacationApplicationNode.size(); i++) {
+            VacationRequest vacationRequest = mapper.treeToValue(vacationApplicationNode.get(i), VacationRequest.class);
+
+            jsonVacationApplication.add(vacationRequest);
+            bank.getVacationRequest().put(vacationRequest.getPersonalNr(), vacationRequest);
+            managerInbox.addVacationApplication(vacationRequest);
+
+
+        }
 
 
         bank.showAllUser();
@@ -105,6 +129,8 @@ public class StartProgram {
         System.out.println(bank.getEmployeeInbox().toString());
         System.out.println(bank.getLoanRequests());
         System.out.println(bank.getCardRequests());
+        System.out.println(bank.getVacationRequest());
+        System.out.println(managerInbox.getVacationApplications());
 
 
       String option;

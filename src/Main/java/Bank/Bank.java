@@ -54,9 +54,11 @@ public class Bank {
 
     public double getTotalCustomerBalance(){
         double balance = 0;
-        String message = "Banks total balance: ";
-        for (Map.Entry<String, User> entry : users.entrySet()) {
-            balance += ((Customer) entry.getValue()).getBalance();
+        for (Map.Entry<String, User> user : users.entrySet()) {
+            if(user.getValue() instanceof Customer){
+                balance += (((Customer) user.getValue()).getBankAccount().getBalance());
+            }
+
         }
         return balance;
     }
@@ -209,14 +211,15 @@ public class Bank {
     }
 
     public String viewVacationApps(){
-        String message = "Vacation Applications: " + Utilities.EOL;;
-        managerInbox.seeVacationApplications();
-        return message;
+        String message = "Vacation Applications: " + Utilities.EOL;
+
+        return message + managerInbox.getVacationApplications() ;
     }
 
-    public String approveVacationApps(){
+    public String approveVacationApps(String vacationRequestID){
         String message = "Approved vacation application";
         managerInbox.approveVacationApplication();
+        vacationRequest.remove(vacationRequestID);
         return message;
     }
 

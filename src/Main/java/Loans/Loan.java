@@ -80,7 +80,7 @@ public class Loan {
 
 
     public String toString() {
-        return "ID: "+  loanID + " Date:" + date;
+        return "ID: "+  this.loanID + " Date:" + this.date;
     }
 
     public String printRequest() {

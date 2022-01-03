@@ -9,10 +9,35 @@ public class VacationRequest extends Request {
     private int days;
     private String id;
 
+    public VacationRequest(){}
+
     public VacationRequest(User user,int days){
         super(user);
         this.days = days;
         this.id = "V" + getPersonalNr();
+    }
+
+    @Override
+    public String getPersonalNr() {
+        return super.getPersonalNr();
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
+    public String getDate() {
+        return super.getDate();
     }
 
     public int getDays() {
@@ -24,7 +49,7 @@ public class VacationRequest extends Request {
     }
    @Override
     public String toString(){
-        return "Id: " + id + "Date: " + getDate();
+        return "ID: " + id + Utilities.EOL + "Amount of days: " + days + Utilities.EOL + "Request made: " + getDate();
     }
 
     public String printRequest(){

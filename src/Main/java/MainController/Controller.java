@@ -337,7 +337,8 @@ public class Controller {
     public String applyForVacation(int days){
         VacationRequest vacRequest = new VacationRequest(user,days);
         managerInbox.addVacationApplication(vacRequest);
-        return "Vacation request has been send.";
+        StartProgram.jsonVacationApplication.add(vacRequest);
+        return "Vacation request has been sent.";
     }
 
 
@@ -452,11 +453,27 @@ public class Controller {
 
     //Manager Inbox
     public String seeVacationApplications(){
-        return bank.viewVacationApps();
+        String message="";
+        if(managerInbox.getVacationApplications().isEmpty()){
+            message = "There are no pending vacation requests.";
+        } else {
+            for(VacationRequest vacationRequest : managerInbox.getVacationApplications()){
+                message += vacationRequest.toString() + Utilities.EOL;
+            }
+        }
+
+        return message;
     }
 
     public String approveVacationApplication(){
-        return bank.approveVacationApps();
+        managerInbox.getVacationApplications().poll();
+        StartProgram.jsonVacationApplication.poll();
+
+        return "The vacation application has been approved.";
+    }
+
+    public Queue<VacationRequest> getVacationRequests(){
+        return managerInbox.getVacationApplications();
     }
 
     // ADMINISTRATION CONTROLLER
@@ -555,11 +572,47 @@ public class Controller {
 
     public String getCustomerInfo (String personalNumber){
         Customer customer = getCustomer(personalNumber);
+
+        String printTransactions="";
+        for(String transaction : customer.getBankAccount().getTransactions()){
+            printTransactions += transaction + Utilities.EOL;
+        }
+
+        String printLoans="";
+        if(!bank.getLoans().containsKey("L"+customer.getPersonalNo())){
+            printLoans = "No current loans.";
+        } else {
+            printLoans = bank.getLoans().get("L"+customer.getPersonalNo()).toString();
+        }
+
+        String printCardRequests="";
+        if(cardRequestIsPending("C"+customer.getPersonalNo())){
+            printCardRequests = bank.getCardRequests().get("C"+customer.getPersonalNo()).toString();
+        } else {
+            printCardRequests = "No pending card requests.";
+        }
+
+        String printLoanRequests="";
+        if(bank.getLoanRequests().containsKey("LR"+customer.getPersonalNo())){
+            printLoanRequests = bank.getLoanRequests().get("LR"+customer.getPersonalNo()).toString();
+        } else {
+            printLoanRequests = "No pending loan requests.";
+        }
+
+
         return "--------------------" + Utilities.EOL +
                 "Account information for " + customer.getFullName() + Utilities.EOL +
+                "Personal number: " + customer.getPersonalNo() + Utilities.EOL +
+                "Account number: " + customer.getAccountNo() + Utilities.EOL + Utilities.EOL +
                 "Transactions: " + Utilities.EOL +
-                customer.getBankAccount().getTransactions() + Utilities.EOL + Utilities.EOL +
-                "Loans: " + customer.getBankAccount().getLoan();
+                printTransactions + Utilities.EOL +
+                "Card requests: " + Utilities.EOL +
+                printCardRequests + Utilities.EOL + Utilities.EOL +
+                "Loan requests: " + Utilities.EOL +
+                printLoanRequests + Utilities.EOL + Utilities.EOL +
+                "Loans: " + Utilities.EOL +
+                printLoans + Utilities.EOL + "--------------------";
+
     }
 
     public String calculateDTI(double monthlyDebt, double grossIncome) {
@@ -593,7 +646,7 @@ public class Controller {
             houseMortgage = loan.getMortgagePercentage();
         }
         return "The annual mortage of this loan is: " + Utilities.truncateForPrint(houseMortgage) + Utilities.EOL+
-                "This rate is apart from the interest rate";
+                "This rate is apart from the interest rate.";
     }
 
     public Employee getEmployee (String inputPersonNumber){
@@ -646,19 +699,20 @@ public class Controller {
 
     public String approveCardRequest(String cardRequestID, String cardNr, int cvc, String expirationDate, int code) throws Exception {
         String message="";
-        if(bank.getCardRequests().containsKey(cardRequestID)){
+        if(cardRequestIsPending(cardRequestID)){
             CardRequest cardRequest = bank.getCardRequests().get(cardRequestID);
-
             Customer customer = (Customer) bank.getUsers().get(cardRequest.getPersonalNr());
             customer.createDebitCard(cardNr, cvc, expirationDate, code);
             bank.removeCardRequest(cardRequest.getPersonalNr(), cardRequest);
             StartProgram.jsonCardRequests.remove(cardRequest);
 
             message = "The card request has been approved.";
-        } else {
-            message = "There are no pending card requests with ID " + cardRequestID + ".";
         }
         return message;
+    }
+
+    public boolean cardRequestIsPending(String cardRequestID) {
+        return bank.getCardRequests().containsKey(cardRequestID);
     }
     /*2
      manager.addOptions(0,"Show Bank Balace");
@@ -675,11 +729,16 @@ public class Controller {
         String message = "Total amount of loan giving out: ";
         double totalLoan = 0;
 
-        for (Map.Entry<String, User> entry : users.entrySet()) {
+       /* for (Map.Entry<String, User> entry : users.entrySet()) {
             if(entry.getValue() instanceof Customer){
                 totalLoan += ((Customer) entry.getValue()).getBankAccount().getLoan().getLoanAmount();
             }
+        }*/
+
+        for (Map.Entry<String, Loan> loan : bank.getLoans().entrySet()){
+            totalLoan += loan.getValue().getLoanAmount();
         }
+
         return message + totalLoan;
     }
 
