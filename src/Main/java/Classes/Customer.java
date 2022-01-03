@@ -113,26 +113,30 @@ public class Customer extends User {
 
     //inbox methods.
 
-@JsonIgnore
+    @JsonIgnore
     public String getAllMessageInbox(){
         return inbox.getAllMessageInbox();
     }
 
-@JsonIgnore
+    @JsonIgnore
     public void addSentMessage(MessageFormat message) {
         inbox.addToSentMessage(message);
     }
 
     @JsonIgnore
-    public String removeMessage(){
-        return inbox.removeMessage();
+    public String removeMessage(int index){
+        return inbox.removeMessage(index);
     }
 
 
     @JsonIgnore
     public ArrayList<MessageFormat> getMessageHistory(){return inbox.getMessageHistory();}
 
+    public Inbox getInbox() {
+        return inbox;
+    }
 
-
-
+    public void setInbox(Inbox inbox) {
+        this.inbox = inbox;
+    }
 }

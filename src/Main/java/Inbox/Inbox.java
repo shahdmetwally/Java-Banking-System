@@ -13,13 +13,13 @@ import java.util.Queue;
 public class Inbox {
 
     protected ArrayList<MessageFormat> messageHistory;
-    protected Queue<MessageFormat> unreadMessageInbox;
+    protected ArrayList<MessageFormat> unreadMessageInbox;
     protected Queue<MessageFormat> sentMessages;
 
     public Inbox() {
 
         this.messageHistory = new ArrayList<MessageFormat>();
-        this.unreadMessageInbox = new LinkedList<MessageFormat>();
+        this.unreadMessageInbox = new ArrayList<MessageFormat>();
         this.sentMessages = new LinkedList<MessageFormat>();
     }
 
@@ -43,8 +43,9 @@ public class Inbox {
         unreadMessageInbox.add(message);
     }
 
-    public String removeMessage() {
-        messageHistory.add(unreadMessageInbox.poll());
+    public String removeMessage(int index) {
+        messageHistory.add(getUnreadMessageInbox().get(index));
+        unreadMessageInbox.remove(index);
         return "The message has been removed.";
     }
 
@@ -60,10 +61,19 @@ public class Inbox {
         return message;
     }
 
-    public ArrayList<MessageFormat> getMessageHistory() {
-        ArrayList<MessageFormat> clone = new ArrayList<>();
+    public ArrayList<MessageFormat> getUnreadMessageInbox() {
+        ArrayList<MessageFormat> clone = unreadMessageInbox;
         return clone;
     }
+
+
+
+    public ArrayList<MessageFormat> getMessageHistory() {
+        ArrayList<MessageFormat> clone = messageHistory;
+        return clone;
+    }
+
+
 
 
 }

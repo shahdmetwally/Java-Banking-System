@@ -6,6 +6,7 @@ import Classes.*;
 import Inbox.EmployeeInbox;
 import Inbox.ManagerInbox;
 import Inbox.Inbox;
+import Inbox.MessageFormat;
 import Loans.Loan;
 import Menu.MainMenu;
 import Request.CardRequest;
@@ -30,7 +31,11 @@ public class StartProgram {
     public static ArrayList<LoanRequest> jsonLoanRequests = new ArrayList<>();
     public static ArrayList<Loan> jsonLoans = new ArrayList<>();
     public static ArrayList<CardRequest> jsonCardRequests = new ArrayList<>();
+
     public static HashMap jsonEmployeeInbox = new HashMap<>();
+    public static Queue<MessageFormat> jsonUnreadMessagesFromCustomers = new LinkedList<MessageFormat>();
+
+
     public static ArrayList<Inbox> jsonCustomerInbox = new ArrayList<>();
     public static HashMap jsonManagerInbox = new HashMap<>();
 
@@ -47,10 +52,13 @@ public class StartProgram {
         jsonBank.put("Loan requests", jsonLoanRequests);
         jsonBank.put("Loans", jsonLoans);
         jsonBank.put("Card requests", jsonCardRequests);
-        jsonBank.put("EmployeeInbox", jsonEmployeeInbox);
-        jsonBank.put("ManagerInbox", jsonManagerInbox);
+        jsonBank.put("Employee Inbox", jsonEmployeeInbox);
+        jsonBank.put("Manager Inbox", jsonManagerInbox);
 
         jsonManagerInbox.put("Vacation applications", jsonVacationApplication);
+        jsonEmployeeInbox.put("Unread messages", jsonUnreadMessagesFromCustomers);
+
+
 
 
 
@@ -109,7 +117,7 @@ public class StartProgram {
             System.out.println(cardRequest.getPersonalNr());
         }
 
-        ManagerInbox managerInbox = new ManagerInbox();
+        ManagerInbox managerInbox = bank.getManagerInbox();
         JsonNode managerInboxNode = root.path("Manager Inbox");
         JsonNode vacationApplicationNode = managerInboxNode.path("Vacation applications");
         for (int i = 0; i<vacationApplicationNode.size(); i++) {
@@ -120,6 +128,16 @@ public class StartProgram {
             managerInbox.addVacationApplication(vacationRequest);
 
 
+        }
+
+        EmployeeInbox employeeInbox = bank.getEmployeeInbox();
+        JsonNode employeeInboxNode = root.path("Employee Inbox");
+        JsonNode unreadMessagesFromCustomers = employeeInboxNode.path("Unread messages");
+        for(int i = 0; i<unreadMessagesFromCustomers.size(); i++){
+            MessageFormat unreadMessage = mapper.treeToValue(unreadMessagesFromCustomers.get(i), MessageFormat.class);
+            System.out.println(unreadMessage);
+            jsonUnreadMessagesFromCustomers.add(unreadMessage);
+            employeeInbox.addMessageToEmployee(unreadMessage);
         }
 
 

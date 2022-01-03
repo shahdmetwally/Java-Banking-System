@@ -1,12 +1,15 @@
 package Inbox;
 
 import Utilities.Utilities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class MessageFormat {
 
-    private final String message;
-    private final String date;
-    private final String title;
+    private String message;
+    private String date;
+    private String title;
+
+    public MessageFormat(){}
 
     public MessageFormat(String title, String message){
         this.title = title;
@@ -30,6 +33,7 @@ public class MessageFormat {
         return "Title: " + title + " Date: " + date;
     }
 
+    @JsonIgnore
     public boolean isEmpty() {
         boolean a = true;
         boolean b = false;

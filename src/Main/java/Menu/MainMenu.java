@@ -135,18 +135,20 @@ public class MainMenu {
         employee.addOptions(7, "Calculate the annual mortgage of a house loan");
         employee.addOptions(8, "View salary.");
         employee.addOptions(9, "Apply for vacation.");
-        employee.addOptions(10, "Request inbox.");
+        employee.addOptions(10, "View employee inbox.");
         employee.addOptions(11, "Manager options.");
         employee.addOptions(12, "Log out.");
 
         employeeInbox.setMenuName("Employee Inbox Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
-        employeeInbox.addOptions(0, "View messages from customer.");
+        employeeInbox.addOptions(0, "View unread messages from customers.");
         employeeInbox.addOptions(1, "Send message to customer.");
-        employeeInbox.addOptions(2, "View message history."); // maybe history
-        employeeInbox.addOptions(3, "Remove oldest message.");
-        employeeInbox.addOptions(4, "Go back to Employee menu.");
+        employeeInbox.addOptions(2, "View all loan requests.");
+        employeeInbox.addOptions(3, "View all card requests.");
+        employeeInbox.addOptions(4, "View message history.");
+        employeeInbox.addOptions(5, "Remove oldest message.");
+        employeeInbox.addOptions(6, "Go back to Employee menu.");
 
 
         manager.setMenuName("Manager Menu " + Utilities.EOL +
@@ -167,6 +169,7 @@ public class MainMenu {
                 " Choose one of the options below.");
         managerInbox.addOptions(0, "View all employees' vacation applications.");
         managerInbox.addOptions(1, "Approve an employee's vacation application.");
+        managerInbox.addOptions(2,"Return to manager menu.");
     }
 
     public String enterPersonalNr(){
@@ -777,7 +780,8 @@ public class MainMenu {
                 handleCustomerInbox(controller);
                 break;
             case 3: //Remove oldest messages
-                controller.removeMessageFromCustomer();
+                int index = UserInput.readInt("Enter the number of the message you want to remove.");
+                controller.removeMessageFromCustomer(index);
                 handleCustomerInbox(controller);
                 break;
             case 4: //Back to customer menu
@@ -1338,10 +1342,6 @@ public class MainMenu {
                     break;
                 case 10:
                     handleEmployeeInbox(controller);
-                    // we dont hav the method
-                    //System.out.println(controller.getEmployeeInbox());
-
-                    //handleEmployeeMenu(controller);
                     break;
                 case 11:
                     handleManagerMenu(controller);
@@ -1369,24 +1369,38 @@ public class MainMenu {
         int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice){
             case 0:
-                controller.viewEmployeeMessageInbox();
+                System.out.println(controller.viewUnreadMessagesFromCustomers());
+                int index = UserInput.readInt("Enter the number of the message you want to read: ");
+                String message = controller.readUnreadMessageFromCustomer(index);
+                String option = UserInput.readLine("Do you want to send the message to the message history?" +
+                        Utilities.EOL + "Yes or no?");
+                if(option.equalsIgnoreCase("yes")){
+                    controller.removeFromUserInbox(index);
+                }
+
+                System.out.println(message);
                 handleEmployeeInbox(controller);
                 break;
             case 1:
                 String tittle = UserInput.readLine("Enter the title: ");
-                String message = UserInput.readLine("Enter message: ");
-                controller.sendMessageToCustomers(tittle,message);
+                String textMessage = UserInput.readLine("Enter message: ");
+                controller.sendMessageToCustomers(tittle,textMessage);
                 handleEmployeeInbox(controller);
                 break;
-            case 2:
+            case 2://employeeInbox.addOptions(2, "View all loan requests.");
+                break;
+            case 3: //employeeInbox.addOptions(3, "View all card requests.");
+                break;
+            case 4:
                 controller.viewEmployeeMessageHistory();
                 handleEmployeeInbox(controller);
                 break;
-            case 3:
-                controller.removeMessageFromEmployee();
+            case 5:
+                int messageIndex = UserInput.readInt("Enter the number of the message you want to remove.");
+                controller.removeMessageFromEmployee(messageIndex);
                 handleEmployeeInbox(controller);
                 break;
-            case 4:
+            case 6:
                 handleEmployeeMenu(controller);
                 break;
             default:
@@ -1568,6 +1582,9 @@ public class MainMenu {
             case 1:
                 System.out.println(controller.approveVacationApplication());
                 handleManagerInbox(controller);
+                break;
+            case 2:
+                handleManagerMenu(controller);
                 break;
         }
     }

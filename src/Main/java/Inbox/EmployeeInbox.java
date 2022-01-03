@@ -5,6 +5,7 @@ import Request.CardRequest;
 import Request.LoanRequest;
 import Utilities.Utilities;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -26,7 +27,7 @@ public class EmployeeInbox extends Inbox{
 
     @Override
     public void addMessageToEmployee(MessageFormat messageFormat) {
-        getSentMessages().add(messageFormat);
+        getUnreadMessageInbox().add(messageFormat);
     }
 
     public void addMessageToCustomer(MessageFormat message){
@@ -87,6 +88,11 @@ public class EmployeeInbox extends Inbox{
 
     public Queue<CardRequest> getCardRequests() {
         return cardRequests;
+    }
+
+    @Override
+    public ArrayList<MessageFormat> getUnreadMessageInbox() {
+        return super.getUnreadMessageInbox();
     }
 
     @Override

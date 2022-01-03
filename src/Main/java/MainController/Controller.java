@@ -310,6 +310,7 @@ public class Controller {
             return "Your message cannot be empty.";
         } else {
             employeeInbox.addMessageToEmployee(textMessage);
+            StartProgram.jsonUnreadMessagesFromCustomers.add(textMessage);
             ((Customer)user).addSentMessage(textMessage);
             return "Your message has been sent successfully.";
         }
@@ -319,8 +320,8 @@ public class Controller {
         String message = "Message Inbox: " + Utilities.EOL;
         return message + ((Customer)user).getAllMessageInbox();
     }
-    public String removeMessageFromCustomer() {
-        employeeInbox.removeMessage();
+    public String removeMessageFromCustomer(int index) {
+        employeeInbox.removeMessage(index);
         return "The message has been removed.";
     }
     public String viewCustomerMessageHistory(){
@@ -335,10 +336,18 @@ public class Controller {
     // Employee methods
 
     public String applyForVacation(int days){
-        VacationRequest vacRequest = new VacationRequest(user,days);
-        managerInbox.addVacationApplication(vacRequest);
-        StartProgram.jsonVacationApplication.add(vacRequest);
-        return "Vacation request has been sent.";
+        String message = "";
+        if(days>((Employee)user).getVacationDays()){
+            message = "You only have " + ((Employee)user).getVacationDays() + " vacation days left.";
+        } else if (days<0 || days==0){
+            message = "Your vacation days cannot be equal to or less than 0.";
+        } else {
+            VacationRequest vacRequest = new VacationRequest(user, days);
+            managerInbox.addVacationApplication(vacRequest);
+            StartProgram.jsonVacationApplication.add(vacRequest);
+            message = "Vacation request has been sent.";
+        }
+        return message;
     }
 
 
@@ -353,8 +362,8 @@ public class Controller {
         return message + employeeInbox.getAllMessageInbox();
     }
 
-    public String removeMessageFromEmployee(){
-        ((Customer)user).removeMessage();
+    public String removeMessageFromEmployee(int index){
+        ((Customer)user).removeMessage(index);
         return "The message has been removed.";
     }
 
@@ -362,6 +371,25 @@ public class Controller {
         //wouldn't the employee message history be the same as the customer message history because it is the same queue being shared?
         //do we really need two methods? or do i create two queues, one for employee and one for customer?
 
+    }
+
+    public String viewUnreadMessagesFromCustomers(){
+        String printUnreadMessages="";
+        ArrayList<MessageFormat> unreadMessages = new ArrayList<MessageFormat>(employeeInbox.getUnreadMessageInbox());
+        if(unreadMessages.isEmpty()){
+            printUnreadMessages = "There are no unread messages from customers.";
+        } else {
+            for (int i = 0; i < unreadMessages.size(); i++) {
+                printUnreadMessages += i + ": " + unreadMessages.get(i) + Utilities.EOL;
+            }
+        }
+        return printUnreadMessages;
+    }
+
+    public String readUnreadMessageFromCustomer(int index){
+        ArrayList<MessageFormat> unreadMessages = new ArrayList<MessageFormat>(employeeInbox.getUnreadMessageInbox());
+        String printUnreadMessage = unreadMessages.get(index).getMessage();
+        return printUnreadMessage;
     }
 
     public void takeDaysOff (String personalNo,int amountOfDays){
@@ -466,8 +494,12 @@ public class Controller {
     }
 
     public String approveVacationApplication(){
+
+        String employeePersonalNo = managerInbox.getVacationApplications().peek().getPersonalNr();
+        int vacationDays = managerInbox.getVacationApplications().peek().getDays();
         managerInbox.getVacationApplications().poll();
         StartProgram.jsonVacationApplication.poll();
+        ((Employee)users.get(employeePersonalNo)).takeDaysOff(vacationDays);
 
         return "The vacation application has been approved.";
     }
@@ -912,5 +944,8 @@ public class Controller {
         return false;
     }
 
+    public void removeFromUserInbox(int index) {
+
+    }
 }
 
