@@ -200,13 +200,10 @@ public class Controller {
                 if(equity.getKey().equals(otherEquity)){
                     loanRequest.getEquities().remove(otherEquity);
                     loanRequest.getEquities().put(otherEquity,equityNewValue);
-                    return loanRequest.printEquities();
+                    return loanRequest.printEquities() + "Equity value successfully changed";
                 }else{
-                    return "This equity doesn't exist";
+                    return "Please enter an existing loanID: ";
                 }
-
-        }else {
-            return "This LoanRequest has not been found.";
         }
         return "";
     }
