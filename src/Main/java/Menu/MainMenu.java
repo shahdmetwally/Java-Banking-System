@@ -462,8 +462,6 @@ public class MainMenu {
                     } else {
                         handleOtherService(controller);
                     }
-
-
                 break;
             case 4:  //Loan request with Co-signer
                 if (!(controller.getCustomer(controller.getUser().getPersonalNo()).getBankAccount().getLoan() == null)) {
