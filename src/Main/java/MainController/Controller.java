@@ -962,9 +962,16 @@ public class Controller {
         StartProgram.jsonEmployeeUnreadMessages.remove(index);
     }
 
-    public void addToEmployeeMessageHistory(MessageFormat message) {
-        bank.getEmployeeInbox().addMessageToMessageHistory(message);
-        //add the json
+    public String viewAllLoanRequests() {
+        String message="";
+        if(bank.getLoanRequests().isEmpty()){
+            message = "There are no pending loan requests.";
+        } else {
+            for(Map.Entry<String, LoanRequest> loanRequestEntry : bank.getLoanRequests().entrySet()){
+            message += loanRequestEntry.getValue().toString() + Utilities.EOL;
+            }
+        }
+        return message;
     }
 }
 

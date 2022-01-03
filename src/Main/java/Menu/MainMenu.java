@@ -1387,7 +1387,6 @@ public class MainMenu {
                             Utilities.EOL + "Yes or no?");
                     if (option.equalsIgnoreCase("yes")) {
                         controller.removeFromEmployeeUnreadMessages(index);
-                        controller.addToEmployeeMessageHistory(textMessage);
                     }
                 }
                 handleEmployeeInbox(controller);
@@ -1399,17 +1398,22 @@ public class MainMenu {
                 handleEmployeeInbox(controller);
                 break;
             case 2://employeeInbox.addOptions(2, "View all loan requests.");
+                controller.viewAllLoanRequests();
                 break;
             case 3: //employeeInbox.addOptions(3, "View all card requests.");
                 break;
             case 4:
                 System.out.println(controller.viewEmployeeMessageHistory());
-                int index = UserInput.readInt("Enter the index of the message you want to read: ");
-                MessageFormat textMessage = bank.getEmployeeInbox().getMessageHistory().get(index);
-                String message = textMessage + Utilities.EOL +
-                        "Message: " + Utilities.EOL + controller.readMessageEmployeeMessageHistory(index);
-                System.out.println(message);
-                handleEmployeeInbox(controller);
+                if(controller.viewEmployeeMessageHistory().equals("There are no messages available in message history.")) {
+                    handleEmployeeInbox(controller);
+                } else {
+                    int index = UserInput.readInt("Enter the index of the message you want to read: ");
+                    MessageFormat textMessage = bank.getEmployeeInbox().getMessageHistory().get(index);
+                    String message = textMessage + Utilities.EOL +
+                            "Message: " + Utilities.EOL + controller.readMessageEmployeeMessageHistory(index);
+                    System.out.println(message);
+                    handleEmployeeInbox(controller);
+                }
                 break;
             case 5:
                 int messageIndex = UserInput.readInt("Enter the number of the message you want to remove.");
