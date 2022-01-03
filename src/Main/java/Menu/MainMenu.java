@@ -100,7 +100,7 @@ public class MainMenu {
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         otherService.addOptions(0,"Update name.");
-        otherService.addOptions(1,"Update salary");
+        otherService.addOptions(1,"Update income");
         otherService.addOptions(2,"Apply for new card.");
         otherService.addOptions(3,"Block payment card.");
         otherService.addOptions(4,"Loan request with Co-signer");
@@ -118,7 +118,7 @@ public class MainMenu {
         updateLoanRequest.addOptions(3,"Update cash contribution");
         updateLoanRequest.addOptions(4,"Update Co-Signer name");
         updateLoanRequest.addOptions(5,"Update Co-Signer personal number");
-        updateLoanRequest.addOptions(6,"Update Co-Signers salary");
+        updateLoanRequest.addOptions(6,"Update Co-Signers income");
         updateLoanRequest.addOptions(7,"Update type of interest rate");
         updateLoanRequest.addOptions(8,"Return to Customer menu");
 
@@ -1034,16 +1034,16 @@ public class MainMenu {
                             repeatedPassword = UserInput.readLine("Confirm password");
                         }while(!password.equals(repeatedPassword));
 
-                        String salary = "";
+                        String income = "";
                         do{
-                            salary = UserInput.readLine("Enter customer salary: ");
-                            if (!Utilities.isNumeric(salary) || salary.isEmpty()){
+                            income = UserInput.readLine("Enter customer income: ");
+                            if (!Utilities.isNumeric(income) || income.isEmpty()){
                                 System.out.println("Invalid input. ");
                             }
-                        }while(!Utilities.isNumeric(salary) || salary.isEmpty());
+                        }while(!Utilities.isNumeric(income) || income.isEmpty());
 
-                        double newSalary = Double.parseDouble(salary);
-                        controller.createCustomer(fullName, personalNo, newSalary, password);
+                        double newIncome = Double.parseDouble(income);
+                        controller.createCustomer(fullName, personalNo, newIncome, password);
                         System.out.println("Customer was successfully registered.");
                         handleEmployeeMenu(controller);
                     } catch (IllegalAccessException scannerError) {
