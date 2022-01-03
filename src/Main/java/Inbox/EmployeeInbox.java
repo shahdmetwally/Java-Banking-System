@@ -78,6 +78,10 @@ public class EmployeeInbox extends Inbox{
         super.sentMessages.add(messageFormat);
     }
 
+    public void sendMessageToSpecificCustomer(Customer customer, MessageFormat textMessage){
+         customer.getInbox().addMessageToUnreadMessages(textMessage);
+    }
+
     public void addSentMessage (MessageFormat textMessage){
         addToSentMessage(textMessage);
     }

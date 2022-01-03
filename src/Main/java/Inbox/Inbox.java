@@ -66,6 +66,13 @@ public class Inbox {
         return clone;
     }
 
+    public void addMessageToUnreadMessages(MessageFormat message){
+        getUnreadMessageInbox().add(message);
+    }
+
+    public void addMessageToMessageHistory(MessageFormat message){
+        getMessageHistory().add(message);
+    }
 
 
     public ArrayList<MessageFormat> getMessageHistory() {

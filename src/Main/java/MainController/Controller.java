@@ -310,7 +310,7 @@ public class Controller {
             return "Your message cannot be empty.";
         } else {
             employeeInbox.addMessageToEmployee(textMessage);
-            StartProgram.jsonUnreadMessagesFromCustomers.add(textMessage);
+            StartProgram.jsonEmployeeUnreadMessages.add(textMessage);
             ((Customer)user).addSentMessage(textMessage);
             return "Your message has been sent successfully.";
         }
@@ -367,13 +367,26 @@ public class Controller {
         return "The message has been removed.";
     }
 
-    public void viewEmployeeMessageHistory(){
-        //wouldn't the employee message history be the same as the customer message history because it is the same queue being shared?
-        //do we really need two methods? or do i create two queues, one for employee and one for customer?
-
+    public String viewEmployeeMessageHistory(){
+        String printMessageHistory="";
+        ArrayList<MessageFormat> messageHistory = new ArrayList<MessageFormat>(employeeInbox.getMessageHistory());
+        if(messageHistory.isEmpty()){
+            printMessageHistory = "There are no messages available in message history.";
+        } else {
+            for (int i = 0; i < messageHistory.size(); i++) {
+                printMessageHistory += i + ": " + messageHistory.get(i) + Utilities.EOL;
+            }
+        }
+        return printMessageHistory;
     }
 
-    public String viewUnreadMessagesFromCustomers(){
+    public String readMessageEmployeeMessageHistory(int index){
+        ArrayList<MessageFormat> messageHistory = new ArrayList<MessageFormat>(employeeInbox.getMessageHistory());
+        String printMessage = messageHistory.get(index).getMessage();
+        return printMessage;
+    }
+
+    public String viewEmployeeUnreadMessages(){
         String printUnreadMessages="";
         ArrayList<MessageFormat> unreadMessages = new ArrayList<MessageFormat>(employeeInbox.getUnreadMessageInbox());
         if(unreadMessages.isEmpty()){
@@ -386,7 +399,7 @@ public class Controller {
         return printUnreadMessages;
     }
 
-    public String readUnreadMessageFromCustomer(int index){
+    public String readEmployeeUnreadMessage(int index){
         ArrayList<MessageFormat> unreadMessages = new ArrayList<MessageFormat>(employeeInbox.getUnreadMessageInbox());
         String printUnreadMessage = unreadMessages.get(index).getMessage();
         return printUnreadMessage;
@@ -944,8 +957,14 @@ public class Controller {
         return false;
     }
 
-    public void removeFromUserInbox(int index) {
+    public void removeFromEmployeeUnreadMessages(int index) {
+        bank.getEmployeeInbox().removeMessage(index);
+        StartProgram.jsonEmployeeUnreadMessages.remove(index);
+    }
 
+    public void addToEmployeeMessageHistory(MessageFormat message) {
+        bank.getEmployeeInbox().addMessageToMessageHistory(message);
+        //add the json
     }
 }
 

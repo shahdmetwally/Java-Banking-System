@@ -33,7 +33,7 @@ public class StartProgram {
     public static ArrayList<CardRequest> jsonCardRequests = new ArrayList<>();
 
     public static HashMap jsonEmployeeInbox = new HashMap<>();
-    public static Queue<MessageFormat> jsonUnreadMessagesFromCustomers = new LinkedList<MessageFormat>();
+    public static ArrayList<MessageFormat> jsonEmployeeUnreadMessages= new ArrayList<MessageFormat>();
 
 
     public static ArrayList<Inbox> jsonCustomerInbox = new ArrayList<>();
@@ -56,7 +56,7 @@ public class StartProgram {
         jsonBank.put("Manager Inbox", jsonManagerInbox);
 
         jsonManagerInbox.put("Vacation applications", jsonVacationApplication);
-        jsonEmployeeInbox.put("Unread messages", jsonUnreadMessagesFromCustomers);
+        jsonEmployeeInbox.put("Unread messages", jsonEmployeeUnreadMessages);
 
 
 
@@ -136,7 +136,7 @@ public class StartProgram {
         for(int i = 0; i<unreadMessagesFromCustomers.size(); i++){
             MessageFormat unreadMessage = mapper.treeToValue(unreadMessagesFromCustomers.get(i), MessageFormat.class);
             System.out.println(unreadMessage);
-            jsonUnreadMessagesFromCustomers.add(unreadMessage);
+            jsonEmployeeUnreadMessages.add(unreadMessage);
             employeeInbox.addMessageToEmployee(unreadMessage);
         }
 
