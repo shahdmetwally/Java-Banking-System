@@ -23,8 +23,6 @@ public class Inbox {
         this.sentMessages = new LinkedList<MessageFormat>();
     }
 
-    //Methods For Employees----------------------------------------
-
     public void addMessageToEmployee(MessageFormat messageFormat) {
         sentMessages.add(messageFormat);
     }
