@@ -52,7 +52,7 @@ public class MainMenu {
                 " Choose one of the options below.";
         mainMenu.setMenuName(menuName);
         mainMenu.addOptions(0, "Log in as a Customer.");
-        mainMenu.addOptions(1, "Log in as a Employee.");
+        mainMenu.addOptions(1, "Log in as an Employee.");
         mainMenu.addOptions(2, "System Administration.");
         mainMenu.addOptions(3, "Close System.");
 
@@ -208,7 +208,7 @@ public class MainMenu {
 
             switch (userChoice) {
 
-                case 0:
+                case 0: //Log in as a Customer
                     try {
                         handleCustomerMenu(login());
                     } catch (Exception exception) {
@@ -216,7 +216,7 @@ public class MainMenu {
                     }
                     handleMainMenu();
                     break;
-                case 1:
+                case 1: // Log in an Employee
                     try {
                         handleEmployeeMenu(login());
                     } catch (Exception exception) {
@@ -224,7 +224,7 @@ public class MainMenu {
                         handleMainMenu();
                     }
                     break;
-                case 2:
+                case 2: //System Administration
                     try {
                         handleAdministration(login());
                     } catch (Exception exception) {
@@ -232,7 +232,7 @@ public class MainMenu {
                     }
                     handleMainMenu();
                     break;
-                case 3:
+                case 3: //Close System
                     UserInput.input.close();
                     ObjectMapper mapper = new ObjectMapper();
                     try {
@@ -263,17 +263,17 @@ public class MainMenu {
             }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
             int userChoice = Integer.parseInt(userChoiceStr);
             switch (userChoice) {
-                case 0:
+                case 0: //View account number
                     String message = controller.viewAccountNo();
                     System.out.println(message);
                     handleCustomerMenu(controller);
                     break;
-                case 1:
+                case 1: //View account balance
                     message = controller.viewAccountBalance();
                     System.out.println(message);
                     handleCustomerMenu(controller);
                     break;
-                case 2:
+                case 2: //Deposit money
                     String value = "";
                     try {
                         do {
@@ -292,7 +292,7 @@ public class MainMenu {
 
                 handleCustomerMenu(controller);
                 break;
-            case 3:
+            case 3: //Withdraw cash
                 String amount = "";
                 try {
                     do{
@@ -310,7 +310,7 @@ public class MainMenu {
 
                 handleCustomerMenu(controller);
                 break;
-            case 4:
+            case 4: //Transfer money
                  amount = "";
                 try {
                     do {
@@ -334,7 +334,7 @@ public class MainMenu {
                 }
                 handleCustomerMenu(controller);
                 break;
-            case 5:
+            case 5: //View 5 latest transaction
                 try {
                     message=controller.FiveLatestTransaction();
                     System.out.println(message);
@@ -343,12 +343,12 @@ public class MainMenu {
                 }
                 handleCustomerMenu(controller);
                 break;
-            case 6:
+            case 6: //View all transactions
                 message=controller.transactionHistory();
                 System.out.println(message);
                 handleCustomerMenu(controller);
                 break;
-            case 7:// inbox
+            case 7://Set a budget
                 try{
                     String budget = "";
                     do{
@@ -365,7 +365,7 @@ public class MainMenu {
                 }
                     handleCustomerMenu(controller);
                     break;
-                case 8:
+                case 8: //Update budget
                     try {
                         String budget = "";
                         do{
@@ -382,13 +382,13 @@ public class MainMenu {
                     }
                     handleCustomerMenu(controller);
                     break;
-                case 9:// inbox
+                case 9://Message inbox
                     handleCustomerInbox(controller);
                     break;
-                case 10:
+                case 10: //Other services
                     handleOtherService(controller);
                     break;
-                case 11:
+                case 11: //Log out
                     handleMainMenu();
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
@@ -609,7 +609,6 @@ public class MainMenu {
                     System.out.println(message);
                 }
 
-                // controller:
                 handleCustomerMenu(controller);
                 break;
             case 5: //Loan request without Co-signer
@@ -1397,6 +1396,16 @@ public class MainMenu {
                 String textMessage = UserInput.readLine("Enter message: ");
                 controller.sendMessageToACustomer(personalNr,title,textMessage);
 
+            case 1:
+                String title = UserInput.readLine("Enter the title: ");
+                String textMessage1 = UserInput.readLine("Enter message: ");
+                MessageFormat textMessage = new MessageFormat(title, textMessage1);
+                if (textMessage.isEmpty()) {
+                    System.out.println("Message cannot be empty");
+                } else {
+                    System.out.println("Your message has been sent successfully.");
+                }
+                controller.sendMessageToCustomers(title,textMessage1);
                 handleEmployeeInbox(controller);
                 //add another option, send message to all customers
                 break;
@@ -1627,7 +1636,7 @@ public class MainMenu {
             }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
             int userChoice = Integer.parseInt(userChoiceStr);
             switch (userChoice) {
-                case 0:
+                case 0: //Change administation password
                     try {
                         String password;
                         String repeatedPassword;
@@ -1650,7 +1659,7 @@ public class MainMenu {
                     }
                     handleAdministration(controller);
                     break;
-                case 1:
+                case 1: //Create a manager
                     System.out.println("Create a Manager: ");
                     String option;
                     do {
@@ -1707,7 +1716,7 @@ public class MainMenu {
                     handleAdministration(controller);
                     break;
 
-                case 2:
+                case 2: //Remove manager
                     try {
                         String personNr = UserInput.readLine("Enter managers personal number: ");
                         if(!bank.getUsers().containsKey(personNr) || !controller.isManager(personNr)) {
@@ -1724,7 +1733,7 @@ public class MainMenu {
                     handleAdministration(controller);
                     break;
 
-                case 3:
+                case 3: //Update manager salary
                     try {
                         String personNr = UserInput.readLine("Enter manger personal number: ");
                         if(!bank.getUsers().containsKey(personNr) || !controller.isManager(personNr)) {
@@ -1747,7 +1756,7 @@ public class MainMenu {
                     }
                     handleAdministration(controller);
                     break;
-                case 4:
+                case 4: //Change manager password
                     try {
                         String personNr = UserInput.readLine("Enter manger personal number: ");
                         if(!bank.getUsers().containsKey(personNr) || !controller.isManager(personNr)) {
@@ -1775,7 +1784,7 @@ public class MainMenu {
                     }
                     handleAdministration(controller);
                     break;
-                case 5:
+                case 5: //Promote employee
                     String personNr = UserInput.readLine("Enter employee's personal number : ");
                     if(!bank.getUsers().containsKey(personNr) || !controller.isEmployee(personNr)) {
                         do {
@@ -1810,7 +1819,7 @@ public class MainMenu {
                     System.out.println(controller.showAllManagers());
                     handleAdministration(controller);
                     break;
-                case 7:
+                case 7: //Log out
                     handleMainMenu();
                     break;
                 default:
