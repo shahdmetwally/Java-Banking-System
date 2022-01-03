@@ -1395,17 +1395,6 @@ public class MainMenu {
                 String title = UserInput.readLine("Enter the title: ");
                 String textMessage = UserInput.readLine("Enter message: ");
                 controller.sendMessageToACustomer(personalNr,title,textMessage);
-
-            case 1:
-                String title = UserInput.readLine("Enter the title: ");
-                String textMessage1 = UserInput.readLine("Enter message: ");
-                MessageFormat textMessage = new MessageFormat(title, textMessage1);
-                if (textMessage.isEmpty()) {
-                    System.out.println("Message cannot be empty");
-                } else {
-                    System.out.println("Your message has been sent successfully.");
-                }
-                controller.sendMessageToCustomers(title,textMessage1);
                 handleEmployeeInbox(controller);
                 //add another option, send message to all customers
                 break;
@@ -1423,8 +1412,8 @@ public class MainMenu {
                     handleEmployeeInbox(controller);
                 } else {
                     int index = UserInput.readInt("Enter the index of the message you want to read: ");
-                    MessageFormat textMessage1 = bank.getEmployeeInbox().getMessageHistory().get(index);
-                    String message = textMessage1 + Utilities.EOL +
+                    MessageFormat textMessage2 = bank.getEmployeeInbox().getMessageHistory().get(index);
+                    String message = textMessage2 + Utilities.EOL +
                             "Message: " + Utilities.EOL + controller.readMessageEmployeeMessageHistory(index);
                     System.out.println(message);
                     String option = UserInput.readLine("Do you want to remove the message?" +
