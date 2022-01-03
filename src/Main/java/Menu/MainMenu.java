@@ -1370,16 +1370,25 @@ public class MainMenu {
         switch (userChoice){
             case 0:
                 System.out.println(controller.viewEmployeeUnreadMessages());
-                int index = UserInput.readInt("Enter the index of the message you want to read: ");
-                MessageFormat textMessage = bank.getEmployeeInbox().getUnreadMessageInbox().get(index);
-                String message = textMessage + Utilities.EOL +
-                        "Message: " + Utilities.EOL + controller.readEmployeeUnreadMessage(index);
-                System.out.println(message);
-                String option = UserInput.readLine("Do you want to move the message to the message history?" +
-                        Utilities.EOL + "Yes or no?");
-                if(option.equalsIgnoreCase("yes")){
-                    controller.removeFromEmployeeUnreadMessages(index);
-                    controller.addToEmployeeMessageHistory(textMessage);
+                if(controller.viewEmployeeUnreadMessages().equals("There are no unread messages from customers.")){
+                    handleEmployeeInbox(controller);
+                } else {
+                    int index = UserInput.readInt("Enter the index of the message you want to read: ");
+                    if(index<0 || index>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1){
+                        do{
+                            index = UserInput.readInt("Invalid input. Enter the index of the message you want to read: ");
+                        } while(index<0 || index>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1);
+                    }
+                    MessageFormat textMessage = bank.getEmployeeInbox().getUnreadMessageInbox().get(index);
+                    String message = textMessage + Utilities.EOL +
+                            "Message: " + Utilities.EOL + controller.readEmployeeUnreadMessage(index);
+                    System.out.println(message);
+                    String option = UserInput.readLine("Do you want to move the message to the message history?" +
+                            Utilities.EOL + "Yes or no?");
+                    if (option.equalsIgnoreCase("yes")) {
+                        controller.removeFromEmployeeUnreadMessages(index);
+                        controller.addToEmployeeMessageHistory(textMessage);
+                    }
                 }
                 handleEmployeeInbox(controller);
                 break;
@@ -1395,9 +1404,9 @@ public class MainMenu {
                 break;
             case 4:
                 System.out.println(controller.viewEmployeeMessageHistory());
-                index = UserInput.readInt("Enter the index of the message you want to read: ");
-                textMessage = bank.getEmployeeInbox().getMessageHistory().get(index);
-                message = textMessage + Utilities.EOL +
+                int index = UserInput.readInt("Enter the index of the message you want to read: ");
+                MessageFormat textMessage = bank.getEmployeeInbox().getMessageHistory().get(index);
+                String message = textMessage + Utilities.EOL +
                         "Message: " + Utilities.EOL + controller.readMessageEmployeeMessageHistory(index);
                 System.out.println(message);
                 handleEmployeeInbox(controller);
