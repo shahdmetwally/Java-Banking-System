@@ -65,8 +65,8 @@ public class MainMenu {
         administration.addOptions(3,"Update manager salary.");
         administration.addOptions(4,"Change manager password.");
         administration.addOptions(5,"Promote employee.");;
-        administration.addOptions(6,"Show all managers.");
-        administration.addOptions(7, "Log out.");
+        administration.addOptions(6,"Log out.");
+        administration.addOptions(7, "show all manager");
 
         customer.setMenuName("Customer Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -1397,13 +1397,10 @@ public class MainMenu {
                 controller.sendMessageToCustomers(tittle,textMessage1);
                 handleEmployeeInbox(controller);
                 break;
-            case 2:
-                System.out.println(controller.viewAllLoanRequests());
-                handleEmployeeInbox(controller);
+            case 2://employeeInbox.addOptions(2, "View all loan requests.");
+                controller.viewAllLoanRequests();
                 break;
-            case 3:
-                System.out.println(controller.viewAllCardRequests());
-                handleEmployeeInbox(controller);
+            case 3: //employeeInbox.addOptions(3, "View all card requests.");
                 break;
             case 4:
                 System.out.println(controller.viewEmployeeMessageHistory());
@@ -1804,12 +1801,10 @@ public class MainMenu {
                     handleAdministration(controller);
                     break;
                 case 6:
-                    System.out.println(controller.showAllManagers());
-                    handleAdministration(controller);
-                    break;
-                case 7:
                     handleMainMenu();
                     break;
+                case 7:
+                    break; //Show all managers, method is missing
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                     handleAdministration(controller);
