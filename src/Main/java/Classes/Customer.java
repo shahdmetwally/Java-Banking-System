@@ -123,11 +123,6 @@ public class Customer extends User {
         inbox.addToSentMessage(message);
     }
 
-    @JsonIgnore
-    public String removeMessage(int index){
-        return inbox.removeMessage(index);
-    }
-
 
     @JsonIgnore
     public ArrayList<MessageFormat> getMessageHistory(){return inbox.getMessageHistory();}

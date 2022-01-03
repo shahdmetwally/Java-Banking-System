@@ -318,7 +318,7 @@ public class Controller {
         return message + ((Customer)user).getAllMessageInbox();
     }
     public String removeMessageFromCustomer(int index) {
-        employeeInbox.removeMessage(index);
+        employeeInbox.removeFromUnreadMessages(index);
         return "The message has been removed.";
     }
     public String viewCustomerMessageHistory(){
@@ -348,10 +348,18 @@ public class Controller {
     }
 
 
-    public void sendMessageToCustomers(String message, String title) {
-        MessageFormat textMessage = new MessageFormat(title, message);
-        employeeInbox.addMessageToCustomer(textMessage);
-        bank.addSentMessage(textMessage);
+    public String sendMessageToACustomer(String personalNr, String message, String title) {
+        String output = "";
+        if(getCustomer(personalNr)==null){
+            output="A customer with this personal number does not exist.";
+        } else {
+            MessageFormat textMessage = new MessageFormat(title, message);
+            Customer customer = getCustomer(personalNr);
+            customer.getInbox().addMessageToUnreadMessages(textMessage);
+            bank.getEmployeeInbox().addMessageToSentMessages(textMessage);
+            output = "The message has been sent.";
+        }
+        return output;//add another option in menu, view
     }
 
     public String viewEmployeeMessageInbox(){
@@ -359,10 +367,6 @@ public class Controller {
         return message + employeeInbox.getAllMessageInbox();
     }
 
-    public String removeMessageFromEmployee(int index){
-        ((Customer)user).removeMessage(index);
-        return "The message has been removed.";
-    }
 
     public String viewEmployeeMessageHistory(){
         String printMessageHistory="";
@@ -381,6 +385,11 @@ public class Controller {
         ArrayList<MessageFormat> messageHistory = new ArrayList<MessageFormat>(employeeInbox.getMessageHistory());
         String printMessage = messageHistory.get(index).getMessage();
         return printMessage;
+    }
+
+    public void removeFromEmployeeMessageHistory(int index){
+        bank.getEmployeeInbox().removeFromMessageHistory(index);
+        StartProgram.jsonEmployeeMessageHistory.remove(index);
     }
 
     public String viewEmployeeUnreadMessages(){
@@ -426,9 +435,11 @@ public class Controller {
             String totalMessage = message + Utilities.EOL + loanRequest.printRequest();
             bank.removeLoanRequest(loanRequest.getPersonalNr(), loanRequest);
             bank.removeLoanRequest(loanRequest);
+            StartProgram.jsonLoanRequests.remove(loanRequest);
             // remove from employee request?
             String title = "Decline loan request. ID: " + loanRequestID;
-            sendMessageToCustomers(title, totalMessage);
+            String personalNr = customer.getPersonalNo();
+            sendMessageToACustomer(personalNr, title, totalMessage);
         }
         return "Loan decline message has been send";
     }
@@ -464,12 +475,13 @@ public class Controller {
             StartProgram.jsonLoans.add(loan);
             bank.removeLoanRequest(loanRequest.getPersonalNr(),loanRequest);
             bank.removeLoanRequest(loanRequest);
+            employeeInbox.removeLoanRequest(loanRequest);
             StartProgram.jsonLoanRequests.remove(loanRequest);
             // Remove from eployees request queue.
-
+            String personalNr = customer.getPersonalNo();
             String totalMessage = message + Utilities.EOL + loan.printRequest();
-            String tittle = "Decline loan request. ID: " + loanRequestID;
-            sendMessageToCustomers(tittle, totalMessage);
+            String title = "Decline loan request. ID: " + loanRequestID;
+            sendMessageToACustomer(personalNr, title, totalMessage);
         }    return "The loan has been approved.";
     }
 
@@ -746,8 +758,9 @@ public class Controller {
             Customer customer = (Customer) bank.getUsers().get(cardRequest.getPersonalNr());
             customer.createDebitCard(cardNr, cvc, expirationDate, code);
             bank.removeCardRequest(cardRequest.getPersonalNr(), cardRequest);
+            employeeInbox.removeCardRequest(cardRequest);
             StartProgram.jsonCardRequests.remove(cardRequest);
-
+            //Add message to customer that it has been approved
             message = "The card request has been approved.";
         }
         return message;
@@ -955,8 +968,7 @@ public class Controller {
     }
 
     public void removeFromEmployeeUnreadMessages(int index) {
-        bank.getEmployeeInbox().removeMessage(index);
-        StartProgram.jsonEmployeeUnreadMessages.remove(index);
+        bank.getEmployeeInbox().removeFromUnreadMessages(index);
     }
 
     public String viewAllLoanRequests() {
@@ -995,6 +1007,10 @@ public class Controller {
                 }
             }
         return message + Utilities.EOL + printManager;
+    }
+
+    public void addToEmployeeMesssageHistory(MessageFormat textMessage) {
+        bank.getEmployeeInbox().addMessageToMessageHistory(textMessage);
     }
 }
 
