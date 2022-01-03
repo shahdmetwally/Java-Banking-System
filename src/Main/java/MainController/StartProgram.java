@@ -32,11 +32,18 @@ public class StartProgram {
     public static ArrayList<Loan> jsonLoans = new ArrayList<>();
     public static ArrayList<CardRequest> jsonCardRequests = new ArrayList<>();
 
-    public static HashMap jsonEmployeeInbox = new HashMap<>();
-    public static ArrayList<MessageFormat> jsonEmployeeUnreadMessages= new ArrayList<MessageFormat>();
+    public static HashMap<String,ArrayList<MessageFormat>> jsonEmployeeInbox = new HashMap<>();
+    public static ArrayList<MessageFormat> jsonEmployeeUnreadMessages = new ArrayList<MessageFormat>();
+    public static ArrayList<MessageFormat> jsonEmployeeMessageHistory = new ArrayList<MessageFormat>();
+    public static ArrayList<MessageFormat> jsonEmployeeSentMessages = new ArrayList<MessageFormat>();
 
 
-    public static ArrayList<Inbox> jsonCustomerInbox = new ArrayList<>();
+    public static HashMap<String,ArrayList<MessageFormat>> jsonCustomerInbox = new HashMap<>();
+    public static ArrayList<MessageFormat> jsonCustomerUnreadMessages = new ArrayList<MessageFormat>();
+    public static ArrayList<MessageFormat> jsonCustomerMessageHistory = new ArrayList<MessageFormat>();
+    public static ArrayList<MessageFormat> jsonCustomerSentMessages = new ArrayList<MessageFormat>();
+
+
     public static HashMap jsonManagerInbox = new HashMap<>();
 
     public static Queue<VacationRequest> jsonVacationApplication = new LinkedList<>();
@@ -56,8 +63,14 @@ public class StartProgram {
         jsonBank.put("Manager Inbox", jsonManagerInbox);
 
         jsonManagerInbox.put("Vacation applications", jsonVacationApplication);
-        jsonEmployeeInbox.put("Unread messages", jsonEmployeeUnreadMessages);
 
+        jsonEmployeeInbox.put("Unread messages", jsonEmployeeUnreadMessages);
+        jsonEmployeeInbox.put("Message History", jsonEmployeeMessageHistory);
+        jsonEmployeeInbox.put("Sent messages", jsonEmployeeSentMessages);
+
+        jsonCustomerInbox.put("Unread messages", jsonCustomerUnreadMessages);
+        jsonCustomerInbox.put("Message History", jsonCustomerMessageHistory);
+        jsonCustomerInbox.put("Sent messages", jsonCustomerSentMessages);
 
 
 
@@ -132,13 +145,26 @@ public class StartProgram {
 
         EmployeeInbox employeeInbox = bank.getEmployeeInbox();
         JsonNode employeeInboxNode = root.path("Employee Inbox");
-        JsonNode unreadMessagesFromCustomers = employeeInboxNode.path("Unread messages");
-        for(int i = 0; i<unreadMessagesFromCustomers.size(); i++){
-            MessageFormat unreadMessage = mapper.treeToValue(unreadMessagesFromCustomers.get(i), MessageFormat.class);
-            System.out.println(unreadMessage);
-            jsonEmployeeUnreadMessages.add(unreadMessage);
-            employeeInbox.addMessageToEmployee(unreadMessage);
+        JsonNode employeeUnreadMessages = employeeInboxNode.path("Unread messages");
+        for(int i = 0; i<employeeUnreadMessages.size(); i++){
+            MessageFormat unreadMessage = mapper.treeToValue(employeeUnreadMessages.get(i), MessageFormat.class);
+            employeeInbox.addMessageToUnreadMessages(unreadMessage);
         }
+        JsonNode employeeMessageHistory = root.path("Message history");
+        for(int i = 0; i<employeeMessageHistory.size(); i++){
+            MessageFormat message = mapper.treeToValue(employeeMessageHistory.get(i), MessageFormat.class);
+            employeeInbox.addMessageToMessageHistory(message);
+        }
+        JsonNode employeeSentMessages = root.path("Sent messages");
+        for(int i = 0; i<employeeSentMessages.size(); i++){
+            MessageFormat sentMessage = mapper.treeToValue(employeeSentMessages.get(i), MessageFormat.class);
+            employeeInbox.addMessageToMessageHistory(sentMessage);
+        }
+
+
+
+
+
 
 
         bank.showAllUser();

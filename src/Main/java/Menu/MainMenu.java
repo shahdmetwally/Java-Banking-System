@@ -147,8 +147,7 @@ public class MainMenu {
         employeeInbox.addOptions(2, "View all loan requests.");
         employeeInbox.addOptions(3, "View all card requests.");
         employeeInbox.addOptions(4, "View message history.");
-        employeeInbox.addOptions(5, "Remove oldest message.");
-        employeeInbox.addOptions(6, "Go back to Employee menu.");
+        employeeInbox.addOptions(5, "Go back to Employee menu.");
 
 
         manager.setMenuName("Manager Menu " + Utilities.EOL +
@@ -1384,26 +1383,26 @@ public class MainMenu {
                             Utilities.EOL + "Yes or no?");
                     if (option.equalsIgnoreCase("yes")) {
                         controller.removeFromEmployeeUnreadMessages(index);
+                        controller.addToEmployeeMesssageHistory(textMessage);
                     }
                 }
                 handleEmployeeInbox(controller);
                 break;
-            case 1:
+            case 1://send message to a customer
+                String personalNr = UserInput.readLine("Enter the personal number of the customer you want to send a message to: ");
                 String title = UserInput.readLine("Enter the title: ");
-                String textMessage1 = UserInput.readLine("Enter message: ");
-                MessageFormat textMessage = new MessageFormat(title, textMessage1);
-                if (textMessage.isEmpty()) {
-                    System.out.println("Message cannot be empty");
-                } else {
-                    System.out.println("Your message has been sent successfully.");
-                }
-                controller.sendMessageToCustomers(title,textMessage1);
+                String textMessage = UserInput.readLine("Enter message: ");
+                controller.sendMessageToACustomer(personalNr,title,textMessage);
+                handleEmployeeInbox(controller);
+                //add another option, send message to all customers
+                break;
+            case 2:
+                System.out.println(controller.viewAllLoanRequests());
                 handleEmployeeInbox(controller);
                 break;
-            case 2://employeeInbox.addOptions(2, "View all loan requests.");
-                controller.viewAllLoanRequests();
-                break;
-            case 3: //employeeInbox.addOptions(3, "View all card requests.");
+            case 3:
+                System.out.println(controller.viewAllCardRequests());
+                handleEmployeeInbox(controller);
                 break;
             case 4:
                 System.out.println(controller.viewEmployeeMessageHistory());
@@ -1411,19 +1410,19 @@ public class MainMenu {
                     handleEmployeeInbox(controller);
                 } else {
                     int index = UserInput.readInt("Enter the index of the message you want to read: ");
-                    textMessage = bank.getEmployeeInbox().getMessageHistory().get(index);
-                    String message = textMessage + Utilities.EOL +
+                    MessageFormat textMessage2 = bank.getEmployeeInbox().getMessageHistory().get(index);
+                    String message = textMessage2 + Utilities.EOL +
                             "Message: " + Utilities.EOL + controller.readMessageEmployeeMessageHistory(index);
                     System.out.println(message);
-                    handleEmployeeInbox(controller);
+                    String option = UserInput.readLine("Do you want to remove the message?" +
+                            Utilities.EOL + "Yes or no?");
+                    if (option.equalsIgnoreCase("yes")) {
+                        controller.removeFromEmployeeMessageHistory(index);
+                        handleEmployeeInbox(controller);
+                }
                 }
                 break;
             case 5:
-                int messageIndex = UserInput.readInt("Enter the number of the message you want to remove.");
-                controller.removeMessageFromEmployee(messageIndex);
-                handleEmployeeInbox(controller);
-                break;
-            case 6:
                 handleEmployeeMenu(controller);
                 break;
             default:
@@ -1803,13 +1802,13 @@ public class MainMenu {
                     }
                     handleAdministration(controller);
                     break;
-                case 6: //Show all managers
+                case 6:
+                    System.out.println(controller.showAllManagers());
+                    handleAdministration(controller);
                     break;
                 case 7: //Log out
                     handleMainMenu();
                     break;
-                case 8:
-                    break; //Show all managers, method is missing
                 default:
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                     handleAdministration(controller);

@@ -1,5 +1,6 @@
 package Inbox;
 
+import MainController.StartProgram;
 import Request.LoanRequest;
 import Utilities.Utilities;
 
@@ -14,39 +15,20 @@ public class Inbox {
 
     protected ArrayList<MessageFormat> messageHistory;
     protected ArrayList<MessageFormat> unreadMessageInbox;
-    protected Queue<MessageFormat> sentMessages;
+    protected ArrayList<MessageFormat> sentMessages;
 
     public Inbox() {
 
         this.messageHistory = new ArrayList<MessageFormat>();
         this.unreadMessageInbox = new ArrayList<MessageFormat>();
-        this.sentMessages = new LinkedList<MessageFormat>();
+        this.sentMessages = new ArrayList<MessageFormat>();
     }
 
     public void addMessageToEmployee(MessageFormat messageFormat) {
         sentMessages.add(messageFormat);
     }
-
-    public Queue<MessageFormat> getSentMessages() {
-        return sentMessages;
-    }
-
-    public void addToMessageHistory(MessageFormat message) {
-        messageHistory.add(message);
-    }
-
     public void sendMessageToEmployee(MessageFormat message) {
         sentMessages.add(message);
-    }
-
-    public void addMessageInbox(MessageFormat message) {
-        unreadMessageInbox.add(message);
-    }
-
-    public String removeMessage(int index) {
-        messageHistory.add(getUnreadMessageInbox().get(index));
-        unreadMessageInbox.remove(index);
-        return "The message has been removed.";
     }
 
     public void addToSentMessage(MessageFormat messageFormat) {
@@ -61,27 +43,50 @@ public class Inbox {
         return message;
     }
 
+
+    //GETTERS
+
     public ArrayList<MessageFormat> getUnreadMessageInbox() {
         ArrayList<MessageFormat> clone = unreadMessageInbox;
         return clone;
     }
-
-    public void addMessageToUnreadMessages(MessageFormat message){
-        getUnreadMessageInbox().add(message);
-    }
-
-    public void addMessageToMessageHistory(MessageFormat message){
-        getMessageHistory().add(message);
-    }
-
-
     public ArrayList<MessageFormat> getMessageHistory() {
         ArrayList<MessageFormat> clone = messageHistory;
         return clone;
     }
+    public ArrayList<MessageFormat> getSentMessages() {
+        ArrayList<MessageFormat> clone = sentMessages;
+        return clone;
+    }
 
 
+    //ADD METHODS
 
+    public void addMessageToUnreadMessages(MessageFormat message){
+        getUnreadMessageInbox().add(message);
+        StartProgram.jsonEmployeeUnreadMessages.add(message);
+    }
 
+    public void addMessageToMessageHistory(MessageFormat message){
+        getMessageHistory().add(message);
+        StartProgram.jsonEmployeeMessageHistory.add(message);
+    }
+
+    public void addMessageToSentMessages(MessageFormat message){
+        getSentMessages().add(message);
+    }
+
+    //REMOVE METHODS
+
+    public String removeFromUnreadMessages(int index){
+        getUnreadMessageInbox().remove(index);
+        StartProgram.jsonEmployeeUnreadMessages.remove(index);
+        return "The message has been removed.";
+    }
+
+    public String removeFromMessageHistory(int index){
+        getMessageHistory().remove(index);
+        return "The message has been removed.";
+    }
 }
 

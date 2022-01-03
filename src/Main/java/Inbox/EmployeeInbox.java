@@ -20,15 +20,68 @@ public class EmployeeInbox extends Inbox{
         this.loanRequests = new LinkedList<LoanRequest>();
     }
 
+    //GETTERS
     @Override
-    public Queue<MessageFormat> getSentMessages() {
+    public ArrayList<MessageFormat> getUnreadMessageInbox() {
+        return super.getUnreadMessageInbox();
+    }
+
+    @Override
+    public ArrayList<MessageFormat> getMessageHistory() {
+        return super.getMessageHistory();
+    }
+
+    @Override
+    public ArrayList<MessageFormat> getSentMessages() {
         return super.getSentMessages();
     }
+
+    public Queue<LoanRequest> getLoanRequests() {
+        return loanRequests;
+    }
+
+    public Queue<CardRequest> getCardRequests() {
+        return cardRequests;
+    }
+
+    //ADD METHODS
+
+    @Override
+    public void addMessageToUnreadMessages(MessageFormat message) {
+        super.addMessageToUnreadMessages(message);
+    }
+    @Override
+    public void addMessageToMessageHistory(MessageFormat message) {
+        super.addMessageToMessageHistory(message);
+    }
+    @Override
+    public void addMessageToSentMessages(MessageFormat message) {
+        super.addMessageToSentMessages(message);
+    }
+
+    //REMOVE METHODS
+
+    @Override
+    public String removeFromUnreadMessages(int index) {
+        return super.removeFromUnreadMessages(index);
+    }
+
+    @Override
+    public String removeFromMessageHistory(int index) {
+        return super.removeFromMessageHistory(index);
+    }
+
+
+
+
+
 
     @Override
     public void addMessageToEmployee(MessageFormat messageFormat) {
         getUnreadMessageInbox().add(messageFormat);
     }
+
+
 
     public void addMessageToCustomer(MessageFormat message){
         sentMessages.add(message);
@@ -40,13 +93,13 @@ public class EmployeeInbox extends Inbox{
         cardRequests.add(request);
     }
     public void removeCardRequest(CardRequest cardRequest){
-        this.cardRequests.remove(cardRequest);
+        getCardRequests().remove(cardRequest);
     }
     public void addLoanRequest(LoanRequest loanRequest){
         loanRequests.add(loanRequest);
     }
     public void removeLoanRequest(LoanRequest loanRequest){
-        loanRequests.remove(loanRequest);
+        getLoanRequests().remove(loanRequest);
     }
 
     public String getAllLoanRequests() {
@@ -86,18 +139,10 @@ public class EmployeeInbox extends Inbox{
         addToSentMessage(textMessage);
     }
 
-    public Queue<LoanRequest> getLoanRequests() {
-        return loanRequests;
-    }
 
-    public Queue<CardRequest> getCardRequests() {
-        return cardRequests;
-    }
 
-    @Override
-    public ArrayList<MessageFormat> getUnreadMessageInbox() {
-        return super.getUnreadMessageInbox();
-    }
+
+
 
     @Override
     public String toString() {
