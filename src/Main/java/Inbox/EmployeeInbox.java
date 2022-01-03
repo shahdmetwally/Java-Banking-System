@@ -16,8 +16,18 @@ public class EmployeeInbox extends Inbox{
         super();
         this.cardRequests = new LinkedList<CardRequest>();
         this.loanRequests = new LinkedList<LoanRequest>();
-
     }
+
+    @Override
+    public Queue<MessageFormat> getSentMessages() {
+        return super.getSentMessages();
+    }
+
+    @Override
+    public void addMessageToEmployee(MessageFormat messageFormat) {
+        getSentMessages().add(messageFormat);
+    }
+
     public void addMessageToCustomer(MessageFormat message){
         sentMessages.add(message);
     }

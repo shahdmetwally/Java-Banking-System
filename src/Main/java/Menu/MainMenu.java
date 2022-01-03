@@ -441,17 +441,21 @@ public class MainMenu {
             case 2: //Apply for new card
                 message = controller.applyForCard();
                 System.out.println(message);
+
                 handleOtherService(controller);
                 break;
-            case 3: //Block payement card
-                String option = UserInput.readLine("Are you sure that you want to block your debit card? " + Utilities.EOL + " Please answer: yes or no");
-                if (option.equalsIgnoreCase("yes")) {
-                    String cardBlocked = controller.blockCard();
-                    System.out.println(cardBlocked);
-                    handleOtherService(controller);
-                } else {
-                    handleOtherService(controller);
-                }
+            case 3:
+
+                    String option = UserInput.readLine("Confirm blocking of card? " + Utilities.EOL + "Please answer: yes or no");
+                    if (option.equalsIgnoreCase("yes")) {
+                        String cardBlocked = controller.blockCard();
+                        System.out.println(cardBlocked);
+                        handleOtherService(controller);
+                    } else {
+                        handleOtherService(controller);
+                    }
+
+
                 break;
             case 4:  //Loan request with Co-signer
                 if (!(controller.getCustomer(controller.getUser().getPersonalNo()).getBankAccount().getLoan() == null)) {
@@ -1230,6 +1234,7 @@ public class MainMenu {
 
                     message = controller.calculateDTI(monthlyDebt,grossIncome);
                     System.out.println(message);
+                    handleEmployeeMenu(controller);
                     break;
                 case 5://employee.addOptions(4,"Calculate mortgage.");
                     String loanStr;
@@ -1266,9 +1271,11 @@ public class MainMenu {
                     personalNo = UserInput.readLine("Please type the personal number for the customer:");
                     do {
                         if(!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo)){
-                            System.out.println("pLeaase enter the personal number of an existing customer.");
+                            System.out.println("There is no customer registered with that personal number.");
+                            personalNo = UserInput.readLine("Please enter the personal number of a registered customer:");
                         }
-                    }while(!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo));String newPassword = UserInput.readLine("Please type the new password:");
+                    }while(!bank.getUsers().containsKey(personalNo)||!controller.isCustomer(personalNo) || !controller.isPersonNrCorrect(personalNo));
+                    String newPassword;
                     do {
                         newPassword = UserInput.readLine("Please type the new password:");
                         if(!controller.isStrongPassword(newPassword)){

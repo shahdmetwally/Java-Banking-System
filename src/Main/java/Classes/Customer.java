@@ -68,6 +68,10 @@ public class Customer extends User {
         return debitCard;
     }
 
+    public void setDebitCard(DebitCard debitCard) {
+        this.debitCard = debitCard;
+    }
+
     public boolean equals(Object anotherObject){
         if(this == anotherObject){
             return true;
@@ -129,18 +133,6 @@ public class Customer extends User {
     public ArrayList<MessageFormat> getMessageHistory(){return inbox.getMessageHistory();}
 
 
-    public boolean getStatus(){
-        if(debitCard == null){
-            return false;
-        }
 
-        return debitCard.getStatus();
-    }
 
-    public void setStatus(boolean status){
-        if(!(debitCard == null)){
-            debitCard.setStatus(status);
-        }
-
-    }
 }

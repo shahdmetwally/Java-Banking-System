@@ -29,6 +29,10 @@ public class Inbox {
         sentMessages.add(messageFormat);
     }
 
+    public Queue<MessageFormat> getSentMessages() {
+        return sentMessages;
+    }
+
     public void addToMessageHistory(MessageFormat message) {
         messageHistory.add(message);
     }

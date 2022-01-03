@@ -135,23 +135,38 @@ public class Controller {
     }
 
     public String applyForCard () {
+        String message="";
         // If the card status is true, that means that the card is still active.
-        if(((Customer)user).getStatus()){
-            return "This card has not been blocked.";
-        }else{
+        if(bank.getCardRequests().containsKey("C"+user.getPersonalNo())){
+            message = "You already have a pending card request.";
+        } else {
+        if(((Customer)user).getDebitCard()==null ){
             CardRequest cardRequest = new CardRequest(user);
             bank.addCardRequest(user.getPersonalNo(),cardRequest);
             StartProgram.jsonCardRequests.add(cardRequest);
             employeeInbox.addCardRequest(cardRequest);
             // should we add this to the customer as well? so they can see the sended request? // Shahd
-            return "Card request with ID "+ cardRequest.getId()+ " has been sent. ";
+            message = "Card request with ID "+ cardRequest.getId()+ " has been sent. ";
+        } else if(((Customer)user).getDebitCard().getStatus()){ //make a method for reactivation of card
+            message = "You cannot apply for a new card, you already have an active card.";
+
         }
+        }
+        return message;
     }
 
     public String blockCard () {
         // This method changes the status of the debit card to false, which means is not active
-        ((Customer) user).deactivateCard();
-        return "Payment card has been blocked";
+        String message="";
+        if(((Customer) user).getDebitCard()==null){
+            message = "You do not have a card to block.";
+        }else if(!((Customer) user).getDebitCard().getStatus()){
+            message = "Your card has already been blocked.";
+        } else if(((Customer)user).getDebitCard().getStatus()){
+            ((Customer) user).deactivateCard();
+            message = "Payment card has been blocked";
+        }
+        return message;
     }
 
     //Update loanRequest
