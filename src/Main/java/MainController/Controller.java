@@ -963,7 +963,8 @@ public class Controller {
     }
 
     public String viewAllLoanRequests() {
-        String message="";
+        String message = "";
+        String message1 = "Loan requests: ";
         if(bank.getLoanRequests().isEmpty()){
             message = "There are no pending loan requests.";
         } else {
@@ -971,7 +972,32 @@ public class Controller {
             message += loanRequestEntry.getValue().toString() + Utilities.EOL;
             }
         }
-        return message;
+        return message1 + Utilities.EOL + message;
+    }
+
+    public String viewAllCardRequests() {
+        String message = "";
+        String message1 = "Card requests: ";
+        if(bank.getCardRequests().isEmpty()){
+            message = "There are no pending card requests.";
+        } else {
+            for(Map.Entry<String, CardRequest> cardRequestEntry : bank.getCardRequests().entrySet()){
+                message += cardRequestEntry.getValue().toString() + Utilities.EOL;
+            }
+        }
+        return message1 + Utilities.EOL + message;
+    }
+
+    public String showAllManagers() {
+        String message = "Managers: ";
+        String printManager="";
+            for (Map.Entry<String, User> userEntry : bank.getUsers().entrySet()) {
+                if (userEntry.getValue().getRole()==Role.MANAGER) {
+                    Manager manager = (Manager) userEntry.getValue();
+                    printManager += manager + Utilities.EOL;
+                }
+            }
+        return message + Utilities.EOL + printManager;
     }
 }
 
