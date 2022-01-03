@@ -1391,9 +1391,15 @@ public class MainMenu {
                 handleEmployeeInbox(controller);
                 break;
             case 1:
-                String tittle = UserInput.readLine("Enter the title: ");
+                String title = UserInput.readLine("Enter the title: ");
                 String textMessage1 = UserInput.readLine("Enter message: ");
-                controller.sendMessageToCustomers(tittle,textMessage1);
+                MessageFormat textMessage = new MessageFormat(title, textMessage1);
+                if (textMessage.isEmpty()) {
+                    System.out.println("Message cannot be empty");
+                } else {
+                    System.out.println("Your message has been sent successfully.");
+                }
+                controller.sendMessageToCustomers(title,textMessage1);
                 handleEmployeeInbox(controller);
                 break;
             case 2://employeeInbox.addOptions(2, "View all loan requests.");
@@ -1407,7 +1413,7 @@ public class MainMenu {
                     handleEmployeeInbox(controller);
                 } else {
                     int index = UserInput.readInt("Enter the index of the message you want to read: ");
-                    MessageFormat textMessage = bank.getEmployeeInbox().getMessageHistory().get(index);
+                    textMessage = bank.getEmployeeInbox().getMessageHistory().get(index);
                     String message = textMessage + Utilities.EOL +
                             "Message: " + Utilities.EOL + controller.readMessageEmployeeMessageHistory(index);
                     System.out.println(message);
