@@ -290,10 +290,10 @@ public class Controller {
     }
 
     public String sendMessageToEmployees(String title, String message){
-        if (message == null) {
+        MessageFormat textMessage = new MessageFormat(title, message);
+        if (textMessage == null) {
             return "Your message cannot be empty.";
         } else {
-            MessageFormat textMessage = new MessageFormat(title, message);
             employeeInbox.addMessageToEmployee(textMessage);
             ((Customer)user).addSentMessage(textMessage);
             return "Your message has been sent successfully.";
@@ -326,15 +326,10 @@ public class Controller {
     }
 
 
-    public String sendMessageToCustomers(String message, String title) {
-        if (message == null) {
-            return "Your message cannot be empty.";
-        } else {
-            MessageFormat textMessage = new MessageFormat(title, message);
-            employeeInbox.addMessageToCustomer(textMessage);
-            bank.addSentMessage(textMessage);
-            return "Your message has been sent successfully.";
-        }
+    public void sendMessageToCustomers(String message, String title) {
+        MessageFormat textMessage = new MessageFormat(title, message);
+        employeeInbox.addMessageToCustomer(textMessage);
+        bank.addSentMessage(textMessage);
     }
 
     public String viewEmployeeMessageInbox(){

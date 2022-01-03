@@ -3,6 +3,7 @@ package Menu;
 import Bank.Bank;
 import Classes.Role;
 import Classes.User;
+import Inbox.MessageFormat;
 import Loans.TypeOfInterest;
 import MainController.Controller;
 import MainController.StartProgram;
@@ -83,7 +84,6 @@ public class MainMenu {
 
         // should be the last option, if you want to add something, add it above!
         customer.addOptions(11,"Log out.");
-        //Customer Inbox
 
         customerInbox.setMenuName("Customer Inbox Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
@@ -416,7 +416,7 @@ public class MainMenu {
         }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
         int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice) {
-            case 0:
+            case 0: //Update name
                 try {
                     String newName = UserInput.readLine("Enter new name: ");
                     System.out.println(controller.updateCustomerName(newName));
@@ -425,7 +425,7 @@ public class MainMenu {
                 }
                 handleOtherService(controller);
                 break;
-            case 1:
+            case 1: //Update salary
                 String salary;
                 do {
                     salary = UserInput.readLine("Enter salary: ");
@@ -438,12 +438,12 @@ public class MainMenu {
                 System.out.println(message);
                 handleOtherService(controller);
                 break;
-            case 2:
+            case 2: //Apply for new card
                 message = controller.applyForCard();
                 System.out.println(message);
                 handleOtherService(controller);
                 break;
-            case 3:
+            case 3: //Block payement card
                 String option = UserInput.readLine("Are you sure that you want to block your debit card? " + Utilities.EOL + " Please answer: yes or no");
                 if (option.equalsIgnoreCase("yes")) {
                     String cardBlocked = controller.blockCard();
@@ -453,11 +453,7 @@ public class MainMenu {
                     handleOtherService(controller);
                 }
                 break;
-            case 4:  //otherService.addOptions(4,"Loan request");
-                //    PERSONAL_LOAN,HOME_LOAN,CAR_LOAN,UNSECURED_LOAN;
-
-                // if statement so that only one request could be made
-                // if statement doesn't work
+            case 4:  //Loan request with Co-signer
                 if (!(controller.getCustomer(controller.getUser().getPersonalNo()).getBankAccount().getLoan() == null)) {
                     System.out.println("You have already applied for a lone");
                 } else {
@@ -605,7 +601,7 @@ public class MainMenu {
                 // controller:
                 handleCustomerMenu(controller);
                 break;
-            case 5:
+            case 5: //Loan request without Co-signer
                 if(!(controller.getCustomer(controller.getUser().getPersonalNo()).getBankAccount().getLoan()==null)){
                     System.out.println("You have already applied for a lone");
                 }else {
@@ -732,9 +728,9 @@ public class MainMenu {
                 }
                 handleCustomerMenu(controller);
             break;
-            case 6: handleUpdateLoanRequest(controller);//  otherService.addOptions(5,"Loan status"); //? should we?
+            case 6: handleUpdateLoanRequest(controller);//Update loan request
                     break;
-            case 7: handleCustomerMenu(controller);
+            case 7: handleCustomerMenu(controller); //Return to customer menu
                 break;
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
@@ -751,27 +747,31 @@ public class MainMenu {
             }
         }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
         int userChoice = Integer.parseInt(userChoiceStr);
-        switch (userChoice){
-            case 0:
+        switch (userChoice) {
+            case 0: //View messages from employees
                 System.out.println(controller.viewCustomerMessageInbox());
                 handleCustomerInbox(controller);
                 break;
-            case 1:
+            case 1: //Send messages to employees
                 String title = UserInput.readLine("Enter message title: ");
-                String textMessage = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
-                String message = controller.sendMessageToEmployees(title,textMessage);
-                System.out.println(message);
+                String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
+                MessageFormat textMessage = new MessageFormat(title, message);
+                if (textMessage.isEmpty()) {
+                    System.out.println("Message cannot be empty");
+                } else {
+                    System.out.println("Your message has been sent successfully.");
+                }
+                controller.sendMessageToEmployees(title, message);
                 handleCustomerInbox(controller);
-                break;
-            case 2:
+            case 2://View old messages
                 controller.viewCustomerMessageHistory();
                 handleCustomerInbox(controller);
                 break;
-            case 3:
+            case 3: //Remove oldest messages
                 controller.removeMessageFromCustomer();
                 handleCustomerInbox(controller);
                 break;
-            case 4:
+            case 4: //Back to customer menu
                 handleCustomerMenu(controller);
                 break;
             default:

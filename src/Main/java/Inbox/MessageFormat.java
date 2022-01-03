@@ -29,4 +29,13 @@ public class MessageFormat {
     public String toString() {
         return "Title: " + title + " Date: " + date;
     }
+
+    public boolean isEmpty() {
+        boolean a = true;
+        boolean b = false;
+        if (title.isEmpty() || message.isEmpty()){
+            return a;
+        }
+        else return b;
+    }
 }
