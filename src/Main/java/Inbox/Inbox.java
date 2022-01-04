@@ -3,6 +3,7 @@ package Inbox;
 import MainController.StartProgram;
 import Request.LoanRequest;
 import Utilities.Utilities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -35,6 +36,7 @@ public class Inbox {
         sentMessages.add(messageFormat);
     }
 
+    @JsonIgnore
     public String getAllMessageInbox() {
         String message = "";
         for (MessageFormat inbox : this.unreadMessageInbox) {
@@ -63,24 +65,21 @@ public class Inbox {
     //ADD METHODS
 
     public void addMessageToUnreadMessages(MessageFormat message){
-        getUnreadMessageInbox().add(message);
-        StartProgram.jsonEmployeeUnreadMessages.add(message);
+        this.unreadMessageInbox.add(message);
     }
 
     public void addMessageToMessageHistory(MessageFormat message){
-        getMessageHistory().add(message);
-        StartProgram.jsonEmployeeMessageHistory.add(message);
+        this.messageHistory.add(message);
     }
 
     public void addMessageToSentMessages(MessageFormat message){
-        getSentMessages().add(message);
+        this.sentMessages.add(message);
     }
 
     //REMOVE METHODS
 
     public String removeFromUnreadMessages(int index){
         getUnreadMessageInbox().remove(index);
-        StartProgram.jsonEmployeeUnreadMessages.remove(index);
         return "The message has been removed.";
     }
 

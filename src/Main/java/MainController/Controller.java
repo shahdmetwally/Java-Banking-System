@@ -302,20 +302,17 @@ public class Controller {
     }
 
     public String sendMessageToEmployees(String title, String message){
+        String output="";
         MessageFormat textMessage = new MessageFormat(title, message);
-        if (textMessage == null) {
-            return "Your message cannot be empty.";
+        if (textMessage.isEmpty()) {
+            output = "Your message cannot be empty.";//add these to the others
         } else {
-            employeeInbox.addMessageToEmployee(textMessage);
+            employeeInbox.addMessageToUnreadMessages(textMessage);
             StartProgram.jsonEmployeeUnreadMessages.add(textMessage);
-            ((Customer)user).addSentMessage(textMessage);
-            return "Your message has been sent successfully.";
+            ((Customer)user).getInbox().addToSentMessage(textMessage);
+            output = "Your message has been sent.";
         }
-    }
-
-    public String viewCustomerMessageInbox() {
-        String message = "Message Inbox: " + Utilities.EOL;
-        return message + ((Customer)user).getAllMessageInbox();
+        return output;
     }
     public String removeMessageFromCustomer(int index) {
         employeeInbox.removeFromUnreadMessages(index);
@@ -325,7 +322,7 @@ public class Controller {
         String message = "Message History: " + Utilities.EOL;
         String message1 = "";
         for (int i = 0; i < ((Customer)user).getMessageHistory().size(); i++) {
-            message1 += String.format(message) + Utilities.EOL;
+            message1 += i + ": " + ((Customer)user).getMessageHistory().get(i) + Utilities.EOL;
         }
         return message + message1;
     }
@@ -357,6 +354,7 @@ public class Controller {
             Customer customer = getCustomer(personalNr);
             customer.getInbox().addMessageToUnreadMessages(textMessage);
             bank.getEmployeeInbox().addMessageToSentMessages(textMessage);
+            StartProgram.jsonEmployeeSentMessages.add(textMessage);
             output = "The message has been sent.";
         }
         return output;//add another option in menu, view
@@ -387,16 +385,35 @@ public class Controller {
         return printMessage;
     }
 
+    public String readMessageCustomerMessageHistory(int index){
+        ArrayList<MessageFormat> messageHistory = new ArrayList<MessageFormat>(((Customer)user).getInbox().getMessageHistory());
+        String printMessage = messageHistory.get(index).getMessage();
+        return printMessage;
+    }
+
     public void removeFromEmployeeMessageHistory(int index){
         bank.getEmployeeInbox().removeFromMessageHistory(index);
         StartProgram.jsonEmployeeMessageHistory.remove(index);
+    }
+
+    public String viewCustomerUnreadMessages(){
+        String printUnreadMessages="";
+        ArrayList<MessageFormat> unreadMessages = new ArrayList<MessageFormat>(((Customer)user).getInbox().getUnreadMessageInbox());
+        if(unreadMessages.isEmpty()){
+            printUnreadMessages = "There are no unread messages.";
+        } else {
+            for (int i = 0; i < unreadMessages.size(); i++) {
+                printUnreadMessages += i + ": " + unreadMessages.get(i) + Utilities.EOL;
+            }
+        }
+        return printUnreadMessages;
     }
 
     public String viewEmployeeUnreadMessages(){
         String printUnreadMessages="";
         ArrayList<MessageFormat> unreadMessages = new ArrayList<MessageFormat>(employeeInbox.getUnreadMessageInbox());
         if(unreadMessages.isEmpty()){
-            printUnreadMessages = "There are no unread messages from customers.";
+            printUnreadMessages = "There are no unread messages.";
         } else {
             for (int i = 0; i < unreadMessages.size(); i++) {
                 printUnreadMessages += i + ": " + unreadMessages.get(i) + Utilities.EOL;
@@ -407,6 +424,12 @@ public class Controller {
 
     public String readEmployeeUnreadMessage(int index){
         ArrayList<MessageFormat> unreadMessages = new ArrayList<MessageFormat>(employeeInbox.getUnreadMessageInbox());
+        String printUnreadMessage = unreadMessages.get(index).getMessage();
+        return printUnreadMessage;
+    }
+
+    public String readCustomerUnreadMessage(int index) {
+        ArrayList<MessageFormat> unreadMessages = new ArrayList<MessageFormat>(((Customer) user).getInbox().getUnreadMessageInbox());
         String printUnreadMessage = unreadMessages.get(index).getMessage();
         return printUnreadMessage;
     }
@@ -821,9 +844,9 @@ public class Controller {
         if (employee == null) {
             throw new Exception("Employee with personal number " + personalNo + " was not registered yet.");
         } else {
-
             removalResult = "Employee " + personalNo + " was successfully removed.";
             bank.removeUser(employee);
+            StartProgram.jsonEmployees.remove(employee);
         }
 
         return removalResult;
@@ -969,7 +992,16 @@ public class Controller {
 
     public void removeFromEmployeeUnreadMessages(int index) {
         bank.getEmployeeInbox().removeFromUnreadMessages(index);
+        StartProgram.jsonEmployeeUnreadMessages.remove(index);
     }
+    public void removeFromCustomerUnreadMessages(int index) {
+        ((Customer)user).getInbox().removeFromUnreadMessages(index);
+    }
+
+    public void removeFromCustomerMessageHistory(int index) {
+        ((Customer)user).getInbox().removeFromMessageHistory(index);
+    }
+
 
     public String viewAllLoanRequests() {
         String message = "";
@@ -1009,8 +1041,13 @@ public class Controller {
         return message + Utilities.EOL + printManager;
     }
 
-    public void addToEmployeeMesssageHistory(MessageFormat textMessage) {
+    public void addToEmployeeMessageHistory(MessageFormat textMessage) {
         bank.getEmployeeInbox().addMessageToMessageHistory(textMessage);
+        StartProgram.jsonEmployeeMessageHistory.add(textMessage);
+    }
+
+    public void addToCustomerMessageHistory(MessageFormat textMessage) {
+        ((Customer)user).getInbox().addMessageToMessageHistory(textMessage);
     }
 }
 

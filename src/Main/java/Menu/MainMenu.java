@@ -1,6 +1,7 @@
 package Menu;
 
 import Bank.Bank;
+import Classes.Customer;
 import Classes.Role;
 import Classes.User;
 import Inbox.ManagerInbox;
@@ -91,9 +92,8 @@ public class MainMenu {
                 " Choose one of the options below.");
         customerInbox.addOptions(0, "View messages from employees.");
         customerInbox.addOptions(1, "Send message to employees.");
-        customerInbox.addOptions(2, "View old messages.");
-        customerInbox.addOptions(3, "Remove oldest message.");
-        customerInbox.addOptions(4, "Go back to Customer menu.");
+        customerInbox.addOptions(2, "View message history.");
+        customerInbox.addOptions(3, "Go back to Customer menu.");
 
 
         otherService.setMenuName("Other services Menu " + Utilities.EOL +
@@ -759,30 +759,71 @@ public class MainMenu {
         int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice) {
             case 0: //View messages from employees
-                System.out.println(controller.viewCustomerMessageInbox());
+                System.out.println(controller.viewCustomerUnreadMessages());
+                if(controller.viewCustomerUnreadMessages().equals("There are no unread messages.")){
+                    handleCustomerInbox(controller);
+                } else {
+                    int index = UserInput.readInt("Enter the number of the message you want to read: ");
+                    if(index<0 || index>((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().size()){
+                        do{
+                            index = UserInput.readInt("Invalid input. Enter the number of the message you want to read: ");
+                        } while(index<0 || index>((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().size());
+                    }
+                    MessageFormat textMessage = ((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().get(index);
+                    String message = textMessage + Utilities.EOL +
+                            "Message: " + Utilities.EOL + controller.readCustomerUnreadMessage(index);
+                    System.out.println(message);
+                    String option = UserInput.readLine("Do you want to move the message to the message history?" +
+                            Utilities.EOL + "Yes or no?");
+                    if (option.equalsIgnoreCase("yes")) {
+                        controller.removeFromCustomerUnreadMessages(index);
+                        controller.addToCustomerMessageHistory(textMessage);
+                        System.out.println("The message has been moved to message history.");
+                    }
+                }
+
                 handleCustomerInbox(controller);
                 break;
             case 1: //Send messages to employees
+
                 String title = UserInput.readLine("Enter message title: ");
-                String message = UserInput.readLine("Please type the message that you would like to send to the Customer Support: ");
-                MessageFormat textMessage = new MessageFormat(title, message);
-                if (textMessage.isEmpty()) {
-                    System.out.println("Message cannot be empty");
-                } else {
-                    System.out.println("Your message has been sent successfully.");
+                if(title.isBlank()){
+                    do {
+                        title = UserInput.readLine("Title cannot be blank. Enter message title: ");
+                    } while (title.isBlank());
                 }
-                controller.sendMessageToEmployees(title, message);
+
+                String message = UserInput.readLine("Please type the message that you would like to send to Customer Support: ");
+                if(message.isBlank()){
+                    do{
+                        message = UserInput.readLine("Message cannot be blank." + Utilities.EOL +
+                                "Please type the message that you would like to send to Customer Support: ");
+                    } while(message.isBlank());
+                }
+                System.out.println(controller.sendMessageToEmployees(title, message));
                 handleCustomerInbox(controller);
-            case 2://View old messages
-                controller.viewCustomerMessageHistory();
+            case 2://View message history
+                System.out.println(controller.viewCustomerMessageHistory());
+                int index = UserInput.readInt("Enter the number of the message you want to read: ");
+                if(index<0 || index>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1){
+                    do{
+                        index = UserInput.readInt("Invalid input. Enter the number of the message you want to read: ");
+                    } while(index<0 || index>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1);
+                }
+                MessageFormat textMessage = ((Customer)controller.getUser()).getInbox().getMessageHistory().get(index);
+                message = textMessage + Utilities.EOL +
+                        "Message: " + Utilities.EOL + controller.readMessageCustomerMessageHistory(index);
+                System.out.println(message);
+                String option = UserInput.readLine("Do you want to remove the message from the message history?" +
+                        Utilities.EOL + "Yes or no?");
+                if (option.equalsIgnoreCase("yes")) {
+                    controller.removeFromCustomerMessageHistory(index);
+                    System.out.println("The message has been remmovd.");
+                }
+
                 handleCustomerInbox(controller);
                 break;
-            case 3: //Remove oldest messages
-                int index = UserInput.readInt("Enter the number of the message you want to remove.");
-                controller.removeMessageFromCustomer(index);
-                handleCustomerInbox(controller);
-                break;
-            case 4: //Back to customer menu
+            case 3: //Back to customer menu
                 handleCustomerMenu(controller);
                 break;
             default:
@@ -1368,7 +1409,7 @@ public class MainMenu {
         switch (userChoice){
             case 0:
                 System.out.println(controller.viewEmployeeUnreadMessages());
-                if(controller.viewEmployeeUnreadMessages().equals("There are no unread messages from customers.")){
+                if(controller.viewEmployeeUnreadMessages().equals("There are no unread messages.")){
                     handleEmployeeInbox(controller);
                 } else {
                     int index = UserInput.readInt("Enter the index of the message you want to read: ");
@@ -1385,25 +1426,61 @@ public class MainMenu {
                             Utilities.EOL + "Yes or no?");
                     if (option.equalsIgnoreCase("yes")) {
                         controller.removeFromEmployeeUnreadMessages(index);
-                        controller.addToEmployeeMesssageHistory(textMessage);
+                        controller.addToEmployeeMessageHistory(textMessage);
+                        System.out.println("The message has been moved to message history.");
                     }
                 }
                 handleEmployeeInbox(controller);
                 break;
             case 1://send message to a customer
-                String personalNr = UserInput.readLine("Enter the personal number of the customer you want to send a message to: ");
+                try{
+                String personalNr="";
+                do {
+                    personalNr = UserInput.readLine("Enter the personal number of the customer you want to send a message to: ");
+                    if (!bank.getUsers().containsKey(personalNr)||!controller.isCustomer(personalNr) || !controller.isPersonNrCorrect(personalNr)){
+                        System.out.println("There is no registered customer with this personal number." + Utilities.EOL +
+                                "Please enter an existing customer's personal number: ");
+                    }
+                }while (!bank.getUsers().containsKey(personalNr)||!controller.isCustomer(personalNr) || !controller.isPersonNrCorrect(personalNr));
+
                 String title = UserInput.readLine("Enter the title: ");
+                if(title.isBlank()){
+                    do{
+                        title = UserInput.readLine("Title cannot be blank. Enter the title: ");
+                    } while (title.isBlank());
+                }
+
                 String textMessage = UserInput.readLine("Enter message: ");
-                controller.sendMessageToACustomer(personalNr,title,textMessage);
+                if(textMessage.isBlank()){
+                    do {
+                        textMessage = UserInput.readLine("Message cannot be blank. Enter message: ");
+                    } while (textMessage.isBlank());
+                }
+
+                System.out.println(controller.sendMessageToACustomer(personalNr,title,textMessage));
+                } catch (Exception exception){
+                    System.out.println(exception.getMessage());
+                    handleEmployeeInbox(controller);
+                }
                 handleEmployeeInbox(controller);
                 //add another option, send message to all customers
                 break;
             case 2:
-                System.out.println(controller.viewAllLoanRequests());
+                try{
+                    System.out.println(controller.viewAllLoanRequests());
+                }catch (Exception exception){
+                    System.out.println(exception.getMessage());
+                    handleEmployeeInbox(controller);
+                }
                 handleEmployeeInbox(controller);
                 break;
             case 3:
+                try{
                 System.out.println(controller.viewAllCardRequests());
+                }catch (Exception exception){
+                    System.out.println(exception.getMessage());
+                    handleEmployeeInbox(controller);
+                }
                 handleEmployeeInbox(controller);
                 break;
             case 4:
@@ -1447,11 +1524,21 @@ public class MainMenu {
 
             switch (userChoice) {
                 case 0: // show bank balance
-                    System.out.println(controller.getTotalBalance());
+                    try{
+                        System.out.println(controller.getTotalBalance());
+                    }catch (Exception exception){
+                        System.out.println(exception.getMessage());
+                        handleManagerMenu(controller);
+                    }
                     handleManagerMenu(controller);
                     break;
                 case 1: // show total loaned amount
-                    System.out.println(controller.getTotalLoan());
+                    try{
+                        System.out.println(controller.getTotalLoan());
+                    } catch (Exception exception){
+                        System.out.println(exception.getMessage());
+                        handleManagerMenu(controller);
+                    }
                     handleManagerMenu(controller);
                     break;
                 case 2:// create employee
@@ -1566,7 +1653,6 @@ public class MainMenu {
 
                     } catch (Exception exception) {
                         System.out.println(exception.getMessage());
-
                     }
                     handleManagerMenu(controller);
                     break;
@@ -1600,11 +1686,21 @@ public class MainMenu {
         int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice){
             case 0:
-                System.out.println(controller.seeVacationApplications());
+                try{
+                    System.out.println(controller.seeVacationApplications());
+                } catch (Exception exception){
+                    System.out.println(exception.getMessage());
+                    handleManagerInbox(controller);
+                }
                 handleManagerInbox(controller);
                 break;
             case 1:
-                System.out.println(controller.approveVacationApplication());
+                try{
+                    System.out.println(controller.approveVacationApplication());
+                } catch (Exception exception){
+                    System.out.println(exception.getMessage());
+                    handleManagerInbox(controller);
+                }
                 handleManagerInbox(controller);
                 break;
             case 2:

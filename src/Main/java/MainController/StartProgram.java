@@ -38,12 +38,6 @@ public class StartProgram {
     public static ArrayList<MessageFormat> jsonEmployeeSentMessages = new ArrayList<MessageFormat>();
 
 
-    public static HashMap<String,ArrayList<MessageFormat>> jsonCustomerInbox = new HashMap<>();
-    public static ArrayList<MessageFormat> jsonCustomerUnreadMessages = new ArrayList<MessageFormat>();
-    public static ArrayList<MessageFormat> jsonCustomerMessageHistory = new ArrayList<MessageFormat>();
-    public static ArrayList<MessageFormat> jsonCustomerSentMessages = new ArrayList<MessageFormat>();
-
-
     public static HashMap jsonManagerInbox = new HashMap<>();
 
     public static Queue<VacationRequest> jsonVacationApplication = new LinkedList<>();
@@ -67,10 +61,6 @@ public class StartProgram {
         jsonEmployeeInbox.put("Unread messages", jsonEmployeeUnreadMessages);
         jsonEmployeeInbox.put("Message History", jsonEmployeeMessageHistory);
         jsonEmployeeInbox.put("Sent messages", jsonEmployeeSentMessages);
-
-        jsonCustomerInbox.put("Unread messages", jsonCustomerUnreadMessages);
-        jsonCustomerInbox.put("Message History", jsonCustomerMessageHistory);
-        jsonCustomerInbox.put("Sent messages", jsonCustomerSentMessages);
 
 
 
@@ -135,12 +125,9 @@ public class StartProgram {
         JsonNode vacationApplicationNode = managerInboxNode.path("Vacation applications");
         for (int i = 0; i<vacationApplicationNode.size(); i++) {
             VacationRequest vacationRequest = mapper.treeToValue(vacationApplicationNode.get(i), VacationRequest.class);
-
             jsonVacationApplication.add(vacationRequest);
             bank.getVacationRequest().put(vacationRequest.getPersonalNr(), vacationRequest);
             managerInbox.addVacationApplication(vacationRequest);
-
-
         }
 
         EmployeeInbox employeeInbox = bank.getEmployeeInbox();
@@ -149,33 +136,22 @@ public class StartProgram {
         for(int i = 0; i<employeeUnreadMessages.size(); i++){
             MessageFormat unreadMessage = mapper.treeToValue(employeeUnreadMessages.get(i), MessageFormat.class);
             employeeInbox.addMessageToUnreadMessages(unreadMessage);
+            jsonEmployeeUnreadMessages.add(unreadMessage);
         }
         JsonNode employeeMessageHistory = root.path("Message history");
         for(int i = 0; i<employeeMessageHistory.size(); i++){
             MessageFormat message = mapper.treeToValue(employeeMessageHistory.get(i), MessageFormat.class);
             employeeInbox.addMessageToMessageHistory(message);
+            jsonEmployeeMessageHistory.add(message);
         }
         JsonNode employeeSentMessages = root.path("Sent messages");
         for(int i = 0; i<employeeSentMessages.size(); i++){
             MessageFormat sentMessage = mapper.treeToValue(employeeSentMessages.get(i), MessageFormat.class);
-            employeeInbox.addMessageToMessageHistory(sentMessage);
+            employeeInbox.addMessageToSentMessages(sentMessage);
+            jsonEmployeeSentMessages.add(sentMessage);
         }
 
-
-
-
-
-
-
         bank.showAllUser();
-        System.out.println(bank.getLoans());
-        System.out.println(bank.getLoanRequests());
-        System.out.println(bank.getEmployeeInbox().toString());
-        System.out.println(bank.getLoanRequests());
-        System.out.println(bank.getCardRequests());
-        System.out.println(bank.getVacationRequest());
-        System.out.println(managerInbox.getVacationApplications());
-
 
       String option;
         do{
