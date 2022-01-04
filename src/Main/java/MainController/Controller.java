@@ -737,9 +737,9 @@ public class Controller {
 
 
 
-    public String createCustomer (String fullName, String personalNo, double salary ,String password) throws Exception {
+    public String createCustomer (String fullName, String personalNo, double income ,String password) throws Exception {
         String bankAccount = accountNoGenerator();
-        Customer customer = new Customer(fullName, personalNo, salary, password, bankAccount);
+        Customer customer = new Customer(fullName, personalNo, income, password, bankAccount);
         bank.addUser(customer);
         bank.addBankAccount(bankAccount, customer);
         StartProgram.jsonCustomers.add(customer);
