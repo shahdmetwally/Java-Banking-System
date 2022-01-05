@@ -89,7 +89,7 @@ public class Controller {
         if(((Customer) user).getTransactions().size() < 5){
             throw new Exception(" You have less than 5 transaction");
         }
-        for (int i = 0; i < ((Customer) user).getTransactions().size(); i++) {
+        for (int i = ((Customer) user).getTransactions().size()-1; i > ((Customer) user).getTransactions().size()-5 ; i--) {
             message1.append(((Customer) user).getTransactions().get(i)).append(Utilities.EOL);
         }
         return message + message1;
@@ -145,7 +145,7 @@ public class Controller {
             bank.addCardRequest(user.getPersonalNo(),cardRequest);
             StartProgram.jsonCardRequests.add(cardRequest);
             employeeInbox.addCardRequest(cardRequest);
-            // should we add this to the customer as well? so they can see the sended request? // Shahd
+            // should we add this to the customer as well? so they can see sent request? // Shahd
             message = "Card request with ID "+ cardRequest.getId()+ " has been sent. ";
         } else if(((Customer)user).getDebitCard().getStatus()){ //make a method for reactivation of card
             message = "You cannot apply for a new card, you already have an active card.";
@@ -448,7 +448,7 @@ public class Controller {
     }
 
     // check the decline loan request.
-    // if it is inside in side the user remember that you are log in as an employee so you need to get the user.
+    // if it is inside in side the user remember that you are log in as an employee, so you need to get the user.
 
     public String declineLoanRequest(String loanRequestID,String message) throws Exception {
         if (checkLoanRequest(loanRequestID)) {
@@ -500,7 +500,7 @@ public class Controller {
             bank.removeLoanRequest(loanRequest);
             employeeInbox.removeLoanRequest(loanRequest);
             StartProgram.jsonLoanRequests.remove(loanRequest);
-            // Remove from eployees request queue.
+            // Remove from employees request queue.
             String personalNr = customer.getPersonalNo();
             String totalMessage = message + Utilities.EOL + loan.printRequest();
             String title = "Decline loan request. ID: " + loanRequestID;
@@ -515,7 +515,7 @@ public class Controller {
         if(checkLoanRequest(loanRequestID)) {
             LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);
             Customer customer = (Customer) users.get(loanRequest.getPersonalNr());
-            String title = "Interest offert " +Utilities.EOL+ "Loan request ID: " + loanRequestID;
+            String title = "Interest offer " +Utilities.EOL+ "Loan request ID: " + loanRequestID;
             String textMessage =  " Interest offer: " + interestRate+  Utilities.EOL +
                     "Type of interest: " + loanRequest.getInterestType() + Utilities.EOL;
             // ADD MESSAGE TO CUSTOMER INBOX
@@ -563,7 +563,7 @@ public class Controller {
         User manager = new Manager(name, personalNo, password,  salary, bonus);
         bank.addUser(manager);
         StartProgram.jsonManagers.add((Manager) manager);
-        return "The manager was created succesfully";
+        return "The manager was created successfully";
     }
 
 
@@ -593,9 +593,9 @@ public class Controller {
     //}
 
     //so we should have a message saying that we want a vacation
-    //before sending the request we need to specify how many days we wanna take
+    //before sending the request we need to specify how many days we want to take
     //then it should be sent to the inbox
-    //customer.addOption(option number, h, optionname "message"
+    //customer.addOption(option number, h, optionName "message"
     //connect controller to the menu
 
 
@@ -699,13 +699,13 @@ public class Controller {
 
 
     public String calculateMonthlyMortgage(double loan, double yearlyInterestRate, double loanPeriod){
-            /* Montly mortgage formula:
+            /* Monthly mortgage formula:
                  m= p * r (1+r)^n
                    ----------------
                    ((1+r)^n ) - 1
 
                    this method calculates the monthly mortgage of a loan.
-                   The mortgage of a house loan is different see the code below, it depeneds of the value of the property
+                   The mortgage of a house loan is different see the code below, it depends on if the value of the property
              */
         double monthlyRate = yearlyInterestRate/ 12;
         double loanXInterest = loan* monthlyRate;
@@ -722,7 +722,7 @@ public class Controller {
         if (loan.getTypesOfLoan() == TypesOfLoan.HOUSE_LOAN) {
             houseMortgage = loan.getMortgagePercentage();
         }
-        return "The annual mortage of this loan is: " + Utilities.truncateForPrint(houseMortgage) + Utilities.EOL+
+        return "The annual mortgage of this loan is: " + Utilities.truncateForPrint(houseMortgage) + Utilities.EOL+
                 "This rate is apart from the interest rate.";
     }
 
@@ -793,7 +793,7 @@ public class Controller {
         return bank.getCardRequests().containsKey(cardRequestID);
     }
     /*2
-     manager.addOptions(0,"Show Bank Balace");
+     manager.addOptions(0,"Show Bank Balance");
 */
     public String getTotalBalance () {
         return "Banks total balance: " + bank.getTotalCustomerBalance();

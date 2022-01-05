@@ -178,7 +178,7 @@ public class MainMenu {
 
     public Controller login() throws Exception{
         /*
-            If we separe the menu we can add the controller as an attribute and
+            If we separate the menu we can add the controller as an attribute and
             create it with this method.
          */
         String userName = "";
@@ -322,7 +322,7 @@ public class MainMenu {
                     double actualAmount = Double.parseDouble(amount);
                     String account = "";
                     do {
-                        account = UserInput.readLine("Please enter the account No of the recievient:");
+                        account = UserInput.readLine("Please enter the account No of the recipient:");
                         if (!bank.getBankAccounts().containsKey(account) || account.isEmpty()) {
                             System.out.println("Please make sure to enter an existing account number. ");
                         }
@@ -701,9 +701,8 @@ public class MainMenu {
 
                     HashMap<String, Double> tempHash = controller.temporaryHashMap();
                     String addEquities;
-                    double fifteenPercent= loanAmount*0.15;
                     do {
-                        String otherEquity = UserInput.readLine("Enter other equity name" + Utilities.EOL + "The name of the equity cannot be repeated(" + fifteenPercent + ").");
+                        String otherEquity = UserInput.readLine("Enter other equity name" + Utilities.EOL + "The name of the equity cannot be repeated.");
                         String otherEquitiesValueStr;
 
                         do {
@@ -720,10 +719,10 @@ public class MainMenu {
 
                     String cashContributionStr;
                     double cashContribution;
-
+                    double fifteenPercent= loanAmount*0.15;
                     do {
                         do {
-                            cashContributionStr = UserInput.readLine("Enter cash contribution:" + Utilities.EOL + "Should be at least 15% of the total loan amount");
+                            cashContributionStr = UserInput.readLine("Enter cash contribution:" + Utilities.EOL + "Should be at least 15% of the total loan amount(" + fifteenPercent + ")");
                             if (!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty()) {
                                 System.out.println("Invalid input");
                             }
@@ -816,7 +815,7 @@ public class MainMenu {
                         Utilities.EOL + "Yes or no?");
                 if (option.equalsIgnoreCase("yes")) {
                     controller.removeFromCustomerMessageHistory(index);
-                    System.out.println("The message has been remmovd.");
+                    System.out.println("The message has been removed.");
                 }
 
                 handleCustomerInbox(controller);
@@ -931,7 +930,7 @@ public class MainMenu {
                 String loanPeriodStr = UserInput.readLine("Please type in the loan period: ");
                 do {
                     if (!Utilities.isNumber(loanPeriodStr)) {
-                        loanPeriodStr = UserInput.readLine("Plese only use digits for the value. ");
+                        loanPeriodStr = UserInput.readLine("Please only use digits for the value. ");
                     }
                 }while(!Utilities.isNumber(loanPeriodStr));
                 int loanPeriod = Integer.parseInt(loanPeriodStr);
@@ -976,7 +975,7 @@ public class MainMenu {
                 String personalNr = UserInput.readLine("Please type in the new personal number: ");
                 if(!controller.isPersonNrCorrect(personalNr)) {
                     do {
-                        personalNr = UserInput.readLine("The personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                        personalNr = UserInput.readLine("The personal number must be in this format (YYYYMMDDXXXX) and within valid times: ");
                     } while (!controller.isPersonNrCorrect(personalNr));
                 }
                 System.out.println(controller.updateCoSigner_personalNr(loanID, personalNr));
@@ -1058,7 +1057,7 @@ public class MainMenu {
                         personalNo = UserInput.readLine("Enter the customer's personal number:  ");
                         if(!controller.isPersonNrCorrect(personalNo)) {
                             do {
-                                personalNo = UserInput.readLine("Customer's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                                personalNo = UserInput.readLine("Customer's personal number must be in this format (YYYYMMDDXXXX) and within valid times: ");
                             } while (!controller.isPersonNrCorrect(personalNo));
                         }
                         String password;
@@ -1126,7 +1125,7 @@ public class MainMenu {
                                 loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
                                 }while(!controller.checkLoanRequest(loanRequestID));
                                     String typeOfInterest;
-                                    //The do-while doesnt work
+                                    //The do-while doesn't work
                                     do {
                                         typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
                                         if(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable"))){
@@ -1181,7 +1180,7 @@ public class MainMenu {
 
                                 String textMessage = UserInput.readLine("Enter message: ");
 
-                                // ADD SEND MESSEGE TO CUSTOMER HERE!!
+                                // ADD SEND MESSAGE TO CUSTOMER HERE!!
 
 
                             } catch (IllegalAccessException scannerError) {
@@ -1426,6 +1425,8 @@ public class MainMenu {
                         controller.removeFromEmployeeUnreadMessages(index);
                         controller.addToEmployeeMessageHistory(textMessage);
                         System.out.println("The message has been moved to message history.");
+                    } else {
+                        handleEmployeeInbox(controller);
                     }
                 }
                 handleEmployeeInbox(controller);
@@ -1549,7 +1550,7 @@ public class MainMenu {
                         personalNo = UserInput.readLine("The Personal number of the employee: ");
                         if (!controller.isPersonNrCorrect(personalNo)) {
                             do {
-                                personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                                personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and within valid times: ");
                             } while (!controller.isPersonNrCorrect(personalNo));
                         }
                         String repeatedPassword;
@@ -1623,7 +1624,7 @@ public class MainMenu {
                     personalNo = UserInput.readLine("Type the personalNo of the employee you wish to change the password of: ");
                     if (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo)) {
                         do {
-                            personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and whithin valid times: ");
+                            personalNo = UserInput.readLine("Employee's personal number must be in this format (YYYYMMDDXXXX) and within valid times: ");
                         } while (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo));
                     }
 
@@ -1719,7 +1720,7 @@ public class MainMenu {
             }while(!Utilities.isNumeric(userChoiceStr)|| userChoiceStr.isEmpty());
             int userChoice = Integer.parseInt(userChoiceStr);
             switch (userChoice) {
-                case 0: //Change administation password
+                case 0: //Change administration password
                     try {
                         String password;
                         String repeatedPassword;
