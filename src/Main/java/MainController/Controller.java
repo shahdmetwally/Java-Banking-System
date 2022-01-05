@@ -321,8 +321,12 @@ public class Controller {
     public String viewCustomerMessageHistory(){
         String message = "Message History: " + Utilities.EOL;
         String message1 = "";
-        for (int i = 0; i < ((Customer)user).getMessageHistory().size(); i++) {
-            message1 += i + ": " + ((Customer)user).getMessageHistory().get(i) + Utilities.EOL;
+        if(((Customer)user).getInbox().getMessageHistory().isEmpty()){
+            message1 = "There are no messages available in message history.";
+        } else {
+            for (int i = 0; i < ((Customer) user).getInbox().getMessageHistory().size(); i++) {
+                message1 += i + ": " + ((Customer) user).getInbox().getMessageHistory().get(i) + Utilities.EOL;
+            }
         }
         return message + message1;
     }
@@ -358,11 +362,6 @@ public class Controller {
             output = "The message has been sent.";
         }
         return output;//add another option in menu, view
-    }
-
-    public String viewEmployeeMessageInbox(){
-        String message = "Message Inbox: " + Utilities.EOL;
-        return message + employeeInbox.getAllMessageInbox();
     }
 
 
@@ -1054,6 +1053,51 @@ public class Controller {
 
     public void addToCustomerMessageHistory(MessageFormat textMessage) {
         ((Customer)user).getInbox().addMessageToMessageHistory(textMessage);
+    }
+
+    public String viewCustomerSentMessages() {
+        String message = "Sent Messages: " + Utilities.EOL;
+        String message1 = "";
+        if(((Customer)user).getInbox().getSentMessages().isEmpty()){
+            message1 = "You have not sent any messages yet.";
+        } else {
+            for (int i = 0; i < ((Customer) user).getInbox().getSentMessages().size(); i++) {
+                message1 += i + ": " + ((Customer) user).getInbox().getSentMessages().get(i) + Utilities.EOL;
+            }
+        }
+        return message + message1;
+    }
+
+    public String viewEmployeeSentMessages() {
+        String printSentMessages="";
+        ArrayList<MessageFormat> sentMessages = new ArrayList<MessageFormat>(employeeInbox.getSentMessages());
+        if(sentMessages.isEmpty()){
+            printSentMessages = "No messages have been sent yet.";
+        } else {
+            for (int i = 0; i < sentMessages.size(); i++) {
+                printSentMessages += i + ": " + sentMessages.get(i) + Utilities.EOL;
+            }
+        }
+        return printSentMessages;
+    }
+
+    public String sendMessageToAllCustomers(String title, String message) {
+        String output="";
+        MessageFormat textMessage = new MessageFormat(title, message);
+        if (textMessage.isEmpty()) {
+            output = "The message cannot be empty.";//add these to the others
+        } else {
+            employeeInbox.addMessageToSentMessages(textMessage);
+            StartProgram.jsonEmployeeSentMessages.add(textMessage);
+            for(User user : bank.getUsers().values()){
+                if (user instanceof Customer){
+                    Customer customer = (Customer) user;
+                    customer.getInbox().addMessageToUnreadMessages(textMessage);
+                }
+            }
+            output = "The message has been sent to all customers.";
+        }
+        return output;
     }
 }
 

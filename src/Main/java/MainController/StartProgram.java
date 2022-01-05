@@ -138,13 +138,14 @@ public class StartProgram {
             employeeInbox.addMessageToUnreadMessages(unreadMessage);
             jsonEmployeeUnreadMessages.add(unreadMessage);
         }
-        JsonNode employeeMessageHistory = root.path("Message history");
+        JsonNode employeeMessageHistory = employeeInboxNode.path("Message History");
+        System.out.println(employeeMessageHistory);
         for(int i = 0; i<employeeMessageHistory.size(); i++){
             MessageFormat message = mapper.treeToValue(employeeMessageHistory.get(i), MessageFormat.class);
             employeeInbox.addMessageToMessageHistory(message);
             jsonEmployeeMessageHistory.add(message);
         }
-        JsonNode employeeSentMessages = root.path("Sent messages");
+        JsonNode employeeSentMessages = employeeInboxNode.path("Sent messages");
         for(int i = 0; i<employeeSentMessages.size(); i++){
             MessageFormat sentMessage = mapper.treeToValue(employeeSentMessages.get(i), MessageFormat.class);
             employeeInbox.addMessageToSentMessages(sentMessage);

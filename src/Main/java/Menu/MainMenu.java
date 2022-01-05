@@ -93,7 +93,8 @@ public class MainMenu {
         customerInbox.addOptions(0, "View messages from employees.");
         customerInbox.addOptions(1, "Send message to employees.");
         customerInbox.addOptions(2, "View message history.");
-        customerInbox.addOptions(3, "Go back to Customer menu.");
+        customerInbox.addOptions(3, "View sent messages.");
+        customerInbox.addOptions(4, "Go back to Customer menu.");
 
 
         otherService.setMenuName("Other services Menu " + Utilities.EOL +
@@ -143,11 +144,13 @@ public class MainMenu {
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         employeeInbox.addOptions(0, "View unread messages from customers.");
-        employeeInbox.addOptions(1, "Send message to customer.");
-        employeeInbox.addOptions(2, "View all loan requests.");
-        employeeInbox.addOptions(3, "View all card requests.");
-        employeeInbox.addOptions(4, "View message history.");
-        employeeInbox.addOptions(5, "Go back to Employee menu.");
+        employeeInbox.addOptions(1, "Send message to a customer.");
+        employeeInbox.addOptions(2, "Send message to all customers.");
+        employeeInbox.addOptions(3, "View all loan requests.");
+        employeeInbox.addOptions(4, "View all card requests.");
+        employeeInbox.addOptions(5, "View message history.");
+        employeeInbox.addOptions(6, "View sent messages.");
+        employeeInbox.addOptions(7, "Go back to Employee menu.");
 
 
         manager.setMenuName("Manager Menu " + Utilities.EOL +
@@ -820,7 +823,11 @@ public class MainMenu {
 
                 handleCustomerInbox(controller);
                 break;
-            case 3: //Back to customer menu
+            case 3:
+                System.out.println(controller.viewCustomerSentMessages());
+                handleCustomerInbox(controller);
+                break;
+            case 4: //Back to customer menu
                 handleCustomerMenu(controller);
                 break;
             default:
@@ -1466,6 +1473,29 @@ public class MainMenu {
                 break;
             case 2:
                 try{
+                String title = UserInput.readLine("Enter the title: ");
+                if(title.isBlank()){
+                    do{
+                        title = UserInput.readLine("Title cannot be blank. Enter the title: ");
+                    } while (title.isBlank());
+                }
+
+                String textMessage = UserInput.readLine("Enter message: ");
+                if(textMessage.isBlank()){
+                    do {
+                        textMessage = UserInput.readLine("Message cannot be blank. Enter message: ");
+                    } while (textMessage.isBlank());
+                }
+
+                System.out.println(controller.sendMessageToAllCustomers(title,textMessage));
+        } catch (Exception exception){
+            System.out.println(exception.getMessage());
+            handleEmployeeInbox(controller);
+        }
+                handleEmployeeInbox(controller);
+                break;
+            case 3:
+                try{
                     System.out.println(controller.viewAllLoanRequests());
                 }catch (Exception exception){
                     System.out.println(exception.getMessage());
@@ -1473,7 +1503,7 @@ public class MainMenu {
                 }
                 handleEmployeeInbox(controller);
                 break;
-            case 3:
+            case 4:
                 try{
                 System.out.println(controller.viewAllCardRequests());
                 }catch (Exception exception){
@@ -1482,7 +1512,7 @@ public class MainMenu {
                 }
                 handleEmployeeInbox(controller);
                 break;
-            case 4:
+            case 5:
                 System.out.println(controller.viewEmployeeMessageHistory());
                 if(controller.viewEmployeeMessageHistory().equals("There are no messages available in message history.")) {
                     handleEmployeeInbox(controller);
@@ -1500,7 +1530,11 @@ public class MainMenu {
                 }
                 }
                 break;
-            case 5:
+            case 6:
+                System.out.println(controller.viewEmployeeSentMessages());
+                handleEmployeeInbox(controller);
+                break;
+            case 7:
                 handleEmployeeMenu(controller);
                 break;
             default:

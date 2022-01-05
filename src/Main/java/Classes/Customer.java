@@ -123,10 +123,6 @@ public class Customer extends User {
         inbox.addToSentMessage(message);
     }
 
-
-    @JsonIgnore
-    public ArrayList<MessageFormat> getMessageHistory(){return inbox.getMessageHistory();}
-
     public Inbox getInbox() {
         return inbox;
     }
