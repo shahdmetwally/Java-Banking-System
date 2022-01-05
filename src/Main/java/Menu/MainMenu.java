@@ -166,8 +166,8 @@ public class MainMenu {
         managerInbox.setMenuName("Manager Inbox Menu " + Utilities.EOL +
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
-        managerInbox.addOptions(0, "View all employees' vacation applications.");
-        managerInbox.addOptions(1, "Approve an employee's vacation application.");
+        managerInbox.addOptions(0, "View all employees' vacation requests.");
+        managerInbox.addOptions(1, "Approve or decline employees' vacation request.");
         managerInbox.addOptions(2,"Return to manager menu.");
     }
 
@@ -1409,10 +1409,10 @@ public class MainMenu {
                 if(controller.viewEmployeeUnreadMessages().equals("There are no unread messages.")){
                     handleEmployeeInbox(controller);
                 } else {
-                    int index = UserInput.readInt("Enter the index of the message you want to read: ");
+                    int index = UserInput.readInt("Enter the number of the message you want to read: ");
                     if(index<0 || index>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1){
                         do{
-                            index = UserInput.readInt("Invalid input. Enter the index of the message you want to read: ");
+                            index = UserInput.readInt("Invalid input. Enter the number of the message you want to read: ");
                         } while(index<0 || index>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1);
                     }
                     MessageFormat textMessage = bank.getEmployeeInbox().getUnreadMessageInbox().get(index);
@@ -1695,7 +1695,7 @@ public class MainMenu {
                 break;
             case 1:
                 try{
-                    System.out.println(controller.approveVacationApplication());
+                    System.out.println(controller.handleVacationApplication());
                 } catch (Exception exception){
                     System.out.println(exception.getMessage());
                     handleManagerInbox(controller);

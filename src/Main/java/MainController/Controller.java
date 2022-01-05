@@ -538,19 +538,25 @@ public class Controller {
         return message;
     }
 
-    public String approveVacationApplication(){
-
+    public String handleVacationApplication(){
+        String message ="";
         String employeePersonalNo = managerInbox.getVacationApplications().peek().getPersonalNr();
+        Employee employee = ((Employee)users.get(employeePersonalNo));
         int vacationDays = managerInbox.getVacationApplications().peek().getDays();
-        managerInbox.getVacationApplications().poll();
-        StartProgram.jsonVacationApplication.poll();
-        ((Employee)users.get(employeePersonalNo)).takeDaysOff(vacationDays);
-
-        return "The vacation application has been approved.";
-    }
-
-    public Queue<VacationRequest> getVacationRequests(){
-        return managerInbox.getVacationApplications();
+        String id = managerInbox.getVacationApplications().peek().getId();
+        if(managerInbox.getVacationApplications().isEmpty()){
+            message = "There are no pending vacation requests.";
+        } else {
+            if (vacationDays > employee.getVacationDays()) {
+                message = "The vacation request with ID:" + id + " has been declined.";
+            } else {
+                managerInbox.getVacationApplications().poll();
+                StartProgram.jsonVacationApplication.poll();
+                employee.takeDaysOff(vacationDays);
+                message = "The vacation request with ID:" + id + " has been approved.";
+            }
+        }
+        return message;
     }
 
     // ADMINISTRATION CONTROLLER
