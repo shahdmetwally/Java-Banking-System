@@ -50,5 +50,7 @@ CustomerInbox
 case 0: works
 case 2: works
 
+//hhff
+
 line 584, does this way work.
 !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || Integer.parseInt(indexStr)<0 || indexStr.isEmpty() || indexStr.isBlank()
