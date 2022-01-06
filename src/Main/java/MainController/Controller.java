@@ -938,6 +938,7 @@ public class Controller {
             int month = Integer.parseInt(monthStr);
             String dayStr = personalNo.substring(6, 8);
             int day = Integer.parseInt(dayStr);
+            String lastFour = personalNo.substring(8, 12);
 
             if (year > 2003 || year < 1900) {
                 return false;
@@ -947,6 +948,9 @@ public class Controller {
             }
             if (day > 31 || day < 1) {
                 return false;
+            }
+            if (!Utilities.isNumber(lastFour)){
+               return false;
             }
             return true;
 

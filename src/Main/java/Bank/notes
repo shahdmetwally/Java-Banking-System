@@ -15,3 +15,20 @@ If the loan is decline, delete the request and send message to the user.
 
 -------------------------- MISSING METHODS
 Missing method for case 7 in handleAdministration
+
+line 1433: indexStr<0 || indexStr>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1
+otherService: case 5, update co signer personal number
+otherService: case 1, how do you check sp the equitites exists
+handleEmployee inbox: case 0, for some reason the code does not accept the ||.
+for some reason the || does not work in both case 0 and 5.
+Main menu: When typing the personal number instean of 0-3 the program shuts down
+
+
+Employee inbox:
+1. when entering blank spaces does not work
+2. works
+3.works
+4.works
+5. when typing blank spaces does not work
+6.works
+7.works

@@ -2,13 +2,17 @@ package Menu;
 
 import Bank.Bank;
 import Classes.Customer;
+import Classes.Employee;
 import Classes.Role;
 import Classes.User;
+import Inbox.EmployeeInbox;
+import Inbox.Inbox;
 import Inbox.ManagerInbox;
 import Inbox.MessageFormat;
 import Loans.TypeOfInterest;
 import MainController.Controller;
 import MainController.StartProgram;
+import Request.Request;
 import Utilities.UserInput;
 import Utilities.Utilities;
 import Loans.TypesOfLoan;
@@ -494,7 +498,7 @@ public class MainMenu {
                                 String houseWorthStr;
                                 do {
                                     houseWorthStr = UserInput.readLine("Enter the house value: ");
-                                    if (!Utilities.isNumeric(houseWorthStr) || houseWorthStr.isEmpty()) {
+                                    if (!Utilities.isNumeric(houseWorthStr) || houseWorthStr.isEmpty() ) {
                                         System.out.println("Invalid input");
                                     }
                                 } while (!Utilities.isNumeric(houseWorthStr) || houseWorthStr.isEmpty());
@@ -588,6 +592,11 @@ public class MainMenu {
                     } while (!controller.isCashContributionCorrect(cashContribution, loanAmount));
 
                     String coSigner_name = UserInput.readLine("Enter Co-signer name: ");
+                    do {
+                        if (coSigner_name.isBlank() || coSigner_name.isEmpty()){
+                            coSigner_name = UserInput.readLine("Enter Co-signer name: ");
+                        }
+                    }while (coSigner_name.isBlank() || coSigner_name.isEmpty());
 
                     String coSigner_personalNr;
                     do {
@@ -905,7 +914,7 @@ public class MainMenu {
                 }while (newOption>4 ||newOption < 1);
 
                 System.out.println(controller.updateTypeOfLoan(ID,typesOfLoan));
-                handleCustomerMenu(controller);
+                handleUpdateLoanRequest(controller);
                 break;
             case 1:
                 ID = UserInput.readLine("Please type in the loanID: ");
@@ -916,6 +925,11 @@ public class MainMenu {
                 }while(!bank.getLoanRequests().containsKey(ID));
 
                 String otherEquity = UserInput.readLine("Please type in the equity you want to change: ");
+                do{
+                    if(otherEquity.isEmpty() || !otherEquity.equals(bank.getEquity())){
+                        otherEquity = UserInput.readLine("Please type something: ");
+                    }
+                }while(otherEquity.isEmpty() || !bank.getLoanRequests().containsKey(otherEquity));
                 String newEquityValueStr = UserInput.readLine("Please type the new equity value: ");
                 do{
                     if(!Utilities.isNumeric(newEquityValueStr)){
@@ -936,10 +950,10 @@ public class MainMenu {
                 }while(!bank.getLoanRequests().containsKey(ID));
                 String loanPeriodStr = UserInput.readLine("Please type in the loan period: ");
                 do {
-                    if (!Utilities.isNumber(loanPeriodStr)) {
+                    if (!Utilities.isNumber(loanPeriodStr) || loanPeriodStr.isEmpty()) {
                         loanPeriodStr = UserInput.readLine("Please only use digits for the value. ");
                     }
-                }while(!Utilities.isNumber(loanPeriodStr));
+                }while(!Utilities.isNumber(loanPeriodStr) || loanPeriodStr.isEmpty());
                 int loanPeriod = Integer.parseInt(loanPeriodStr);
                 System.out.println(controller.updateTimePeriod(ID, loanPeriod));
                 handleUpdateLoanRequest(controller);
@@ -953,10 +967,10 @@ public class MainMenu {
                 }while(!bank.getLoanRequests().containsKey(ID));
                 String cashContributionStr = UserInput.readLine("Please type in the cash contribution");
                 do{
-                    if(!Utilities.isNumeric(cashContributionStr)){
+                    if(!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty()){
                         cashContributionStr = UserInput.readLine("Please only use digits for the value. ");
                     }
-                }while(!Utilities.isNumeric(cashContributionStr));
+                }while(!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty());
                 double cashContribution = Double.parseDouble(cashContributionStr);
                 System.out.println(controller.updateCashContribution(ID, cashContribution));
                 handleUpdateLoanRequest(controller);
@@ -969,6 +983,11 @@ public class MainMenu {
                     }
                 }while(!bank.getLoanRequests().containsKey(loanID));
                 String coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
+                do{
+                    if (coSigner_name.isEmpty() || coSigner_name.isBlank()){
+                        coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
+                    }
+                }while (coSigner_name.isEmpty() || coSigner_name.isBlank());
                 System.out.println(controller.updateCoSigner_name(loanID,coSigner_name));
                 handleUpdateLoanRequest(controller);
                 break;
@@ -980,10 +999,10 @@ public class MainMenu {
                     }
                 }while(!bank.getLoanRequests().containsKey(loanID));
                 String personalNr = UserInput.readLine("Please type in the new personal number: ");
-                if(!controller.isPersonNrCorrect(personalNr)) {
+                if(!controller.isPersonNrCorrect(personalNr) || personalNr.isEmpty()) {
                     do {
                         personalNr = UserInput.readLine("The personal number must be in this format (YYYYMMDDXXXX) and within valid times: ");
-                    } while (!controller.isPersonNrCorrect(personalNr));
+                    } while (!controller.isPersonNrCorrect(personalNr) || personalNr.isEmpty());
                 }
                 System.out.println(controller.updateCoSigner_personalNr(loanID, personalNr));
                 handleUpdateLoanRequest(controller);
@@ -1412,16 +1431,18 @@ public class MainMenu {
         int userChoice = Integer.parseInt(userChoiceStr);
         switch (userChoice){
             case 0:
-                System.out.println(controller.viewEmployeeUnreadMessages());
+                String indexStr = "";
+                 System.out.println(controller.viewEmployeeUnreadMessages());
                 if(controller.viewEmployeeUnreadMessages().equals("There are no unread messages.")){
                     handleEmployeeInbox(controller);
                 } else {
-                    int index = UserInput.readInt("Enter the number of the message you want to read: ");
-                    if(index<0 || index>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1){
+                    indexStr = UserInput.readLine("Enter the number of the message you want to read: ");
+                     if(!Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || Integer.parseInt(indexStr)<0 || indexStr.isEmpty() || indexStr.isBlank()){
                         do{
-                            index = UserInput.readInt("Invalid input. Enter the number of the message you want to read: ");
-                        } while(index<0 || index>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1);
+                            indexStr = UserInput.readLine("Invalid input. Enter the number of the message you want to read: ");
+                        } while(Integer.parseInt(indexStr)<0 || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || !Utilities.isNumber(indexStr) || indexStr.isEmpty() || indexStr.isBlank());
                     }
+                    int index = Integer.parseInt(indexStr);
                     MessageFormat textMessage = bank.getEmployeeInbox().getUnreadMessageInbox().get(index);
                     String message = textMessage + Utilities.EOL +
                             "Message: " + Utilities.EOL + controller.readEmployeeUnreadMessage(index);
@@ -1517,7 +1538,13 @@ public class MainMenu {
                 if(controller.viewEmployeeMessageHistory().equals("There are no messages available in message history.")) {
                     handleEmployeeInbox(controller);
                 } else {
-                    int index = UserInput.readInt("Enter the index of the message you want to read: ");
+                    String indexSrt = UserInput.readLine("Enter the index of the message you want to read: ");
+                    do{
+                        if(!Utilities.isNumber(indexSrt)|| Integer.parseInt(indexSrt) > bank.getEmployeeInbox().getMessageHistory().size()-1 || Integer.parseInt(indexSrt) < 0 || indexSrt.isEmpty() || indexSrt.isBlank()){
+                            indexSrt = UserInput.readLine("Please only use digits and choose from an existing one.");
+                        }
+                    }while(!Utilities.isNumber(indexSrt) || Integer.parseInt(indexSrt) > bank.getEmployeeInbox().getMessageHistory().size()-1 || Integer.parseInt(indexSrt) < 0 || indexSrt.isEmpty() || indexSrt.isBlank());
+                    int index = Integer.parseInt(indexSrt);
                     MessageFormat textMessage2 = bank.getEmployeeInbox().getMessageHistory().get(index);
                     String message = textMessage2 + Utilities.EOL +
                             "Message: " + Utilities.EOL + controller.readMessageEmployeeMessageHistory(index);
@@ -1527,7 +1554,9 @@ public class MainMenu {
                     if (option.equalsIgnoreCase("yes")) {
                         controller.removeFromEmployeeMessageHistory(index);
                         handleEmployeeInbox(controller);
-                }
+                } else {
+                        handleEmployeeInbox(controller);
+                    }
                 }
                 break;
             case 6:
