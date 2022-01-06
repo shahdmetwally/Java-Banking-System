@@ -202,7 +202,7 @@ public class Controller {
                     loanRequest.getEquities().put(otherEquity,equityNewValue);
                     return loanRequest.printEquities() + "Equity value successfully changed";
                 }else{
-                    return "Please enter an existing loanID: ";
+                    return "Please enter an existing equity: ";
                 }
         }
         return "";

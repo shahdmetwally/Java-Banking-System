@@ -563,6 +563,11 @@ public class MainMenu {
                     HashMap<String, Double> temp = controller.temporaryHashMap();
                     do {
                         String otherEquity = UserInput.readLine("Enter other equity name." + Utilities.EOL + "The name of the equity cannot be repeated");
+                        do{
+                            if (otherEquity.isBlank() || otherEquity.isEmpty()){
+                                otherEquity = UserInput.readLine("The name cannot be empty. ");
+                            }
+                        }while(otherEquity.isBlank() || otherEquity.isEmpty());
                         String otherEquitiesValueStr;
                         do {
                             otherEquitiesValueStr = UserInput.readLine("Enter other equities value: ");
@@ -926,10 +931,10 @@ public class MainMenu {
 
                 String otherEquity = UserInput.readLine("Please type in the equity you want to change: ");
                 do{
-                    if(otherEquity.isEmpty() || !otherEquity.equals(bank.getEquity())){
+                    if(otherEquity.isEmpty() || !bank.getSpecificLoanRequest(ID).getEquities().containsKey(otherEquity) || otherEquity.isBlank()){
                         otherEquity = UserInput.readLine("Please type something: ");
                     }
-                }while(otherEquity.isEmpty() || !bank.getLoanRequests().containsKey(otherEquity));
+                }while(otherEquity.isEmpty() || otherEquity.isBlank() ||  !bank.getSpecificLoanRequest(ID).getEquities().containsKey(otherEquity));
                 String newEquityValueStr = UserInput.readLine("Please type the new equity value: ");
                 do{
                     if(!Utilities.isNumeric(newEquityValueStr)){
