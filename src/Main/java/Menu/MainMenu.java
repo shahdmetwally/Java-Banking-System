@@ -578,7 +578,7 @@ public class MainMenu {
                         double otherEquitiesValue = Double.parseDouble(otherEquitiesValueStr);
 
                         System.out.println(controller.addEquities(otherEquity, otherEquitiesValue, temp));
-                        addEquities = UserInput.readLine("Do you want to add another equity?");
+                        addEquities = UserInput.readLine("Do you want to add another equity?" + Utilities.EOL + " Press yes if you wish to add another equity or press any key to continue. ");
                         do {
                             if (addEquities.isEmpty()) {
                                 addEquities = UserInput.readLine("Press yes if you wish to add another equity or press any key to continue");
@@ -782,12 +782,13 @@ public class MainMenu {
                 if(controller.viewCustomerUnreadMessages().equals("There are no unread messages.")){
                     handleCustomerInbox(controller);
                 } else {
-                    int index = UserInput.readInt("Enter the number of the message you want to read: ");
-                    if(index<0 || index>((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().size()){
+                    String indexStr = UserInput.readLine("Enter the number of the message you want to read: ");
+                    if(Integer.parseInt(indexStr)<0 || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().size() || !Utilities.isNumber(indexStr) || indexStr.isEmpty()){
                         do{
-                            index = UserInput.readInt("Invalid input. Enter the number of the message you want to read: ");
-                        } while(index<0 || index>((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().size());
+                            indexStr = UserInput.readLine("Invalid input. Enter the number of the message you want to read: ");
+                        } while(Integer.parseInt(indexStr)<0 || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().size() || !Utilities.isNumber(indexStr) || indexStr.isEmpty());
                     }
+                    int index = Integer.parseInt(indexStr);
                     MessageFormat textMessage = ((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().get(index);
                     String message = textMessage + Utilities.EOL +
                             "Message: " + Utilities.EOL + controller.readCustomerUnreadMessage(index);
@@ -823,12 +824,13 @@ public class MainMenu {
                 handleCustomerInbox(controller);
             case 2://View message history
                 System.out.println(controller.viewCustomerMessageHistory());
-                int index = UserInput.readInt("Enter the number of the message you want to read: ");
-                if(index<0 || index>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1){
+                String indexStr = UserInput.readLine("Enter the number of the message you want to read: ");
+                if(Integer.parseInt(indexStr)<0 || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1 || !Utilities.isNumber(indexStr) || indexStr.isEmpty()){
                     do{
-                        index = UserInput.readInt("Invalid input. Enter the number of the message you want to read: ");
-                    } while(index<0 || index>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1);
+                        indexStr = UserInput.readLine("Invalid input. Enter the number of the message you want to read: ");
+                    } while(Integer.parseInt(indexStr)<0 || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1 || !Utilities.isNumber(indexStr) || indexStr.isEmpty());
                 }
+                int index = Integer.parseInt(indexStr);
                 MessageFormat textMessage = ((Customer)controller.getUser()).getInbox().getMessageHistory().get(index);
                 message = textMessage + Utilities.EOL +
                         "Message: " + Utilities.EOL + controller.readMessageCustomerMessageHistory(index);
