@@ -580,10 +580,10 @@ public class MainMenu {
                         System.out.println(controller.addEquities(otherEquity, otherEquitiesValue, temp));
                         addEquities = UserInput.readLine("Do you want to add another equity?");
                         do {
-                            if (Utilities.isNumeric(addEquities) || addEquities.isEmpty()) {
-                                addEquities = UserInput.readLine("Please type yes or no");
+                            if (addEquities.isEmpty()) {
+                                addEquities = UserInput.readLine("Press yes if you wish to add another equity or press any key to continue");
                             }
-                        }while (Utilities.isNumeric(addEquities) || addEquities.isEmpty());
+                        }while ( addEquities.isEmpty());
                     } while (addEquities.equalsIgnoreCase("Yes"));
 
                     String cashContributionStr;
