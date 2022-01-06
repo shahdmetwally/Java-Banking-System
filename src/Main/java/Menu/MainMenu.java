@@ -579,6 +579,11 @@ public class MainMenu {
 
                         System.out.println(controller.addEquities(otherEquity, otherEquitiesValue, temp));
                         addEquities = UserInput.readLine("Do you want to add another equity?");
+                        do {
+                            if (Utilities.isNumeric(addEquities) || addEquities.isEmpty()) {
+                                addEquities = UserInput.readLine("Please type yes or no");
+                            }
+                        }while (Utilities.isNumeric(addEquities) || addEquities.isEmpty());
                     } while (addEquities.equalsIgnoreCase("Yes"));
 
                     String cashContributionStr;
@@ -1445,7 +1450,7 @@ public class MainMenu {
                      if(!Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || Integer.parseInt(indexStr)<0 || indexStr.isEmpty() || indexStr.isBlank()){
                         do{
                             indexStr = UserInput.readLine("Invalid input. Enter the number of the message you want to read: ");
-                        } while(Integer.parseInt(indexStr)<0 || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || !Utilities.isNumber(indexStr) || indexStr.isEmpty() || indexStr.isBlank());
+                        } while(!Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || Integer.parseInt(indexStr)<0 || indexStr.isEmpty() || indexStr.isBlank());
                     }
                     int index = Integer.parseInt(indexStr);
                     MessageFormat textMessage = bank.getEmployeeInbox().getUnreadMessageInbox().get(index);
@@ -1545,10 +1550,10 @@ public class MainMenu {
                 } else {
                     String indexSrt = UserInput.readLine("Enter the index of the message you want to read: ");
                     do{
-                        if(!Utilities.isNumber(indexSrt)|| Integer.parseInt(indexSrt) > bank.getEmployeeInbox().getMessageHistory().size()-1 || Integer.parseInt(indexSrt) < 0 || indexSrt.isEmpty() || indexSrt.isBlank()){
+                        if(!Utilities.isNumber(indexSrt)|| Integer.parseInt(indexSrt) > bank.getEmployeeInbox().getMessageHistory().size()-1 || Integer.parseInt(indexSrt) < 0 || indexSrt.isBlank() || indexSrt.isEmpty()){
                             indexSrt = UserInput.readLine("Please only use digits and choose from an existing one.");
                         }
-                    }while(!Utilities.isNumber(indexSrt) || Integer.parseInt(indexSrt) > bank.getEmployeeInbox().getMessageHistory().size()-1 || Integer.parseInt(indexSrt) < 0 || indexSrt.isEmpty() || indexSrt.isBlank());
+                    }while(!Utilities.isNumber(indexSrt) || Integer.parseInt(indexSrt) > bank.getEmployeeInbox().getMessageHistory().size()-1 || Integer.parseInt(indexSrt) < 0 || indexSrt.isBlank() || indexSrt.isEmpty());
                     int index = Integer.parseInt(indexSrt);
                     MessageFormat textMessage2 = bank.getEmployeeInbox().getMessageHistory().get(index);
                     String message = textMessage2 + Utilities.EOL +
