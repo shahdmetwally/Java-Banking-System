@@ -1453,7 +1453,7 @@ public class MainMenu {
                         do{
                             indexStr = UserInput.readLine("Invalid input. Enter the number of the message you want to read: ");
                         } while(indexStr.isEmpty() || indexStr.isBlank() || !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || Integer.parseInt(indexStr)<0);
-                    }
+                    } //hello
                     int index = Integer.parseInt(indexStr);
                     MessageFormat textMessage = bank.getEmployeeInbox().getUnreadMessageInbox().get(index);
                     String message = textMessage + Utilities.EOL +
