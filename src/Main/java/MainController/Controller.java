@@ -566,6 +566,7 @@ public class Controller {
     public String createManager (String name, String personalNo, String password, double salary, double bonus) throws
             Exception {
         User manager = new Manager(name, personalNo, password,  salary, bonus);
+        manager.setRole(Role.MANAGER);
         bank.addUser(manager);
         StartProgram.jsonManagers.add((Manager) manager);
         return "The manager was created successfully";
