@@ -25,11 +25,11 @@ Main menu: When typing the personal number instean of 0-3 the program shuts down
 
 
 Employee inbox:
-1. when entering blank spaces does not work
+1. works
 2. works
 3.works
 4.works
-5. when typing blank spaces does not work
+5. does now work when typing 5, gives out of bounds
 6.works
 7.works
 
@@ -45,4 +45,10 @@ updateLoanRequest
 7.works
 8.works
 
+
+CustomerInbox
+case 0: works
+case 2: works
+
 line 584, does this way work.
+!Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || Integer.parseInt(indexStr)<0 || indexStr.isEmpty() || indexStr.isBlank()
