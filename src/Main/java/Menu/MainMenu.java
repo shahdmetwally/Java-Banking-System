@@ -822,7 +822,7 @@ public class MainMenu {
                 }
                 System.out.println(controller.sendMessageToEmployees(title, message));
                 handleCustomerInbox(controller);
-            case 2://View message history
+            case 2://View message historyy
                 System.out.println(controller.viewCustomerMessageHistory());
                 String indexStr = UserInput.readLine("Enter the number of the message you want to read: ");
                 if(indexStr.isEmpty() || !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1 || Integer.parseInt(indexStr)<0){
