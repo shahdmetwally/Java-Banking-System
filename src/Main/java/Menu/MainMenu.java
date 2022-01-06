@@ -1580,7 +1580,7 @@ public class MainMenu {
                 break;
             default:
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                handleCustomerInbox(controller);
+                handleEmployeeInbox(controller);
         }
     }
 
