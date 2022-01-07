@@ -62,10 +62,6 @@ public class StartProgram {
         jsonEmployeeInbox.put("Message History", jsonEmployeeMessageHistory);
         jsonEmployeeInbox.put("Sent messages", jsonEmployeeSentMessages);
 
-
-
-
-
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(new File("bank.json"));
 
@@ -161,7 +157,6 @@ public class StartProgram {
               System.out.println("Banking System");
               MainMenu bankMenu = new MainMenu(bank);
               bankMenu.handleMainMenu();
-              System.out.println(jsonBank);
               mapper.writeValue(Paths.get("bank.json").toFile(), jsonBank);
           }catch (Exception exception){
               System.out.println(exception.getMessage());
