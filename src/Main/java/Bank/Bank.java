@@ -1,6 +1,8 @@
 package Bank;
 
+import Classes.BankAccount;
 import Classes.Customer;
+import Classes.Transaction;
 import Classes.User;
 import Inbox.EmployeeInbox;
 import Inbox.ManagerInbox;
@@ -21,35 +23,53 @@ public class Bank {
     private  HashMap<String, User> users; // key is the person Nr
     private  HashMap<String, User> bankAccounts; // do we really need this if is stored in the user?
     private  HashMap<String, Loan>  loans;
+    private HashMap<String,Transaction> transactionsTotheBank;
 
-    // we are having the HashMaps as a back up for the request made.
-    // because this ones are HashMap we are not allowing more than one request per customer at the same time.
-    // Either we leave it this way or we find another solution to this.
+
     private  HashMap<String, LoanRequest> loanRequests;
     private  HashMap<String, CardRequest> cardRequests;
     private HashMap<String, VacationRequest> vacationRequest;
 
-    // is just a test- need to talk to jennifer about this.
-    // this inbox are part of the banks inbox.
     private EmployeeInbox employeeInbox;
     private ManagerInbox managerInbox;
 
-    private double equity; // everytime the banks a payment the equity must increase with that amount.
-    // create a bankAccount for the bank, maybe just a composition with a bank account can do it. So that it can have access to those methods.
-
+    private BankAccount bankAccount;
 
     public Bank(){
         this.users = new HashMap<>();
         this.bankAccounts = new HashMap<>();
         this.loans = new HashMap<>();
         this.loanRequests = new HashMap<>();
-        this.equity = 0;
         this.cardRequests = new HashMap<>();
         this.employeeInbox = new EmployeeInbox();
         this.managerInbox = new ManagerInbox();
         this.vacationRequest = new HashMap<>();
         this.variableInterestRate = 0;
 
+
+    }
+    // this method allows the bank to crete a bank account, to be able to create that we need to create a fake customer for the bank.
+    // this is something that can be could have been improved better, but because we could increment the scope to insert
+    // create a Bg account and connected to the payments.
+    public void setUpTheBanksAccount(){
+       try {
+           String bankNr = "5051-505051511";
+           BankAccount accountForBank = new BankAccount();
+           this.bankAccount =accountForBank;
+           this.bankAccount.setActive(true);
+           Customer bankCust = new Customer("Bank", "190505059999", 0, "Bank12345", bankNr);
+           addBankAccount(bankNr,bankCust );
+           //StartProgram.jsonBanksBankAccount.add(this.bankAccount);
+           //StartProgram.jsonBanksBankAccount.add(bankCust);
+       }catch(Exception exception) {
+           System.out.println("banks own account");
+       }
+    }
+    public void showAllUser(){
+        users.forEach((personNo, user) -> System.out.println(user.getFullName() + " : " + personNo  + ": " + user.getPassword()));
+    }
+    public BankAccount getBanksAccount(){
+        return this.bankAccount;
     }
 
     public double getTotalCustomerBalance(){
@@ -62,36 +82,34 @@ public class Bank {
         }
         return balance;
     }
-// is here for testing purposes
-    public void showAllUser(){
-        users.forEach((personNo, user) -> System.out.println(user.getFullName() + " : " + personNo  + ": " + user.getPassword()));
-    }
 
-    // we don't allow the original HashMap to increase the encapsulation of the list.
+
     public void showAllLoanRequests(){
         loanRequests.forEach((personNo, loan)-> System.out.println(loan.toString()));
     }
-
+    // we don't allow the original HashMap in the getter to improve the encapsulation of the list.
     public HashMap<String, Loan > getLoans(){
         HashMap<String,Loan> loanClone = loans;
         return loanClone;
     }
+    // if the interest type is "Variable" this set all the loan that have type variable to the new interest rate
     public void setAllVariableInterest(double interestRate){
         for (Map.Entry<String, Loan> entry : loans.entrySet()) {
             entry.getValue().setInterestRate(interestRate);
         }
     }
-
+    // we don't allow the original HashMap in the getter to improve the encapsulation of the list.
     public HashMap<String, LoanRequest> getLoanRequests(){
         HashMap<String, LoanRequest> loanApplicationClone = loanRequests;
         return loanApplicationClone;
     }
-
+    // we don't allow the original HashMap in the getter to improve the encapsulation of the list.
     public HashMap<String, User> getUsers() {
         HashMap<String,User> usersClone = users;
         return usersClone;
     }
-
+// because we are not allowing acces to the original HashMap we have created a method that allows the system
+// to change still add users to the hashMap. This is for all methods below.
     public void addUser(User user) {
         this.users.put(user.getPersonalNo(), user);
         if(user instanceof Customer){
@@ -112,6 +130,8 @@ public class Bank {
         cardRequests.put(key,inputCardRequest);
         employeeInbox.addCardRequest(inputCardRequest);
     }
+
+    // The same reason
     public void removeCardRequest(String personalNr, CardRequest inputCardRequest){
         String key = "C" + personalNr;
         this.cardRequests.remove(key,inputCardRequest);
@@ -150,15 +170,6 @@ public class Bank {
         this.bankAccounts.remove(customer.getAccountNo(), customer);
     }
 
-// for the total Equity of the bank
-    public double getEquity() {
-        return equity;
-    }
-// to insert money to the banks equity
-    public void addEquity(double equity) {
-        this.equity += equity;
-    }
-
     public EmployeeInbox getEmployeeInbox() {
         return employeeInbox;
     }
@@ -183,7 +194,6 @@ public class Bank {
         HashMap<String, CardRequest> clone = cardRequests;
         return clone;
     }
-
 
     public double getVariableInterestRate() {
         return variableInterestRate;

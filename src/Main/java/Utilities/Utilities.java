@@ -73,21 +73,10 @@ public class Utilities {
         return true;
     }
 
-   /* public static double invalidInputString(String message){
-        double userInput = 0;
-        String message1="";
-        while(true){
-            try{
-                userInput= Double.parseDouble(UserInput.readLine(message));
-                break;
-            }catch(NumberFormatException ignore) {
-                message1 = "Invalid input";
-            }
-        }
-        return userInput;
-    }*/
 
     public static boolean isNumeric(String str) {
         return str.matches("\\d+(\\.\\d+)?");
     }
+
+
 }

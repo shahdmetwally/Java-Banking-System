@@ -46,23 +46,14 @@ public class User {
 
     public String getPassword() {return password;}
 
-    public void setPassword(String password) {this.password = password;}
+    public void setPassword(String password) {
+            this.password = password;
+    }
 
     public String getFullName() {return fullName;}
 
-    public void setName(String newName) throws Exception {
-        if(newName.isBlank()) {
-            throw new Exception("Name cannot be blank.");
-        }
+    public void setName(String newName)  {
         this.fullName = newName.trim();
-    }
-
-    public boolean isSamePersonNo(String inputPersonalNo){
-        if(this.personalNo.equals(inputPersonalNo)){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     public boolean isSamePassword(String inputPassword){
@@ -76,8 +67,6 @@ public class User {
         boolean isLong = password.length() > 7;
         return hasDigits && hasLowerCase && hasUpperCase && isLong;
     }
-
-
 
     public String toString(){
         return "Username: " + personalNo + " password: " + password ;

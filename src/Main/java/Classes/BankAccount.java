@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class BankAccount {
 
-
     private String accountNo;
     private double balance;
     private ArrayList<String> transactions;
@@ -18,7 +17,6 @@ public class BankAccount {
     private double budget;
     private ArrayList<String> userInbox; // Don't know if we are using the message function
     private String date;
-
 
     public BankAccount(){
     }
@@ -32,9 +30,12 @@ public class BankAccount {
         this.expanse = 0.00;
         this.budget = 0.00;
         this.date = "";
-
     }
-
+    public void setTransactionsToTheBank(double amount, Loan loan)throws Exception{
+        double loanAmount = loan.getAmount();
+        double newLoanAmount = loanAmount-amount;
+        loan.setLoanAmount(newLoanAmount);
+    }
 
     public String getAccountNo() {
         return accountNo;
@@ -61,8 +62,8 @@ public class BankAccount {
         return transactions.toString();
     }
 
-    public Loan getLoan() {
-        return loan;
+    public String getLoan() {
+        return loan.toString();
     }
 
     public Loan setLoan(Loan loan){
@@ -77,14 +78,6 @@ public class BankAccount {
         this.active = active;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setDeactivate(boolean deactivate) {
-        this.active = false;
-    }
-
     public void setBudget(double budget) throws Exception {
         if(budget<0){
             throw new Exception("Budget cannot be negative.");
@@ -94,13 +87,8 @@ public class BankAccount {
     }
 
     public void addTransaction(double amount) {
-        //if (active) {                                      // Jeniffer - Activation/ Deactivation of account
         Transaction transaction = new Transaction(amount);
         transactions.add(transaction.toString());
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
     }
 
     public void budgetMonth() {
@@ -122,9 +110,6 @@ public class BankAccount {
         }
         return message;
     }
-    //else {
-    //    System.out.println("Your account is deactivated.");
-    //}
 
     public String toString() {
         return "Your balance is " + Utilities.truncateForPrint(balance);

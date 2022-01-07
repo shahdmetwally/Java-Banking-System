@@ -1,6 +1,6 @@
 package Classes;
 
-import Request.LoanRequest;
+import Loans.Loan;
 import Inbox.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -88,9 +88,6 @@ public class Customer extends User {
 
     // Debitcard methods - below
 
-    /*public boolean getCardStatus(){
-       return debitCard.getStatus();
-    }*/
     public void  deactivateCard(){
         debitCard.setDeactivate();
     }
@@ -102,7 +99,9 @@ public class Customer extends User {
         return "Customer " + getFullName() + " with personal number " + getPersonalNo() + "  Bank account: " + getBankAccount();
     }
 
-
+    public void setLoan(Loan loan){
+        bankAccount.setLoan(loan);
+    }
     public double getSalary() {
         return salary;
     }
