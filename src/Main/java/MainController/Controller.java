@@ -512,6 +512,7 @@ public class Controller {
             String textMessage =  " Interest offer: " + interestRate+  Utilities.EOL +
                     "Type of interest: " + loanRequest.getInterestType() + Utilities.EOL;
             totalMessage= title + textMessage + message;
+             MessageFormat messageFormat = new MessageFormat(title,textMessage);
             customer.getInbox().addMessageToUnreadMessages(messageFormat);
         }
         return totalMessage;
