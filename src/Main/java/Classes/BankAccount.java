@@ -87,7 +87,6 @@ public class BankAccount {
     }
 
     public void addTransaction(double amount) {
-        //if (active) {
         Transaction transaction = new Transaction(amount);
         transactions.add(transaction.toString());
     }
