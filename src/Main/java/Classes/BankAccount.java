@@ -61,8 +61,8 @@ public class BankAccount {
         return transactions.toString();
     }
 
-    public Loan getLoan() {
-        return loan;
+    public String getLoan() {
+        return loan.toString();
     }
 
     public Loan setLoan(Loan loan){
@@ -73,17 +73,6 @@ public class BankAccount {
         return transactions;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setDeactivate(boolean deactivate) {
-        this.active = false;
-    }
 
     public void setBudget(double budget) throws Exception {
         if(budget<0){
@@ -97,10 +86,6 @@ public class BankAccount {
         //if (active) {                                      // Jeniffer - Activation/ Deactivation of account
         Transaction transaction = new Transaction(amount);
         transactions.add(transaction.toString());
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
     }
 
     public void budgetMonth() {

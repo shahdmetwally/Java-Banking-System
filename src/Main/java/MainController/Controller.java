@@ -501,6 +501,7 @@ public class Controller {
                 interestType = TypeOfInterest.VARIABLE_RATE;
             }
             Loan loan = new Loan(customer,amount,typesOfLoan,houseValue,interestRate,interestType,loanPeriod,hashMap,cashContribution,coSigner_name,coSigner_personalNr,coSigner_Salary);
+            customer.setLoan(loan);
             bank.addLoan(customer.getPersonalNo(),loan);
             StartProgram.jsonLoans.add(loan);
             bank.removeLoanRequest(loanRequest.getPersonalNr(),loanRequest);
@@ -647,18 +648,7 @@ public class Controller {
         customer.setPassword(newPassword);
         return "The password was updated.";
     }
-    // DO we need to remove the account? Method is not been used.
-    public String removeCustomerAccount (String personalNo) throws Exception {
-        String removeResult = "";
-        Customer customer = getCustomer(personalNo);
-        if (customer == null) {
-            throw new Exception("A customer with personal number " + personalNo + " was not registered yet.");
-        } else {
-            removeResult = "Customer: " + personalNo + " was successfully removed.";
-            bank.removeUser(customer);
-        }
-        return removeResult;
-    }
+
 
 
     public String getCustomerInfo (String personalNumber){
@@ -931,13 +921,6 @@ public class Controller {
     }
 
         // METHODS TO CHECK IN THE MAIN MENU
-
-    public boolean isBlank(String name) throws Exception {
-        if(name.isBlank()){
-            return true;
-        }
-        return false;
-    }
 
     public boolean isPersonNrCorrect(String personalNo) {
         if (personalNo.length() == 12) {

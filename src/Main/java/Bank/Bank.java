@@ -49,6 +49,7 @@ public class Bank {
         this.managerInbox = new ManagerInbox();
         this.vacationRequest = new HashMap<>();
         this.variableInterestRate = 0;
+        this.bankAccount = ""
 
     }
 
