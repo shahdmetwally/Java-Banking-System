@@ -40,6 +40,7 @@ public class Controller2  {
     }
 
 
+
     public String updateTypeOfLoan(String loanRequestID, TypesOfLoan typesOfLoan) {
         if (bank.getLoanRequests().containsKey(loanRequestID)) {
             LoanRequest loanRequest = bank.getSpecificLoanRequest(loanRequestID);

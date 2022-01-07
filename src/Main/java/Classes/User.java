@@ -46,21 +46,13 @@ public class User {
 
     public String getPassword() {return password;}
 
-    public void setPassword(String password) throws Exception {
-        if(!isStrongPassword(password)) {
-            throw new Exception("The password is weak. The password must have a minimum of 8 characters in length" +
-                    " and contain: lowercase letter, uppercase letter, digit.");
-        }else {
+    public void setPassword(String password) {
             this.password = password;
-        }
     }
 
     public String getFullName() {return fullName;}
 
-    public void setName(String newName) throws Exception {
-        if(newName.isBlank()) {
-            throw new Exception("Name cannot be blank.");
-        }
+    public void setName(String newName)  {
         this.fullName = newName.trim();
     }
 
