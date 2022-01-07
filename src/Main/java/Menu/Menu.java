@@ -114,6 +114,7 @@ public class Menu {
                 }while (option.equalsIgnoreCase("yes"));
                 break;
             case 2: //System Administration
+                administrationMenu.setUpAdministrationMenu();
                 try {
                     this.controller = login();
                     this.administrationMenu = new AdministrationMenu(controller);

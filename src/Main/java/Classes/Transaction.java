@@ -6,15 +6,12 @@ public class Transaction{
 
     private double amount;
     private String loanID;
-    private String date;
 
     public Transaction(){
 
     }
     public Transaction(double amount){
         this.amount = amount;
-        this.date = Utilities.dateAndTime();
-
     }
     public Transaction(double amount,String loanID){
         this.amount = amount;
