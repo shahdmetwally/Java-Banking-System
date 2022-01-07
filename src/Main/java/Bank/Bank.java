@@ -23,20 +23,14 @@ public class Bank {
     private  HashMap<String, User> bankAccounts; // do we really need this if is stored in the user?
     private  HashMap<String, Loan>  loans;
 
-    // we are having the HashMaps as a back up for the request made.
-    // because this ones are HashMap we are not allowing more than one request per customer at the same time.
-    // Either we leave it this way or we find another solution to this.
+
     private  HashMap<String, LoanRequest> loanRequests;
     private  HashMap<String, CardRequest> cardRequests;
     private HashMap<String, VacationRequest> vacationRequest;
 
-    // is just a test- need to talk to jennifer about this.
-    // this inbox are part of the banks inbox.
     private EmployeeInbox employeeInbox;
     private ManagerInbox managerInbox;
 
-   // everytime the banks a payment the equity must increase with that amount.
-    // create a bankAccount for the bank, maybe just a composition with a bank account can do it. So that it can have access to those methods.
     private BankAccount bankAccount;
 
     public Bank(){
@@ -49,10 +43,23 @@ public class Bank {
         this.managerInbox = new ManagerInbox();
         this.vacationRequest = new HashMap<>();
         this.variableInterestRate = 0;
-        this.bankAccount = ""
+
 
     }
-
+    public void setUpTheBanksAccount(){
+       try {
+           String bankNr = "5051-505051511";
+           BankAccount accountForBank = new BankAccount();
+           this.bankAccount =accountForBank;
+           Customer bankCust = new Customer("Bank", "190505059999", 0, "Bank12345", bankNr);
+           addBankAccount(bankNr,bankCust );
+       }catch(Exception exception) {
+           System.out.println("banks own account");
+       }
+    }
+    public BankAccount getBanksAccount(){
+        return this.bankAccount;
+    }
     public double getTotalCustomerBalance(){
         double balance = 0;
         for (Map.Entry<String, User> user : users.entrySet()) {

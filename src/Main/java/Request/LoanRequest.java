@@ -39,7 +39,7 @@ public class LoanRequest extends Request{
         this.loanPeriod = loanPeriod;
         this.equities = hashMap;
         this.cashContribution = cashContribution;
-        this.coSigner_name = coSigner_name;
+        this.coSigner_name = coSigner_name.trim();
         this.coSigner_personalNr = coSigner_personalNr;
         this.coSigner_salary = coSigner_salary;
     }

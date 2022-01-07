@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class BankAccount {
 
-
     private String accountNo;
     private double balance;
     private ArrayList<String> transactions;
@@ -18,7 +17,6 @@ public class BankAccount {
     private double budget;
     private ArrayList<String> userInbox; // Don't know if we are using the message function
     private String date;
-
 
     public BankAccount(){
     }
@@ -32,7 +30,6 @@ public class BankAccount {
         this.expanse = 0.00;
         this.budget = 0.00;
         this.date = "";
-
     }
 
 
@@ -73,6 +70,9 @@ public class BankAccount {
         return transactions;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public void setBudget(double budget) throws Exception {
         if(budget<0){

@@ -14,7 +14,7 @@ public class Request {
 
     public Request(User user){
         this.personalNr =user.getPersonalNo();
-        this.name = user.getFullName();
+        this.name = user.getFullName().trim();
         this.date = Utilities.dateAndTime();
     }
 

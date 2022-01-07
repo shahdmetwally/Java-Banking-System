@@ -7,6 +7,7 @@ import Inbox.MessageFormat;
 import Loans.TypeOfInterest;
 import Loans.TypesOfLoan;
 import MainController.Controller;
+import MainController.Controller2;
 import Utilities.UserInput;
 import Utilities.Utilities;
 
@@ -19,6 +20,7 @@ public class CustomerMenu {
     protected MenuOptions customerInbox;
     protected MenuOptions updateLoanRequest;
     protected Controller controller;
+    protected Controller2 controller2;
 
 
     public CustomerMenu(Controller controller) throws Exception {
@@ -28,6 +30,7 @@ public class CustomerMenu {
             this.customerInbox = new MenuOptions();
             this.updateLoanRequest = new MenuOptions();
             this.controller = controller;
+            this.controller2 = ((Controller2) controller);
         }else{
             throw new Exception("Access denied. This menu is only for customers.");
         }
@@ -347,7 +350,7 @@ public class CustomerMenu {
 
     public HashMap<String,Double> loanEquities(){
         String addEquities;
-        HashMap<String, Double> temp = controller.temporaryHashMap();
+        HashMap<String, Double> temp = controller2.temporaryHashMap();
         do {
             String otherEquity = UserInput.readLine("Enter other equity name." + Utilities.EOL + "The name of the equity cannot be repeated");
             do{
@@ -364,7 +367,7 @@ public class CustomerMenu {
             } while (!Utilities.isNumeric(otherEquitiesValueStr) || otherEquitiesValueStr.isEmpty());
             double otherEquitiesValue = Double.parseDouble(otherEquitiesValueStr);
 
-            System.out.println(controller.addEquities(otherEquity, otherEquitiesValue, temp));
+            System.out.println(controller2.addEquities(otherEquity, otherEquitiesValue, temp));
             addEquities = UserInput.readLine("Do you want to add another equity?" + Utilities.EOL + " Press yes if you wish to add another equity or press any key to continue. ");
             do {
                 if (addEquities.isEmpty()) {
@@ -469,7 +472,7 @@ public class CustomerMenu {
     public void updateLoanType(){
         String ID = checkId();
         TypesOfLoan typesOfLoan = loanType();
-        System.out.println(controller.updateTypeOfLoan(ID,typesOfLoan));
+        System.out.println(((Controller2)controller).updateTypeOfLoan(ID,typesOfLoan));
 
     }
 
@@ -489,7 +492,7 @@ public class CustomerMenu {
             }
         }while(!Utilities.isNumeric(newEquityValueStr));
         double newEquityValue = Double.parseDouble(newEquityValueStr);
-        System.out.println(controller.updateEquities(id,otherEquity, newEquityValue));
+        System.out.println(controller2.updateEquities(id,otherEquity, newEquityValue));
     }
 
     public void updateTimePeriod(){
@@ -501,7 +504,7 @@ public class CustomerMenu {
             }
         }while(!Utilities.isNumber(loanPeriodStr) || loanPeriodStr.isEmpty());
         int loanPeriod = Integer.parseInt(loanPeriodStr);
-        System.out.println(controller.updateTimePeriod(ID, loanPeriod));
+        System.out.println(controller2.updateTimePeriod(ID, loanPeriod));
     }
 
     public void updateCashContribution(){
@@ -513,21 +516,27 @@ public class CustomerMenu {
             }
         }while(!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty());
         double cashContribution = Double.parseDouble(cashContributionStr);
-        System.out.println(controller.updateCashContribution(ID, cashContribution));
+        System.out.println(controller2.updateCashContribution(ID, cashContribution));
     }
 
     public void updateCosignerName(){
-        String loanID = checkId();
-        String coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
-        do{
-            if (coSigner_name.isEmpty() || coSigner_name.isBlank()){
-                coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
-            }
-        }while (coSigner_name.isEmpty() || coSigner_name.isBlank());
-        System.out.println(controller.updateCoSigner_name(loanID,coSigner_name));
+        try {
+
+            String loanID = checkId();
+            String coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
+            do {
+                if (coSigner_name.isEmpty() || coSigner_name.isBlank()) {
+                    coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
+                }
+            } while (coSigner_name.isEmpty() || coSigner_name.isBlank());
+            System.out.println(controller2.updateCoSigner_name(loanID, coSigner_name));
+        }catch (Exception exception){
+            System.out.println(exception.getMessage());
+        }
     }
 
     public void updateCosignerPersonalNr(){
+        try {
         String loanID = checkId();
         String personalNr = UserInput.readLine("Please type in the new personal number: ");
         if(!controller.isPersonNrCorrect(personalNr) || personalNr.isEmpty()) {
@@ -535,11 +544,15 @@ public class CustomerMenu {
                 personalNr = UserInput.readLine("The personal number must be in this format (YYYYMMDDXXXX) and within valid times: ");
             } while (!controller.isPersonNrCorrect(personalNr) || personalNr.isEmpty());
         }
-        System.out.println(controller.updateCoSigner_personalNr(loanID, personalNr));
+        System.out.println(controller2.updateCoSigner_personalNr(loanID, personalNr));
+    }catch (Exception exception){
+        System.out.println(exception.getMessage());
+    }
     }
 
     public void updateCosignerIncome(){
-        String loanID = checkId();
+       try{
+           String loanID = checkId();
         String coSigner_salaryStr;
         do {
             coSigner_salaryStr = UserInput.readLine("Please type in the new Co-Signer salary");
@@ -549,7 +562,10 @@ public class CustomerMenu {
         } while (!Utilities.isNumeric(coSigner_salaryStr) || coSigner_salaryStr.isEmpty());
         double coSigner_salary = Double.parseDouble(coSigner_salaryStr);
 
-        System.out.println(controller.updateCoSigner_salary(loanID, coSigner_salary));
+        System.out.println(controller2.updateCoSigner_salary(loanID, coSigner_salary));
+    }catch (Exception exception){
+        System.out.println(exception.getMessage());
+    }
     }
 
     public void updateInterestType(){
@@ -569,7 +585,7 @@ public class CustomerMenu {
         if(typeOfInterest.equalsIgnoreCase("variable")){
             interestType = TypeOfInterest.VARIABLE_RATE;
         }
-        System.out.println(controller.updateInterestType(loanID, interestType));
+        System.out.println(controller2.updateInterestType(loanID, interestType));
     }
 
     public void viewMessages(){
@@ -587,8 +603,8 @@ public class CustomerMenu {
         String option = UserInput.readLine("Do you want to move the message to the message history?" +
                 Utilities.EOL + "Yes or no?");
         if (option.equalsIgnoreCase("yes")) {
-            controller.removeFromCustomerUnreadMessages(index);
-            controller.addToCustomerMessageHistory(textMessage);
+            controller2.removeFromCustomerUnreadMessages(index);
+            controller2.addToCustomerMessageHistory(textMessage);
             System.out.println("The message has been moved to message history.");
         }
     }
@@ -609,11 +625,11 @@ public class CustomerMenu {
                         "Please type the message that you would like to send to Customer Support: ");
             } while(message.isBlank());
         }
-        System.out.println(controller.sendMessageToEmployees(title, message));
+        System.out.println(controller2.sendMessageToEmployees(title, message));
     }
 
     public void viewMessageHistory(){
-        System.out.println(controller.viewCustomerMessageHistory());
+        System.out.println(controller2.viewCustomerMessageHistory());
         String indexStr = UserInput.readLine("Enter the number of the message you want to read: ");
         if(indexStr.isEmpty() || !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1 || Integer.parseInt(indexStr)<0){
             do{
@@ -623,12 +639,12 @@ public class CustomerMenu {
         int index = Integer.parseInt(indexStr);
         MessageFormat textMessage = ((Customer)controller.getUser()).getInbox().getMessageHistory().get(index);
         String message = textMessage + Utilities.EOL +
-                "Message: " + Utilities.EOL + controller.readMessageCustomerMessageHistory(index);
+                "Message: " + Utilities.EOL + controller2.readMessageCustomerMessageHistory(index);
         System.out.println(message);
         String option = UserInput.readLine("Do you want to remove the message from the message history?" +
                 Utilities.EOL + "Yes or no?");
         if (option.equalsIgnoreCase("yes")) {
-            controller.removeFromCustomerMessageHistory(index);
+            controller2.removeFromCustomerMessageHistory(index);
             System.out.println("The message has been removed.");
         }
     }

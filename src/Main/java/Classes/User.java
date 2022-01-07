@@ -46,7 +46,14 @@ public class User {
 
     public String getPassword() {return password;}
 
-    public void setPassword(String password) {this.password = password;}
+    public void setPassword(String password) throws Exception {
+        if(!isStrongPassword(password)) {
+            throw new Exception("The password is weak. The password must have a minimum of 8 characters in length" +
+                    " and contain: lowercase letter, uppercase letter, digit.");
+        }else {
+            this.password = password;
+        }
+    }
 
     public String getFullName() {return fullName;}
 
@@ -55,14 +62,6 @@ public class User {
             throw new Exception("Name cannot be blank.");
         }
         this.fullName = newName.trim();
-    }
-
-    public boolean isSamePersonNo(String inputPersonalNo){
-        if(this.personalNo.equals(inputPersonalNo)){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     public boolean isSamePassword(String inputPassword){
@@ -76,8 +75,6 @@ public class User {
         boolean isLong = password.length() > 7;
         return hasDigits && hasLowerCase && hasUpperCase && isLong;
     }
-
-
 
     public String toString(){
         return "Username: " + personalNo + " password: " + password ;

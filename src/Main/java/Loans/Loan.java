@@ -5,6 +5,7 @@ import Utilities.Utilities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Loan {
@@ -31,11 +32,11 @@ public class Loan {
 
     public Loan(Customer customer, double loanAmount, TypesOfLoan typesOfLoan, double houseWorth, double interestRate, TypeOfInterest interestType,
                 double loanPeriod, HashMap<String,Double> hashMap, double cashContribution,
-                String coSigner_name, String coSigner_personalNr, double coSigner_salary){
+                String coSigner_name, String coSigner_personalNr, double coSigner_salary) throws Exception {
 
         this.loanID = "L"+ customer.getPersonalNo();
         this.personalNr = customer.getPersonalNo();
-        this.name = customer.getFullName();
+        this.name = customer.getFullName().trim();
         this.typesOfLoan = typesOfLoan;
         if(typesOfLoan == TypesOfLoan.HOUSE_LOAN){
             this.houseWorth = houseWorth;
@@ -49,8 +50,17 @@ public class Loan {
         this.loanPeriod = loanPeriod;
         this.equities = hashMap;
         this.cashContribution = cashContribution;
-        this.coSigner_name = coSigner_name;
+        if(coSigner_name.isBlank()){
+            throw new Exception("The name cannot be blank");
+        }
+        this.coSigner_name = coSigner_name.trim();
+        if(coSigner_personalNr.length()!=12) {
+            throw new Exception("Personal number must be in this format: YYYYMMDDXXXX");
+        }
         this.coSigner_personalNr = coSigner_personalNr;
+        if(coSigner_salary < 0){
+            throw new Exception("The salary cannot be less than zero");
+        }
         this.coSigner_salary = coSigner_salary;
 
     }
@@ -167,15 +177,20 @@ public class Loan {
         return coSigner_name;
     }
 
-    public void setCoSigner_name(String coSigner_name) {
+    public void setCoSigner_name(String coSigner_name) throws Exception {
+        if(coSigner_name.isBlank()) {
+            throw new Exception("Name cannot be blank.");
+        }
         this.coSigner_name = coSigner_name;
     }
 
     public String getCoSigner_personalNr() {
         return coSigner_personalNr;
     }
-    public void setCoSigner_personalNr(String personalNr){
-        coSigner_personalNr = personalNr;
+    public void setCoSigner_personalNr(String personalNr) throws Exception {
+        if(personalNr.length()!=12) {
+            throw new Exception("Personal number must be in this format: YYYYMMDDXXXX");
+        }coSigner_personalNr = personalNr;
     }
 
     public void setInterestRate(double interestRate) {

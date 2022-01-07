@@ -2,6 +2,7 @@ package Menu;
 
 import Classes.Role;
 import MainController.Controller;
+import MainController.Controller2;
 import Utilities.UserInput;
 import Utilities.Utilities;
 
@@ -10,10 +11,12 @@ import java.util.Collections;
 public class AdministrationMenu{
     MenuOptions administrationMenu;
     Controller controller;
+    Controller2 controller2;
    public AdministrationMenu(Controller controller) throws Exception {
        if(controller.getUser().getRole() == Role.ADMIN) {
            this.administrationMenu = new MenuOptions();
            this.controller = controller;
+           this.controller2 = ((Controller2) controller);
        }else{
            throw new Exception("Access denied. This menu is only for administration.");
        }
@@ -24,13 +27,14 @@ public class AdministrationMenu{
                "--------------------" + Utilities.EOL +
                " Choose one of the options below.");
        administrationMenu.addOptions(0, "Change administration password.");
-       administrationMenu.addOptions(1,"Create manager.");
-       administrationMenu.addOptions(2, "Remove manager.");
-       administrationMenu.addOptions(3,"Update manager salary.");
-       administrationMenu.addOptions(4,"Change manager password.");
-       administrationMenu.addOptions(5,"Promote employee.");;
-       administrationMenu.addOptions(6,"Show all managers.");
-       administrationMenu.addOptions(7, "Log out.");
+       administrationMenu.addOptions(1, "SetUp BankAccount for the Bank");
+       administrationMenu.addOptions(2,"Create manager.");
+       administrationMenu.addOptions(3, "Remove manager.");
+       administrationMenu.addOptions(4,"Update manager salary.");
+       administrationMenu.addOptions(5,"Change manager password.");
+       administrationMenu.addOptions(6,"Promote employee.");;
+       administrationMenu.addOptions(7,"Show all managers.");
+       administrationMenu.addOptions(8, "Log out.");
    }
     public String registerPassword(){
 
@@ -52,11 +56,16 @@ public class AdministrationMenu{
    public void changeAdminPassword(){
        try {
            String password = registerPassword();
-           String message = controller.setAdminPassword(password);
+           String message = controller2.setAdminPassword(password);
            System.out.println(message);
        } catch (Exception exception) {
            System.out.println(exception.getMessage());
        }
+   }
+   public void setUpAccountForBank() throws Exception {
+       controller.getBank().setUpTheBanksAccount();
+       double amount = UserInput.readDouble("Enter the bank balance: ");
+       controller.getBank().getBanksAccount().depositMoney(amount);
    }
 
    public String registerPersonalNr(){
@@ -111,7 +120,7 @@ public class AdministrationMenu{
                double salary = registerSalary();
                double actualBonus = registerBonus();
 
-               String message = controller.createManager(fullName, personalNo, password, salary, actualBonus);
+               String message = controller2.createManager(fullName, personalNo, password, salary, actualBonus);
                System.out.println(message);
            } catch (IllegalAccessException scannerError) {
                System.out.println("Invalid input.");
@@ -130,7 +139,7 @@ public class AdministrationMenu{
                    personNr = UserInput.readLine("Enter an existing managers personal number: ");
                } while (!controller.getBank().getUsers().containsKey(personNr) || !controller.isManager(personNr));
            }
-           String message = controller.removeManager(personNr);
+           String message = controller2.removeManager(personNr);
            System.out.println(message);
        } catch (Exception exception) {
            System.out.println(exception.getMessage());
@@ -141,7 +150,7 @@ public class AdministrationMenu{
        try {
            String personNr = checkPersonNr();
            double newSalary = registerSalary();
-           String message = controller.setManagerSalary(newSalary, personNr);
+           String message = controller2.setManagerSalary(newSalary, personNr);
            System.out.println(message);
        } catch (Exception exception) {
            System.out.println(exception.getMessage());
@@ -151,7 +160,7 @@ public class AdministrationMenu{
        try {
            String personNr = checkPersonNr();
            String password = registerPassword();
-           String message = controller.setManagerPassword(personNr, password);
+           String message = controller2.setManagerPassword(personNr, password);
            System.out.println(message);
        } catch (Exception exception) {
            System.out.println(exception.getMessage());
@@ -162,7 +171,7 @@ public class AdministrationMenu{
        double salary = registerSalary();
        double bonus = registerBonus();
        try {
-           String message = controller.promoteEmployee(personNr, salary, bonus);
+           String message = controller2.promoteEmployee(personNr, salary, bonus);
            System.out.println(message);
        } catch (Exception exception) {
            System.out.println(exception.getMessage());

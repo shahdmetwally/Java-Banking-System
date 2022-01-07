@@ -5,10 +5,9 @@ import Bank.Bank;
 import Classes.*;
 import Inbox.EmployeeInbox;
 import Inbox.ManagerInbox;
-import Inbox.Inbox;
 import Inbox.MessageFormat;
 import Loans.Loan;
-import Menu.MainMenu;
+import Menu.Menu;
 import Request.CardRequest;
 import Request.LoanRequest;
 import Request.VacationRequest;
@@ -148,14 +147,14 @@ public class StartProgram {
             jsonEmployeeSentMessages.add(sentMessage);
         }
 
-        bank.showAllUser();
 
       String option;
         do{
 
           try {
               System.out.println("Banking System");
-              MainMenu bankMenu = new MainMenu(bank);
+              Menu bankMenu = new Menu(bank);
+              bankMenu.setUpMain();
               bankMenu.handleMainMenu();
               mapper.writeValue(Paths.get("bank.json").toFile(), jsonBank);
           }catch (Exception exception){
