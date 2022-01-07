@@ -18,6 +18,7 @@ public class Menu {
     private EmployeeMenu employeeMenu;
     private AdministrationMenu administrationMenu;
     private Bank bank;
+    private Controller2 controller2;
 
     public Menu(Bank bank) {
        this.mainMenu = new MenuOptions();
@@ -47,9 +48,7 @@ public class Menu {
         Controller controller = new Controller(userName, password,bank);
         return controller;
     }
-    public Controller2 getController2(){
-        return ((Controller2) controller);
-    }
+
     public int checkUserChoice( int lowerBound, int upperBound){
         String message = "Invalid Input.";
         String userChoiceStr;
@@ -88,6 +87,7 @@ public class Menu {
 
                    try {
                        this.controller = login();
+                       Controller2 controller2 = new Controller2(controller);
                        this.customerMenu = new CustomerMenu(controller);
                        customerMenu.setUpCustomerMenu();
                        handleCustomerMenu();
@@ -324,8 +324,8 @@ public class Menu {
         int userChoice = checkUserChoice(0,4);
         switch (userChoice) {
             case 0: //View messages from employees
-                System.out.println(getController2().viewCustomerUnreadMessages());
-                if(getController2().checkViewMessages()){
+                System.out.println(controller2.viewCustomerUnreadMessages());
+                if(controller2.checkViewMessages()){
                     handleCustomerMenu();
                 }
                 customerMenu.viewMessages();
@@ -339,7 +339,7 @@ public class Menu {
                 handleCustomerInbox();
                 break;
             case 3:
-                System.out.println(getController2().viewCustomerSentMessages());
+                System.out.println(controller2.viewCustomerSentMessages());
                 handleCustomerInbox();
                 break;
             case 4: //Back to customer menu
@@ -452,11 +452,11 @@ public class Menu {
                 handleEmployeeInbox();
                 break;
             case 3:
-                System.out.println(getController2().viewAllLoanRequests());
+                System.out.println(controller2.viewAllLoanRequests());
                 handleEmployeeInbox();
                 break;
             case 4:
-                System.out.println(getController2().viewAllCardRequests());
+                System.out.println(controller2.viewAllCardRequests());
                 handleEmployeeInbox();
                 break;
             case 5:
@@ -534,11 +534,11 @@ public class Menu {
 
         switch (userChoice){
             case 0:
-                System.out.println(getController2().seeVacationApplications());
+                System.out.println(controller2.seeVacationApplications());
                 handleManagerInbox();
                 break;
             case 1:
-                System.out.println(getController2().handleVacationApplication());
+                System.out.println(controller2.handleVacationApplication());
                 handleManagerInbox();
                 break;
             case 2:
@@ -584,7 +584,7 @@ public class Menu {
                     handleAdministration();
                     break;
                 case 7:
-                    System.out.println(getController2().showAllManagers());
+                    System.out.println(controller2.showAllManagers());
                     handleAdministration();
                     break;
                 case 8: //Log out
