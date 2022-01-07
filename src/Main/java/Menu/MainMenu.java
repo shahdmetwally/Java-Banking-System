@@ -174,7 +174,7 @@ public class MainMenu {
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         managerInbox.addOptions(0, "View all employees' vacation requests.");
-        managerInbox.addOptions(1, "Approve or decline employees' vacation request.");
+        managerInbox.addOptions(1, "Approve employees' vacation request.");
         managerInbox.addOptions(2,"Return to manager menu.");
     }
 
@@ -1215,6 +1215,8 @@ public class MainMenu {
                                 }while (!controller.checkLoanRequest(loanRequestID));
 
                                 String textMessage = UserInput.readLine("Enter message: ");
+                                String messagetitle = "Modify request";
+                                controller.sendMessageToACustomer(bank.getLoanRequests().get(loanRequestID).getPersonalNr(), textMessage, messagetitle);
 
                                 // ADD SEND MESSAGE TO CUSTOMER HERE!!
 
