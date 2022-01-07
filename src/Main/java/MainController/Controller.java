@@ -551,6 +551,9 @@ public class Controller {
         return false;
     }
 
+    public String  transactionToTheBank(String amount, String bankAccount, String loanID){
+
+    }
 
 
 }

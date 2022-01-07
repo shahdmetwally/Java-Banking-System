@@ -31,7 +31,11 @@ public class BankAccount {
         this.budget = 0.00;
         this.date = "";
     }
-
+    public void setTransactionsToTheBank(double amount, Loan loan)throws Exception{
+        double loanAmount = loan.getAmount();
+        double newLoanAmount = loanAmount-amount;
+        loan.setLoanAmount(newLoanAmount);
+    }
 
     public String getAccountNo() {
         return accountNo;
