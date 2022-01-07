@@ -1,5 +1,6 @@
 package Bank;
 
+import Classes.BankAccount;
 import Classes.Customer;
 import Classes.User;
 import Inbox.EmployeeInbox;
@@ -34,16 +35,15 @@ public class Bank {
     private EmployeeInbox employeeInbox;
     private ManagerInbox managerInbox;
 
-    private double equity; // everytime the banks a payment the equity must increase with that amount.
+   // everytime the banks a payment the equity must increase with that amount.
     // create a bankAccount for the bank, maybe just a composition with a bank account can do it. So that it can have access to those methods.
-
+    private BankAccount bankAccount;
 
     public Bank(){
         this.users = new HashMap<>();
         this.bankAccounts = new HashMap<>();
         this.loans = new HashMap<>();
         this.loanRequests = new HashMap<>();
-        this.equity = 0;
         this.cardRequests = new HashMap<>();
         this.employeeInbox = new EmployeeInbox();
         this.managerInbox = new ManagerInbox();
@@ -150,15 +150,6 @@ public class Bank {
         this.bankAccounts.remove(customer.getAccountNo(), customer);
     }
 
-// for the total Equity of the bank
-    public double getEquity() {
-        return equity;
-    }
-// to insert money to the banks equity
-    public void addEquity(double equity) {
-        this.equity += equity;
-    }
-
     public EmployeeInbox getEmployeeInbox() {
         return employeeInbox;
     }
@@ -183,7 +174,6 @@ public class Bank {
         HashMap<String, CardRequest> clone = cardRequests;
         return clone;
     }
-
 
     public double getVariableInterestRate() {
         return variableInterestRate;

@@ -2,52 +2,60 @@ package Menu;
 
 import Bank.Bank;
 import Classes.Customer;
-import Classes.Employee;
 import Classes.Role;
 import Classes.User;
-import Inbox.EmployeeInbox;
-import Inbox.Inbox;
 import Inbox.ManagerInbox;
 import Inbox.MessageFormat;
 import Loans.TypeOfInterest;
+import Loans.TypesOfLoan;
 import MainController.Controller;
 import MainController.StartProgram;
-import Request.Request;
 import Utilities.UserInput;
 import Utilities.Utilities;
-import Loans.TypesOfLoan;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 
 
 public class MainMenu {
+    private Bank bank;
 
     private final MenuOptions mainMenu;
+
     private final MenuOptions customer;
     private final MenuOptions otherService;
-    private final MenuOptions administration;
-    private final MenuOptions employee;
-    private final MenuOptions manager;
-    private Bank bank;
     private final MenuOptions customerInbox;
-    private final MenuOptions employeeInbox;
-    private final MenuOptions managerInbox;
     private final MenuOptions updateLoanRequest;
 
+    private final MenuOptions employee;
+    private final MenuOptions manager;
+
+    private final MenuOptions employeeInbox;
+    private final MenuOptions managerInbox;
+
+    private final MenuOptions administration;
+
+
     public MainMenu(Bank bank) {
+        this.bank = bank;
+
         this.mainMenu = new MenuOptions();
+
         this.administration = new MenuOptions();
+
         this.customer = new MenuOptions();
         this.otherService = new MenuOptions();
+        this.customerInbox = new MenuOptions();
+        this.updateLoanRequest = new MenuOptions();
+
         this.manager = new MenuOptions();
         this.employee = new MenuOptions();
         this.bank = bank;
-        this.customerInbox = new MenuOptions();
         this.employeeInbox = new MenuOptions();
         this.managerInbox = new MenuOptions();
-        this.updateLoanRequest = new MenuOptions();
+
 
     }
 
@@ -85,8 +93,8 @@ public class MainMenu {
         customer.addOptions(6, "View all transactions.");
         customer.addOptions(7, "Set a budget.");
         customer.addOptions(8, "Update budget.");
-        customer.addOptions(9,"Message inbox");
-        customer.addOptions(10, "Other services menu.");
+        customer.addOptions(9,"Message inbox");//
+        customer.addOptions(10, "Other services menu.");//
 
         // should be the last option, if you want to add something, add it above!
         customer.addOptions(11,"Log out.");
@@ -132,11 +140,11 @@ public class MainMenu {
                 " Choose one of the options below.");
         employee.addOptions(0, "Create Customer.");
         employee.addOptions(1, "View a customer's account.");
-        employee.addOptions(2, "Approve loans.");
-        employee.addOptions(3,"Approve card requests.");
-        employee.addOptions(4,"Calculate Debt-to-income (DTI) ratio.");
-        employee.addOptions(5,"Calculate monthly mortgage.");
-        employee.addOptions(6,"Update customer password.");
+        employee.addOptions(2,"Update customer password.");
+        employee.addOptions(3, "Approve loans.");
+        employee.addOptions(4,"Approve card requests.");
+        employee.addOptions(5,"Calculate Debt-to-income (DTI) ratio.");
+        employee.addOptions(6,"Calculate monthly mortgage.");
         employee.addOptions(7, "Calculate the annual mortgage of a house loan");
         employee.addOptions(8, "View salary.");
         employee.addOptions(9, "Apply for vacation.");
@@ -182,7 +190,6 @@ public class MainMenu {
         String personNr = UserInput.readLine("Enter the customer's personal number: ");
         return personNr;
     }
-
     public Controller login() throws Exception{
         /*
             If we separate the menu we can add the controller as an attribute and
@@ -199,8 +206,6 @@ public class MainMenu {
             Controller controller = new Controller(userName, password,bank);
             return controller;
     }
-
-
     public void handleMainMenu(){
         setUpMainMenu();
         this.mainMenu.printOptions();
@@ -255,7 +260,6 @@ public class MainMenu {
                     handleMainMenu();
             }
     }
-
     public void handleCustomerMenu(Controller controller) {
 
         if(controller.getUser().getRole() == Role.CUSTOMER) {
@@ -295,7 +299,6 @@ public class MainMenu {
                     }catch (Exception exception) {
                         System.out.println(exception.getMessage());
                     }
-
 
                 handleCustomerMenu(controller);
                 break;
@@ -418,7 +421,6 @@ public class MainMenu {
             handleMainMenu();
         }
     }
-
     public void handleOtherService(Controller controller){
         this.otherService.printOptions();
         String userChoiceStr ;
@@ -856,7 +858,6 @@ public class MainMenu {
                 handleCustomerInbox(controller);
         }
     }
-
     public void handleUpdateLoanRequest(Controller controller){
         this.updateLoanRequest.printOptions();
         String userChoiceStr ;
@@ -1072,7 +1073,6 @@ public class MainMenu {
         }
 
     }
-
     public void handleEmployeeMenu(Controller controller) {
         if(controller.getUser().getRole() == Role.EMPLOYEE || controller.getUser().getRole() == Role.MANAGER)  {
             this.employee.printOptions();
@@ -1583,7 +1583,6 @@ public class MainMenu {
                 handleEmployeeInbox(controller);
         }
     }
-
     public void handleManagerMenu(Controller controller) {
         if (controller.getUser().getRole() == Role.MANAGER) {
             manager.printOptions();
@@ -1746,8 +1745,6 @@ public class MainMenu {
             handleEmployeeMenu(controller);
         }
     }
-
-
     public void handleManagerInbox(Controller controller){
         this.managerInbox.printOptions();
         String userChoiceStr ;
@@ -1782,7 +1779,6 @@ public class MainMenu {
                 break;
         }
     }
-
     public void handleAdministration(Controller controller){
         if(controller.getUser().getRole() == Role.ADMIN) {
             administration.printOptions();
