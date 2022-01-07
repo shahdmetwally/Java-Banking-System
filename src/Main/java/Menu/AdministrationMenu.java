@@ -41,6 +41,7 @@ public class AdministrationMenu{
        administrationMenu.addOptions(8, "Log out.");
    }
 
+
     public String registerPassword(){
 
         String repeatedPassword;

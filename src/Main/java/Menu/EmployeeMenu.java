@@ -16,7 +16,7 @@ public class EmployeeMenu {
     protected MenuOptions employeeInbox;
     protected MenuOptions managerInbox;
     protected Controller controller;
-    protected Controller2 controller2;
+
 
     public EmployeeMenu(Controller controller) throws Exception {
         if (controller.getUser().getRole() == Role.EMPLOYEE || controller.getUser().getRole() == Role.MANAGER) {
@@ -84,6 +84,12 @@ public class EmployeeMenu {
 
     //---------------EMPLOYEE
     // case 1:
+
+    public Controller2 getController2(){
+        return ((Controller2) controller);
+    }
+
+
     public String registerPersonalNr(String message){
          String personalNo = UserInput.readLine(message);
         if (!controller.isPersonNrCorrect(personalNo)) {
@@ -321,7 +327,7 @@ public class EmployeeMenu {
         int code = Integer.parseInt(codeStr);
 
         try{
-           String  message =controller2.approveCardRequest(cardRequestID, cardNr, cvc, expirationDate, code);
+           String  message =getController2().approveCardRequest(cardRequestID, cardNr, cvc, expirationDate, code);
             System.out.println(message);
         }
         catch (IllegalAccessException scannerError) {
@@ -445,8 +451,8 @@ public class EmployeeMenu {
             String option = UserInput.readLine("Do you want to move the message to the message history?" +
                     Utilities.EOL + "Yes or no?");
             if (option.equalsIgnoreCase("yes")) {
-                controller2.removeFromEmployeeUnreadMessages(index);
-                controller2.addToEmployeeMessageHistory(textMessage);
+                getController2().removeFromEmployeeUnreadMessages(index);
+                getController2().addToEmployeeMessageHistory(textMessage);
                 System.out.println("The message has been moved to message history.");
             }
         }
@@ -499,7 +505,7 @@ public class EmployeeMenu {
                 } while (textMessage.isBlank());
             }
 
-            System.out.println(controller2.sendMessageToAllCustomers(title, textMessage));
+            System.out.println(getController2().sendMessageToAllCustomers(title, textMessage));
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
@@ -562,14 +568,14 @@ public class EmployeeMenu {
     }
     public void bankBalance(){ // 0
         try{
-            System.out.println(controller2.getTotalBalance());
+            System.out.println(getController2().getTotalBalance());
         }catch (Exception exception){
             System.out.println(exception.getMessage());
         }
     }
     public void showTotalLoanAmount(){ //1
         try{
-            System.out.println(controller2.getTotalLoan());
+            System.out.println(getController2().getTotalLoan());
         } catch (Exception exception){
             System.out.println(exception.getMessage());
         }
@@ -586,7 +592,7 @@ public class EmployeeMenu {
             String personalNo = registerPersonalNr(personalNoMessage);
             String password = registerPassword(passwordMessage);
             double salary = registerIncome(incomeMessage);
-            System.out.println(controller2.createEmployee(name, personalNo, password, salary));
+            System.out.println(getController2().createEmployee(name, personalNo, password, salary));
 
         } catch (InputMismatchException exception) {
             System.out.println("Invalid input");
@@ -604,7 +610,7 @@ public class EmployeeMenu {
             } while (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo));
         }
         try {
-            System.out.println(controller2.removeEmployee(personalNo));
+            System.out.println(getController2().removeEmployee(personalNo));
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
@@ -619,7 +625,7 @@ public class EmployeeMenu {
         String salaryMessage = "Write the new salary of the employee: ";
         double salary = registerIncome(salaryMessage);
 
-        System.out.println(controller2.setEmployeeSalary(personalNo, salary));
+        System.out.println(getController2().setEmployeeSalary(personalNo, salary));
     }
     public void updateEmployeePassword() {//5
            try {
@@ -632,7 +638,7 @@ public class EmployeeMenu {
 
                String passwordMessage = "Please type the new password of the employee: ";
                String password = registerPassword(passwordMessage);
-               System.out.println(controller2.setEmployeePassword(password, personalNo));
+               System.out.println(getController2().setEmployeePassword(password, personalNo));
            } catch (Exception exception) {
                System.out.println(exception);
            }
@@ -640,7 +646,7 @@ public class EmployeeMenu {
     public void setInterestRate(){
         try {
             double interestRate = UserInput.readDouble("Enter the variable interest rate: ");
-            controller2.setVariableInterestRate(interestRate);
+            getController2().setVariableInterestRate(interestRate);
         } catch (InputMismatchException exception) {
             System.out.println("Invalid input. Please enter numbers.");
 
