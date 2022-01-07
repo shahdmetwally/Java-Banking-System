@@ -50,9 +50,7 @@ public class Bank {
     public void showAllUser(){
         users.forEach((personNo, user) -> System.out.println(user.getFullName() + " : " + personNo  + ": " + user.getPassword()));
     }
-    public BankAccount getBanksAccount(){
-        return this.bankAccount;
-    }
+   
 
     public double getTotalCustomerBalance(){
         double balance = 0;
