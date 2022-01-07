@@ -578,7 +578,7 @@ public class MainMenu {
                         double otherEquitiesValue = Double.parseDouble(otherEquitiesValueStr);
 
                         System.out.println(controller.addEquities(otherEquity, otherEquitiesValue, temp));
-                        addEquities = UserInput.readLine("Do you want to add another equity?");
+                        addEquities = UserInput.readLine("Do you want to add another equity?" + Utilities.EOL + " Press yes if you wish to add another equity or press any key to continue. ");
                         do {
                             if (addEquities.isEmpty()) {
                                 addEquities = UserInput.readLine("Press yes if you wish to add another equity or press any key to continue");
@@ -782,12 +782,13 @@ public class MainMenu {
                 if(controller.viewCustomerUnreadMessages().equals("There are no unread messages.")){
                     handleCustomerInbox(controller);
                 } else {
-                    int index = UserInput.readInt("Enter the number of the message you want to read: ");
-                    if(index<0 || index>((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().size()){
+                    String indexStr = UserInput.readLine("Enter the number of the message you want to read: ");
+                    if(indexStr.isEmpty() || !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)<0 || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().size()-1){
                         do{
-                            index = UserInput.readInt("Invalid input. Enter the number of the message you want to read: ");
-                        } while(index<0 || index>((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().size());
+                            indexStr = UserInput.readLine("Invalid input. Enter the number of the message you want to read: ");
+                        } while(indexStr.isEmpty() || !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)<0 || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().size()-1);
                     }
+                    int index = Integer.parseInt(indexStr);
                     MessageFormat textMessage = ((Customer)controller.getUser()).getInbox().getUnreadMessageInbox().get(index);
                     String message = textMessage + Utilities.EOL +
                             "Message: " + Utilities.EOL + controller.readCustomerUnreadMessage(index);
@@ -821,14 +822,15 @@ public class MainMenu {
                 }
                 System.out.println(controller.sendMessageToEmployees(title, message));
                 handleCustomerInbox(controller);
-            case 2://View message history
+            case 2://View message historyy
                 System.out.println(controller.viewCustomerMessageHistory());
-                int index = UserInput.readInt("Enter the number of the message you want to read: ");
-                if(index<0 || index>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1){
+                String indexStr = UserInput.readLine("Enter the number of the message you want to read: ");
+                if(indexStr.isEmpty() || !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1 || Integer.parseInt(indexStr)<0){
                     do{
-                        index = UserInput.readInt("Invalid input. Enter the number of the message you want to read: ");
-                    } while(index<0 || index>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1);
+                        indexStr = UserInput.readLine("Invalid input. Enter the number of the message you want to read: ");
+                    } while(indexStr.isEmpty() || !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1|| Integer.parseInt(indexStr)<0);
                 }
+                int index = Integer.parseInt(indexStr);
                 MessageFormat textMessage = ((Customer)controller.getUser()).getInbox().getMessageHistory().get(index);
                 message = textMessage + Utilities.EOL +
                         "Message: " + Utilities.EOL + controller.readMessageCustomerMessageHistory(index);
@@ -1449,11 +1451,11 @@ public class MainMenu {
                     handleEmployeeInbox(controller);
                 } else {
                     indexStr = UserInput.readLine("Enter the number of the message you want to read: ");
-                     if(!Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || Integer.parseInt(indexStr)<0 || indexStr.isEmpty() || indexStr.isBlank()){
+                     if(indexStr.isEmpty() || indexStr.isBlank() || !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || Integer.parseInt(indexStr)<0){
                         do{
                             indexStr = UserInput.readLine("Invalid input. Enter the number of the message you want to read: ");
-                        } while(!Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || Integer.parseInt(indexStr)<0 || indexStr.isEmpty() || indexStr.isBlank());
-                    }
+                        } while(indexStr.isEmpty() || indexStr.isBlank() || !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>bank.getEmployeeInbox().getUnreadMessageInbox().size()-1 || Integer.parseInt(indexStr)<0);
+                    } //hello
                     int index = Integer.parseInt(indexStr);
                     MessageFormat textMessage = bank.getEmployeeInbox().getUnreadMessageInbox().get(index);
                     String message = textMessage + Utilities.EOL +
@@ -1552,10 +1554,10 @@ public class MainMenu {
                 } else {
                     String indexSrt = UserInput.readLine("Enter the index of the message you want to read: ");
                     do{
-                        if(!Utilities.isNumber(indexSrt)|| Integer.parseInt(indexSrt) > bank.getEmployeeInbox().getMessageHistory().size()-1 || Integer.parseInt(indexSrt) < 0 || indexSrt.isBlank() || indexSrt.isEmpty()){
+                        if(indexSrt.isEmpty() || indexSrt.isBlank() || !Utilities.isNumber(indexSrt) || Integer.parseInt(indexSrt)>bank.getEmployeeInbox().getMessageHistory().size()-1  || Integer.parseInt(indexSrt)<0){
                             indexSrt = UserInput.readLine("Please only use digits and choose from an existing one.");
                         }
-                    }while(!Utilities.isNumber(indexSrt) || Integer.parseInt(indexSrt) > bank.getEmployeeInbox().getMessageHistory().size()-1 || Integer.parseInt(indexSrt) < 0 || indexSrt.isBlank() || indexSrt.isEmpty());
+                    }while(indexSrt.isEmpty() || indexSrt.isBlank() || !Utilities.isNumber(indexSrt) || Integer.parseInt(indexSrt)>bank.getEmployeeInbox().getMessageHistory().size()-1  || Integer.parseInt(indexSrt)<0);
                     int index = Integer.parseInt(indexSrt);
                     MessageFormat textMessage2 = bank.getEmployeeInbox().getMessageHistory().get(index);
                     String message = textMessage2 + Utilities.EOL +
