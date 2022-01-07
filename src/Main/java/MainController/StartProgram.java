@@ -147,6 +147,7 @@ public class StartProgram {
             jsonEmployeeSentMessages.add(sentMessage);
         }
 
+        bank.showAllUser();
 
       String option;
         do{

@@ -28,7 +28,7 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
     public void updateLoanType(){
         String ID = checkId();
         TypesOfLoan typesOfLoan = super.loanType();
-        System.out.println(controller2.updateTypeOfLoan(ID,typesOfLoan));
+        System.out.println(getController2().updateTypeOfLoan(ID,typesOfLoan));
 
     }
     public void updateEquities(){
@@ -47,7 +47,7 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
             }
         }while(!Utilities.isNumeric(newEquityValueStr));
         double newEquityValue = Double.parseDouble(newEquityValueStr);
-        System.out.println(controller2.updateEquities(id,otherEquity, newEquityValue));
+        System.out.println(getController2().updateEquities(id,otherEquity, newEquityValue));
     }
     public void updateTimePeriod(){
         String ID = checkId();
@@ -58,7 +58,7 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
             }
         }while(!Utilities.isNumber(loanPeriodStr) || loanPeriodStr.isEmpty());
         int loanPeriod = Integer.parseInt(loanPeriodStr);
-        System.out.println(controller2.updateTimePeriod(ID, loanPeriod));
+        System.out.println(getController2().updateTimePeriod(ID, loanPeriod));
     }
     public void updateCashContribution(){
         String ID = checkId();
@@ -69,7 +69,7 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
             }
         }while(!Utilities.isNumeric(cashContributionStr) || cashContributionStr.isEmpty());
         double cashContribution = Double.parseDouble(cashContributionStr);
-        System.out.println(controller2.updateCashContribution(ID, cashContribution));
+        System.out.println(getController2().updateCashContribution(ID, cashContribution));
     }
     public void updateCosignerName(){
         try {
@@ -80,7 +80,7 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
                     coSigner_name = UserInput.readLine("Please type in the new Co-Signer name: ");
                 }
             } while (coSigner_name.isEmpty() || coSigner_name.isBlank());
-            System.out.println(controller2.updateCoSigner_name(loanID, coSigner_name));
+            System.out.println(getController2().updateCoSigner_name(loanID, coSigner_name));
         }catch (Exception exception){
             System.out.println(exception.getMessage());
         }
@@ -95,7 +95,7 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
                     personalNr = UserInput.readLine("The personal number must be in this format (YYYYMMDDXXXX) and within valid times: ");
                 } while (!controller.isPersonNrCorrect(personalNr) || personalNr.isEmpty());
             }
-            System.out.println(controller2.updateCoSigner_personalNr(loanID, personalNr));
+            System.out.println(getController2().updateCoSigner_personalNr(loanID, personalNr));
         }catch (Exception exception){
             System.out.println(exception.getMessage());
         }
@@ -114,7 +114,7 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
             } while (!Utilities.isNumeric(coSigner_salaryStr) || coSigner_salaryStr.isEmpty());
             double coSigner_salary = Double.parseDouble(coSigner_salaryStr);
 
-            System.out.println(controller2.updateCoSigner_salary(loanID, coSigner_salary));
+            System.out.println(getController2().updateCoSigner_salary(loanID, coSigner_salary));
         }catch (Exception exception){
             System.out.println(exception.getMessage());
         }
@@ -136,7 +136,7 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
         if(typeOfInterest.equalsIgnoreCase("variable")){
             interestType = TypeOfInterest.VARIABLE_RATE;
         }
-        System.out.println(controller2.updateInterestType(loanID, interestType));
+        System.out.println(getController2().updateInterestType(loanID, interestType));
     }
 
     // customer inbox
@@ -156,8 +156,8 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
             String option = UserInput.readLine("Do you want to move the message to the message history?" +
                     Utilities.EOL + "Yes or no?");
             if (option.equalsIgnoreCase("yes")) {
-                controller2.removeFromCustomerUnreadMessages(index);
-                controller2.addToCustomerMessageHistory(textMessage);
+                getController2().removeFromCustomerUnreadMessages(index);
+                getController2().addToCustomerMessageHistory(textMessage);
                 System.out.println("The message has been moved to message history.");
             }
     }
@@ -177,10 +177,10 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
                         "Please type the message that you would like to send to Customer Support: ");
             } while(message.isBlank());
         }
-        System.out.println(controller2.sendMessageToEmployees(title, message));
+        System.out.println(getController2().sendMessageToEmployees(title, message));
     }
     public void viewMessageHistory(){
-        System.out.println(controller2.viewCustomerMessageHistory());
+        System.out.println(getController2().viewCustomerMessageHistory());
         String indexStr = UserInput.readLine("Enter the number of the message you want to read: ");
         if(indexStr.isEmpty() || !Utilities.isNumber(indexStr) || Integer.parseInt(indexStr)>((Customer)controller.getUser()).getInbox().getMessageHistory().size()-1 || Integer.parseInt(indexStr)<0){
             do{
@@ -190,12 +190,12 @@ public class OtherServicesCustomerMenu extends CustomerMenu {
         int index = Integer.parseInt(indexStr);
         MessageFormat textMessage = ((Customer)controller.getUser()).getInbox().getMessageHistory().get(index);
         String message = textMessage + Utilities.EOL +
-                "Message: " + Utilities.EOL + controller2.readMessageCustomerMessageHistory(index);
+                "Message: " + Utilities.EOL + getController2().readMessageCustomerMessageHistory(index);
         System.out.println(message);
         String option = UserInput.readLine("Do you want to remove the message from the message history?" +
                 Utilities.EOL + "Yes or no?");
         if (option.equalsIgnoreCase("yes")) {
-            controller2.removeFromCustomerMessageHistory(index);
+            getController2().removeFromCustomerMessageHistory(index);
             System.out.println("The message has been removed.");
         }
     }

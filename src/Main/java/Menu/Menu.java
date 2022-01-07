@@ -18,7 +18,6 @@ public class Menu {
     private EmployeeMenu employeeMenu;
     private AdministrationMenu administrationMenu;
     private Bank bank;
-    private Controller2 controller2;
 
     public Menu(Bank bank) {
        this.mainMenu = new MenuOptions();
@@ -48,7 +47,9 @@ public class Menu {
         Controller controller = new Controller(userName, password,bank);
         return controller;
     }
-
+    public Controller2 getController2(){
+        return ((Controller2) controller);
+    }
     public int checkUserChoice( int lowerBound, int upperBound){
         String message = "Invalid Input.";
         String userChoiceStr;
@@ -85,18 +86,15 @@ public class Menu {
         switch (userChoice) {
             case 0: //Log in as a Customer
 
-               do {
                    try {
                        this.controller = login();
-                       this.controller2 = ((Controller2) controller);
                        this.customerMenu = new CustomerMenu(controller);
                        customerMenu.setUpCustomerMenu();
                        handleCustomerMenu();
                    } catch (Exception exception) {
                        System.out.println(exception.getMessage());
                    }
-                   option = UserInput.readLine("Do you want to continue? (Yes or No)" );
-               }while(option.equalsIgnoreCase("yes"));
+
                 handleMainMenu();
                 break;
             case 1: // Log in an Employee
@@ -325,8 +323,8 @@ public class Menu {
         int userChoice = checkUserChoice(0,4);
         switch (userChoice) {
             case 0: //View messages from employees
-                System.out.println(controller2.viewCustomerUnreadMessages());
-                if(controller2.checkViewMessages()){
+                System.out.println(getController2().viewCustomerUnreadMessages());
+                if(getController2().checkViewMessages()){
                     handleCustomerMenu();
                 }
                 customerMenu.viewMessages();
@@ -340,7 +338,7 @@ public class Menu {
                 handleCustomerInbox();
                 break;
             case 3:
-                System.out.println(controller2.viewCustomerSentMessages());
+                System.out.println(getController2().viewCustomerSentMessages());
                 handleCustomerInbox();
                 break;
             case 4: //Back to customer menu
@@ -366,7 +364,7 @@ public class Menu {
                     handleEmployeeMenu();
                     break;
                 case 2:
-                        System.out.print("1.Approve 2.Decline 3.Modify 4.Interest rate");
+                        System.out.print("1.Approve 2.Decline 3.Send Modify Request 4.Interest rate Offer");
                        int  option = checkUserChoice(0,4);
                         switch (option) {
                             case 1:
@@ -453,11 +451,11 @@ public class Menu {
                 handleEmployeeInbox();
                 break;
             case 3:
-                System.out.println(controller2.viewAllLoanRequests());
+                System.out.println(getController2().viewAllLoanRequests());
                 handleEmployeeInbox();
                 break;
             case 4:
-                System.out.println(controller2.viewAllCardRequests());
+                System.out.println(getController2().viewAllCardRequests());
                 handleEmployeeInbox();
                 break;
             case 5:
@@ -530,16 +528,16 @@ public class Menu {
     }
 
     public void handleManagerInbox(){
-        employeeMenu.managerMenu.printOptions();
+        employeeMenu.managerInbox.printOptions();
         int userChoice = checkUserChoice(0,2);
 
         switch (userChoice){
             case 0:
-                System.out.println(controller2.seeVacationApplications());
+                System.out.println(getController2().seeVacationApplications());
                 handleManagerInbox();
                 break;
             case 1:
-                System.out.println(controller2.handleVacationApplication());
+                System.out.println(getController2().handleVacationApplication());
                 handleManagerInbox();
                 break;
             case 2:
@@ -583,7 +581,7 @@ public class Menu {
                     handleAdministration();
                     break;
                 case 7:
-                    System.out.println(controller2.showAllManagers());
+                    System.out.println(getController2().showAllManagers());
                     handleAdministration();
                     break;
                 case 8: //Log out

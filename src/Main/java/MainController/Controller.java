@@ -35,6 +35,7 @@ public class Controller {
         this.managerInbox = bank.getManagerInbox();
 
     }
+
     public Bank getBank(){
         return bank;
     }
@@ -183,6 +184,7 @@ public class Controller {
 
     // EMPLOYEE CONTROLLER
     //--------------------------------------
+
     public String createCustomer (String fullName, String personalNo, double income ,String password) throws Exception {
         String bankAccount = accountNoGenerator();
         Customer customer = new Customer(fullName, personalNo, income, password, bankAccount);

@@ -178,19 +178,16 @@ public class Loan {
     }
 
     public void setCoSigner_name(String coSigner_name) throws Exception {
-        if(coSigner_name.isBlank()) {
-            throw new Exception("Name cannot be blank.");
-        }
+
         this.coSigner_name = coSigner_name;
     }
+
 
     public String getCoSigner_personalNr() {
         return coSigner_personalNr;
     }
-    public void setCoSigner_personalNr(String personalNr) throws Exception {
-        if(personalNr.length()!=12) {
-            throw new Exception("Personal number must be in this format: YYYYMMDDXXXX");
-        }coSigner_personalNr = personalNr;
+    public void setCoSigner_personalNr(String personalNr)  {
+        coSigner_personalNr = personalNr;
     }
 
     public void setInterestRate(double interestRate) {

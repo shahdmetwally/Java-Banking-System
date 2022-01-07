@@ -11,16 +11,20 @@ import java.util.Collections;
 public class AdministrationMenu{
     MenuOptions administrationMenu;
     Controller controller;
-    Controller2 controller2;
+
+
    public AdministrationMenu(Controller controller) throws Exception {
        if(controller.getUser().getRole() == Role.ADMIN) {
            this.administrationMenu = new MenuOptions();
            this.controller = controller;
-           this.controller2 = ((Controller2) controller);
+
        }else{
            throw new Exception("Access denied. This menu is only for administration.");
        }
    }
+    public Controller2 getController2(){
+        return ((Controller2) controller);
+    }
 
    public void setUpAdministrationMenu(){
        administrationMenu.setMenuName("Administration Menu " + Utilities.EOL +
@@ -36,6 +40,7 @@ public class AdministrationMenu{
        administrationMenu.addOptions(7,"Show all managers.");
        administrationMenu.addOptions(8, "Log out.");
    }
+
     public String registerPassword(){
 
         String repeatedPassword;
@@ -56,7 +61,7 @@ public class AdministrationMenu{
    public void changeAdminPassword(){
        try {
            String password = registerPassword();
-           String message = controller2.setAdminPassword(password);
+           String message = getController2().setAdminPassword(password);
            System.out.println(message);
        } catch (Exception exception) {
            System.out.println(exception.getMessage());
@@ -120,7 +125,7 @@ public class AdministrationMenu{
                double salary = registerSalary();
                double actualBonus = registerBonus();
 
-               String message = controller2.createManager(fullName, personalNo, password, salary, actualBonus);
+               String message = getController2().createManager(fullName, personalNo, password, salary, actualBonus);
                System.out.println(message);
            } catch (IllegalAccessException scannerError) {
                System.out.println("Invalid input.");
@@ -139,7 +144,7 @@ public class AdministrationMenu{
                    personNr = UserInput.readLine("Enter an existing managers personal number: ");
                } while (!controller.getBank().getUsers().containsKey(personNr) || !controller.isManager(personNr));
            }
-           String message = controller2.removeManager(personNr);
+           String message = getController2().removeManager(personNr);
            System.out.println(message);
        } catch (Exception exception) {
            System.out.println(exception.getMessage());
@@ -150,7 +155,7 @@ public class AdministrationMenu{
        try {
            String personNr = checkPersonNr();
            double newSalary = registerSalary();
-           String message = controller2.setManagerSalary(newSalary, personNr);
+           String message = getController2().setManagerSalary(newSalary, personNr);
            System.out.println(message);
        } catch (Exception exception) {
            System.out.println(exception.getMessage());
@@ -160,7 +165,7 @@ public class AdministrationMenu{
        try {
            String personNr = checkPersonNr();
            String password = registerPassword();
-           String message = controller2.setManagerPassword(personNr, password);
+           String message = getController2().setManagerPassword(personNr, password);
            System.out.println(message);
        } catch (Exception exception) {
            System.out.println(exception.getMessage());
@@ -171,7 +176,7 @@ public class AdministrationMenu{
        double salary = registerSalary();
        double bonus = registerBonus();
        try {
-           String message = controller2.promoteEmployee(personNr, salary, bonus);
+           String message = getController2().promoteEmployee(personNr, salary, bonus);
            System.out.println(message);
        } catch (Exception exception) {
            System.out.println(exception.getMessage());
