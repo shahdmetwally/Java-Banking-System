@@ -182,7 +182,7 @@ public class MainMenu {
                 "--------------------" + Utilities.EOL +
                 " Choose one of the options below.");
         managerInbox.addOptions(0, "View all employees' vacation requests.");
-        managerInbox.addOptions(1, "Approve or decline employees' vacation request.");
+        managerInbox.addOptions(1, "Approve employees' vacation request.");
         managerInbox.addOptions(2,"Return to manager menu.");
     }
 
@@ -1156,20 +1156,20 @@ public class MainMenu {
                          option = UserInput.readInt("Choose between: " + Utilities.EOL +
                                  "1. Approve 2. Decline 3. Modify 4. Interest rate");
                         switch (option) {
-                            case 1: // CHECK NOTES ON THE METHOD
+                            case 1:
                                 String typeOfInterest1="";
                                 try {
                                 do {
                                 loanRequestID = UserInput.readLine("Enter ID of the loan request: ");
                                 }while(!controller.checkLoanRequest(loanRequestID));
                                     String typeOfInterest;
-                                    //The do-while doesn't work
+                                    double interestRate=0;
                                     do {
                                         typeOfInterest = UserInput.readLine(" Enter type of interest. Fix or Variable.");
-                                        if(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable"))){
+                                        if(!((typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable")))){
                                             System.out.println("Type in fix or variable");
                                         }
-                                    }while(!(typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable")));
+                                    }while(!((typeOfInterest.equalsIgnoreCase("fix")|| typeOfInterest.equalsIgnoreCase("variable"))));
                                     String interestRateSrt = "";
                                     if(typeOfInterest.equalsIgnoreCase("Fix")){
                                         if(!Utilities.isNumeric(interestRateSrt)) {
@@ -1177,8 +1177,9 @@ public class MainMenu {
                                                 interestRateSrt = UserInput.readLine("Enter interest rate for the loan: ");
                                             } while (!Utilities.isNumeric(interestRateSrt));
                                         }
+                                        interestRate = Double.parseDouble(interestRateSrt);
                                     }
-                                    double interestRate = Double.parseDouble(interestRateSrt);
+
                                     if(typeOfInterest.equalsIgnoreCase("variable")){
                                         interestRate = bank.getVariableInterestRate();
                                     }
@@ -1217,9 +1218,8 @@ public class MainMenu {
                                 }while (!controller.checkLoanRequest(loanRequestID));
 
                                 String textMessage = UserInput.readLine("Enter message: ");
-
-                                // ADD SEND MESSAGE TO CUSTOMER HERE!!
-
+                                String messagetitle = "Modify request";
+                                System.out.println(controller.sendMessageToACustomer(bank.getLoanRequests().get(loanRequestID).getPersonalNr(), textMessage, messagetitle));
 
                             } catch (IllegalAccessException scannerError) {
                                 System.out.println("Invalid input.");}
@@ -1253,7 +1253,7 @@ public class MainMenu {
                                 }
                                 handleEmployeeMenu(controller);
                             default:
-                                System.out.println("Invalid choice. Please select between option 1 to 3. ");
+                                System.out.println("Invalid choice. Please select between option 1 to 4. ");
                         }
                     }while( option < 1 || option > 4);
 
