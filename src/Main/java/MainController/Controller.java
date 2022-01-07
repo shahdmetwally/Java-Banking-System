@@ -6,6 +6,9 @@ import Request.*;
 import Classes.*;
 import Utilities.Utilities;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import java.util.*;
 
 public class Controller {
@@ -822,8 +825,9 @@ public class Controller {
         for (Map.Entry<String, Loan> loan : bank.getLoans().entrySet()){
             totalLoan += loan.getValue().getLoanAmount();
         }
+        String totalLoanStr= new BigDecimal(Double.toString(totalLoan)).toPlainString();
 
-        return message + totalLoan;
+        return message + totalLoanStr;
     }
 
 
