@@ -33,8 +33,6 @@ public class Bank {
     private EmployeeInbox employeeInbox;
     private ManagerInbox managerInbox;
 
-    private BankAccount bankAccount;
-
     public Bank(){
         this.users = new HashMap<>();
         this.bankAccounts = new HashMap<>();
@@ -48,23 +46,7 @@ public class Bank {
 
 
     }
-    // this method allows the bank to crete a bank account, to be able to create that we need to create a fake customer for the bank.
-    // this is something that can be could have been improved better, but because we could increment the scope to insert
-    // create a Bg account and connected to the payments.
-    public void setUpTheBanksAccount(){
-       try {
-           String bankNr = "5051-505051511";
-           BankAccount accountForBank = new BankAccount();
-           this.bankAccount =accountForBank;
-           this.bankAccount.setActive(true);
-           Customer bankCust = new Customer("Bank", "190505059999", 0, "Bank12345", bankNr);
-           addBankAccount(bankNr,bankCust );
-           //StartProgram.jsonBanksBankAccount.add(this.bankAccount);
-           //StartProgram.jsonBanksBankAccount.add(bankCust);
-       }catch(Exception exception) {
-           System.out.println("banks own account");
-       }
-    }
+    
     public void showAllUser(){
         users.forEach((personNo, user) -> System.out.println(user.getFullName() + " : " + personNo  + ": " + user.getPassword()));
     }
