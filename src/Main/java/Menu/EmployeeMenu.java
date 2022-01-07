@@ -18,6 +18,7 @@ public class EmployeeMenu {
     protected Controller controller;
     protected Controller2 controller2;
 
+
     public EmployeeMenu(Controller controller) throws Exception {
         if (controller.getUser().getRole() == Role.EMPLOYEE || controller.getUser().getRole() == Role.MANAGER) {
             this.employeeMenu = new MenuOptions();
@@ -25,6 +26,7 @@ public class EmployeeMenu {
             this.employeeInbox = new MenuOptions();
             this.managerInbox = new MenuOptions();
             this.controller = controller;
+            this.controller2 = new Controller2(controller);
         } else {
             throw new Exception("Access denied. This menu is only for employees.");
         }
@@ -80,7 +82,6 @@ public class EmployeeMenu {
         managerInbox.addOptions(1, "Approve or decline employees' vacation request.");
         managerInbox.addOptions(2, "Return to manager menu.");
     }
-
 
     //---------------EMPLOYEE
     // case 1:
@@ -321,7 +322,7 @@ public class EmployeeMenu {
         int code = Integer.parseInt(codeStr);
 
         try{
-           String  message =controller2.approveCardRequest(cardRequestID, cardNr, cvc, expirationDate, code);
+           String  message = controller2.approveCardRequest(cardRequestID, cardNr, cvc, expirationDate, code);
             System.out.println(message);
         }
         catch (IllegalAccessException scannerError) {
@@ -499,7 +500,7 @@ public class EmployeeMenu {
                 } while (textMessage.isBlank());
             }
 
-            System.out.println(controller2.sendMessageToAllCustomers(title, textMessage));
+            System.out.println( controller2.sendMessageToAllCustomers(title, textMessage));
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
@@ -562,14 +563,14 @@ public class EmployeeMenu {
     }
     public void bankBalance(){ // 0
         try{
-            System.out.println(controller2.getTotalBalance());
+            System.out.println( controller2.getTotalBalance());
         }catch (Exception exception){
             System.out.println(exception.getMessage());
         }
     }
     public void showTotalLoanAmount(){ //1
         try{
-            System.out.println(controller2.getTotalLoan());
+            System.out.println( controller2.getTotalLoan());
         } catch (Exception exception){
             System.out.println(exception.getMessage());
         }
@@ -586,7 +587,7 @@ public class EmployeeMenu {
             String personalNo = registerPersonalNr(personalNoMessage);
             String password = registerPassword(passwordMessage);
             double salary = registerIncome(incomeMessage);
-            System.out.println(controller2.createEmployee(name, personalNo, password, salary));
+            System.out.println( controller2.createEmployee(name, personalNo, password, salary));
 
         } catch (InputMismatchException exception) {
             System.out.println("Invalid input");
@@ -604,7 +605,7 @@ public class EmployeeMenu {
             } while (!controller.isPersonNrCorrect(personalNo) || !controller.isEmployee(personalNo));
         }
         try {
-            System.out.println(controller2.removeEmployee(personalNo));
+            System.out.println( controller2.removeEmployee(personalNo));
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
@@ -619,7 +620,7 @@ public class EmployeeMenu {
         String salaryMessage = "Write the new salary of the employee: ";
         double salary = registerIncome(salaryMessage);
 
-        System.out.println(controller2.setEmployeeSalary(personalNo, salary));
+        System.out.println( controller2.setEmployeeSalary(personalNo, salary));
     }
     public void updateEmployeePassword() {//5
            try {
@@ -632,7 +633,7 @@ public class EmployeeMenu {
 
                String passwordMessage = "Please type the new password of the employee: ";
                String password = registerPassword(passwordMessage);
-               System.out.println(controller2.setEmployeePassword(password, personalNo));
+               System.out.println(  controller2.setEmployeePassword(password, personalNo));
            } catch (Exception exception) {
                System.out.println(exception);
            }

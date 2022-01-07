@@ -18,6 +18,7 @@ public class Menu {
     private EmployeeMenu employeeMenu;
     private AdministrationMenu administrationMenu;
     private Bank bank;
+    private Controller2 controller2;
 
     public Menu(Bank bank) {
        this.mainMenu = new MenuOptions();
@@ -47,9 +48,7 @@ public class Menu {
         Controller controller = new Controller(userName, password,bank);
         return controller;
     }
-    public Controller2 getController2(){
-        return ((Controller2) controller);
-    }
+
     public int checkUserChoice( int lowerBound, int upperBound){
         String message = "Invalid Input.";
         String userChoiceStr;
@@ -79,66 +78,70 @@ public class Menu {
         return false;
     }
 
-    public void handleMainMenu(){
-        mainMenu.printOptions();
-        String option = "";
-       int userChoice = checkUserChoice(0,3);
-        switch (userChoice) {
-            case 0: //Log in as a Customer
+    public void handleMainMenu() {
 
-                   try {
-                       this.controller = login();
-                       this.customerMenu = new CustomerMenu(controller);
-                       customerMenu.setUpCustomerMenu();
-                       handleCustomerMenu();
-                   } catch (Exception exception) {
-                       System.out.println(exception.getMessage());
-                   }
+            mainMenu.printOptions();
+            String option = "";
+            int userChoice = checkUserChoice(0, 3);
+            switch (userChoice) {
+                case 0: //Log in as a Customer
 
-                handleMainMenu();
-                break;
-            case 1: // Log in an Employee
-                do{
-                try {
-                    this.controller = login();
-                    this.employeeMenu = new EmployeeMenu(controller);
-                    employeeMenu.setUpEmployeeMenu();
-                    handleEmployeeMenu();
-                } catch (IllegalAccessException scannerError) {
-                    System.out.println("Invalid input.");
+                    try {
+                        this.controller = login();
+                        this.controller2 = new Controller2(controller);
+                        this.customerMenu = new CustomerMenu(controller);
+                        customerMenu.setUpCustomerMenu();
+                        handleCustomerMenu();
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
 
-                } catch (Exception exception) {
-                    System.out.println(exception.getMessage());
-                }
-                option =UserInput.readLine("Do you want to continue? (Yes or No)" );
-                }while (option.equalsIgnoreCase("yes"));
-                break;
-            case 2: //System Administration
-                try {
-                    this.controller = login();
-                    this.administrationMenu = new AdministrationMenu(controller);
-                    handleAdministration();
-                } catch (Exception exception) {
-                    System.out.println(exception.getMessage());
-                }
-                handleMainMenu();
-                break;
-            case 3: //Close System
-                UserInput.input.close();
-                ObjectMapper mapper = new ObjectMapper();
-                try {
-                    mapper.writeValue(Paths.get("bank.json").toFile(), StartProgram.jsonBank);
+                    handleMainMenu();
+                    break;
+                case 1: // Log in an Employee
+                    do {
+                        try {
+                            this.controller = login();
+                            this.employeeMenu = new EmployeeMenu(controller);
+                            employeeMenu.setUpEmployeeMenu();
+                            handleEmployeeMenu();
+                        } catch (IllegalAccessException scannerError) {
+                            System.out.println("Invalid input.");
 
-                } catch (Exception exception) {
-                    System.out.println(exception.getMessage());
-                }
-                System.exit(0);
-                break;
-            default:
-                System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
-                handleMainMenu();
-        }
+                        } catch (Exception exception) {
+                            System.out.println(exception.getMessage());
+                        }
+                        option = UserInput.readLine("Do you want to continue? (Yes or No)");
+                    } while (option.equalsIgnoreCase("yes"));
+                    break;
+                case 2: //System Administration
+                    try {
+                        this.controller = login();
+                        this.administrationMenu = new AdministrationMenu(controller);
+                        administrationMenu.setUpAdministrationMenu();
+                        handleAdministration();
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                    handleMainMenu();
+                    break;
+                case 3: //Close System
+                    UserInput.input.close();
+                    ObjectMapper mapper = new ObjectMapper();
+                    try {
+                        mapper.writeValue(Paths.get("bank.json").toFile(), StartProgram.jsonBank);
+
+                    } catch (Exception exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
+                    handleMainMenu();
+            }
     }
+
     // Customer
     public void handleCustomerMenu() {
         if (controller.getUser().getRole() == Role.CUSTOMER) {
@@ -230,7 +233,7 @@ public class Menu {
         }
     }
 
-    public void handleOtherService( ) {
+    public void handleOtherService() {
         customerMenu.otherService.printOptions();
         int userChoice = checkUserChoice(0,7);
         switch (userChoice) {
@@ -273,7 +276,7 @@ public class Menu {
         }
     }
 
-    public void handleUpdateLoanRequest( ){
+    public void handleUpdateLoanRequest(){
         customerMenu.updateLoanRequest.printOptions();
         int userChoice = checkUserChoice(0,8);
         switch (userChoice) {
@@ -323,8 +326,8 @@ public class Menu {
         int userChoice = checkUserChoice(0,4);
         switch (userChoice) {
             case 0: //View messages from employees
-                System.out.println(getController2().viewCustomerUnreadMessages());
-                if(getController2().checkViewMessages()){
+                System.out.println(controller2.viewCustomerUnreadMessages());
+                if(controller2.checkViewMessages()){
                     handleCustomerMenu();
                 }
                 customerMenu.viewMessages();
@@ -338,7 +341,7 @@ public class Menu {
                 handleCustomerInbox();
                 break;
             case 3:
-                System.out.println(getController2().viewCustomerSentMessages());
+                System.out.println(controller2.viewCustomerSentMessages());
                 handleCustomerInbox();
                 break;
             case 4: //Back to customer menu
@@ -348,6 +351,7 @@ public class Menu {
                 System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                 handleCustomerInbox();
         }
+
     }
     // Employee
     public void handleEmployeeMenu(){
@@ -451,11 +455,11 @@ public class Menu {
                 handleEmployeeInbox();
                 break;
             case 3:
-                System.out.println(getController2().viewAllLoanRequests());
+                System.out.println(controller2.viewAllLoanRequests());
                 handleEmployeeInbox();
                 break;
             case 4:
-                System.out.println(getController2().viewAllCardRequests());
+                System.out.println(controller2.viewAllCardRequests());
                 handleEmployeeInbox();
                 break;
             case 5:
@@ -533,11 +537,11 @@ public class Menu {
 
         switch (userChoice){
             case 0:
-                System.out.println(getController2().seeVacationApplications());
+                System.out.println(controller2.seeVacationApplications());
                 handleManagerInbox();
                 break;
             case 1:
-                System.out.println(getController2().handleVacationApplication());
+                System.out.println(controller2.handleVacationApplication());
                 handleManagerInbox();
                 break;
             case 2:
@@ -547,6 +551,7 @@ public class Menu {
     }
 
     public void handleAdministration(){
+        if(controller.getUser().getRole() == Role.ADMIN) {
             administrationMenu.administrationMenu.printOptions();
 
         int userChoice = checkUserChoice(0,7);
@@ -581,7 +586,7 @@ public class Menu {
                     handleAdministration();
                     break;
                 case 7:
-                    System.out.println(getController2().showAllManagers());
+                    System.out.println(controller2.showAllManagers());
                     handleAdministration();
                     break;
                 case 8: //Log out
@@ -591,6 +596,10 @@ public class Menu {
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                     handleAdministration();
             }
+    } else {
+        System.out.println("Access denied. This menu is only for administration.");
+        handleMainMenu();
+    }
 
     }
 

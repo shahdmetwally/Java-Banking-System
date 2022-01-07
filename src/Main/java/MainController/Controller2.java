@@ -3,6 +3,7 @@ package MainController;
 import Bank.Bank;
 import Classes.*;
 import Inbox.EmployeeInbox;
+import Inbox.ManagerInbox;
 import Inbox.MessageFormat;
 import Loans.Loan;
 import Loans.TypeOfInterest;
@@ -17,12 +18,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Controller2 extends Controller {
+public class Controller2  {
+    protected Controller controller;
+    protected Bank bank;
+    protected EmployeeInbox employeeInbox;
+    protected ManagerInbox managerInbox;
+    protected HashMap<String, User> bankAccounts;
+    protected User user;
+    protected  HashMap<String, User> users;
 
-    public Controller2(String userName, String password, Bank bank) throws Exception {
-        super(userName, password, bank);
+
+    public Controller2(Controller controller) {
+       this.controller = controller;
+       this.bank = controller.bank;
+       this.employeeInbox = controller.employeeInbox;
+       this.managerInbox = controller.managerInbox;
+       this.bankAccounts = controller.bankAccounts;
+       this.user = controller.user;
+       this.users = controller.users;
+
     }
-    //Loan Request
+
 
     public String updateTypeOfLoan(String loanRequestID, TypesOfLoan typesOfLoan) {
         if (bank.getLoanRequests().containsKey(loanRequestID)) {
@@ -251,7 +267,7 @@ public class Controller2 extends Controller {
     */
     public String removeEmployee (String personalNo) throws Exception {
         String removalResult = "";
-        Employee employee = getEmployee(personalNo);
+        Employee employee = controller.getEmployee(personalNo);
         if (employee == null) {
             throw new Exception("Employee with personal number " + personalNo + " was not registered yet.");
         } else {
@@ -270,7 +286,7 @@ public class Controller2 extends Controller {
         String message="There is no registered employee with personal number " + personalNo + ".";
         if(users.containsKey(personalNo)){
             if (users.get(personalNo) instanceof Employee){
-                getEmployee(personalNo).setSalary(newSalary);
+                controller.getEmployee(personalNo).setSalary(newSalary);
                 message = "The salary was successfully updated.";
             } else {
                 message = "The user with personal number " + personalNo + " is not an employee.";
@@ -288,7 +304,7 @@ public class Controller2 extends Controller {
         String message="There is no registered employee with personal number " + personalNo + ".";
         if(users.containsKey(personalNo)){
             if (users.get(personalNo) instanceof Employee){
-                getEmployee(personalNo).setPassword(newPassword);
+                controller.getEmployee(personalNo).setPassword(newPassword);
                 message = "The password was successfully updated.";
             } else {
                 message = "The user with personal number " + personalNo + " is not an employee.";
@@ -341,7 +357,7 @@ public class Controller2 extends Controller {
 
     public String approveCardRequest(String cardRequestID, String cardNr, int cvc, String expirationDate, int code) throws Exception {
         String message="";
-        if(cardRequestIsPending(cardRequestID)){
+        if(controller.cardRequestIsPending(cardRequestID)){
             CardRequest cardRequest = bank.getCardRequests().get(cardRequestID);
             Customer customer = (Customer) bank.getUsers().get(cardRequest.getPersonalNr());
             customer.createDebitCard(cardNr, cvc, expirationDate, code);
@@ -414,7 +430,7 @@ public class Controller2 extends Controller {
     }
     public String promoteEmployee (String personalNo,double newSalary, double bonus) throws Exception {
         String message="";
-        Employee employee = getEmployee(personalNo);
+        Employee employee = controller.getEmployee(personalNo);
         if (employee.getPersonalNo().equals(personalNo)) {
             String name = employee.getFullName();
             String password = employee.getPassword();
