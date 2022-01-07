@@ -551,10 +551,6 @@ public class Controller {
         return false;
     }
 
-    public void  transactionToTheBank(String amount, String bankAccount, String loanID){
-
-    }
-
 
 }
 

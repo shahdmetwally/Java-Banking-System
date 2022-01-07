@@ -8,20 +8,17 @@ import Utilities.Utilities;
 
 import java.util.Collections;
 
-public class AdministrationMenu{
+public class AdministrationMenu {
     MenuOptions administrationMenu;
     Controller controller;
 
 
-   public AdministrationMenu(Controller controller) throws Exception {
-       if(controller.getUser().getRole() == Role.ADMIN) {
-           this.administrationMenu = new MenuOptions();
-           this.controller = controller;
+    public AdministrationMenu(Controller controller) throws Exception {
 
-       }else{
-           throw new Exception("Access denied. This menu is only for administration.");
-       }
-   }
+        this.administrationMenu = new MenuOptions();
+        this.controller = controller;
+    }
+
     public Controller2 getController2(){
         return ((Controller2) controller);
     }
@@ -68,10 +65,14 @@ public class AdministrationMenu{
            System.out.println(exception.getMessage());
        }
    }
-   public void setUpAccountForBank() throws Exception {
-       controller.getBank().setUpTheBanksAccount();
-       double amount = UserInput.readDouble("Enter the bank balance: ");
-       controller.getBank().getBanksAccount().depositMoney(amount);
+   public void setUpAccountForBank() {
+       try {
+           controller.getBank().setUpTheBanksAccount();
+           double amount = UserInput.readDouble("Enter the bank balance: ");
+           controller.getBank().getBanksAccount().depositMoney(amount);
+       }catch (Exception exception){
+           System.out.println(exception.getMessage());
+       }
    }
 
    public String registerPersonalNr(){

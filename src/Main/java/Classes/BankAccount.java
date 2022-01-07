@@ -87,7 +87,7 @@ public class BankAccount {
     }
 
     public void addTransaction(double amount) {
-        //if (active) {                                      // Jeniffer - Activation/ Deactivation of account
+        //if (active) {
         Transaction transaction = new Transaction(amount);
         transactions.add(transaction.toString());
     }
@@ -111,9 +111,6 @@ public class BankAccount {
         }
         return message;
     }
-    //else {
-    //    System.out.println("Your account is deactivated.");
-    //}
 
     public String toString() {
         return "Your balance is " + Utilities.truncateForPrint(balance);

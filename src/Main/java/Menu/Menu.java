@@ -114,7 +114,7 @@ public class Menu {
                 }while (option.equalsIgnoreCase("yes"));
                 break;
             case 2: //System Administration
-                administrationMenu.setUpAdministrationMenu();
+
                 try {
                     this.controller = login();
                     this.administrationMenu = new AdministrationMenu(controller);
@@ -547,16 +547,18 @@ public class Menu {
         }
     }
 
-    public void handleAdministration(){
+    public void handleAdministration() {
+        if (controller.getUser().getRole() == Role.ADMIN) {
+            administrationMenu.setUpAdministrationMenu();
             administrationMenu.administrationMenu.printOptions();
-
-        int userChoice = checkUserChoice(0,7);
+            int userChoice = checkUserChoice(0, 7);
             switch (userChoice) {
                 case 0: //Change administration password
                     administrationMenu.changeAdminPassword();
                     handleAdministration();
                     break;
                 case 1:
+                    administrationMenu.setUpAccountForBank();
 
                     break;
                 case 2://Create a manager
@@ -592,10 +594,11 @@ public class Menu {
                     System.out.println("Invalid menu option. Please type another option." + Utilities.EOL);
                     handleAdministration();
             }
-
+        } else {
+        System.out.println("Access denied. This menu is only for administration.");
+        handleMainMenu();
     }
-
-
+    }
 
 
 
