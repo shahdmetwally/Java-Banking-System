@@ -1395,7 +1395,7 @@ public class MainMenu {
                     System.out.println(controller.viewSalary());
                     handleEmployeeMenu(controller);
                     break;
-                case 9: // connect to inbox, see the controller
+                case 9:
                     try {
                         String daysStr = UserInput.readLine("Enter number of days:");
                         do {
