@@ -38,8 +38,9 @@ public class StartProgram {
 
 
     public static HashMap jsonManagerInbox = new HashMap<>();
-
     public static Queue<VacationRequest> jsonVacationApplication = new LinkedList<>();
+
+    public static ArrayList jsonBanksBankAccount = new ArrayList();
 
     public static void main(String[] args) throws Exception {
 
@@ -54,6 +55,7 @@ public class StartProgram {
         jsonBank.put("Card requests", jsonCardRequests);
         jsonBank.put("Employee Inbox", jsonEmployeeInbox);
         jsonBank.put("Manager Inbox", jsonManagerInbox);
+        jsonBank.put("Bank's Bank Account", jsonBanksBankAccount);
 
         jsonManagerInbox.put("Vacation applications", jsonVacationApplication);
 
@@ -112,7 +114,6 @@ public class StartProgram {
             CardRequest cardRequest = mapper.treeToValue(cardRequestsNode.get(i), CardRequest.class);
             jsonCardRequests.add(cardRequest);
             bank.addCardRequest(cardRequest.getPersonalNr(), cardRequest);
-            System.out.println(cardRequest.getPersonalNr());
         }
 
         ManagerInbox managerInbox = bank.getManagerInbox();
@@ -134,7 +135,6 @@ public class StartProgram {
             jsonEmployeeUnreadMessages.add(unreadMessage);
         }
         JsonNode employeeMessageHistory = employeeInboxNode.path("Message History");
-        System.out.println(employeeMessageHistory);
         for(int i = 0; i<employeeMessageHistory.size(); i++){
             MessageFormat message = mapper.treeToValue(employeeMessageHistory.get(i), MessageFormat.class);
             employeeInbox.addMessageToMessageHistory(message);
@@ -146,6 +146,12 @@ public class StartProgram {
             employeeInbox.addMessageToSentMessages(sentMessage);
             jsonEmployeeSentMessages.add(sentMessage);
         }
+
+        JsonNode banksBankAccount = root.path("Bank's Bank Account");
+        //BankAccount bankAccount = mapper.treeToValue(banksBankAccount.get(0), BankAccount.class);
+        //Customer bankCustomer = mapper.treeToValue(banksBankAccount.get(1), Customer.class);
+
+
 
         bank.showAllUser();
 

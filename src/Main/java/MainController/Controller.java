@@ -140,7 +140,6 @@ public class Controller {
             bank.addCardRequest(user.getPersonalNo(),cardRequest);
             StartProgram.jsonCardRequests.add(cardRequest);
             employeeInbox.addCardRequest(cardRequest);
-            // should we add this to the customer as well? so they can see sent request? // Shahd
             message = "Card request with ID "+ cardRequest.getId()+ " has been sent. ";
         } else if(((Customer)user).getDebitCard().getStatus()){ //make a method for reactivation of card
             message = "You cannot apply for a new card, you already have an active card.";
@@ -549,7 +548,7 @@ public class Controller {
             return true;
         }
         return false;
-    }
+      }
 
 
 }

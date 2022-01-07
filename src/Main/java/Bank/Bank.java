@@ -56,8 +56,11 @@ public class Bank {
            String bankNr = "5051-505051511";
            BankAccount accountForBank = new BankAccount();
            this.bankAccount =accountForBank;
+           this.bankAccount.setActive(true);
            Customer bankCust = new Customer("Bank", "190505059999", 0, "Bank12345", bankNr);
            addBankAccount(bankNr,bankCust );
+           //StartProgram.jsonBanksBankAccount.add(this.bankAccount);
+           //StartProgram.jsonBanksBankAccount.add(bankCust);
        }catch(Exception exception) {
            System.out.println("banks own account");
        }
