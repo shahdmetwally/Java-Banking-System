@@ -41,22 +41,6 @@ public class Utilities {
         return timeFormat.format(thisTime);
     }
 
-    public static void main(String[] args) {
-        System.out.println(dateAndTime());
-
-        Scanner sc = new Scanner(System.in);
-        double userInput = 0;
-        while (true) {
-            userInput =Double.parseDouble(UserInput.readLine("Please enter a number"));
-            try {
-                userInput = Double.parseDouble(sc.next());
-                break; // will only get to here if input was a double
-            } catch (NumberFormatException ignore) {
-                System.out.println("Invalid input");
-            }
-        }
-        System.out.println(userInput);
-    }
     //This was added
     public static boolean isNumber(String s) {
         for (int i = 0; i < s.length(); i++)

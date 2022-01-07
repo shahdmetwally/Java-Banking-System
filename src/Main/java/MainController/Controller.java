@@ -128,15 +128,7 @@ public class Controller {
 
 //OTHERSERVICES
 
-    /*
-      otherService.addOptions(0," Update name.");
-        otherService.addOptions(1,"Update Salary");
-        otherService.addOptions(2,"Apply for new card.");
-        otherService.addOptions(3,"Block payment card.");
-        otherService.addOptions(4,"Loan request");
-        otherService.addOptions(5,"Loan status"); //? should we?
-        otherService.addOptions(6,"Go back to Customer menu.");
-     */
+ 
     public String updateCustomerName (String newName) throws Exception {
         ((Customer) user).setName(newName);
         return "Customer " + ((Customer) user).getPersonalNo() + " name has successfully update to " + newName;
@@ -183,17 +175,7 @@ public class Controller {
     }
 
     //Update loanRequest
-    /*
-     updateLoanRequest.addOptions(0,"Update amount");
-        updateLoanRequest.addOptions(1,"Update type of loan");// DONE
-        updateLoanRequest.addOptions(2,"Update the time period of the loan"); //done
-        updateLoanRequest.addOptions(3,"Update other equities"); // TO DO
-        updateLoanRequest.addOptions(4,"Update cash contribution"); //done
-        updateLoanRequest.addOptions(5,"Update Co-Signer name"); //done
-        updateLoanRequest.addOptions(6,"Update Co-Signer personal number"); //done
-        updateLoanRequest.addOptions(7,"Update Co-Signers salary"); //done
-          updateLoanRequest.addOptions(8,"Update Interest type"); //done
-     */
+ 
 
 
     public String updateTypeOfLoan(String loanRequestID, TypesOfLoan typesOfLoan) {
@@ -530,7 +512,7 @@ public class Controller {
             String textMessage =  " Interest offer: " + interestRate+  Utilities.EOL +
                     "Type of interest: " + loanRequest.getInterestType() + Utilities.EOL;
             totalMessage= title + textMessage + message;
-            customer.
+            customer.getInbox().addMessageToUnreadMessages(messageFormat);
         }
         return totalMessage;
     }
@@ -573,8 +555,6 @@ public class Controller {
     // ADMINISTRATION CONTROLLER
     //------------------------------------
 
-    // change administration password is already in the menu
-
     public String createManager (String name, String personalNo, String password, double salary, double bonus) throws
             Exception {
         User manager = new Manager(name, personalNo, password,  salary, bonus);
@@ -603,20 +583,7 @@ public class Controller {
         if(employee.getVacationDays() <= amountOfDays) {
         }
         return  null;
-    } //   String message = "Vacation approved";
-    //} else{
-    //  throw new Exception("Vacation is not approved");
-    //}
-    //return  "";
-    //}
-
-    //so we should have a message saying that we want a vacation
-    //before sending the request we need to specify how many days we want to take
-    //then it should be sent to the inbox
-    //customer.addOption(option number, h, optionName "message"
-    //connect controller to the menu
-
-
+    } 
 
     public String setManagerSalary (double newSalary, String personalNo){
         getManager(personalNo).setSalary(newSalary);
@@ -799,17 +766,13 @@ public class Controller {
     public boolean cardRequestIsPending(String cardRequestID) {
         return bank.getCardRequests().containsKey(cardRequestID);
     }
-    /*2
-     manager.addOptions(0,"Show Bank Balance");
-*/
+ 
     public String getTotalBalance () {
         return "Banks total balance: " + bank.getTotalCustomerBalance();
     }
 
 
-    /*
-    manager.addOptions(1, "Show total loaned amount"); // maybe we can have total loan in a list.
-    */
+  
     public String getTotalLoan () {
         String message = "Total amount of loan giving out: ";
         double totalLoan = 0;
@@ -830,9 +793,6 @@ public class Controller {
 
 
 
-        /*
-        manager.addOptions(2,"Create employee");
-         */
 
 
     public String createEmployee (String fullName, String personalNo, String password, double salary) throws
@@ -843,9 +803,7 @@ public class Controller {
         return "Employee " + fullName + " was registered successfully.";
     }
 
-    /*
-    manager.addOptions(3, "Remove employee");
-    */
+ 
     public String removeEmployee (String personalNo) throws Exception {
         String removalResult = "";
         Employee employee = getEmployee(personalNo);
@@ -860,9 +818,7 @@ public class Controller {
         return removalResult;
     }
 
-    /*
-   manager.addOptions(4,"update employee salary");
-   */
+   
     public String setEmployeeSalary (String personalNo,double newSalary){
         String message="There is no registered employee with personal number " + personalNo + ".";
         if(users.containsKey(personalNo)){
@@ -878,9 +834,7 @@ public class Controller {
     }
 
 
-    /*
-    manager.addOptions(5,"Update employee password");
-    */
+    
     public String setEmployeePassword (String newPassword, String personalNo){
         String message="There is no registered employee with personal number " + personalNo + ".";
         if(users.containsKey(personalNo)){
