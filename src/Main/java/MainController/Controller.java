@@ -17,6 +17,7 @@ public class Controller {
     private ManagerInbox managerInbox;
 
 
+
     public Controller(String userName, String password, Bank bank) throws Exception {
         this.bank = bank;
         this.users = bank.getUsers();
@@ -38,6 +39,17 @@ public class Controller {
     }
     // CUSTOMER CONTROLLER
     //----------------------------------------
+
+    public boolean checkPersonalNr(String personalNr){
+        if (bank.getUsers().containsKey(personalNr) && isCustomer(personalNr) && isPersonNrCorrect(personalNr)){
+          return true;
+        }
+        return false;
+    }
+    public Bank getBank(){
+        return bank;
+    }
+
     public User getUser(){
         return user;
     }
@@ -74,8 +86,6 @@ public class Controller {
                 } else if(amount>((Customer) user).getBalance()){
                     throw new Exception("Transfer amount cannot exceed your account balance.");
                 }
-
-
                 message = "Transaction successful to " + anotherBankAccountNo;
             }
         }
@@ -113,7 +123,7 @@ public class Controller {
     }
 
 
-
+//OTHERSERVICES
 
     /*
       otherService.addOptions(0," Update name.");
@@ -314,10 +324,7 @@ public class Controller {
         }
         return output;
     }
-    public String removeMessageFromCustomer(int index) {
-        employeeInbox.removeFromUnreadMessages(index);
-        return "The message has been removed.";
-    }
+
     public String viewCustomerMessageHistory(){
         String message = "Message History: " + Utilities.EOL;
         String message1 = "";
@@ -329,6 +336,29 @@ public class Controller {
             }
         }
         return message + message1;
+    }
+    public boolean checkViewMessages(){
+        if(viewCustomerUnreadMessages().equals("There are no unread messages.")){
+            return true;
+        }
+        return false;
+    }
+    public String readMessageCustomerMessageHistory(int index){
+        ArrayList<MessageFormat> messageHistory = new ArrayList<MessageFormat>(((Customer)user).getInbox().getMessageHistory());
+        String printMessage = messageHistory.get(index).getMessage();
+        return printMessage;
+    }
+    public String viewCustomerUnreadMessages(){
+        String printUnreadMessages="";
+        ArrayList<MessageFormat> unreadMessages = new ArrayList<MessageFormat>(((Customer)user).getInbox().getUnreadMessageInbox());
+        if(unreadMessages.isEmpty()){
+            printUnreadMessages = "There are no unread messages.";
+        } else {
+            for (int i = 0; i < unreadMessages.size(); i++) {
+                printUnreadMessages += i + ": " + unreadMessages.get(i) + Utilities.EOL;
+            }
+        }
+        return printUnreadMessages;
     }
 
     // Employee methods
@@ -348,7 +378,6 @@ public class Controller {
         return message;
     }
 
-
     public String sendMessageToACustomer(String personalNr, String message, String title) {
         String output = "";
         if(getCustomer(personalNr)==null){
@@ -363,7 +392,6 @@ public class Controller {
         }
         return output;//add another option in menu, view
     }
-
 
     public String viewEmployeeMessageHistory(){
         String printMessageHistory="";
@@ -384,28 +412,9 @@ public class Controller {
         return printMessage;
     }
 
-    public String readMessageCustomerMessageHistory(int index){
-        ArrayList<MessageFormat> messageHistory = new ArrayList<MessageFormat>(((Customer)user).getInbox().getMessageHistory());
-        String printMessage = messageHistory.get(index).getMessage();
-        return printMessage;
-    }
-
     public void removeFromEmployeeMessageHistory(int index){
         bank.getEmployeeInbox().removeFromMessageHistory(index);
         StartProgram.jsonEmployeeMessageHistory.remove(index);
-    }
-
-    public String viewCustomerUnreadMessages(){
-        String printUnreadMessages="";
-        ArrayList<MessageFormat> unreadMessages = new ArrayList<MessageFormat>(((Customer)user).getInbox().getUnreadMessageInbox());
-        if(unreadMessages.isEmpty()){
-            printUnreadMessages = "There are no unread messages.";
-        } else {
-            for (int i = 0; i < unreadMessages.size(); i++) {
-                printUnreadMessages += i + ": " + unreadMessages.get(i) + Utilities.EOL;
-            }
-        }
-        return printUnreadMessages;
     }
 
     public String viewEmployeeUnreadMessages(){
@@ -476,7 +485,6 @@ public class Controller {
 
             double amount = loanRequest.getAmount();
             TypesOfLoan typesOfLoan = loanRequest.getTypesOfLoan();
-            double houseWorth = loanRequest.getHouseWorth();
             double loanPeriod = loanRequest.getLoanPeriod();
             HashMap<String,Double> hashMap = loanRequest.getEquities();
             double cashContribution = loanRequest.getCashContribution();
@@ -517,8 +525,8 @@ public class Controller {
             String title = "Interest offer " +Utilities.EOL+ "Loan request ID: " + loanRequestID;
             String textMessage =  " Interest offer: " + interestRate+  Utilities.EOL +
                     "Type of interest: " + loanRequest.getInterestType() + Utilities.EOL;
-            // ADD MESSAGE TO CUSTOMER INBOX
             totalMessage= title + textMessage + message;
+            customer.
         }
         return totalMessage;
     }

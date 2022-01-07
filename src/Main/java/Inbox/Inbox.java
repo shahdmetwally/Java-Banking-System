@@ -25,13 +25,6 @@ public class Inbox {
         this.sentMessages = new ArrayList<MessageFormat>();
     }
 
-    public void addMessageToEmployee(MessageFormat messageFormat) {
-        sentMessages.add(messageFormat);
-    }
-    public void sendMessageToEmployee(MessageFormat message) {
-        sentMessages.add(message);
-    }
-
     public void addToSentMessage(MessageFormat messageFormat) {
         sentMessages.add(messageFormat);
     }
