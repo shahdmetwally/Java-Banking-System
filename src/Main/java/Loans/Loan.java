@@ -191,9 +191,16 @@ public class Loan {
     }
 
     public void setInterestRate(double interestRate) {
+
         if(interestType == TypeOfInterest.VARIABLE_RATE){
                 this.interestRate = interestRate;
         }
+    }
+    public void setLoanAmount(double loanAmount) throws Exception {
+        if(loanAmount == 0 || loanAmount < 0){
+            throw new Exception("The amount cannot be zero or negative");
+        }
+        this.loanAmount = loanAmount;
     }
 
     public void setInterestType(TypeOfInterest interestType) {

@@ -61,10 +61,14 @@ public class AdministrationMenu{
            System.out.println(exception.getMessage());
        }
    }
-   public void setUpAccountForBank() throws Exception {
-       controller.getBank().setUpTheBanksAccount();
-       double amount = UserInput.readDouble("Enter the bank balance: ");
-       controller.getBank().getBanksAccount().depositMoney(amount);
+   public void setUpAccountForBank() {
+       try {
+           controller.getBank().setUpTheBanksAccount();
+           double amount = UserInput.readDouble("Enter the bank balance: ");
+           controller.getBank().getBanksAccount().depositMoney(amount);
+       }catch (Exception exception){
+           System.out.println(exception.getMessage());
+       }
    }
 
    public String registerPersonalNr(){

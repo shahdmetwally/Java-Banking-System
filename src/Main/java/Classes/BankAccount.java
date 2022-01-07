@@ -31,7 +31,11 @@ public class BankAccount {
         this.budget = 0.00;
         this.date = "";
     }
-
+    public void setTransactionsToTheBank(double amount, Loan loan)throws Exception{
+        double loanAmount = loan.getAmount();
+        double newLoanAmount = loanAmount-amount;
+        loan.setLoanAmount(newLoanAmount);
+    }
 
     public String getAccountNo() {
         return accountNo;
@@ -83,7 +87,7 @@ public class BankAccount {
     }
 
     public void addTransaction(double amount) {
-        //if (active) {                                      // Jeniffer - Activation/ Deactivation of account
+        //if (active) {
         Transaction transaction = new Transaction(amount);
         transactions.add(transaction.toString());
     }
@@ -107,9 +111,6 @@ public class BankAccount {
         }
         return message;
     }
-    //else {
-    //    System.out.println("Your account is deactivated.");
-    //}
 
     public String toString() {
         return "Your balance is " + Utilities.truncateForPrint(balance);
